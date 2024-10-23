@@ -8,9 +8,9 @@ const PATH = 'tests/contracts/lsig.algo.ts';
 const ARTIFACTS_DIR = 'tests/contracts/artifacts/';
 
 describe('Logic Signatures', function () {
-  artifactsTest(PATH, ARTIFACTS_DIR, 'BasicLsig', true);
-  artifactsTest(PATH, ARTIFACTS_DIR, 'LsigWithArgs', true);
-  artifactsTest(PATH, ARTIFACTS_DIR, 'LsigWithPrivateMethod', true);
+  artifactsTest(PATH, ARTIFACTS_DIR, 'BasicLsig', { lsig: true });
+  artifactsTest(PATH, ARTIFACTS_DIR, 'LsigWithArgs', { lsig: true });
+  artifactsTest(PATH, ARTIFACTS_DIR, 'LsigWithPrivateMethod', { lsig: true });
 
   describe('Compile Errors', function () {
     const errorMessages = {

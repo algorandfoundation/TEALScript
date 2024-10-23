@@ -787,6 +787,12 @@ export default class Compiler {
 
   hasDynamicTemplateVar: boolean = false;
 
+  /**
+   * The estimated size of the program in bytes
+   * This is an estimation because future versions of algod or differen template variable value may change the size
+   */
+  estimatedProgramSize: { [program in 'clear' | 'approval' | 'lsig']?: number } = {};
+
   /** Verifies ABI types are properly decoded for runtime usage */
   private checkDecoding(node: ts.Node, type: TypeInfo) {
     if (type.kind === 'base' && type.type === 'bool') {
@@ -7588,6 +7594,8 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
       this.compiledPrograms[program] = json.result;
     }
 
+    this.estimatedProgramSize[program] = Buffer.from(json.result, 'base64').byteLength;
+
     if (program === 'clear') return json;
 
     const mapping = await getSourceMap(json.sourcemap.mappings);
@@ -7615,13 +7623,8 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
         if (sm.teal - 1 <= lastCblockLine) return;
         const pcs = this.lineToPc[sm.teal - 1];
 
-        if (pcs === undefined) {
-          throw new Error(
-            `Internal Compiler Error: PC values not found when trying to calculate cblock offsets for TEAL line ${
-              sm.teal
-            } (${this.teal[program][sm.teal - 1].teal}). Last cblock line was ${lastCblockLine}.`
-          );
-        }
+        // PCs will be undefined if the line is blank or a comment
+        if (pcs === undefined) return;
 
         // eslint-disable-next-line no-param-reassign
         sm.pc = this.lineToPc[sm.teal - 1].map((pc) => pc - lastCblockPc);

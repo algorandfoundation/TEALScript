@@ -231,16 +231,16 @@
             8,
             9,
             10,
-            11
+            11,
+            12,
+            13,
+            14
           ]
         },
         {
           "teal": 3,
           "source": "examples/amm/amm.algo.ts:8",
           "pc": [
-            12,
-            13,
-            14,
             15,
             16,
             17,
@@ -250,26 +250,14 @@
             21,
             22,
             23,
-            24
-          ]
-        },
-        {
-          "teal": 15,
-          "source": "examples/amm/amm.algo.ts:8",
-          "pc": [
+            24,
             25,
-            26
-          ]
-        },
-        {
-          "teal": 16,
-          "source": "examples/amm/amm.algo.ts:8",
-          "pc": [
+            26,
             27
           ]
         },
         {
-          "teal": 17,
+          "teal": 15,
           "source": "examples/amm/amm.algo.ts:8",
           "pc": [
             28,
@@ -277,14 +265,14 @@
           ]
         },
         {
-          "teal": 18,
+          "teal": 16,
           "source": "examples/amm/amm.algo.ts:8",
           "pc": [
             30
           ]
         },
         {
-          "teal": 19,
+          "teal": 17,
           "source": "examples/amm/amm.algo.ts:8",
           "pc": [
             31,
@@ -292,19 +280,31 @@
           ]
         },
         {
-          "teal": 20,
+          "teal": 18,
           "source": "examples/amm/amm.algo.ts:8",
           "pc": [
             33
           ]
         },
         {
-          "teal": 21,
+          "teal": 19,
           "source": "examples/amm/amm.algo.ts:8",
           "pc": [
             34,
-            35,
-            36,
+            35
+          ]
+        },
+        {
+          "teal": 20,
+          "source": "examples/amm/amm.algo.ts:8",
+          "pc": [
+            36
+          ]
+        },
+        {
+          "teal": 21,
+          "source": "examples/amm/amm.algo.ts:8",
+          "pc": [
             37,
             38,
             39,
@@ -327,7 +327,10 @@
             56,
             57,
             58,
-            59
+            59,
+            60,
+            61,
+            62
           ]
         },
         {
@@ -335,48 +338,45 @@
           "source": "examples/amm/amm.algo.ts:8",
           "errorMessage": "The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?",
           "pc": [
-            60
+            63
           ]
         },
         {
           "teal": 30,
           "source": "examples/amm/amm.algo.ts:19",
           "pc": [
-            61,
-            62,
-            63
+            64,
+            65,
+            66
           ]
         },
         {
           "teal": 31,
           "source": "examples/amm/amm.algo.ts:19",
           "pc": [
-            64,
-            65
+            67
           ]
         },
         {
           "teal": 32,
           "source": "examples/amm/amm.algo.ts:19",
           "pc": [
-            66
+            68
           ]
         },
         {
           "teal": 36,
           "source": "examples/amm/amm.algo.ts:19",
           "pc": [
-            67,
-            68,
-            69
+            69,
+            70,
+            71
           ]
         },
         {
           "teal": 40,
           "source": "examples/amm/amm.algo.ts:20",
           "pc": [
-            70,
-            71,
             72
           ]
         },
@@ -554,71 +554,89 @@
           "source": "examples/amm/amm.algo.ts:29",
           "pc": [
             116,
-            117,
-            118,
-            119,
-            120,
-            121
+            117
           ]
         },
         {
           "teal": 85,
           "source": "examples/amm/amm.algo.ts:29",
           "pc": [
-            122,
-            123
+            118,
+            119
           ]
         },
         {
           "teal": 89,
           "source": "examples/amm/amm.algo.ts:30",
           "pc": [
-            124,
-            125
+            120,
+            121
           ]
         },
         {
           "teal": 90,
           "source": "examples/amm/amm.algo.ts:30",
           "pc": [
-            126,
-            127
+            122,
+            123
           ]
         },
         {
           "teal": 94,
           "source": "examples/amm/amm.algo.ts:31",
           "pc": [
-            128,
-            129
+            124,
+            125
           ]
         },
         {
           "teal": 95,
           "source": "examples/amm/amm.algo.ts:31",
           "pc": [
-            130,
-            131
+            126,
+            127
           ]
         },
         {
           "teal": 99,
           "source": "examples/amm/amm.algo.ts:32",
           "pc": [
-            132,
-            133
+            128,
+            129
           ]
         },
         {
           "teal": 100,
           "source": "examples/amm/amm.algo.ts:32",
           "pc": [
-            134,
-            135
+            130,
+            131
           ]
         },
         {
           "teal": 103,
+          "source": "examples/amm/amm.algo.ts:26",
+          "pc": [
+            132
+          ]
+        },
+        {
+          "teal": 104,
+          "source": "examples/amm/amm.algo.ts:26",
+          "pc": [
+            133,
+            134
+          ]
+        },
+        {
+          "teal": 107,
+          "source": "examples/amm/amm.algo.ts:26",
+          "pc": [
+            135
+          ]
+        },
+        {
+          "teal": 108,
           "source": "examples/amm/amm.algo.ts:26",
           "pc": [
             136,
@@ -626,338 +644,308 @@
           ]
         },
         {
-          "teal": 104,
-          "source": "examples/amm/amm.algo.ts:26",
-          "pc": [
-            138,
-            139
-          ]
-        },
-        {
-          "teal": 107,
-          "source": "examples/amm/amm.algo.ts:26",
-          "pc": [
-            140
-          ]
-        },
-        {
-          "teal": 108,
-          "source": "examples/amm/amm.algo.ts:26",
-          "pc": [
-            141,
-            142
-          ]
-        },
-        {
           "teal": 109,
           "source": "examples/amm/amm.algo.ts:23",
           "pc": [
-            143
+            138
           ]
         },
         {
           "teal": 113,
           "source": "examples/amm/amm.algo.ts:36",
           "pc": [
-            144,
-            145,
-            146
+            139,
+            140,
+            141
           ]
         },
         {
           "teal": 121,
           "source": "examples/amm/amm.algo.ts:37",
           "pc": [
-            147
+            142
           ]
         },
         {
           "teal": 122,
           "source": "examples/amm/amm.algo.ts:37",
           "pc": [
-            148,
-            149
+            143
           ]
         },
         {
           "teal": 123,
           "source": "examples/amm/amm.algo.ts:37",
           "pc": [
-            150,
-            151
+            144,
+            145
           ]
         },
         {
           "teal": 127,
           "source": "examples/amm/amm.algo.ts:38",
           "pc": [
-            152,
-            153
+            146,
+            147
           ]
         },
         {
           "teal": 128,
           "source": "examples/amm/amm.algo.ts:38",
           "pc": [
-            154,
-            155
+            148,
+            149
           ]
         },
         {
           "teal": 132,
           "source": "examples/amm/amm.algo.ts:39",
           "pc": [
-            156,
-            157
+            150,
+            151
           ]
         },
         {
           "teal": 133,
           "source": "examples/amm/amm.algo.ts:39",
           "pc": [
-            158,
-            159
+            152,
+            153
           ]
         },
         {
           "teal": 137,
           "source": "examples/amm/amm.algo.ts:40",
           "pc": [
-            160,
-            161
+            154,
+            155
           ]
         },
         {
           "teal": 138,
           "source": "examples/amm/amm.algo.ts:40",
           "pc": [
-            162,
-            163
+            156,
+            157
           ]
         },
         {
           "teal": 141,
           "source": "examples/amm/amm.algo.ts:37",
           "pc": [
-            164,
-            165
+            158
           ]
         },
         {
           "teal": 142,
           "source": "examples/amm/amm.algo.ts:37",
           "pc": [
-            166,
-            167
+            159,
+            160
           ]
         },
         {
           "teal": 145,
           "source": "examples/amm/amm.algo.ts:37",
           "pc": [
-            168
+            161
           ]
         },
         {
           "teal": 146,
           "source": "examples/amm/amm.algo.ts:36",
           "pc": [
-            169
+            162
           ]
         },
         {
           "teal": 150,
           "source": "examples/amm/amm.algo.ts:44",
           "pc": [
-            170,
-            171,
-            172
+            163,
+            164,
+            165
           ]
         },
         {
           "teal": 154,
           "source": "examples/amm/amm.algo.ts:45",
           "pc": [
-            173,
-            174
+            166
           ]
         },
         {
           "teal": 155,
           "source": "examples/amm/amm.algo.ts:45",
           "pc": [
-            175,
-            176
+            167,
+            168
           ]
         },
         {
           "teal": 156,
           "source": "examples/amm/amm.algo.ts:45",
           "pc": [
-            177,
-            178
+            169,
+            170
           ]
         },
         {
           "teal": 157,
           "source": "examples/amm/amm.algo.ts:45",
           "pc": [
-            179,
-            180,
-            181
+            171,
+            172,
+            173
           ]
         },
         {
           "teal": 158,
           "source": "examples/amm/amm.algo.ts:44",
           "pc": [
-            182
+            174
           ]
         },
         {
           "teal": 162,
           "source": "examples/amm/amm.algo.ts:48",
           "pc": [
-            183,
-            184,
-            185
+            175,
+            176,
+            177
           ]
         },
         {
           "teal": 166,
           "source": "examples/amm/amm.algo.ts:49",
           "pc": [
-            186,
-            187
+            178,
+            179
           ]
         },
         {
           "teal": 167,
           "source": "examples/amm/amm.algo.ts:49",
           "pc": [
-            188,
-            189
+            180,
+            181
           ]
         },
         {
           "teal": 168,
           "source": "examples/amm/amm.algo.ts:49",
           "pc": [
-            190
+            182
           ]
         },
         {
           "teal": 169,
           "source": "examples/amm/amm.algo.ts:49",
           "pc": [
-            191
+            183
           ]
         },
         {
           "teal": 170,
           "source": "examples/amm/amm.algo.ts:48",
           "pc": [
-            192
+            184
           ]
         },
         {
           "teal": 174,
           "source": "examples/amm/amm.algo.ts:52",
           "pc": [
-            193,
-            194,
-            195
+            185,
+            186,
+            187
           ]
         },
         {
           "teal": 177,
           "source": "examples/amm/amm.algo.ts:52",
           "pc": [
-            196,
-            197
+            188
           ]
         },
         {
           "teal": 178,
           "source": "examples/amm/amm.algo.ts:52",
           "pc": [
-            198,
-            199
+            189,
+            190
           ]
         },
         {
           "teal": 182,
           "source": "examples/amm/amm.algo.ts:53",
           "pc": [
-            200,
-            201
+            191,
+            192
           ]
         },
         {
           "teal": 183,
           "source": "examples/amm/amm.algo.ts:53",
           "pc": [
-            202,
-            203,
-            204
+            193
           ]
         },
         {
           "teal": 184,
           "source": "examples/amm/amm.algo.ts:53",
           "pc": [
-            205
+            194
           ]
         },
         {
           "teal": 185,
           "source": "examples/amm/amm.algo.ts:53",
           "pc": [
-            206,
-            207
+            195
           ]
         },
         {
           "teal": 186,
           "source": "examples/amm/amm.algo.ts:53",
           "pc": [
-            208,
-            209
+            196,
+            197
           ]
         },
         {
           "teal": 187,
           "source": "examples/amm/amm.algo.ts:53",
           "pc": [
-            210
+            198
           ]
         },
         {
           "teal": 188,
           "source": "examples/amm/amm.algo.ts:53",
           "pc": [
-            211
+            199
           ]
         },
         {
           "teal": 189,
           "source": "examples/amm/amm.algo.ts:53",
           "pc": [
-            212
+            200
           ]
         },
         {
           "teal": 190,
           "source": "examples/amm/amm.algo.ts:53",
           "pc": [
-            213
+            201
           ]
         },
         {
           "teal": 191,
           "source": "examples/amm/amm.algo.ts:53",
           "pc": [
-            214
+            202
           ]
         },
         {
@@ -965,90 +953,87 @@
           "source": "examples/amm/amm.algo.ts:53",
           "errorMessage": "wideRatio failed",
           "pc": [
-            215
+            203
           ]
         },
         {
           "teal": 195,
           "source": "examples/amm/amm.algo.ts:53",
           "pc": [
-            216,
-            217
+            204,
+            205
           ]
         },
         {
           "teal": 199,
           "source": "examples/amm/amm.algo.ts:54",
           "pc": [
-            218,
-            219
+            206,
+            207
           ]
         },
         {
           "teal": 200,
           "source": "examples/amm/amm.algo.ts:54",
           "pc": [
-            220,
-            221,
-            222
+            208
           ]
         },
         {
           "teal": 201,
           "source": "examples/amm/amm.algo.ts:54",
           "pc": [
-            223
+            209
           ]
         },
         {
           "teal": 202,
           "source": "examples/amm/amm.algo.ts:54",
           "pc": [
-            224,
-            225
+            210
           ]
         },
         {
           "teal": 203,
           "source": "examples/amm/amm.algo.ts:54",
           "pc": [
-            226,
-            227
+            211,
+            212
           ]
         },
         {
           "teal": 204,
           "source": "examples/amm/amm.algo.ts:54",
           "pc": [
-            228
+            213
           ]
         },
         {
           "teal": 205,
           "source": "examples/amm/amm.algo.ts:54",
           "pc": [
-            229
+            214
           ]
         },
         {
           "teal": 206,
           "source": "examples/amm/amm.algo.ts:54",
           "pc": [
-            230
+            215
           ]
         },
         {
           "teal": 207,
           "source": "examples/amm/amm.algo.ts:54",
           "pc": [
-            231
+            216
           ]
         },
         {
           "teal": 208,
           "source": "examples/amm/amm.algo.ts:54",
           "pc": [
-            232
+            217
           ]
         },
         {
@@ -1056,19 +1041,76 @@
           "source": "examples/amm/amm.algo.ts:54",
           "errorMessage": "wideRatio failed",
           "pc": [
-            233
+            218
           ]
         },
         {
           "teal": 212,
           "source": "examples/amm/amm.algo.ts:54",
           "pc": [
+            219,
+            220
+          ]
+        },
+        {
+          "teal": 216,
+          "source": "examples/amm/amm.algo.ts:56",
+          "pc": [
+            221,
+            222
+          ]
+        },
+        {
+          "teal": 217,
+          "source": "examples/amm/amm.algo.ts:56",
+          "pc": [
+            223,
+            224
+          ]
+        },
+        {
+          "teal": 218,
+          "source": "examples/amm/amm.algo.ts:56",
+          "pc": [
+            225
+          ]
+        },
+        {
+          "teal": 219,
+          "source": "examples/amm/amm.algo.ts:56",
+          "pc": [
+            226,
+            227,
+            228
+          ]
+        },
+        {
+          "teal": 220,
+          "source": "examples/amm/amm.algo.ts:56",
+          "pc": [
+            229,
+            230
+          ]
+        },
+        {
+          "teal": 221,
+          "source": "examples/amm/amm.algo.ts:56",
+          "pc": [
+            231,
+            232,
+            233
+          ]
+        },
+        {
+          "teal": 224,
+          "source": "examples/amm/amm.algo.ts:56",
+          "pc": [
             234,
             235
           ]
         },
         {
-          "teal": 216,
+          "teal": 227,
           "source": "examples/amm/amm.algo.ts:56",
           "pc": [
             236,
@@ -1076,135 +1118,75 @@
           ]
         },
         {
-          "teal": 217,
-          "source": "examples/amm/amm.algo.ts:56",
+          "teal": 231,
+          "source": "examples/amm/amm.algo.ts:58",
           "pc": [
             238,
             239
           ]
         },
         {
-          "teal": 218,
-          "source": "examples/amm/amm.algo.ts:56",
-          "pc": [
-            240
-          ]
-        },
-        {
-          "teal": 219,
-          "source": "examples/amm/amm.algo.ts:56",
-          "pc": [
-            241,
-            242,
-            243
-          ]
-        },
-        {
-          "teal": 220,
-          "source": "examples/amm/amm.algo.ts:56",
-          "pc": [
-            244,
-            245
-          ]
-        },
-        {
-          "teal": 221,
-          "source": "examples/amm/amm.algo.ts:56",
-          "pc": [
-            246,
-            247,
-            248
-          ]
-        },
-        {
-          "teal": 224,
-          "source": "examples/amm/amm.algo.ts:56",
-          "pc": [
-            249,
-            250
-          ]
-        },
-        {
-          "teal": 227,
-          "source": "examples/amm/amm.algo.ts:56",
-          "pc": [
-            251,
-            252
-          ]
-        },
-        {
-          "teal": 231,
-          "source": "examples/amm/amm.algo.ts:58",
-          "pc": [
-            253,
-            254
-          ]
-        },
-        {
           "teal": 232,
           "source": "examples/amm/amm.algo.ts:58",
           "pc": [
-            255,
-            256
+            240,
+            241
           ]
         },
         {
           "teal": 233,
           "source": "examples/amm/amm.algo.ts:58",
           "pc": [
-            257
+            242
           ]
         },
         {
           "teal": 234,
           "source": "examples/amm/amm.algo.ts:58",
           "pc": [
-            258,
-            259
+            243
           ]
         },
         {
           "teal": 235,
           "source": "examples/amm/amm.algo.ts:58",
           "pc": [
-            260,
-            261,
-            262
+            244
           ]
         },
         {
           "teal": 236,
           "source": "examples/amm/amm.algo.ts:58",
           "pc": [
-            263
+            245
           ]
         },
         {
           "teal": 237,
           "source": "examples/amm/amm.algo.ts:58",
           "pc": [
-            264
+            246
           ]
         },
         {
           "teal": 238,
           "source": "examples/amm/amm.algo.ts:58",
           "pc": [
-            265
+            247
           ]
         },
         {
           "teal": 239,
           "source": "examples/amm/amm.algo.ts:58",
           "pc": [
-            266
+            248
           ]
         },
         {
           "teal": 240,
           "source": "examples/amm/amm.algo.ts:58",
           "pc": [
-            267
+            249
           ]
         },
         {
@@ -1212,176 +1194,169 @@
           "source": "examples/amm/amm.algo.ts:58",
           "errorMessage": "wideRatio failed",
           "pc": [
-            268
+            250
           ]
         },
         {
           "teal": 246,
           "source": "examples/amm/amm.algo.ts:52",
           "pc": [
-            269,
-            270
+            251,
+            252
           ]
         },
         {
           "teal": 249,
           "source": "examples/amm/amm.algo.ts:52",
           "pc": [
-            271,
-            272
+            253,
+            254
           ]
         },
         {
           "teal": 250,
           "source": "examples/amm/amm.algo.ts:52",
           "pc": [
-            273
+            255
           ]
         },
         {
           "teal": 254,
           "source": "examples/amm/amm.algo.ts:61",
           "pc": [
-            274,
-            275,
-            276
+            256,
+            257,
+            258
           ]
         },
         {
           "teal": 261,
           "source": "examples/amm/amm.algo.ts:63",
           "pc": [
-            277,
-            278
+            259,
+            260
           ]
         },
         {
           "teal": 262,
           "source": "examples/amm/amm.algo.ts:63",
           "pc": [
-            279,
-            280,
-            281
+            261
           ]
         },
         {
           "teal": 263,
           "source": "examples/amm/amm.algo.ts:63",
           "pc": [
-            282
+            262
           ]
         },
         {
           "teal": 264,
           "source": "examples/amm/amm.algo.ts:63",
           "pc": [
-            283,
-            284
+            263,
+            264
           ]
         },
         {
           "teal": 265,
           "source": "examples/amm/amm.algo.ts:63",
           "pc": [
-            285
+            265
           ]
         },
         {
           "teal": 266,
           "source": "examples/amm/amm.algo.ts:63",
           "pc": [
-            286,
-            287,
-            288
+            266
           ]
         },
         {
           "teal": 267,
           "source": "examples/amm/amm.algo.ts:62",
           "pc": [
-            289
+            267
           ]
         },
         {
           "teal": 268,
           "source": "examples/amm/amm.algo.ts:62",
           "pc": [
-            290,
-            291
+            268
           ]
         },
         {
           "teal": 269,
           "source": "examples/amm/amm.algo.ts:64",
           "pc": [
-            292,
-            293
+            269,
+            270
           ]
         },
         {
           "teal": 270,
           "source": "examples/amm/amm.algo.ts:64",
           "pc": [
-            294,
-            295,
-            296
+            271
           ]
         },
         {
           "teal": 271,
           "source": "examples/amm/amm.algo.ts:64",
           "pc": [
-            297
+            272
           ]
         },
         {
           "teal": 272,
           "source": "examples/amm/amm.algo.ts:64",
           "pc": [
-            298,
-            299
+            273,
+            274
           ]
         },
         {
           "teal": 273,
           "source": "examples/amm/amm.algo.ts:64",
           "pc": [
-            300
+            275
           ]
         },
         {
           "teal": 274,
           "source": "examples/amm/amm.algo.ts:62",
           "pc": [
-            301
+            276
           ]
         },
         {
           "teal": 275,
           "source": "examples/amm/amm.algo.ts:62",
           "pc": [
-            302
+            277
           ]
         },
         {
           "teal": 276,
           "source": "examples/amm/amm.algo.ts:62",
           "pc": [
-            303
+            278
           ]
         },
         {
           "teal": 277,
           "source": "examples/amm/amm.algo.ts:62",
           "pc": [
-            304
+            279
           ]
         },
         {
           "teal": 278,
           "source": "examples/amm/amm.algo.ts:62",
           "pc": [
-            305
+            280
           ]
         },
         {
@@ -1389,97 +1364,96 @@
           "source": "examples/amm/amm.algo.ts:62",
           "errorMessage": "wideRatio failed",
           "pc": [
-            306
+            281
           ]
         },
         {
           "teal": 282,
           "source": "examples/amm/amm.algo.ts:61",
           "pc": [
-            307
+            282
           ]
         },
         {
           "teal": 286,
           "source": "examples/amm/amm.algo.ts:68",
           "pc": [
-            308,
-            309,
-            310
+            283,
+            284,
+            285
           ]
         },
         {
           "teal": 290,
           "source": "examples/amm/amm.algo.ts:69",
           "pc": [
-            311,
-            312
+            286,
+            287
           ]
         },
         {
           "teal": 291,
           "source": "examples/amm/amm.algo.ts:69",
           "pc": [
-            313,
-            314
+            288,
+            289
           ]
         },
         {
           "teal": 292,
           "source": "examples/amm/amm.algo.ts:69",
           "pc": [
-            315
+            290
           ]
         },
         {
           "teal": 293,
           "source": "examples/amm/amm.algo.ts:69",
           "pc": [
-            316,
-            317
+            291
           ]
         },
         {
           "teal": 294,
           "source": "examples/amm/amm.algo.ts:69",
           "pc": [
-            318,
-            319
+            292,
+            293
           ]
         },
         {
           "teal": 295,
           "source": "examples/amm/amm.algo.ts:69",
           "pc": [
-            320
+            294
           ]
         },
         {
           "teal": 296,
           "source": "examples/amm/amm.algo.ts:69",
           "pc": [
-            321
+            295
           ]
         },
         {
           "teal": 297,
           "source": "examples/amm/amm.algo.ts:69",
           "pc": [
-            322
+            296
           ]
         },
         {
           "teal": 298,
           "source": "examples/amm/amm.algo.ts:69",
           "pc": [
-            323
+            297
           ]
         },
         {
           "teal": 299,
           "source": "examples/amm/amm.algo.ts:69",
           "pc": [
-            324
+            298
           ]
         },
         {
@@ -1487,236 +1461,232 @@
           "source": "examples/amm/amm.algo.ts:69",
           "errorMessage": "wideRatio failed",
           "pc": [
-            325
+            299
           ]
         },
         {
           "teal": 303,
           "source": "examples/amm/amm.algo.ts:68",
           "pc": [
-            326
+            300
           ]
         },
         {
           "teal": 307,
           "source": "examples/amm/amm.algo.ts:72",
           "pc": [
-            327,
-            328,
-            329
+            301,
+            302,
+            303
           ]
         },
         {
           "teal": 310,
           "source": "examples/amm/amm.algo.ts:72",
           "pc": [
-            330,
-            331
+            304
           ]
         },
         {
           "teal": 314,
           "source": "examples/amm/amm.algo.ts:73",
           "pc": [
-            332,
-            333,
-            334
+            305,
+            306,
+            307
           ]
         },
         {
           "teal": 315,
           "source": "examples/amm/amm.algo.ts:73",
           "pc": [
-            335,
-            336
+            308,
+            309
           ]
         },
         {
           "teal": 319,
           "source": "examples/amm/amm.algo.ts:74",
           "pc": [
-            337,
-            338
+            310,
+            311
           ]
         },
         {
           "teal": 320,
           "source": "examples/amm/amm.algo.ts:74",
           "pc": [
-            339,
-            340
+            312,
+            313
           ]
         },
         {
           "teal": 321,
           "source": "examples/amm/amm.algo.ts:74",
           "pc": [
-            341
+            314
           ]
         },
         {
           "teal": 322,
           "source": "examples/amm/amm.algo.ts:74",
           "pc": [
-            342,
-            343
+            315,
+            316
           ]
         },
         {
           "teal": 323,
           "source": "examples/amm/amm.algo.ts:74",
           "pc": [
-            344,
-            345
+            317,
+            318
           ]
         },
         {
           "teal": 324,
           "source": "examples/amm/amm.algo.ts:74",
           "pc": [
-            346,
-            347
+            319,
+            320
           ]
         },
         {
           "teal": 325,
           "source": "examples/amm/amm.algo.ts:74",
           "pc": [
-            348
+            321
           ]
         },
         {
           "teal": 326,
           "source": "examples/amm/amm.algo.ts:74",
           "pc": [
-            349,
-            350
+            322,
+            323
           ]
         },
         {
           "teal": 327,
           "source": "examples/amm/amm.algo.ts:74",
           "pc": [
-            351
+            324
           ]
         },
         {
           "teal": 328,
           "source": "examples/amm/amm.algo.ts:74",
           "pc": [
-            352,
-            353
+            325,
+            326
           ]
         },
         {
           "teal": 329,
           "source": "examples/amm/amm.algo.ts:74",
           "pc": [
-            354
+            327
           ]
         },
         {
           "teal": 330,
           "source": "examples/amm/amm.algo.ts:74",
           "pc": [
-            355
+            328
           ]
         },
         {
           "teal": 331,
           "source": "examples/amm/amm.algo.ts:74",
           "pc": [
-            356,
-            357
+            329
           ]
         },
         {
           "teal": 332,
           "source": "examples/amm/amm.algo.ts:74",
           "pc": [
-            358,
-            359
+            330,
+            331
           ]
         },
         {
           "teal": 333,
           "source": "examples/amm/amm.algo.ts:74",
           "pc": [
-            360,
-            361,
-            362
+            332
           ]
         },
         {
           "teal": 334,
           "source": "examples/amm/amm.algo.ts:74",
           "pc": [
-            363
+            333
           ]
         },
         {
           "teal": 335,
           "source": "examples/amm/amm.algo.ts:74",
           "pc": [
-            364,
-            365
+            334,
+            335
           ]
         },
         {
           "teal": 336,
           "source": "examples/amm/amm.algo.ts:74",
           "pc": [
-            366,
-            367
+            336,
+            337
           ]
         },
         {
           "teal": 337,
           "source": "examples/amm/amm.algo.ts:74",
           "pc": [
-            368
+            338
           ]
         },
         {
           "teal": 338,
           "source": "examples/amm/amm.algo.ts:74",
           "pc": [
-            369
+            339
           ]
         },
         {
           "teal": 339,
           "source": "examples/amm/amm.algo.ts:74",
           "pc": [
-            370
+            340
           ]
         },
         {
           "teal": 340,
           "source": "examples/amm/amm.algo.ts:74",
           "pc": [
-            371
+            341
           ]
         },
         {
           "teal": 341,
           "source": "examples/amm/amm.algo.ts:74",
           "pc": [
-            372
+            342
           ]
         },
         {
           "teal": 342,
           "source": "examples/amm/amm.algo.ts:74",
           "pc": [
-            373
+            343
           ]
         },
         {
           "teal": 343,
           "source": "examples/amm/amm.algo.ts:74",
           "pc": [
-            374
+            344
           ]
         },
         {
@@ -1724,60 +1694,60 @@
           "source": "examples/amm/amm.algo.ts:74",
           "errorMessage": "wideRatio failed",
           "pc": [
-            375
+            345
           ]
         },
         {
           "teal": 349,
           "source": "examples/amm/amm.algo.ts:72",
           "pc": [
-            376,
-            377
+            346,
+            347
           ]
         },
         {
           "teal": 350,
           "source": "examples/amm/amm.algo.ts:72",
           "pc": [
-            378
+            348
           ]
         },
         {
           "teal": 355,
           "source": "examples/amm/amm.algo.ts:77",
           "pc": [
-            379,
-            380,
-            381
+            349,
+            350,
+            351
           ]
         },
         {
           "teal": 356,
           "source": "examples/amm/amm.algo.ts:77",
           "pc": [
-            382
+            352
           ]
         },
         {
           "teal": 357,
           "source": "examples/amm/amm.algo.ts:77",
           "pc": [
-            383
+            353
           ]
         },
         {
           "teal": 358,
           "source": "examples/amm/amm.algo.ts:77",
           "pc": [
-            384,
-            385
+            354,
+            355
           ]
         },
         {
           "teal": 359,
           "source": "examples/amm/amm.algo.ts:77",
           "pc": [
-            386
+            356
           ]
         },
         {
@@ -1785,71 +1755,68 @@
           "source": "examples/amm/amm.algo.ts:77",
           "errorMessage": "argument 0 (governor) for set_governor must be a address",
           "pc": [
-            387
+            357
           ]
         },
         {
           "teal": 365,
           "source": "examples/amm/amm.algo.ts:77",
           "pc": [
-            388,
-            389,
-            390
+            358,
+            359,
+            360
           ]
         },
         {
           "teal": 366,
           "source": "examples/amm/amm.algo.ts:77",
           "pc": [
-            391,
-            392
+            361
           ]
         },
         {
           "teal": 367,
           "source": "examples/amm/amm.algo.ts:77",
           "pc": [
-            393
+            362
           ]
         },
         {
           "teal": 371,
           "source": "examples/amm/amm.algo.ts:77",
           "pc": [
-            394,
-            395,
-            396
+            363,
+            364,
+            365
           ]
         },
         {
           "teal": 376,
           "source": "examples/amm/amm.algo.ts:78",
           "pc": [
-            397,
-            398
+            366,
+            367
           ]
         },
         {
           "teal": 377,
           "source": "examples/amm/amm.algo.ts:78",
           "pc": [
-            399,
-            400,
-            401
+            368
           ]
         },
         {
           "teal": 378,
           "source": "examples/amm/amm.algo.ts:78",
           "pc": [
-            402
+            369
           ]
         },
         {
           "teal": 379,
           "source": "examples/amm/amm.algo.ts:78",
           "pc": [
-            403
+            370
           ]
         },
         {
@@ -1857,135 +1824,131 @@
           "source": "examples/amm/amm.algo.ts:78",
           "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"sender\",\"expected\":\"this.governor.value\"}",
           "pc": [
-            404
+            371
           ]
         },
         {
           "teal": 386,
           "source": "examples/amm/amm.algo.ts:79",
           "pc": [
-            405,
-            406,
-            407
+            372
           ]
         },
         {
           "teal": 387,
           "source": "examples/amm/amm.algo.ts:79",
           "pc": [
-            408,
-            409
+            373,
+            374
           ]
         },
         {
           "teal": 388,
           "source": "examples/amm/amm.algo.ts:79",
           "pc": [
-            410
+            375
           ]
         },
         {
           "teal": 389,
           "source": "examples/amm/amm.algo.ts:77",
           "pc": [
-            411
+            376
           ]
         },
         {
           "teal": 394,
           "source": "examples/amm/amm.algo.ts:82",
           "pc": [
-            412,
-            413,
-            414,
-            415,
-            416,
-            417
+            377,
+            378,
+            379,
+            380,
+            381,
+            382
           ]
         },
         {
           "teal": 397,
           "source": "examples/amm/amm.algo.ts:82",
           "pc": [
-            418,
-            419,
-            420
+            383,
+            384,
+            385
           ]
         },
         {
           "teal": 398,
           "source": "examples/amm/amm.algo.ts:82",
           "pc": [
-            421
+            386
           ]
         },
         {
           "teal": 401,
           "source": "examples/amm/amm.algo.ts:82",
           "pc": [
-            422,
-            423,
-            424
+            387,
+            388,
+            389
           ]
         },
         {
           "teal": 402,
           "source": "examples/amm/amm.algo.ts:82",
           "pc": [
-            425
+            390
           ]
         },
         {
           "teal": 405,
           "source": "examples/amm/amm.algo.ts:82",
           "pc": [
-            426,
-            427
+            391,
+            392
           ]
         },
         {
           "teal": 406,
           "source": "examples/amm/amm.algo.ts:82",
           "pc": [
-            428,
-            429
+            393
           ]
         },
         {
           "teal": 407,
           "source": "examples/amm/amm.algo.ts:82",
           "pc": [
-            430
+            394
           ]
         },
         {
           "teal": 408,
           "source": "examples/amm/amm.algo.ts:82",
           "pc": [
-            431
+            395
           ]
         },
         {
           "teal": 409,
           "source": "examples/amm/amm.algo.ts:82",
           "pc": [
-            432,
-            433
+            396,
+            397
           ]
         },
         {
           "teal": 410,
           "source": "examples/amm/amm.algo.ts:82",
           "pc": [
-            434,
-            435
+            398
           ]
         },
         {
           "teal": 411,
           "source": "examples/amm/amm.algo.ts:82",
           "pc": [
-            436
+            399
           ]
         },
         {
@@ -1993,92 +1956,89 @@
           "source": "examples/amm/amm.algo.ts:82",
           "errorMessage": "argument 2 (seed) for bootstrap must be a pay transaction",
           "pc": [
-            437
+            400
           ]
         },
         {
           "teal": 417,
           "source": "examples/amm/amm.algo.ts:82",
           "pc": [
-            438,
-            439,
-            440
+            401,
+            402,
+            403
           ]
         },
         {
           "teal": 418,
           "source": "examples/amm/amm.algo.ts:82",
           "pc": [
-            441
+            404
           ]
         },
         {
           "teal": 419,
           "source": "examples/amm/amm.algo.ts:82",
           "pc": [
-            442
+            405
           ]
         },
         {
           "teal": 420,
           "source": "examples/amm/amm.algo.ts:82",
           "pc": [
-            443
+            406
           ]
         },
         {
           "teal": 421,
           "source": "examples/amm/amm.algo.ts:82",
           "pc": [
-            444,
-            445
+            407
           ]
         },
         {
           "teal": 422,
           "source": "examples/amm/amm.algo.ts:82",
           "pc": [
-            446
+            408
           ]
         },
         {
           "teal": 426,
           "source": "examples/amm/amm.algo.ts:82",
           "pc": [
-            447,
-            448,
-            449
+            409,
+            410,
+            411
           ]
         },
         {
           "teal": 431,
           "source": "examples/amm/amm.algo.ts:83",
           "pc": [
-            450,
-            451
+            412,
+            413
           ]
         },
         {
           "teal": 432,
           "source": "examples/amm/amm.algo.ts:83",
           "pc": [
-            452,
-            453,
-            454
+            414
           ]
         },
         {
           "teal": 433,
           "source": "examples/amm/amm.algo.ts:83",
           "pc": [
-            455
+            415
           ]
         },
         {
           "teal": 434,
           "source": "examples/amm/amm.algo.ts:83",
           "pc": [
-            456
+            416
           ]
         },
         {
@@ -2086,68 +2046,68 @@
           "source": "examples/amm/amm.algo.ts:83",
           "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"sender\",\"expected\":\"this.governor.value\"}",
           "pc": [
-            457
+            417
           ]
         },
         {
           "teal": 441,
           "source": "examples/amm/amm.algo.ts:85",
           "pc": [
-            458,
-            459
+            418,
+            419
           ]
         },
         {
           "teal": 442,
           "source": "examples/amm/amm.algo.ts:85",
           "pc": [
-            460,
-            461
+            420,
+            421
           ]
         },
         {
           "teal": 443,
           "source": "examples/amm/amm.algo.ts:85",
           "pc": [
-            462
+            422
           ]
         },
         {
           "teal": 444,
           "source": "examples/amm/amm.algo.ts:85",
           "pc": [
-            463
+            423
           ]
         },
         {
           "teal": 449,
           "source": "examples/amm/amm.algo.ts:87",
           "pc": [
-            464,
-            465
+            424,
+            425
           ]
         },
         {
           "teal": 450,
           "source": "examples/amm/amm.algo.ts:87",
           "pc": [
-            466,
-            467
+            426,
+            427
           ]
         },
         {
           "teal": 451,
           "source": "examples/amm/amm.algo.ts:87",
           "pc": [
-            468,
-            469
+            428,
+            429
           ]
         },
         {
           "teal": 452,
           "source": "examples/amm/amm.algo.ts:87",
           "pc": [
-            470
+            430
           ]
         },
         {
@@ -2155,40 +2115,40 @@
           "source": "examples/amm/amm.algo.ts:87",
           "errorMessage": "transaction verification failed: {\"txn\":\"seed\",\"field\":\"receiver\",\"expected\":\"this.app.address\"}",
           "pc": [
-            471
+            431
           ]
         },
         {
           "teal": 458,
           "source": "examples/amm/amm.algo.ts:87",
           "pc": [
-            472,
-            473
+            432,
+            433
           ]
         },
         {
           "teal": 459,
           "source": "examples/amm/amm.algo.ts:87",
           "pc": [
-            474,
-            475
+            434,
+            435
           ]
         },
         {
           "teal": 460,
           "source": "examples/amm/amm.algo.ts:87",
           "pc": [
-            476,
-            477,
-            478,
-            479
+            436,
+            437,
+            438,
+            439
           ]
         },
         {
           "teal": 461,
           "source": "examples/amm/amm.algo.ts:87",
           "pc": [
-            480
+            440
           ]
         },
         {
@@ -2196,42 +2156,214 @@
           "source": "examples/amm/amm.algo.ts:87",
           "errorMessage": "transaction verification failed: {\"txn\":\"seed\",\"field\":\"amount\",\"condition\":\"greaterThanEqualTo\",\"expected\":\">=300_000\"}",
           "pc": [
-            481
+            441
           ]
         },
         {
           "teal": 468,
           "source": "examples/amm/amm.algo.ts:88",
           "pc": [
-            482,
-            483
+            442,
+            443
           ]
         },
         {
           "teal": 469,
           "source": "examples/amm/amm.algo.ts:88",
           "pc": [
-            484,
-            485
+            444,
+            445
           ]
         },
         {
           "teal": 470,
           "source": "examples/amm/amm.algo.ts:88",
           "pc": [
-            486
+            446
           ]
         },
         {
           "teal": 471,
           "source": "examples/amm/amm.algo.ts:88",
           "pc": [
-            487
+            447
           ]
         },
         {
           "teal": 475,
           "source": "examples/amm/amm.algo.ts:90",
+          "pc": [
+            448
+          ]
+        },
+        {
+          "teal": 476,
+          "source": "examples/amm/amm.algo.ts:90",
+          "pc": [
+            449,
+            450
+          ]
+        },
+        {
+          "teal": 477,
+          "source": "examples/amm/amm.algo.ts:90",
+          "pc": [
+            451
+          ]
+        },
+        {
+          "teal": 481,
+          "source": "examples/amm/amm.algo.ts:91",
+          "pc": [
+            452
+          ]
+        },
+        {
+          "teal": 482,
+          "source": "examples/amm/amm.algo.ts:91",
+          "pc": [
+            453,
+            454
+          ]
+        },
+        {
+          "teal": 483,
+          "source": "examples/amm/amm.algo.ts:91",
+          "pc": [
+            455
+          ]
+        },
+        {
+          "teal": 487,
+          "source": "examples/amm/amm.algo.ts:92",
+          "pc": [
+            456,
+            457
+          ]
+        },
+        {
+          "teal": 488,
+          "source": "examples/amm/amm.algo.ts:92",
+          "pc": [
+            458,
+            459
+          ]
+        },
+        {
+          "teal": 489,
+          "source": "examples/amm/amm.algo.ts:92",
+          "pc": [
+            460,
+            461
+          ]
+        },
+        {
+          "teal": 490,
+          "source": "examples/amm/amm.algo.ts:92",
+          "pc": [
+            462,
+            463,
+            464
+          ]
+        },
+        {
+          "teal": 491,
+          "source": "examples/amm/amm.algo.ts:92",
+          "pc": [
+            465
+          ]
+        },
+        {
+          "teal": 495,
+          "source": "examples/amm/amm.algo.ts:94",
+          "pc": [
+            466,
+            467
+          ]
+        },
+        {
+          "teal": 496,
+          "source": "examples/amm/amm.algo.ts:94",
+          "pc": [
+            468,
+            469,
+            470
+          ]
+        },
+        {
+          "teal": 500,
+          "source": "examples/amm/amm.algo.ts:95",
+          "pc": [
+            471,
+            472
+          ]
+        },
+        {
+          "teal": 501,
+          "source": "examples/amm/amm.algo.ts:95",
+          "pc": [
+            473,
+            474,
+            475
+          ]
+        },
+        {
+          "teal": 505,
+          "source": "examples/amm/amm.algo.ts:97",
+          "pc": [
+            476,
+            477
+          ]
+        },
+        {
+          "teal": 506,
+          "source": "examples/amm/amm.algo.ts:97",
+          "pc": [
+            478
+          ]
+        },
+        {
+          "teal": 507,
+          "source": "examples/amm/amm.algo.ts:82",
+          "pc": [
+            479
+          ]
+        },
+        {
+          "teal": 512,
+          "source": "examples/amm/amm.algo.ts:100",
+          "pc": [
+            480,
+            481,
+            482
+          ]
+        },
+        {
+          "teal": 513,
+          "source": "examples/amm/amm.algo.ts:100",
+          "pc": [
+            483
+          ]
+        },
+        {
+          "teal": 516,
+          "source": "examples/amm/amm.algo.ts:100",
+          "pc": [
+            484,
+            485,
+            486
+          ]
+        },
+        {
+          "teal": 517,
+          "source": "examples/amm/amm.algo.ts:100",
+          "pc": [
+            487
+          ]
+        },
+        {
+          "teal": 520,
+          "source": "examples/amm/amm.algo.ts:100",
           "pc": [
             488,
             489,
@@ -2239,241 +2371,61 @@
           ]
         },
         {
-          "teal": 476,
-          "source": "examples/amm/amm.algo.ts:90",
-          "pc": [
-            491,
-            492
-          ]
-        },
-        {
-          "teal": 477,
-          "source": "examples/amm/amm.algo.ts:90",
-          "pc": [
-            493
-          ]
-        },
-        {
-          "teal": 481,
-          "source": "examples/amm/amm.algo.ts:91",
-          "pc": [
-            494,
-            495,
-            496
-          ]
-        },
-        {
-          "teal": 482,
-          "source": "examples/amm/amm.algo.ts:91",
-          "pc": [
-            497,
-            498
-          ]
-        },
-        {
-          "teal": 483,
-          "source": "examples/amm/amm.algo.ts:91",
-          "pc": [
-            499
-          ]
-        },
-        {
-          "teal": 487,
-          "source": "examples/amm/amm.algo.ts:92",
-          "pc": [
-            500,
-            501,
-            502
-          ]
-        },
-        {
-          "teal": 488,
-          "source": "examples/amm/amm.algo.ts:92",
-          "pc": [
-            503,
-            504
-          ]
-        },
-        {
-          "teal": 489,
-          "source": "examples/amm/amm.algo.ts:92",
-          "pc": [
-            505,
-            506
-          ]
-        },
-        {
-          "teal": 490,
-          "source": "examples/amm/amm.algo.ts:92",
-          "pc": [
-            507,
-            508,
-            509
-          ]
-        },
-        {
-          "teal": 491,
-          "source": "examples/amm/amm.algo.ts:92",
-          "pc": [
-            510
-          ]
-        },
-        {
-          "teal": 495,
-          "source": "examples/amm/amm.algo.ts:94",
-          "pc": [
-            511,
-            512
-          ]
-        },
-        {
-          "teal": 496,
-          "source": "examples/amm/amm.algo.ts:94",
-          "pc": [
-            513,
-            514,
-            515
-          ]
-        },
-        {
-          "teal": 500,
-          "source": "examples/amm/amm.algo.ts:95",
-          "pc": [
-            516,
-            517
-          ]
-        },
-        {
-          "teal": 501,
-          "source": "examples/amm/amm.algo.ts:95",
-          "pc": [
-            518,
-            519,
-            520
-          ]
-        },
-        {
-          "teal": 505,
-          "source": "examples/amm/amm.algo.ts:97",
-          "pc": [
-            521,
-            522,
-            523
-          ]
-        },
-        {
-          "teal": 506,
-          "source": "examples/amm/amm.algo.ts:97",
-          "pc": [
-            524
-          ]
-        },
-        {
-          "teal": 507,
-          "source": "examples/amm/amm.algo.ts:82",
-          "pc": [
-            525
-          ]
-        },
-        {
-          "teal": 512,
-          "source": "examples/amm/amm.algo.ts:100",
-          "pc": [
-            526,
-            527,
-            528
-          ]
-        },
-        {
-          "teal": 513,
-          "source": "examples/amm/amm.algo.ts:100",
-          "pc": [
-            529
-          ]
-        },
-        {
-          "teal": 516,
-          "source": "examples/amm/amm.algo.ts:100",
-          "pc": [
-            530,
-            531,
-            532
-          ]
-        },
-        {
-          "teal": 517,
-          "source": "examples/amm/amm.algo.ts:100",
-          "pc": [
-            533
-          ]
-        },
-        {
-          "teal": 520,
-          "source": "examples/amm/amm.algo.ts:100",
-          "pc": [
-            534,
-            535,
-            536
-          ]
-        },
-        {
           "teal": 521,
           "source": "examples/amm/amm.algo.ts:100",
           "pc": [
-            537
+            491
           ]
         },
         {
           "teal": 524,
           "source": "examples/amm/amm.algo.ts:100",
           "pc": [
-            538,
-            539
+            492,
+            493
           ]
         },
         {
           "teal": 525,
           "source": "examples/amm/amm.algo.ts:100",
           "pc": [
-            540,
-            541
+            494
           ]
         },
         {
           "teal": 526,
           "source": "examples/amm/amm.algo.ts:100",
           "pc": [
-            542
+            495
           ]
         },
         {
           "teal": 527,
           "source": "examples/amm/amm.algo.ts:100",
           "pc": [
-            543
+            496
           ]
         },
         {
           "teal": 528,
           "source": "examples/amm/amm.algo.ts:100",
           "pc": [
-            544,
-            545
+            497,
+            498
           ]
         },
         {
           "teal": 529,
           "source": "examples/amm/amm.algo.ts:100",
           "pc": [
-            546,
-            547
+            499
           ]
         },
         {
           "teal": 530,
           "source": "examples/amm/amm.algo.ts:100",
           "pc": [
-            548
+            500
           ]
         },
         {
@@ -2481,60 +2433,59 @@
           "source": "examples/amm/amm.algo.ts:100",
           "errorMessage": "argument 3 (bXfer) for mint must be a axfer transaction",
           "pc": [
-            549
+            501
           ]
         },
         {
           "teal": 536,
           "source": "examples/amm/amm.algo.ts:100",
           "pc": [
-            550,
-            551
+            502,
+            503
           ]
         },
         {
           "teal": 537,
           "source": "examples/amm/amm.algo.ts:100",
           "pc": [
-            552,
-            553
+            504,
+            505
           ]
         },
         {
           "teal": 538,
           "source": "examples/amm/amm.algo.ts:100",
           "pc": [
-            554
+            506
           ]
         },
         {
           "teal": 539,
           "source": "examples/amm/amm.algo.ts:100",
           "pc": [
-            555
+            507
           ]
         },
         {
           "teal": 540,
           "source": "examples/amm/amm.algo.ts:100",
           "pc": [
-            556,
-            557
+            508,
+            509
           ]
         },
         {
           "teal": 541,
           "source": "examples/amm/amm.algo.ts:100",
           "pc": [
-            558,
-            559
+            510
           ]
         },
         {
           "teal": 542,
           "source": "examples/amm/amm.algo.ts:100",
           "pc": [
-            560
+            511
           ]
         },
         {
@@ -2542,193 +2493,186 @@
           "source": "examples/amm/amm.algo.ts:100",
           "errorMessage": "argument 4 (aXfer) for mint must be a axfer transaction",
           "pc": [
-            561
+            512
           ]
         },
         {
           "teal": 548,
           "source": "examples/amm/amm.algo.ts:100",
           "pc": [
-            562,
-            563,
-            564
+            513,
+            514,
+            515
           ]
         },
         {
           "teal": 549,
           "source": "examples/amm/amm.algo.ts:100",
           "pc": [
-            565,
-            566
+            516
           ]
         },
         {
           "teal": 550,
           "source": "examples/amm/amm.algo.ts:100",
           "pc": [
-            567
+            517
           ]
         },
         {
           "teal": 554,
           "source": "examples/amm/amm.algo.ts:100",
           "pc": [
-            568,
-            569,
-            570
+            518,
+            519,
+            520
           ]
         },
         {
           "teal": 557,
           "source": "examples/amm/amm.algo.ts:100",
           "pc": [
-            571,
-            572
+            521
           ]
         },
         {
           "teal": 562,
           "source": "examples/amm/amm.algo.ts:102",
           "pc": [
-            573,
-            574
+            522,
+            523
           ]
         },
         {
           "teal": 563,
           "source": "examples/amm/amm.algo.ts:102",
           "pc": [
-            575,
-            576,
-            577
+            524
           ]
         },
         {
           "teal": 564,
           "source": "examples/amm/amm.algo.ts:102",
           "pc": [
-            578
+            525
           ]
         },
         {
           "teal": 565,
           "source": "examples/amm/amm.algo.ts:102",
           "pc": [
-            579
+            526
           ]
         },
         {
           "teal": 566,
           "source": "examples/amm/amm.algo.ts:102",
           "pc": [
-            580
+            527
           ]
         },
         {
           "teal": 570,
           "source": "examples/amm/amm.algo.ts:103",
           "pc": [
-            581,
-            582
+            528,
+            529
           ]
         },
         {
           "teal": 571,
           "source": "examples/amm/amm.algo.ts:103",
           "pc": [
-            583,
-            584,
-            585
+            530
           ]
         },
         {
           "teal": 572,
           "source": "examples/amm/amm.algo.ts:103",
           "pc": [
-            586
+            531
           ]
         },
         {
           "teal": 573,
           "source": "examples/amm/amm.algo.ts:103",
           "pc": [
-            587
+            532
           ]
         },
         {
           "teal": 574,
           "source": "examples/amm/amm.algo.ts:103",
           "pc": [
-            588
+            533
           ]
         },
         {
           "teal": 578,
           "source": "examples/amm/amm.algo.ts:104",
           "pc": [
-            589,
-            590
+            534,
+            535
           ]
         },
         {
           "teal": 579,
           "source": "examples/amm/amm.algo.ts:104",
           "pc": [
-            591,
-            592,
-            593
+            536,
+            537
           ]
         },
         {
           "teal": 580,
           "source": "examples/amm/amm.algo.ts:104",
           "pc": [
-            594
+            538
           ]
         },
         {
           "teal": 581,
           "source": "examples/amm/amm.algo.ts:104",
           "pc": [
-            595
+            539
           ]
         },
         {
           "teal": 582,
           "source": "examples/amm/amm.algo.ts:104",
           "pc": [
-            596
+            540
           ]
         },
         {
           "teal": 593,
           "source": "examples/amm/amm.algo.ts:107",
           "pc": [
-            597,
-            598
+            541,
+            542
           ]
         },
         {
           "teal": 594,
           "source": "examples/amm/amm.algo.ts:108",
           "pc": [
-            599,
-            600
+            543,
+            544
           ]
         },
         {
           "teal": 595,
           "source": "examples/amm/amm.algo.ts:108",
           "pc": [
-            601,
-            602
+            545,
+            546
           ]
         },
         {
           "teal": 596,
           "source": "examples/amm/amm.algo.ts:108",
           "pc": [
-            603
+            547
           ]
         },
         {
@@ -2736,38 +2680,37 @@
           "source": "examples/amm/amm.algo.ts:108",
           "errorMessage": "transaction verification failed: {\"txn\":\"aXfer\",\"field\":\"sender\",\"expected\":\"this.txn.sender\"}",
           "pc": [
-            604
+            548
           ]
         },
         {
           "teal": 602,
           "source": "examples/amm/amm.algo.ts:107",
           "pc": [
-            605,
-            606
+            549,
+            550
           ]
         },
         {
           "teal": 603,
           "source": "examples/amm/amm.algo.ts:109",
           "pc": [
-            607,
-            608
+            551,
+            552
           ]
         },
         {
           "teal": 604,
           "source": "examples/amm/amm.algo.ts:109",
           "pc": [
-            609,
-            610
+            553
           ]
         },
         {
           "teal": 605,
           "source": "examples/amm/amm.algo.ts:109",
           "pc": [
-            611
+            554
           ]
         },
         {
@@ -2775,38 +2718,38 @@
           "source": "examples/amm/amm.algo.ts:109",
           "errorMessage": "transaction verification failed: {\"txn\":\"aXfer\",\"field\":\"assetAmount\",\"condition\":\"greaterThan\",\"expected\":\">0\"}",
           "pc": [
-            612
+            555
           ]
         },
         {
           "teal": 611,
           "source": "examples/amm/amm.algo.ts:107",
           "pc": [
-            613,
-            614
+            556,
+            557
           ]
         },
         {
           "teal": 612,
           "source": "examples/amm/amm.algo.ts:110",
           "pc": [
-            615,
-            616
+            558,
+            559
           ]
         },
         {
           "teal": 613,
           "source": "examples/amm/amm.algo.ts:110",
           "pc": [
-            617,
-            618
+            560,
+            561
           ]
         },
         {
           "teal": 614,
           "source": "examples/amm/amm.algo.ts:110",
           "pc": [
-            619
+            562
           ]
         },
         {
@@ -2814,38 +2757,38 @@
           "source": "examples/amm/amm.algo.ts:110",
           "errorMessage": "transaction verification failed: {\"txn\":\"aXfer\",\"field\":\"assetReceiver\",\"expected\":\"this.app.address\"}",
           "pc": [
-            620
+            563
           ]
         },
         {
           "teal": 620,
           "source": "examples/amm/amm.algo.ts:107",
           "pc": [
-            621,
-            622
+            564,
+            565
           ]
         },
         {
           "teal": 621,
           "source": "examples/amm/amm.algo.ts:111",
           "pc": [
-            623,
-            624
+            566,
+            567
           ]
         },
         {
           "teal": 622,
           "source": "examples/amm/amm.algo.ts:111",
           "pc": [
-            625,
-            626
+            568,
+            569
           ]
         },
         {
           "teal": 623,
           "source": "examples/amm/amm.algo.ts:111",
           "pc": [
-            627
+            570
           ]
         },
         {
@@ -2853,38 +2796,38 @@
           "source": "examples/amm/amm.algo.ts:111",
           "errorMessage": "transaction verification failed: {\"txn\":\"aXfer\",\"field\":\"xferAsset\",\"expected\":\"aAsset\"}",
           "pc": [
-            628
+            571
           ]
         },
         {
           "teal": 637,
           "source": "examples/amm/amm.algo.ts:115",
           "pc": [
-            629,
-            630
+            572,
+            573
           ]
         },
         {
           "teal": 638,
           "source": "examples/amm/amm.algo.ts:116",
           "pc": [
-            631,
-            632
+            574,
+            575
           ]
         },
         {
           "teal": 639,
           "source": "examples/amm/amm.algo.ts:116",
           "pc": [
-            633,
-            634
+            576,
+            577
           ]
         },
         {
           "teal": 640,
           "source": "examples/amm/amm.algo.ts:116",
           "pc": [
-            635
+            578
           ]
         },
         {
@@ -2892,38 +2835,37 @@
           "source": "examples/amm/amm.algo.ts:116",
           "errorMessage": "transaction verification failed: {\"txn\":\"bXfer\",\"field\":\"sender\",\"expected\":\"this.txn.sender\"}",
           "pc": [
-            636
+            579
           ]
         },
         {
           "teal": 646,
           "source": "examples/amm/amm.algo.ts:115",
           "pc": [
-            637,
-            638
+            580,
+            581
           ]
         },
         {
           "teal": 647,
           "source": "examples/amm/amm.algo.ts:117",
           "pc": [
-            639,
-            640
+            582,
+            583
           ]
         },
         {
           "teal": 648,
           "source": "examples/amm/amm.algo.ts:117",
           "pc": [
-            641,
-            642
+            584
           ]
         },
         {
           "teal": 649,
           "source": "examples/amm/amm.algo.ts:117",
           "pc": [
-            643
+            585
           ]
         },
         {
@@ -2931,38 +2873,38 @@
           "source": "examples/amm/amm.algo.ts:117",
           "errorMessage": "transaction verification failed: {\"txn\":\"bXfer\",\"field\":\"assetAmount\",\"condition\":\"greaterThan\",\"expected\":\">0\"}",
           "pc": [
-            644
+            586
           ]
         },
         {
           "teal": 655,
           "source": "examples/amm/amm.algo.ts:115",
           "pc": [
-            645,
-            646
+            587,
+            588
           ]
         },
         {
           "teal": 656,
           "source": "examples/amm/amm.algo.ts:118",
           "pc": [
-            647,
-            648
+            589,
+            590
           ]
         },
         {
           "teal": 657,
           "source": "examples/amm/amm.algo.ts:118",
           "pc": [
-            649,
-            650
+            591,
+            592
           ]
         },
         {
           "teal": 658,
           "source": "examples/amm/amm.algo.ts:118",
           "pc": [
-            651
+            593
           ]
         },
         {
@@ -2970,38 +2912,38 @@
           "source": "examples/amm/amm.algo.ts:118",
           "errorMessage": "transaction verification failed: {\"txn\":\"bXfer\",\"field\":\"assetReceiver\",\"expected\":\"this.app.address\"}",
           "pc": [
-            652
+            594
           ]
         },
         {
           "teal": 664,
           "source": "examples/amm/amm.algo.ts:115",
           "pc": [
-            653,
-            654
+            595,
+            596
           ]
         },
         {
           "teal": 665,
           "source": "examples/amm/amm.algo.ts:119",
           "pc": [
-            655,
-            656
+            597,
+            598
           ]
         },
         {
           "teal": 666,
           "source": "examples/amm/amm.algo.ts:119",
           "pc": [
-            657,
-            658
+            599,
+            600
           ]
         },
         {
           "teal": 667,
           "source": "examples/amm/amm.algo.ts:119",
           "pc": [
-            659
+            601
           ]
         },
         {
@@ -3009,575 +2951,568 @@
           "source": "examples/amm/amm.algo.ts:119",
           "errorMessage": "transaction verification failed: {\"txn\":\"bXfer\",\"field\":\"xferAsset\",\"expected\":\"bAsset\"}",
           "pc": [
-            660
+            602
           ]
         },
         {
           "teal": 676,
           "source": "examples/amm/amm.algo.ts:123",
           "pc": [
-            661,
-            662
+            603,
+            604
           ]
         },
         {
           "teal": 677,
           "source": "examples/amm/amm.algo.ts:123",
           "pc": [
-            663,
-            664
+            605,
+            606
           ]
         },
         {
           "teal": 678,
           "source": "examples/amm/amm.algo.ts:123",
           "pc": [
-            665,
-            666
+            607,
+            608
           ]
         },
         {
           "teal": 679,
           "source": "examples/amm/amm.algo.ts:123",
           "pc": [
-            667
+            609
           ]
         },
         {
           "teal": 680,
           "source": "examples/amm/amm.algo.ts:123",
           "pc": [
-            668,
-            669
+            610,
+            611
           ]
         },
         {
           "teal": 681,
           "source": "examples/amm/amm.algo.ts:123",
           "pc": [
-            670,
-            671
+            612,
+            613
           ]
         },
         {
           "teal": 682,
           "source": "examples/amm/amm.algo.ts:123",
           "pc": [
-            672
+            614
           ]
         },
         {
           "teal": 683,
           "source": "examples/amm/amm.algo.ts:123",
           "pc": [
-            673
+            615
           ]
         },
         {
           "teal": 684,
           "source": "examples/amm/amm.algo.ts:123",
           "pc": [
-            674,
-            675,
-            676
+            616,
+            617,
+            618
           ]
         },
         {
           "teal": 685,
           "source": "examples/amm/amm.algo.ts:124",
           "pc": [
-            677,
-            678
+            619,
+            620
           ]
         },
         {
           "teal": 686,
           "source": "examples/amm/amm.algo.ts:124",
           "pc": [
-            679,
-            680
+            621,
+            622
           ]
         },
         {
           "teal": 687,
           "source": "examples/amm/amm.algo.ts:124",
           "pc": [
-            681,
-            682
+            623,
+            624
           ]
         },
         {
           "teal": 688,
           "source": "examples/amm/amm.algo.ts:124",
           "pc": [
-            683
+            625
           ]
         },
         {
           "teal": 689,
           "source": "examples/amm/amm.algo.ts:124",
           "pc": [
-            684,
-            685
+            626,
+            627
           ]
         },
         {
           "teal": 690,
           "source": "examples/amm/amm.algo.ts:124",
           "pc": [
-            686,
-            687
+            628,
+            629
           ]
         },
         {
           "teal": 691,
           "source": "examples/amm/amm.algo.ts:124",
           "pc": [
-            688
+            630
           ]
         },
         {
           "teal": 692,
           "source": "examples/amm/amm.algo.ts:123",
           "pc": [
-            689
+            631
           ]
         },
         {
           "teal": 695,
           "source": "examples/amm/amm.algo.ts:122",
           "pc": [
-            690,
-            691,
-            692
+            632,
+            633,
+            634
           ]
         },
         {
           "teal": 700,
           "source": "examples/amm/amm.algo.ts:126",
           "pc": [
-            693,
-            694
+            635,
+            636
           ]
         },
         {
           "teal": 701,
           "source": "examples/amm/amm.algo.ts:126",
           "pc": [
-            695,
-            696
+            637,
+            638
           ]
         },
         {
           "teal": 702,
           "source": "examples/amm/amm.algo.ts:126",
           "pc": [
-            697,
-            698
+            639,
+            640
           ]
         },
         {
           "teal": 703,
           "source": "examples/amm/amm.algo.ts:126",
           "pc": [
-            699,
-            700
+            641,
+            642
           ]
         },
         {
           "teal": 704,
           "source": "examples/amm/amm.algo.ts:126",
           "pc": [
-            701,
-            702,
-            703
+            643,
+            644,
+            645
           ]
         },
         {
           "teal": 705,
           "source": "examples/amm/amm.algo.ts:122",
           "pc": [
-            704,
-            705,
-            706
+            646,
+            647,
+            648
           ]
         },
         {
           "teal": 716,
           "source": "examples/amm/amm.algo.ts:133",
           "pc": [
-            707,
-            708
+            649,
+            650
           ]
         },
         {
           "teal": 717,
           "source": "examples/amm/amm.algo.ts:133",
           "pc": [
-            709,
-            710
+            651,
+            652
           ]
         },
         {
           "teal": 718,
           "source": "examples/amm/amm.algo.ts:132",
           "pc": [
-            711,
-            712
+            653,
+            654
           ]
         },
         {
           "teal": 719,
           "source": "examples/amm/amm.algo.ts:132",
           "pc": [
-            713,
-            714
+            655,
+            656
           ]
         },
         {
           "teal": 720,
           "source": "examples/amm/amm.algo.ts:131",
           "pc": [
-            715,
-            716
+            657,
+            658
           ]
         },
         {
           "teal": 721,
           "source": "examples/amm/amm.algo.ts:131",
           "pc": [
-            717,
-            718
+            659,
+            660
           ]
         },
         {
           "teal": 722,
           "source": "examples/amm/amm.algo.ts:131",
           "pc": [
-            719,
-            720
+            661,
+            662
           ]
         },
         {
           "teal": 723,
           "source": "examples/amm/amm.algo.ts:131",
           "pc": [
-            721
+            663
           ]
         },
         {
           "teal": 724,
           "source": "examples/amm/amm.algo.ts:131",
           "pc": [
-            722,
-            723
+            664,
+            665
           ]
         },
         {
           "teal": 725,
           "source": "examples/amm/amm.algo.ts:131",
           "pc": [
-            724,
-            725
+            666,
+            667
           ]
         },
         {
           "teal": 726,
           "source": "examples/amm/amm.algo.ts:131",
           "pc": [
-            726
+            668
           ]
         },
         {
           "teal": 727,
           "source": "examples/amm/amm.algo.ts:130",
           "pc": [
-            727,
-            728
+            669,
+            670
           ]
         },
         {
           "teal": 728,
           "source": "examples/amm/amm.algo.ts:130",
           "pc": [
-            729,
-            730
+            671,
+            672
           ]
         },
         {
           "teal": 729,
           "source": "examples/amm/amm.algo.ts:130",
           "pc": [
-            731,
-            732
+            673,
+            674
           ]
         },
         {
           "teal": 730,
           "source": "examples/amm/amm.algo.ts:130",
           "pc": [
-            733
+            675
           ]
         },
         {
           "teal": 731,
           "source": "examples/amm/amm.algo.ts:130",
           "pc": [
-            734,
-            735
+            676,
+            677
           ]
         },
         {
           "teal": 732,
           "source": "examples/amm/amm.algo.ts:130",
           "pc": [
-            736,
-            737
+            678,
+            679
           ]
         },
         {
           "teal": 733,
           "source": "examples/amm/amm.algo.ts:130",
           "pc": [
-            738
+            680
           ]
         },
         {
           "teal": 734,
           "source": "examples/amm/amm.algo.ts:129",
           "pc": [
-            739,
-            740,
-            741,
-            742,
-            743,
-            744
+            681,
+            682
           ]
         },
         {
           "teal": 735,
           "source": "examples/amm/amm.algo.ts:129",
           "pc": [
-            745,
-            746
+            683,
+            684
           ]
         },
         {
           "teal": 736,
           "source": "examples/amm/amm.algo.ts:129",
           "pc": [
-            747,
-            748
+            685,
+            686
           ]
         },
         {
           "teal": 737,
           "source": "examples/amm/amm.algo.ts:129",
           "pc": [
-            749,
-            750
+            687,
+            688
           ]
         },
         {
           "teal": 738,
           "source": "examples/amm/amm.algo.ts:129",
           "pc": [
-            751
+            689
           ]
         },
         {
           "teal": 739,
           "source": "examples/amm/amm.algo.ts:129",
           "pc": [
-            752
+            690
           ]
         },
         {
           "teal": 740,
           "source": "examples/amm/amm.algo.ts:128",
           "pc": [
-            753,
-            754,
-            755
+            691,
+            692,
+            693
           ]
         },
         {
           "teal": 741,
           "source": "examples/amm/amm.algo.ts:128",
           "pc": [
-            756,
-            757
+            694,
+            695
           ]
         },
         {
           "teal": 745,
           "source": "examples/amm/amm.algo.ts:136",
           "pc": [
-            758,
-            759
+            696,
+            697
           ]
         },
         {
           "teal": 746,
           "source": "examples/amm/amm.algo.ts:136",
           "pc": [
-            760,
-            761
+            698
           ]
         },
         {
           "teal": 747,
           "source": "examples/amm/amm.algo.ts:136",
           "pc": [
-            762
+            699
           ]
         },
         {
           "teal": 748,
           "source": "examples/amm/amm.algo.ts:136",
           "pc": [
-            763
+            700
           ]
         },
         {
           "teal": 752,
           "source": "examples/amm/amm.algo.ts:138",
           "pc": [
-            764,
-            765
+            701,
+            702
           ]
         },
         {
           "teal": 753,
           "source": "examples/amm/amm.algo.ts:138",
           "pc": [
-            766,
-            767
+            703,
+            704
           ]
         },
         {
           "teal": 754,
           "source": "examples/amm/amm.algo.ts:138",
           "pc": [
-            768,
-            769
+            705,
+            706
           ]
         },
         {
           "teal": 755,
           "source": "examples/amm/amm.algo.ts:138",
           "pc": [
-            770,
-            771,
-            772
+            707,
+            708,
+            709
           ]
         },
         {
           "teal": 758,
           "source": "examples/amm/amm.algo.ts:100",
           "pc": [
-            773
+            710
           ]
         },
         {
           "teal": 763,
           "source": "examples/amm/amm.algo.ts:142",
           "pc": [
-            774,
-            775,
-            776
+            711,
+            712,
+            713
           ]
         },
         {
           "teal": 764,
           "source": "examples/amm/amm.algo.ts:142",
           "pc": [
-            777
+            714
           ]
         },
         {
           "teal": 767,
           "source": "examples/amm/amm.algo.ts:142",
           "pc": [
-            778,
-            779,
-            780
+            715,
+            716,
+            717
           ]
         },
         {
           "teal": 768,
           "source": "examples/amm/amm.algo.ts:142",
           "pc": [
-            781
+            718
           ]
         },
         {
           "teal": 771,
           "source": "examples/amm/amm.algo.ts:142",
           "pc": [
-            782,
-            783,
-            784
+            719,
+            720,
+            721
           ]
         },
         {
           "teal": 772,
           "source": "examples/amm/amm.algo.ts:142",
           "pc": [
-            785
+            722
           ]
         },
         {
           "teal": 775,
           "source": "examples/amm/amm.algo.ts:142",
           "pc": [
-            786,
-            787
+            723,
+            724
           ]
         },
         {
           "teal": 776,
           "source": "examples/amm/amm.algo.ts:142",
           "pc": [
-            788,
-            789
+            725
           ]
         },
         {
           "teal": 777,
           "source": "examples/amm/amm.algo.ts:142",
           "pc": [
-            790
+            726
           ]
         },
         {
           "teal": 778,
           "source": "examples/amm/amm.algo.ts:142",
           "pc": [
-            791
+            727
           ]
         },
         {
           "teal": 779,
           "source": "examples/amm/amm.algo.ts:142",
           "pc": [
-            792,
-            793
+            728,
+            729
           ]
         },
         {
           "teal": 780,
           "source": "examples/amm/amm.algo.ts:142",
           "pc": [
-            794,
-            795
+            730
           ]
         },
         {
           "teal": 781,
           "source": "examples/amm/amm.algo.ts:142",
           "pc": [
-            796
+            731
           ]
         },
         {
@@ -3585,201 +3520,194 @@
           "source": "examples/amm/amm.algo.ts:142",
           "errorMessage": "argument 3 (poolXfer) for burn must be a axfer transaction",
           "pc": [
-            797
+            732
           ]
         },
         {
           "teal": 787,
           "source": "examples/amm/amm.algo.ts:142",
           "pc": [
-            798,
-            799,
-            800
+            733,
+            734,
+            735
           ]
         },
         {
           "teal": 788,
           "source": "examples/amm/amm.algo.ts:142",
           "pc": [
-            801,
-            802
+            736
           ]
         },
         {
           "teal": 789,
           "source": "examples/amm/amm.algo.ts:142",
           "pc": [
-            803
+            737
           ]
         },
         {
           "teal": 793,
           "source": "examples/amm/amm.algo.ts:142",
           "pc": [
-            804,
-            805,
-            806
+            738,
+            739,
+            740
           ]
         },
         {
           "teal": 796,
           "source": "examples/amm/amm.algo.ts:142",
           "pc": [
-            807,
-            808
+            741
           ]
         },
         {
           "teal": 797,
           "source": "examples/amm/amm.algo.ts:142",
           "pc": [
-            809,
-            810
+            742,
+            743
           ]
         },
         {
           "teal": 802,
           "source": "examples/amm/amm.algo.ts:144",
           "pc": [
-            811,
-            812
+            744,
+            745
           ]
         },
         {
           "teal": 803,
           "source": "examples/amm/amm.algo.ts:144",
           "pc": [
-            813,
-            814,
-            815
+            746,
+            747
           ]
         },
         {
           "teal": 804,
           "source": "examples/amm/amm.algo.ts:144",
           "pc": [
-            816
+            748
           ]
         },
         {
           "teal": 805,
           "source": "examples/amm/amm.algo.ts:144",
           "pc": [
-            817
+            749
           ]
         },
         {
           "teal": 806,
           "source": "examples/amm/amm.algo.ts:144",
           "pc": [
-            818
+            750
           ]
         },
         {
           "teal": 810,
           "source": "examples/amm/amm.algo.ts:145",
           "pc": [
-            819,
-            820
+            751,
+            752
           ]
         },
         {
           "teal": 811,
           "source": "examples/amm/amm.algo.ts:145",
           "pc": [
-            821,
-            822,
-            823
+            753
           ]
         },
         {
           "teal": 812,
           "source": "examples/amm/amm.algo.ts:145",
           "pc": [
-            824
+            754
           ]
         },
         {
           "teal": 813,
           "source": "examples/amm/amm.algo.ts:145",
           "pc": [
-            825
+            755
           ]
         },
         {
           "teal": 814,
           "source": "examples/amm/amm.algo.ts:145",
           "pc": [
-            826
+            756
           ]
         },
         {
           "teal": 818,
           "source": "examples/amm/amm.algo.ts:146",
           "pc": [
-            827,
-            828
+            757,
+            758
           ]
         },
         {
           "teal": 819,
           "source": "examples/amm/amm.algo.ts:146",
           "pc": [
-            829,
-            830,
-            831
+            759
           ]
         },
         {
           "teal": 820,
           "source": "examples/amm/amm.algo.ts:146",
           "pc": [
-            832
+            760
           ]
         },
         {
           "teal": 821,
           "source": "examples/amm/amm.algo.ts:146",
           "pc": [
-            833
+            761
           ]
         },
         {
           "teal": 822,
           "source": "examples/amm/amm.algo.ts:146",
           "pc": [
-            834
+            762
           ]
         },
         {
           "teal": 833,
           "source": "examples/amm/amm.algo.ts:149",
           "pc": [
-            835,
-            836
+            763,
+            764
           ]
         },
         {
           "teal": 834,
           "source": "examples/amm/amm.algo.ts:150",
           "pc": [
-            837,
-            838
+            765,
+            766
           ]
         },
         {
           "teal": 835,
           "source": "examples/amm/amm.algo.ts:150",
           "pc": [
-            839,
-            840
+            767,
+            768
           ]
         },
         {
           "teal": 836,
           "source": "examples/amm/amm.algo.ts:150",
           "pc": [
-            841
+            769
           ]
         },
         {
@@ -3787,38 +3715,37 @@
           "source": "examples/amm/amm.algo.ts:150",
           "errorMessage": "transaction verification failed: {\"txn\":\"poolXfer\",\"field\":\"sender\",\"expected\":\"this.txn.sender\"}",
           "pc": [
-            842
+            770
           ]
         },
         {
           "teal": 842,
           "source": "examples/amm/amm.algo.ts:149",
           "pc": [
-            843,
-            844
+            771,
+            772
           ]
         },
         {
           "teal": 843,
           "source": "examples/amm/amm.algo.ts:151",
           "pc": [
-            845,
-            846
+            773,
+            774
           ]
         },
         {
           "teal": 844,
           "source": "examples/amm/amm.algo.ts:151",
           "pc": [
-            847,
-            848
+            775
           ]
         },
         {
           "teal": 845,
           "source": "examples/amm/amm.algo.ts:151",
           "pc": [
-            849
+            776
           ]
         },
         {
@@ -3826,38 +3753,38 @@
           "source": "examples/amm/amm.algo.ts:151",
           "errorMessage": "transaction verification failed: {\"txn\":\"poolXfer\",\"field\":\"assetAmount\",\"condition\":\"greaterThan\",\"expected\":\">0\"}",
           "pc": [
-            850
+            777
           ]
         },
         {
           "teal": 851,
           "source": "examples/amm/amm.algo.ts:149",
           "pc": [
-            851,
-            852
+            778,
+            779
           ]
         },
         {
           "teal": 852,
           "source": "examples/amm/amm.algo.ts:152",
           "pc": [
-            853,
-            854
+            780,
+            781
           ]
         },
         {
           "teal": 853,
           "source": "examples/amm/amm.algo.ts:152",
           "pc": [
-            855,
-            856
+            782,
+            783
           ]
         },
         {
           "teal": 854,
           "source": "examples/amm/amm.algo.ts:152",
           "pc": [
-            857
+            784
           ]
         },
         {
@@ -3865,38 +3792,38 @@
           "source": "examples/amm/amm.algo.ts:152",
           "errorMessage": "transaction verification failed: {\"txn\":\"poolXfer\",\"field\":\"assetReceiver\",\"expected\":\"this.app.address\"}",
           "pc": [
-            858
+            785
           ]
         },
         {
           "teal": 860,
           "source": "examples/amm/amm.algo.ts:149",
           "pc": [
-            859,
-            860
+            786,
+            787
           ]
         },
         {
           "teal": 861,
           "source": "examples/amm/amm.algo.ts:153",
           "pc": [
-            861,
-            862
+            788,
+            789
           ]
         },
         {
           "teal": 862,
           "source": "examples/amm/amm.algo.ts:153",
           "pc": [
-            863,
-            864
+            790,
+            791
           ]
         },
         {
           "teal": 863,
           "source": "examples/amm/amm.algo.ts:153",
           "pc": [
-            865
+            792
           ]
         },
         {
@@ -3904,415 +3831,408 @@
           "source": "examples/amm/amm.algo.ts:153",
           "errorMessage": "transaction verification failed: {\"txn\":\"poolXfer\",\"field\":\"xferAsset\",\"expected\":\"poolAsset\"}",
           "pc": [
-            866
+            793
           ]
         },
         {
           "teal": 870,
           "source": "examples/amm/amm.algo.ts:156",
           "pc": [
-            867,
-            868,
-            869,
-            870,
-            871,
-            872
+            794,
+            795
           ]
         },
         {
           "teal": 871,
           "source": "examples/amm/amm.algo.ts:156",
           "pc": [
-            873,
-            874
+            796,
+            797
           ]
         },
         {
           "teal": 872,
           "source": "examples/amm/amm.algo.ts:156",
           "pc": [
-            875,
-            876
+            798,
+            799
           ]
         },
         {
           "teal": 873,
           "source": "examples/amm/amm.algo.ts:156",
           "pc": [
-            877,
-            878
+            800,
+            801
           ]
         },
         {
           "teal": 874,
           "source": "examples/amm/amm.algo.ts:156",
           "pc": [
-            879
+            802
           ]
         },
         {
           "teal": 875,
           "source": "examples/amm/amm.algo.ts:156",
           "pc": [
-            880,
-            881
+            803,
+            804
           ]
         },
         {
           "teal": 876,
           "source": "examples/amm/amm.algo.ts:156",
           "pc": [
-            882,
-            883
+            805,
+            806
           ]
         },
         {
           "teal": 877,
           "source": "examples/amm/amm.algo.ts:156",
           "pc": [
-            884
+            807
           ]
         },
         {
           "teal": 878,
           "source": "examples/amm/amm.algo.ts:156",
           "pc": [
-            885
+            808
           ]
         },
         {
           "teal": 879,
           "source": "examples/amm/amm.algo.ts:156",
           "pc": [
-            886,
-            887
+            809,
+            810
           ]
         },
         {
           "teal": 883,
           "source": "examples/amm/amm.algo.ts:158",
           "pc": [
-            888,
-            889
+            811,
+            812
           ]
         },
         {
           "teal": 884,
           "source": "examples/amm/amm.algo.ts:158",
           "pc": [
-            890,
-            891
+            813,
+            814
           ]
         },
         {
           "teal": 885,
           "source": "examples/amm/amm.algo.ts:158",
           "pc": [
-            892,
-            893
+            815,
+            816
           ]
         },
         {
           "teal": 886,
           "source": "examples/amm/amm.algo.ts:158",
           "pc": [
-            894,
-            895
+            817,
+            818
           ]
         },
         {
           "teal": 887,
           "source": "examples/amm/amm.algo.ts:158",
           "pc": [
-            896,
-            897
+            819,
+            820
           ]
         },
         {
           "teal": 888,
           "source": "examples/amm/amm.algo.ts:158",
           "pc": [
-            898
+            821
           ]
         },
         {
           "teal": 889,
           "source": "examples/amm/amm.algo.ts:158",
           "pc": [
-            899,
-            900
+            822,
+            823
           ]
         },
         {
           "teal": 890,
           "source": "examples/amm/amm.algo.ts:158",
           "pc": [
-            901,
-            902,
-            903
+            824,
+            825,
+            826
           ]
         },
         {
           "teal": 891,
           "source": "examples/amm/amm.algo.ts:158",
           "pc": [
-            904,
-            905
+            827,
+            828
           ]
         },
         {
           "teal": 895,
           "source": "examples/amm/amm.algo.ts:160",
           "pc": [
-            906,
-            907
+            829,
+            830
           ]
         },
         {
           "teal": 896,
           "source": "examples/amm/amm.algo.ts:160",
           "pc": [
-            908,
-            909
+            831,
+            832
           ]
         },
         {
           "teal": 897,
           "source": "examples/amm/amm.algo.ts:160",
           "pc": [
-            910,
-            911
+            833,
+            834
           ]
         },
         {
           "teal": 898,
           "source": "examples/amm/amm.algo.ts:160",
           "pc": [
-            912,
-            913
+            835,
+            836
           ]
         },
         {
           "teal": 899,
           "source": "examples/amm/amm.algo.ts:160",
           "pc": [
-            914,
-            915
+            837,
+            838
           ]
         },
         {
           "teal": 900,
           "source": "examples/amm/amm.algo.ts:160",
           "pc": [
-            916
+            839
           ]
         },
         {
           "teal": 901,
           "source": "examples/amm/amm.algo.ts:160",
           "pc": [
-            917,
-            918
+            840,
+            841
           ]
         },
         {
           "teal": 902,
           "source": "examples/amm/amm.algo.ts:160",
           "pc": [
-            919,
-            920,
-            921
+            842,
+            843,
+            844
           ]
         },
         {
           "teal": 903,
           "source": "examples/amm/amm.algo.ts:160",
           "pc": [
-            922,
-            923
+            845,
+            846
           ]
         },
         {
           "teal": 907,
           "source": "examples/amm/amm.algo.ts:162",
           "pc": [
-            924,
-            925
+            847,
+            848
           ]
         },
         {
           "teal": 908,
           "source": "examples/amm/amm.algo.ts:162",
           "pc": [
-            926,
-            927
+            849,
+            850
           ]
         },
         {
           "teal": 909,
           "source": "examples/amm/amm.algo.ts:162",
           "pc": [
-            928,
-            929
+            851,
+            852
           ]
         },
         {
           "teal": 910,
           "source": "examples/amm/amm.algo.ts:162",
           "pc": [
-            930,
-            931,
-            932
+            853,
+            854,
+            855
           ]
         },
         {
           "teal": 914,
           "source": "examples/amm/amm.algo.ts:163",
           "pc": [
-            933,
-            934
+            856,
+            857
           ]
         },
         {
           "teal": 915,
           "source": "examples/amm/amm.algo.ts:163",
           "pc": [
-            935,
-            936
+            858,
+            859
           ]
         },
         {
           "teal": 916,
           "source": "examples/amm/amm.algo.ts:163",
           "pc": [
-            937,
-            938
+            860,
+            861
           ]
         },
         {
           "teal": 917,
           "source": "examples/amm/amm.algo.ts:163",
           "pc": [
-            939,
-            940,
-            941
+            862,
+            863,
+            864
           ]
         },
         {
           "teal": 921,
           "source": "examples/amm/amm.algo.ts:165",
           "pc": [
-            942,
-            943,
-            944
+            865,
+            866
           ]
         },
         {
           "teal": 922,
           "source": "examples/amm/amm.algo.ts:165",
           "pc": [
-            945,
-            946,
-            947
+            867,
+            868,
+            869
           ]
         },
         {
           "teal": 923,
           "source": "examples/amm/amm.algo.ts:165",
           "pc": [
-            948
+            870
           ]
         },
         {
           "teal": 924,
           "source": "examples/amm/amm.algo.ts:142",
           "pc": [
-            949
+            871
           ]
         },
         {
           "teal": 929,
           "source": "examples/amm/amm.algo.ts:168",
           "pc": [
-            950,
-            951,
-            952
+            872,
+            873,
+            874
           ]
         },
         {
           "teal": 930,
           "source": "examples/amm/amm.algo.ts:168",
           "pc": [
-            953
+            875
           ]
         },
         {
           "teal": 933,
           "source": "examples/amm/amm.algo.ts:168",
           "pc": [
-            954,
-            955,
-            956
+            876,
+            877,
+            878
           ]
         },
         {
           "teal": 934,
           "source": "examples/amm/amm.algo.ts:168",
           "pc": [
-            957
+            879
           ]
         },
         {
           "teal": 937,
           "source": "examples/amm/amm.algo.ts:168",
           "pc": [
-            958,
-            959
+            880,
+            881
           ]
         },
         {
           "teal": 938,
           "source": "examples/amm/amm.algo.ts:168",
           "pc": [
-            960,
-            961
+            882
           ]
         },
         {
           "teal": 939,
           "source": "examples/amm/amm.algo.ts:168",
           "pc": [
-            962
+            883
           ]
         },
         {
           "teal": 940,
           "source": "examples/amm/amm.algo.ts:168",
           "pc": [
-            963
+            884
           ]
         },
         {
           "teal": 941,
           "source": "examples/amm/amm.algo.ts:168",
           "pc": [
-            964,
-            965
+            885,
+            886
           ]
         },
         {
           "teal": 942,
           "source": "examples/amm/amm.algo.ts:168",
           "pc": [
-            966,
-            967
+            887
           ]
         },
         {
           "teal": 943,
           "source": "examples/amm/amm.algo.ts:168",
           "pc": [
-            968
+            888
           ]
         },
         {
@@ -4320,163 +4240,156 @@
           "source": "examples/amm/amm.algo.ts:168",
           "errorMessage": "argument 2 (swapXfer) for swap must be a axfer transaction",
           "pc": [
-            969
+            889
           ]
         },
         {
           "teal": 949,
           "source": "examples/amm/amm.algo.ts:168",
           "pc": [
-            970,
-            971,
-            972
+            890,
+            891,
+            892
           ]
         },
         {
           "teal": 950,
           "source": "examples/amm/amm.algo.ts:168",
           "pc": [
-            973,
-            974
+            893
           ]
         },
         {
           "teal": 951,
           "source": "examples/amm/amm.algo.ts:168",
           "pc": [
-            975
+            894
           ]
         },
         {
           "teal": 955,
           "source": "examples/amm/amm.algo.ts:168",
           "pc": [
-            976,
-            977,
-            978
+            895,
+            896,
+            897
           ]
         },
         {
           "teal": 958,
           "source": "examples/amm/amm.algo.ts:168",
           "pc": [
-            979,
-            980
+            898
           ]
         },
         {
           "teal": 959,
           "source": "examples/amm/amm.algo.ts:168",
           "pc": [
-            981,
-            982
+            899,
+            900
           ]
         },
         {
           "teal": 964,
           "source": "examples/amm/amm.algo.ts:170",
           "pc": [
-            983,
-            984
+            901,
+            902
           ]
         },
         {
           "teal": 965,
           "source": "examples/amm/amm.algo.ts:170",
           "pc": [
-            985,
-            986,
-            987
+            903
           ]
         },
         {
           "teal": 966,
           "source": "examples/amm/amm.algo.ts:170",
           "pc": [
-            988
+            904
           ]
         },
         {
           "teal": 967,
           "source": "examples/amm/amm.algo.ts:170",
           "pc": [
-            989
+            905
           ]
         },
         {
           "teal": 968,
           "source": "examples/amm/amm.algo.ts:170",
           "pc": [
-            990
+            906
           ]
         },
         {
           "teal": 972,
           "source": "examples/amm/amm.algo.ts:171",
           "pc": [
-            991,
-            992
+            907,
+            908
           ]
         },
         {
           "teal": 973,
           "source": "examples/amm/amm.algo.ts:171",
           "pc": [
-            993,
-            994,
-            995
+            909
           ]
         },
         {
           "teal": 974,
           "source": "examples/amm/amm.algo.ts:171",
           "pc": [
-            996
+            910
           ]
         },
         {
           "teal": 975,
           "source": "examples/amm/amm.algo.ts:171",
           "pc": [
-            997
+            911
           ]
         },
         {
           "teal": 976,
           "source": "examples/amm/amm.algo.ts:171",
           "pc": [
-            998
+            912
           ]
         },
         {
           "teal": 986,
           "source": "examples/amm/amm.algo.ts:173",
           "pc": [
-            999,
-            1000
+            913,
+            914
           ]
         },
         {
           "teal": 987,
           "source": "examples/amm/amm.algo.ts:174",
           "pc": [
-            1001,
-            1002
+            915,
+            916
           ]
         },
         {
           "teal": 988,
           "source": "examples/amm/amm.algo.ts:174",
           "pc": [
-            1003,
-            1004
+            917
           ]
         },
         {
           "teal": 989,
           "source": "examples/amm/amm.algo.ts:174",
           "pc": [
-            1005
+            918
           ]
         },
         {
@@ -4484,38 +4397,38 @@
           "source": "examples/amm/amm.algo.ts:174",
           "errorMessage": "transaction verification failed: {\"txn\":\"swapXfer\",\"field\":\"assetAmount\",\"condition\":\"greaterThan\",\"expected\":\">0\"}",
           "pc": [
-            1006
+            919
           ]
         },
         {
           "teal": 995,
           "source": "examples/amm/amm.algo.ts:173",
           "pc": [
-            1007,
-            1008
+            920,
+            921
           ]
         },
         {
           "teal": 996,
           "source": "examples/amm/amm.algo.ts:175",
           "pc": [
-            1009,
-            1010
+            922,
+            923
           ]
         },
         {
           "teal": 997,
           "source": "examples/amm/amm.algo.ts:175",
           "pc": [
-            1011,
-            1012
+            924,
+            925
           ]
         },
         {
           "teal": 998,
           "source": "examples/amm/amm.algo.ts:175",
           "pc": [
-            1013
+            926
           ]
         },
         {
@@ -4523,38 +4436,38 @@
           "source": "examples/amm/amm.algo.ts:175",
           "errorMessage": "transaction verification failed: {\"txn\":\"swapXfer\",\"field\":\"assetReceiver\",\"expected\":\"this.app.address\"}",
           "pc": [
-            1014
+            927
           ]
         },
         {
           "teal": 1004,
           "source": "examples/amm/amm.algo.ts:173",
           "pc": [
-            1015,
-            1016
+            928,
+            929
           ]
         },
         {
           "teal": 1005,
           "source": "examples/amm/amm.algo.ts:176",
           "pc": [
-            1017,
-            1018
+            930,
+            931
           ]
         },
         {
           "teal": 1006,
           "source": "examples/amm/amm.algo.ts:176",
           "pc": [
-            1019,
-            1020
+            932,
+            933
           ]
         },
         {
           "teal": 1007,
           "source": "examples/amm/amm.algo.ts:176",
           "pc": [
-            1021
+            934
           ]
         },
         {
@@ -4562,76 +4475,76 @@
           "source": "examples/amm/amm.algo.ts:176",
           "errorMessage": "transaction verification failed: {\"txn\":\"swapXfer\",\"field\":\"sender\",\"expected\":\"this.txn.sender\"}",
           "pc": [
-            1022
+            935
           ]
         },
         {
           "teal": 1013,
           "source": "examples/amm/amm.algo.ts:173",
           "pc": [
-            1023,
-            1024
+            936,
+            937
           ]
         },
         {
           "teal": 1014,
           "source": "examples/amm/amm.algo.ts:177",
           "pc": [
-            1025,
-            1026
+            938,
+            939
           ]
         },
         {
           "teal": 1015,
           "source": "examples/amm/amm.algo.ts:177",
           "pc": [
-            1027,
-            1028
+            940,
+            941
           ]
         },
         {
           "teal": 1016,
           "source": "examples/amm/amm.algo.ts:177",
           "pc": [
-            1029
+            942
           ]
         },
         {
           "teal": 1017,
           "source": "examples/amm/amm.algo.ts:173",
           "pc": [
-            1030,
-            1031
+            943,
+            944
           ]
         },
         {
           "teal": 1018,
           "source": "examples/amm/amm.algo.ts:177",
           "pc": [
-            1032,
-            1033
+            945,
+            946
           ]
         },
         {
           "teal": 1019,
           "source": "examples/amm/amm.algo.ts:177",
           "pc": [
-            1034,
-            1035
+            947,
+            948
           ]
         },
         {
           "teal": 1020,
           "source": "examples/amm/amm.algo.ts:177",
           "pc": [
-            1036
+            949
           ]
         },
         {
           "teal": 1021,
           "source": "examples/amm/amm.algo.ts:177",
           "pc": [
-            1037
+            950
           ]
         },
         {
@@ -4639,348 +4552,346 @@
           "source": "examples/amm/amm.algo.ts:177",
           "errorMessage": "transaction verification failed: {\"txn\":{\"txnText\":\"swapXfer\"},\"field\":\"xferAsset\",\"condition\":\"includedIn\",\"expected\":\"[aAsset, bAsset]\"}",
           "pc": [
-            1038
+            951
           ]
         },
         {
           "teal": 1028,
           "source": "examples/amm/amm.algo.ts:180",
           "pc": [
-            1039,
-            1040
+            952,
+            953
           ]
         },
         {
           "teal": 1029,
           "source": "examples/amm/amm.algo.ts:180",
           "pc": [
-            1041,
-            1042
+            954,
+            955
           ]
         },
         {
           "teal": 1030,
           "source": "examples/amm/amm.algo.ts:180",
           "pc": [
-            1043,
-            1044
+            956,
+            957
           ]
         },
         {
           "teal": 1031,
           "source": "examples/amm/amm.algo.ts:180",
           "pc": [
-            1045
+            958
           ]
         },
         {
           "teal": 1032,
           "source": "examples/amm/amm.algo.ts:180",
           "pc": [
-            1046,
-            1047,
-            1048
+            959,
+            960,
+            961
           ]
         },
         {
           "teal": 1033,
           "source": "examples/amm/amm.algo.ts:180",
           "pc": [
-            1049,
-            1050
+            962,
+            963
           ]
         },
         {
           "teal": 1034,
           "source": "examples/amm/amm.algo.ts:180",
           "pc": [
-            1051,
-            1052,
-            1053
+            964,
+            965,
+            966
           ]
         },
         {
           "teal": 1037,
           "source": "examples/amm/amm.algo.ts:180",
           "pc": [
-            1054,
-            1055
+            967,
+            968
           ]
         },
         {
           "teal": 1040,
           "source": "examples/amm/amm.algo.ts:180",
           "pc": [
-            1056,
-            1057
+            969,
+            970
           ]
         },
         {
           "teal": 1044,
           "source": "examples/amm/amm.algo.ts:182",
           "pc": [
-            1058,
-            1059
+            971,
+            972
           ]
         },
         {
           "teal": 1045,
           "source": "examples/amm/amm.algo.ts:182",
           "pc": [
-            1060,
-            1061
+            973,
+            974
           ]
         },
         {
           "teal": 1046,
           "source": "examples/amm/amm.algo.ts:182",
           "pc": [
-            1062,
-            1063
+            975,
+            976
           ]
         },
         {
           "teal": 1054,
           "source": "examples/amm/amm.algo.ts:187",
           "pc": [
-            1064,
-            1065
+            977,
+            978
           ]
         },
         {
           "teal": 1055,
           "source": "examples/amm/amm.algo.ts:187",
           "pc": [
-            1066,
-            1067
+            979,
+            980
           ]
         },
         {
           "teal": 1056,
           "source": "examples/amm/amm.algo.ts:187",
           "pc": [
-            1068,
-            1069
+            981,
+            982
           ]
         },
         {
           "teal": 1057,
           "source": "examples/amm/amm.algo.ts:187",
           "pc": [
-            1070
+            983
           ]
         },
         {
           "teal": 1058,
           "source": "examples/amm/amm.algo.ts:186",
           "pc": [
-            1071,
-            1072
+            984,
+            985
           ]
         },
         {
           "teal": 1059,
           "source": "examples/amm/amm.algo.ts:186",
           "pc": [
-            1073,
-            1074
+            986,
+            987
           ]
         },
         {
           "teal": 1060,
           "source": "examples/amm/amm.algo.ts:186",
           "pc": [
-            1075,
-            1076
+            988,
+            989
           ]
         },
         {
           "teal": 1061,
           "source": "examples/amm/amm.algo.ts:186",
           "pc": [
-            1077
+            990
           ]
         },
         {
           "teal": 1062,
           "source": "examples/amm/amm.algo.ts:186",
           "pc": [
-            1078,
-            1079
+            991,
+            992
           ]
         },
         {
           "teal": 1063,
           "source": "examples/amm/amm.algo.ts:186",
           "pc": [
-            1080,
-            1081
+            993,
+            994
           ]
         },
         {
           "teal": 1064,
           "source": "examples/amm/amm.algo.ts:186",
           "pc": [
-            1082
+            995
           ]
         },
         {
           "teal": 1065,
           "source": "examples/amm/amm.algo.ts:185",
           "pc": [
-            1083,
-            1084
+            996,
+            997
           ]
         },
         {
           "teal": 1066,
           "source": "examples/amm/amm.algo.ts:185",
           "pc": [
-            1085,
-            1086
+            998,
+            999
           ]
         },
         {
           "teal": 1067,
           "source": "examples/amm/amm.algo.ts:184",
           "pc": [
-            1087,
-            1088,
-            1089
+            1000,
+            1001,
+            1002
           ]
         },
         {
           "teal": 1068,
           "source": "examples/amm/amm.algo.ts:184",
           "pc": [
-            1090,
-            1091
+            1003,
+            1004
           ]
         },
         {
           "teal": 1072,
           "source": "examples/amm/amm.algo.ts:190",
           "pc": [
-            1092,
-            1093
+            1005,
+            1006
           ]
         },
         {
           "teal": 1073,
           "source": "examples/amm/amm.algo.ts:190",
           "pc": [
-            1094,
-            1095
+            1007
           ]
         },
         {
           "teal": 1074,
           "source": "examples/amm/amm.algo.ts:190",
           "pc": [
-            1096
+            1008
           ]
         },
         {
           "teal": 1075,
           "source": "examples/amm/amm.algo.ts:190",
           "pc": [
-            1097
+            1009
           ]
         },
         {
           "teal": 1079,
           "source": "examples/amm/amm.algo.ts:192",
           "pc": [
-            1098,
-            1099
+            1010,
+            1011
           ]
         },
         {
           "teal": 1080,
           "source": "examples/amm/amm.algo.ts:192",
           "pc": [
-            1100,
-            1101
+            1012,
+            1013
           ]
         },
         {
           "teal": 1081,
           "source": "examples/amm/amm.algo.ts:192",
           "pc": [
-            1102,
-            1103
+            1014,
+            1015
           ]
         },
         {
           "teal": 1082,
           "source": "examples/amm/amm.algo.ts:192",
           "pc": [
-            1104,
-            1105,
-            1106
+            1016,
+            1017,
+            1018
           ]
         },
         {
           "teal": 1086,
           "source": "examples/amm/amm.algo.ts:194",
           "pc": [
-            1107,
-            1108,
-            1109
+            1019,
+            1020
           ]
         },
         {
           "teal": 1087,
           "source": "examples/amm/amm.algo.ts:194",
           "pc": [
-            1110,
-            1111,
-            1112
+            1021,
+            1022,
+            1023
           ]
         },
         {
           "teal": 1088,
           "source": "examples/amm/amm.algo.ts:194",
           "pc": [
-            1113
+            1024
           ]
         },
         {
           "teal": 1089,
           "source": "examples/amm/amm.algo.ts:168",
           "pc": [
-            1114
+            1025
           ]
         },
         {
           "teal": 1092,
           "source": "examples/amm/amm.algo.ts:8",
           "pc": [
-            1115,
-            1116,
-            1117,
-            1118,
-            1119,
-            1120
+            1026,
+            1027,
+            1028,
+            1029,
+            1030,
+            1031
           ]
         },
         {
           "teal": 1093,
           "source": "examples/amm/amm.algo.ts:8",
           "pc": [
-            1121,
-            1122,
-            1123
+            1032,
+            1033,
+            1034
           ]
         },
         {
           "teal": 1094,
           "source": "examples/amm/amm.algo.ts:8",
           "pc": [
-            1124,
-            1125,
-            1126,
-            1127
+            1035,
+            1036,
+            1037,
+            1038
           ]
         },
         {
@@ -4988,94 +4899,94 @@
           "source": "examples/amm/amm.algo.ts:8",
           "errorMessage": "this contract does not implement the given ABI method for create NoOp",
           "pc": [
-            1128
+            1039
           ]
         },
         {
           "teal": 1100,
           "source": "examples/amm/amm.algo.ts:8",
           "pc": [
-            1129,
-            1130,
-            1131,
-            1132,
-            1133,
-            1134
+            1040,
+            1041,
+            1042,
+            1043,
+            1044,
+            1045
           ]
         },
         {
           "teal": 1101,
           "source": "examples/amm/amm.algo.ts:8",
           "pc": [
-            1135,
-            1136,
-            1137,
-            1138,
-            1139,
-            1140
+            1046,
+            1047,
+            1048,
+            1049,
+            1050,
+            1051
           ]
         },
         {
           "teal": 1102,
           "source": "examples/amm/amm.algo.ts:8",
           "pc": [
-            1141,
-            1142,
-            1143,
-            1144,
-            1145,
-            1146
+            1052,
+            1053,
+            1054,
+            1055,
+            1056,
+            1057
           ]
         },
         {
           "teal": 1103,
           "source": "examples/amm/amm.algo.ts:8",
           "pc": [
-            1147,
-            1148,
-            1149,
-            1150,
-            1151,
-            1152
+            1058,
+            1059,
+            1060,
+            1061,
+            1062,
+            1063
           ]
         },
         {
           "teal": 1104,
           "source": "examples/amm/amm.algo.ts:8",
           "pc": [
-            1153,
-            1154,
-            1155,
-            1156,
-            1157,
-            1158
+            1064,
+            1065,
+            1066,
+            1067,
+            1068,
+            1069
           ]
         },
         {
           "teal": 1105,
           "source": "examples/amm/amm.algo.ts:8",
           "pc": [
-            1159,
-            1160,
-            1161
+            1070,
+            1071,
+            1072
           ]
         },
         {
           "teal": 1106,
           "source": "examples/amm/amm.algo.ts:8",
           "pc": [
-            1162,
-            1163,
-            1164,
-            1165,
-            1166,
-            1167,
-            1168,
-            1169,
-            1170,
-            1171,
-            1172,
-            1173
+            1073,
+            1074,
+            1075,
+            1076,
+            1077,
+            1078,
+            1079,
+            1080,
+            1081,
+            1082,
+            1083,
+            1084
           ]
         },
         {
@@ -5083,7 +4994,7 @@
           "source": "examples/amm/amm.algo.ts:8",
           "errorMessage": "this contract does not implement the given ABI method for call NoOp",
           "pc": [
-            1174
+            1085
           ]
         }
       ],
@@ -5095,11 +5006,11 @@
     }
   },
   "source": {
-    "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCmludGNibG9jayAwIDEwMDAwMDAwMDAwIDEgMTAwMApieXRlY2Jsb2NrIDB4IDB4NjEgMHg2MiAweDY3IDB4NzAgMHg3MgoKLy8gVGhpcyBURUFMIHdhcyBnZW5lcmF0ZWQgYnkgVEVBTFNjcmlwdCB2MC4xMDUuMAovLyBodHRwczovL2dpdGh1Yi5jb20vYWxnb3JhbmRmb3VuZGF0aW9uL1RFQUxTY3JpcHQKCi8vIFRoaXMgY29udHJhY3QgaXMgY29tcGxpYW50IHdpdGggYW5kL29yIGltcGxlbWVudHMgdGhlIGZvbGxvd2luZyBBUkNzOiBbIEFSQzQgXQoKLy8gVGhlIGZvbGxvd2luZyB0ZW4gbGluZXMgb2YgVEVBTCBoYW5kbGUgaW5pdGlhbCBwcm9ncmFtIGZsb3cKLy8gVGhpcyBwYXR0ZXJuIGlzIHVzZWQgdG8gbWFrZSBpdCBlYXN5IGZvciBhbnlvbmUgdG8gcGFyc2UgdGhlIHN0YXJ0IG9mIHRoZSBwcm9ncmFtIGFuZCBkZXRlcm1pbmUgaWYgYSBzcGVjaWZpYyBhY3Rpb24gaXMgYWxsb3dlZAovLyBIZXJlLCBhY3Rpb24gcmVmZXJzIHRvIHRoZSBPbkNvbXBsZXRlIGluIGNvbWJpbmF0aW9uIHdpdGggd2hldGhlciB0aGUgYXBwIGlzIGJlaW5nIGNyZWF0ZWQgb3IgY2FsbGVkCi8vIEV2ZXJ5IHBvc3NpYmxlIGFjdGlvbiBmb3IgdGhpcyBjb250cmFjdCBpcyByZXByZXNlbnRlZCBpbiB0aGUgc3dpdGNoIHN0YXRlbWVudAovLyBJZiB0aGUgYWN0aW9uIGlzIG5vdCBpbXBsZW1lbnRlZCBpbiB0aGUgY29udHJhY3QsIGl0cyByZXNwZWN0aXZlIGJyYW5jaCB3aWxsIGJlICIqTk9UX0lNUExFTUVOVEVEIiB3aGljaCBqdXN0IGNvbnRhaW5zICJlcnIiCnR4biBBcHBsaWNhdGlvbklECiEKcHVzaGludCA2CioKdHhuIE9uQ29tcGxldGlvbgorCnN3aXRjaCAqY2FsbF9Ob09wICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqY3JlYXRlX05vT3AgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVECgoqTk9UX0lNUExFTUVOVEVEOgoJLy8gVGhlIHJlcXVlc3RlZCBhY3Rpb24gaXMgbm90IGltcGxlbWVudGVkIGluIHRoaXMgY29udHJhY3QuIEFyZSB5b3UgdXNpbmcgdGhlIGNvcnJlY3QgT25Db21wbGV0ZT8gRGlkIHlvdSBzZXQgeW91ciBhcHAgSUQ/CgllcnIKCi8vIGNyZWF0ZUFwcGxpY2F0aW9uKCl2b2lkCiphYmlfcm91dGVfY3JlYXRlQXBwbGljYXRpb246CgkvLyBleGVjdXRlIGNyZWF0ZUFwcGxpY2F0aW9uKCl2b2lkCgljYWxsc3ViIGNyZWF0ZUFwcGxpY2F0aW9uCglpbnQgMQoJcmV0dXJuCgovLyBjcmVhdGVBcHBsaWNhdGlvbigpOiB2b2lkCmNyZWF0ZUFwcGxpY2F0aW9uOgoJcHJvdG8gMCAwCgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjIwCgkvLyB0aGlzLmdvdmVybm9yLnZhbHVlID0gdGhpcy50eG4uc2VuZGVyCglieXRlIDB4NjcgLy8gImciCgl0eG4gU2VuZGVyCglhcHBfZ2xvYmFsX3B1dAoJcmV0c3ViCgovLyBkb0NyZWF0ZVBvb2xUb2tlbihhQXNzZXQ6IEFzc2V0SUQsIGJBc3NldDogQXNzZXRJRCk6IEFzc2V0SUQKZG9DcmVhdGVQb29sVG9rZW46Cglwcm90byAyIDEKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MjYKCS8vIHJldHVybiBzZW5kQXNzZXRDcmVhdGlvbih7CgkvLyAgICAgICBjb25maWdBc3NldE5hbWU6ICdEUFQtJyArIGFBc3NldC51bml0TmFtZSArICctJyArIGJBc3NldC51bml0TmFtZSwKCS8vICAgICAgIGNvbmZpZ0Fzc2V0VW5pdE5hbWU6ICdkcHQnLAoJLy8gICAgICAgY29uZmlnQXNzZXRUb3RhbDogVE9UQUxfU1VQUExZLAoJLy8gICAgICAgY29uZmlnQXNzZXREZWNpbWFsczogMywKCS8vICAgICAgIGNvbmZpZ0Fzc2V0TWFuYWdlcjogdGhpcy5hcHAuYWRkcmVzcywKCS8vICAgICAgIGNvbmZpZ0Fzc2V0UmVzZXJ2ZTogdGhpcy5hcHAuYWRkcmVzcywKCS8vICAgICB9KTsKCWl0eG5fYmVnaW4KCXB1c2hpbnQgMyAvLyBhY2ZnCglpdHhuX2ZpZWxkIFR5cGVFbnVtCgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjI3CgkvLyBjb25maWdBc3NldE5hbWU6ICdEUFQtJyArIGFBc3NldC51bml0TmFtZSArICctJyArIGJBc3NldC51bml0TmFtZQoJcHVzaGJ5dGVzIDB4NDQ1MDU0MmQgLy8gIkRQVC0iCglmcmFtZV9kaWcgLTEgLy8gYUFzc2V0OiBBc3NldElECglhc3NldF9wYXJhbXNfZ2V0IEFzc2V0VW5pdE5hbWUKCXBvcAoJY29uY2F0CglwdXNoYnl0ZXMgMHgyZCAvLyAiLSIKCWNvbmNhdAoJZnJhbWVfZGlnIC0yIC8vIGJBc3NldDogQXNzZXRJRAoJYXNzZXRfcGFyYW1zX2dldCBBc3NldFVuaXROYW1lCglwb3AKCWNvbmNhdAoJaXR4bl9maWVsZCBDb25maWdBc3NldE5hbWUKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MjgKCS8vIGNvbmZpZ0Fzc2V0VW5pdE5hbWU6ICdkcHQnCglwdXNoYnl0ZXMgMHg2NDcwNzQgLy8gImRwdCIKCWl0eG5fZmllbGQgQ29uZmlnQXNzZXRVbml0TmFtZQoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoyOQoJLy8gY29uZmlnQXNzZXRUb3RhbDogVE9UQUxfU1VQUExZCglpbnQgMTAwMDAwMDAwMDAKCWl0eG5fZmllbGQgQ29uZmlnQXNzZXRUb3RhbAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czozMAoJLy8gY29uZmlnQXNzZXREZWNpbWFsczogMwoJcHVzaGludCAzCglpdHhuX2ZpZWxkIENvbmZpZ0Fzc2V0RGVjaW1hbHMKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MzEKCS8vIGNvbmZpZ0Fzc2V0TWFuYWdlcjogdGhpcy5hcHAuYWRkcmVzcwoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCWl0eG5fZmllbGQgQ29uZmlnQXNzZXRNYW5hZ2VyCgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjMyCgkvLyBjb25maWdBc3NldFJlc2VydmU6IHRoaXMuYXBwLmFkZHJlc3MKCWdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCglpdHhuX2ZpZWxkIENvbmZpZ0Fzc2V0UmVzZXJ2ZQoKCS8vIEZlZSBmaWVsZCBub3Qgc2V0LCBkZWZhdWx0aW5nIHRvIDAKCWludCAwCglpdHhuX2ZpZWxkIEZlZQoKCS8vIFN1Ym1pdCBpbm5lciB0cmFuc2FjdGlvbgoJaXR4bl9zdWJtaXQKCWl0eG4gQ3JlYXRlZEFzc2V0SUQKCXJldHN1YgoKLy8gZG9BeGZlcihyZWNlaXZlcjogQWRkcmVzcywgYXNzZXQ6IEFzc2V0SUQsIGFtb3VudDogdWludDY0KTogdm9pZApkb0F4ZmVyOgoJcHJvdG8gMyAwCgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjM3CgkvLyBzZW5kQXNzZXRUcmFuc2Zlcih7CgkvLyAgICAgICBhc3NldFJlY2VpdmVyOiByZWNlaXZlciwKCS8vICAgICAgIHhmZXJBc3NldDogYXNzZXQsCgkvLyAgICAgICBhc3NldEFtb3VudDogYW1vdW50LAoJLy8gICAgIH0pCglpdHhuX2JlZ2luCglwdXNoaW50IDQgLy8gYXhmZXIKCWl0eG5fZmllbGQgVHlwZUVudW0KCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MzgKCS8vIGFzc2V0UmVjZWl2ZXI6IHJlY2VpdmVyCglmcmFtZV9kaWcgLTEgLy8gcmVjZWl2ZXI6IEFkZHJlc3MKCWl0eG5fZmllbGQgQXNzZXRSZWNlaXZlcgoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czozOQoJLy8geGZlckFzc2V0OiBhc3NldAoJZnJhbWVfZGlnIC0yIC8vIGFzc2V0OiBBc3NldElECglpdHhuX2ZpZWxkIFhmZXJBc3NldAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czo0MAoJLy8gYXNzZXRBbW91bnQ6IGFtb3VudAoJZnJhbWVfZGlnIC0zIC8vIGFtb3VudDogdWludDY0CglpdHhuX2ZpZWxkIEFzc2V0QW1vdW50CgoJLy8gRmVlIGZpZWxkIG5vdCBzZXQsIGRlZmF1bHRpbmcgdG8gMAoJaW50IDAKCWl0eG5fZmllbGQgRmVlCgoJLy8gU3VibWl0IGlubmVyIHRyYW5zYWN0aW9uCglpdHhuX3N1Ym1pdAoJcmV0c3ViCgovLyBkb09wdEluKGFzc2V0OiBBc3NldElEKTogdm9pZApkb09wdEluOgoJcHJvdG8gMSAwCgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjQ1CgkvLyB0aGlzLmRvQXhmZXIodGhpcy5hcHAuYWRkcmVzcywgYXNzZXQsIDApCglpbnQgMAoJZnJhbWVfZGlnIC0xIC8vIGFzc2V0OiBBc3NldElECglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJY2FsbHN1YiBkb0F4ZmVyCglyZXRzdWIKCi8vIHRva2Vuc1RvTWludEludGlhbChhQW1vdW50OiB1aW50NjQsIGJBbW91bnQ6IHVpbnQ2NCk6IHVpbnQ2NAp0b2tlbnNUb01pbnRJbnRpYWw6Cglwcm90byAyIDEKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6NDkKCS8vIHJldHVybiBzcXJ0KGFBbW91bnQgKiBiQW1vdW50KTsKCWZyYW1lX2RpZyAtMSAvLyBhQW1vdW50OiB1aW50NjQKCWZyYW1lX2RpZyAtMiAvLyBiQW1vdW50OiB1aW50NjQKCSoKCXNxcnQKCXJldHN1YgoKLy8gdG9rZW5zVG9NaW50KGlzc3VlZDogdWludDY0LCBhU3VwcGx5OiB1aW50NjQsIGJTdXBwbHk6IHVpbnQ2NCwgYUFtb3VudDogdWludDY0LCBiQW1vdW50OiB1aW50NjQpOiB1aW50NjQKdG9rZW5zVG9NaW50OgoJcHJvdG8gNSAxCgoJLy8gUHVzaCBlbXB0eSBieXRlcyBhZnRlciB0aGUgZnJhbWUgcG9pbnRlciB0byByZXNlcnZlIHNwYWNlIGZvciBsb2NhbCB2YXJpYWJsZXMKCWJ5dGUgMHgKCWR1cG4gMgoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czo1MwoJLy8gYVJhdGlvID0gd2lkZVJhdGlvKFthQW1vdW50LCBTQ0FMRV0sIFthU3VwcGx5XSkKCWZyYW1lX2RpZyAtNCAvLyBhQW1vdW50OiB1aW50NjQKCWludCAxMDAwCgltdWx3CglpbnQgMAoJZnJhbWVfZGlnIC0yIC8vIGFTdXBwbHk6IHVpbnQ2NAoJZGl2bW9kdwoJcG9wCglwb3AKCXN3YXAKCSEKCgkvLyB3aWRlUmF0aW8gZmFpbGVkCglhc3NlcnQKCWZyYW1lX2J1cnkgMCAvLyBhUmF0aW86IHVpbnQ2NAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czo1NAoJLy8gYlJhdGlvID0gd2lkZVJhdGlvKFtiQW1vdW50LCBTQ0FMRV0sIFtiU3VwcGx5XSkKCWZyYW1lX2RpZyAtNSAvLyBiQW1vdW50OiB1aW50NjQKCWludCAxMDAwCgltdWx3CglpbnQgMAoJZnJhbWVfZGlnIC0zIC8vIGJTdXBwbHk6IHVpbnQ2NAoJZGl2bW9kdwoJcG9wCglwb3AKCXN3YXAKCSEKCgkvLyB3aWRlUmF0aW8gZmFpbGVkCglhc3NlcnQKCWZyYW1lX2J1cnkgMSAvLyBiUmF0aW86IHVpbnQ2NAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czo1NgoJLy8gcmF0aW8gPSBhUmF0aW8gPCBiUmF0aW8gPyBhUmF0aW8gOiBiUmF0aW8KCWZyYW1lX2RpZyAwIC8vIGFSYXRpbzogdWludDY0CglmcmFtZV9kaWcgMSAvLyBiUmF0aW86IHVpbnQ2NAoJPAoJYnogKnRlcm5hcnkwX2ZhbHNlCglmcmFtZV9kaWcgMCAvLyBhUmF0aW86IHVpbnQ2NAoJYiAqdGVybmFyeTBfZW5kCgoqdGVybmFyeTBfZmFsc2U6CglmcmFtZV9kaWcgMSAvLyBiUmF0aW86IHVpbnQ2NAoKKnRlcm5hcnkwX2VuZDoKCWZyYW1lX2J1cnkgMiAvLyByYXRpbzogdWludDY0CgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjU4CgkvLyByZXR1cm4gd2lkZVJhdGlvKFtyYXRpbywgaXNzdWVkXSwgW1NDQUxFXSk7CglmcmFtZV9kaWcgMiAvLyByYXRpbzogdWludDY0CglmcmFtZV9kaWcgLTEgLy8gaXNzdWVkOiB1aW50NjQKCW11bHcKCWludCAwCglpbnQgMTAwMAoJZGl2bW9kdwoJcG9wCglwb3AKCXN3YXAKCSEKCgkvLyB3aWRlUmF0aW8gZmFpbGVkCglhc3NlcnQKCgkvLyBzZXQgdGhlIHN1YnJvdXRpbmUgcmV0dXJuIHZhbHVlCglmcmFtZV9idXJ5IDAKCgkvLyBwb3AgYWxsIGxvY2FsIHZhcmlhYmxlcyBmcm9tIHRoZSBzdGFjawoJcG9wbiAyCglyZXRzdWIKCi8vIGNvbXB1dGVSYXRpbygpOiB1aW50NjQKY29tcHV0ZVJhdGlvOgoJcHJvdG8gMCAxCgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjYyCgkvLyByZXR1cm4gd2lkZVJhdGlvKAoJLy8gICAgICAgW3RoaXMuYXBwLmFkZHJlc3MuYXNzZXRCYWxhbmNlKHRoaXMuYXNzZXRBLnZhbHVlKSwgU0NBTEVdLAoJLy8gICAgICAgW3RoaXMuYXBwLmFkZHJlc3MuYXNzZXRCYWxhbmNlKHRoaXMuYXNzZXRCLnZhbHVlKV0KCS8vICAgICApOwoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCWJ5dGUgMHg2MSAvLyAiYSIKCWFwcF9nbG9iYWxfZ2V0Cglhc3NldF9ob2xkaW5nX2dldCBBc3NldEJhbGFuY2UKCXBvcAoJaW50IDEwMDAKCW11bHcKCWludCAwCglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJYnl0ZSAweDYyIC8vICJiIgoJYXBwX2dsb2JhbF9nZXQKCWFzc2V0X2hvbGRpbmdfZ2V0IEFzc2V0QmFsYW5jZQoJcG9wCglkaXZtb2R3Cglwb3AKCXBvcAoJc3dhcAoJIQoKCS8vIHdpZGVSYXRpbyBmYWlsZWQKCWFzc2VydAoJcmV0c3ViCgovLyB0b2tlbnNUb0J1cm4oaXNzdWVkOiB1aW50NjQsIHN1cHBseTogdWludDY0LCBhbW91bnQ6IHVpbnQ2NCk6IHVpbnQ2NAp0b2tlbnNUb0J1cm46Cglwcm90byAzIDEKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6NjkKCS8vIHJldHVybiB3aWRlUmF0aW8oW3N1cHBseSwgYW1vdW50XSwgW2lzc3VlZF0pOwoJZnJhbWVfZGlnIC0yIC8vIHN1cHBseTogdWludDY0CglmcmFtZV9kaWcgLTMgLy8gYW1vdW50OiB1aW50NjQKCW11bHcKCWludCAwCglmcmFtZV9kaWcgLTEgLy8gaXNzdWVkOiB1aW50NjQKCWRpdm1vZHcKCXBvcAoJcG9wCglzd2FwCgkhCgoJLy8gd2lkZVJhdGlvIGZhaWxlZAoJYXNzZXJ0CglyZXRzdWIKCi8vIHRva2Vuc1RvU3dhcChpbkFtb3VudDogdWludDY0LCBpblN1cHBseTogdWludDY0LCBvdXRTdXBwbHk6IHVpbnQ2NCk6IHVpbnQ2NAp0b2tlbnNUb1N3YXA6Cglwcm90byAzIDEKCgkvLyBQdXNoIGVtcHR5IGJ5dGVzIGFmdGVyIHRoZSBmcmFtZSBwb2ludGVyIHRvIHJlc2VydmUgc3BhY2UgZm9yIGxvY2FsIHZhcmlhYmxlcwoJYnl0ZSAweAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czo3MwoJLy8gZmFjdG9yID0gU0NBTEUgLSBGRUUKCXB1c2hpbnQgOTk1CglmcmFtZV9idXJ5IDAgLy8gZmFjdG9yOiB1aW50NjQKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6NzQKCS8vIHJldHVybiB3aWRlUmF0aW8oW2luQW1vdW50LCBmYWN0b3IsIG91dFN1cHBseV0sIFtpblN1cHBseSAqIFNDQUxFICsgaW5BbW91bnQgKiBmYWN0b3JdKTsKCWZyYW1lX2RpZyAtMSAvLyBpbkFtb3VudDogdWludDY0CglmcmFtZV9kaWcgMCAvLyBmYWN0b3I6IHVpbnQ2NAoJbXVsdwoJZnJhbWVfZGlnIC0zIC8vIG91dFN1cHBseTogdWludDY0Cgl1bmNvdmVyIDIKCWRpZyAxCgkqCgljb3ZlciAyCgltdWx3Cgljb3ZlciAyCgkrCglzd2FwCglpbnQgMAoJZnJhbWVfZGlnIC0yIC8vIGluU3VwcGx5OiB1aW50NjQKCWludCAxMDAwCgkqCglmcmFtZV9kaWcgLTEgLy8gaW5BbW91bnQ6IHVpbnQ2NAoJZnJhbWVfZGlnIDAgLy8gZmFjdG9yOiB1aW50NjQKCSoKCSsKCWRpdm1vZHcKCXBvcAoJcG9wCglzd2FwCgkhCgoJLy8gd2lkZVJhdGlvIGZhaWxlZAoJYXNzZXJ0CgoJLy8gc2V0IHRoZSBzdWJyb3V0aW5lIHJldHVybiB2YWx1ZQoJZnJhbWVfYnVyeSAwCglyZXRzdWIKCi8vIHNldF9nb3Zlcm5vcihhZGRyZXNzKXZvaWQKKmFiaV9yb3V0ZV9zZXRfZ292ZXJub3I6CgkvLyBnb3Zlcm5vcjogYWRkcmVzcwoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJZHVwCglsZW4KCXB1c2hpbnQgMzIKCT09CgoJLy8gYXJndW1lbnQgMCAoZ292ZXJub3IpIGZvciBzZXRfZ292ZXJub3IgbXVzdCBiZSBhIGFkZHJlc3MKCWFzc2VydAoKCS8vIGV4ZWN1dGUgc2V0X2dvdmVybm9yKGFkZHJlc3Mpdm9pZAoJY2FsbHN1YiBzZXRfZ292ZXJub3IKCWludCAxCglyZXR1cm4KCi8vIHNldF9nb3Zlcm5vcihnb3Zlcm5vcjogQWRkcmVzcyk6IHZvaWQKc2V0X2dvdmVybm9yOgoJcHJvdG8gMSAwCgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjc4CgkvLyB2ZXJpZnlBcHBDYWxsVHhuKHRoaXMudHhuLCB7IHNlbmRlcjogdGhpcy5nb3Zlcm5vci52YWx1ZSB9KQoJLy8gdmVyaWZ5IHNlbmRlcgoJdHhuIFNlbmRlcgoJYnl0ZSAweDY3IC8vICJnIgoJYXBwX2dsb2JhbF9nZXQKCT09CgoJLy8gdHJhbnNhY3Rpb24gdmVyaWZpY2F0aW9uIGZhaWxlZDogeyJ0eG4iOiJ0aGlzLnR4biIsImZpZWxkIjoic2VuZGVyIiwiZXhwZWN0ZWQiOiJ0aGlzLmdvdmVybm9yLnZhbHVlIn0KCWFzc2VydAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czo3OQoJLy8gdGhpcy5nb3Zlcm5vci52YWx1ZSA9IGdvdmVybm9yCglieXRlIDB4NjcgLy8gImciCglmcmFtZV9kaWcgLTEgLy8gZ292ZXJub3I6IEFkZHJlc3MKCWFwcF9nbG9iYWxfcHV0CglyZXRzdWIKCi8vIGJvb3RzdHJhcChwYXksdWludDY0LHVpbnQ2NCl1aW50NjQKKmFiaV9yb3V0ZV9ib290c3RyYXA6CgkvLyBUaGUgQUJJIHJldHVybiBwcmVmaXgKCXB1c2hieXRlcyAweDE1MWY3Yzc1CgoJLy8gYkFzc2V0OiB1aW50NjQKCXR4bmEgQXBwbGljYXRpb25BcmdzIDIKCWJ0b2kKCgkvLyBhQXNzZXQ6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJYnRvaQoKCS8vIHNlZWQ6IHBheQoJdHhuIEdyb3VwSW5kZXgKCWludCAxCgktCglkdXAKCWd0eG5zIFR5cGVFbnVtCglpbnQgMSAvLyBwYXkKCT09CgoJLy8gYXJndW1lbnQgMiAoc2VlZCkgZm9yIGJvb3RzdHJhcCBtdXN0IGJlIGEgcGF5IHRyYW5zYWN0aW9uCglhc3NlcnQKCgkvLyBleGVjdXRlIGJvb3RzdHJhcChwYXksdWludDY0LHVpbnQ2NCl1aW50NjQKCWNhbGxzdWIgYm9vdHN0cmFwCglpdG9iCgljb25jYXQKCWxvZwoJaW50IDEKCXJldHVybgoKLy8gYm9vdHN0cmFwKHNlZWQ6IFBheVR4biwgYUFzc2V0OiBBc3NldElELCBiQXNzZXQ6IEFzc2V0SUQpOiBBc3NldElECmJvb3RzdHJhcDoKCXByb3RvIDMgMQoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czo4MwoJLy8gdmVyaWZ5QXBwQ2FsbFR4bih0aGlzLnR4biwgeyBzZW5kZXI6IHRoaXMuZ292ZXJub3IudmFsdWUgfSkKCS8vIHZlcmlmeSBzZW5kZXIKCXR4biBTZW5kZXIKCWJ5dGUgMHg2NyAvLyAiZyIKCWFwcF9nbG9iYWxfZ2V0Cgk9PQoKCS8vIHRyYW5zYWN0aW9uIHZlcmlmaWNhdGlvbiBmYWlsZWQ6IHsidHhuIjoidGhpcy50eG4iLCJmaWVsZCI6InNlbmRlciIsImV4cGVjdGVkIjoidGhpcy5nb3Zlcm5vci52YWx1ZSJ9Cglhc3NlcnQKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6ODUKCS8vIGFzc2VydChnbG9iYWxzLmdyb3VwU2l6ZSA9PT0gMikKCWdsb2JhbCBHcm91cFNpemUKCXB1c2hpbnQgMgoJPT0KCWFzc2VydAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czo4NwoJLy8gdmVyaWZ5UGF5VHhuKHNlZWQsIHsgcmVjZWl2ZXI6IHRoaXMuYXBwLmFkZHJlc3MsIGFtb3VudDogeyBncmVhdGVyVGhhbkVxdWFsVG86IDMwMF8wMDAgfSB9KQoJLy8gdmVyaWZ5IHJlY2VpdmVyCglmcmFtZV9kaWcgLTEgLy8gc2VlZDogUGF5VHhuCglndHhucyBSZWNlaXZlcgoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCT09CgoJLy8gdHJhbnNhY3Rpb24gdmVyaWZpY2F0aW9uIGZhaWxlZDogeyJ0eG4iOiJzZWVkIiwiZmllbGQiOiJyZWNlaXZlciIsImV4cGVjdGVkIjoidGhpcy5hcHAuYWRkcmVzcyJ9Cglhc3NlcnQKCgkvLyB2ZXJpZnkgYW1vdW50CglmcmFtZV9kaWcgLTEgLy8gc2VlZDogUGF5VHhuCglndHhucyBBbW91bnQKCXB1c2hpbnQgMzAwXzAwMAoJPj0KCgkvLyB0cmFuc2FjdGlvbiB2ZXJpZmljYXRpb24gZmFpbGVkOiB7InR4biI6InNlZWQiLCJmaWVsZCI6ImFtb3VudCIsImNvbmRpdGlvbiI6ImdyZWF0ZXJUaGFuRXF1YWxUbyIsImV4cGVjdGVkIjoiPj0zMDBfMDAwIn0KCWFzc2VydAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czo4OAoJLy8gYXNzZXJ0KGFBc3NldCA8IGJBc3NldCkKCWZyYW1lX2RpZyAtMiAvLyBhQXNzZXQ6IEFzc2V0SUQKCWZyYW1lX2RpZyAtMyAvLyBiQXNzZXQ6IEFzc2V0SUQKCTwKCWFzc2VydAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czo5MAoJLy8gdGhpcy5hc3NldEEudmFsdWUgPSBhQXNzZXQKCWJ5dGUgMHg2MSAvLyAiYSIKCWZyYW1lX2RpZyAtMiAvLyBhQXNzZXQ6IEFzc2V0SUQKCWFwcF9nbG9iYWxfcHV0CgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjkxCgkvLyB0aGlzLmFzc2V0Qi52YWx1ZSA9IGJBc3NldAoJYnl0ZSAweDYyIC8vICJiIgoJZnJhbWVfZGlnIC0zIC8vIGJBc3NldDogQXNzZXRJRAoJYXBwX2dsb2JhbF9wdXQKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6OTIKCS8vIHRoaXMucG9vbFRva2VuLnZhbHVlID0gdGhpcy5kb0NyZWF0ZVBvb2xUb2tlbihhQXNzZXQsIGJBc3NldCkKCWJ5dGUgMHg3MCAvLyAicCIKCWZyYW1lX2RpZyAtMyAvLyBiQXNzZXQ6IEFzc2V0SUQKCWZyYW1lX2RpZyAtMiAvLyBhQXNzZXQ6IEFzc2V0SUQKCWNhbGxzdWIgZG9DcmVhdGVQb29sVG9rZW4KCWFwcF9nbG9iYWxfcHV0CgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjk0CgkvLyB0aGlzLmRvT3B0SW4oYUFzc2V0KQoJZnJhbWVfZGlnIC0yIC8vIGFBc3NldDogQXNzZXRJRAoJY2FsbHN1YiBkb09wdEluCgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjk1CgkvLyB0aGlzLmRvT3B0SW4oYkFzc2V0KQoJZnJhbWVfZGlnIC0zIC8vIGJBc3NldDogQXNzZXRJRAoJY2FsbHN1YiBkb09wdEluCgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjk3CgkvLyByZXR1cm4gdGhpcy5wb29sVG9rZW4udmFsdWU7CglieXRlIDB4NzAgLy8gInAiCglhcHBfZ2xvYmFsX2dldAoJcmV0c3ViCgovLyBtaW50KGF4ZmVyLGF4ZmVyLHVpbnQ2NCx1aW50NjQsdWludDY0KXZvaWQKKmFiaV9yb3V0ZV9taW50OgoJLy8gYkFzc2V0OiB1aW50NjQKCXR4bmEgQXBwbGljYXRpb25BcmdzIDMKCWJ0b2kKCgkvLyBhQXNzZXQ6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgoJYnRvaQoKCS8vIHBvb2xBc3NldDogdWludDY0Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglidG9pCgoJLy8gYlhmZXI6IGF4ZmVyCgl0eG4gR3JvdXBJbmRleAoJaW50IDEKCS0KCWR1cAoJZ3R4bnMgVHlwZUVudW0KCXB1c2hpbnQgNCAvLyBheGZlcgoJPT0KCgkvLyBhcmd1bWVudCAzIChiWGZlcikgZm9yIG1pbnQgbXVzdCBiZSBhIGF4ZmVyIHRyYW5zYWN0aW9uCglhc3NlcnQKCgkvLyBhWGZlcjogYXhmZXIKCXR4biBHcm91cEluZGV4CglwdXNoaW50IDIKCS0KCWR1cAoJZ3R4bnMgVHlwZUVudW0KCXB1c2hpbnQgNCAvLyBheGZlcgoJPT0KCgkvLyBhcmd1bWVudCA0IChhWGZlcikgZm9yIG1pbnQgbXVzdCBiZSBhIGF4ZmVyIHRyYW5zYWN0aW9uCglhc3NlcnQKCgkvLyBleGVjdXRlIG1pbnQoYXhmZXIsYXhmZXIsdWludDY0LHVpbnQ2NCx1aW50NjQpdm9pZAoJY2FsbHN1YiBtaW50CglpbnQgMQoJcmV0dXJuCgovLyBtaW50KGFYZmVyOiBBc3NldFRyYW5zZmVyVHhuLCBiWGZlcjogQXNzZXRUcmFuc2ZlclR4biwgcG9vbEFzc2V0OiBBc3NldElELCBhQXNzZXQ6IEFzc2V0SUQsIGJBc3NldDogQXNzZXRJRCk6IHZvaWQKbWludDoKCXByb3RvIDUgMAoKCS8vIFB1c2ggZW1wdHkgYnl0ZXMgYWZ0ZXIgdGhlIGZyYW1lIHBvaW50ZXIgdG8gcmVzZXJ2ZSBzcGFjZSBmb3IgbG9jYWwgdmFyaWFibGVzCglieXRlIDB4CgoJLy8gd2VsbCBmb3JtZWQgbWludAoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjEwMgoJLy8gYXNzZXJ0KGFBc3NldCA9PT0gdGhpcy5hc3NldEEudmFsdWUpCglmcmFtZV9kaWcgLTQgLy8gYUFzc2V0OiBBc3NldElECglieXRlIDB4NjEgLy8gImEiCglhcHBfZ2xvYmFsX2dldAoJPT0KCWFzc2VydAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoxMDMKCS8vIGFzc2VydChiQXNzZXQgPT09IHRoaXMuYXNzZXRCLnZhbHVlKQoJZnJhbWVfZGlnIC01IC8vIGJBc3NldDogQXNzZXRJRAoJYnl0ZSAweDYyIC8vICJiIgoJYXBwX2dsb2JhbF9nZXQKCT09Cglhc3NlcnQKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTA0CgkvLyBhc3NlcnQocG9vbEFzc2V0ID09PSB0aGlzLnBvb2xUb2tlbi52YWx1ZSkKCWZyYW1lX2RpZyAtMyAvLyBwb29sQXNzZXQ6IEFzc2V0SUQKCWJ5dGUgMHg3MCAvLyAicCIKCWFwcF9nbG9iYWxfZ2V0Cgk9PQoJYXNzZXJ0CgoJLy8gdmFsaWQgYXNzZXQgQSBheGZlcgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjEwNwoJLy8gdmVyaWZ5QXNzZXRUcmFuc2ZlclR4bihhWGZlciwgewoJLy8gICAgICAgc2VuZGVyOiB0aGlzLnR4bi5zZW5kZXIsCgkvLyAgICAgICBhc3NldEFtb3VudDogeyBncmVhdGVyVGhhbjogMCB9LAoJLy8gICAgICAgYXNzZXRSZWNlaXZlcjogdGhpcy5hcHAuYWRkcmVzcywKCS8vICAgICAgIHhmZXJBc3NldDogYUFzc2V0LAoJLy8gICAgIH0pCgkvLyB2ZXJpZnkgc2VuZGVyCglmcmFtZV9kaWcgLTEgLy8gYVhmZXI6IEFzc2V0VHJhbnNmZXJUeG4KCWd0eG5zIFNlbmRlcgoJdHhuIFNlbmRlcgoJPT0KCgkvLyB0cmFuc2FjdGlvbiB2ZXJpZmljYXRpb24gZmFpbGVkOiB7InR4biI6ImFYZmVyIiwiZmllbGQiOiJzZW5kZXIiLCJleHBlY3RlZCI6InRoaXMudHhuLnNlbmRlciJ9Cglhc3NlcnQKCgkvLyB2ZXJpZnkgYXNzZXRBbW91bnQKCWZyYW1lX2RpZyAtMSAvLyBhWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgQXNzZXRBbW91bnQKCWludCAwCgk+CgoJLy8gdHJhbnNhY3Rpb24gdmVyaWZpY2F0aW9uIGZhaWxlZDogeyJ0eG4iOiJhWGZlciIsImZpZWxkIjoiYXNzZXRBbW91bnQiLCJjb25kaXRpb24iOiJncmVhdGVyVGhhbiIsImV4cGVjdGVkIjoiPjAifQoJYXNzZXJ0CgoJLy8gdmVyaWZ5IGFzc2V0UmVjZWl2ZXIKCWZyYW1lX2RpZyAtMSAvLyBhWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgQXNzZXRSZWNlaXZlcgoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCT09CgoJLy8gdHJhbnNhY3Rpb24gdmVyaWZpY2F0aW9uIGZhaWxlZDogeyJ0eG4iOiJhWGZlciIsImZpZWxkIjoiYXNzZXRSZWNlaXZlciIsImV4cGVjdGVkIjoidGhpcy5hcHAuYWRkcmVzcyJ9Cglhc3NlcnQKCgkvLyB2ZXJpZnkgeGZlckFzc2V0CglmcmFtZV9kaWcgLTEgLy8gYVhmZXI6IEFzc2V0VHJhbnNmZXJUeG4KCWd0eG5zIFhmZXJBc3NldAoJZnJhbWVfZGlnIC00IC8vIGFBc3NldDogQXNzZXRJRAoJPT0KCgkvLyB0cmFuc2FjdGlvbiB2ZXJpZmljYXRpb24gZmFpbGVkOiB7InR4biI6ImFYZmVyIiwiZmllbGQiOiJ4ZmVyQXNzZXQiLCJleHBlY3RlZCI6ImFBc3NldCJ9Cglhc3NlcnQKCgkvLyB2YWxpZCBhc3NldCBCIGF4ZmVyCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTE1CgkvLyB2ZXJpZnlBc3NldFRyYW5zZmVyVHhuKGJYZmVyLCB7CgkvLyAgICAgICBzZW5kZXI6IHRoaXMudHhuLnNlbmRlciwKCS8vICAgICAgIGFzc2V0QW1vdW50OiB7IGdyZWF0ZXJUaGFuOiAwIH0sCgkvLyAgICAgICBhc3NldFJlY2VpdmVyOiB0aGlzLmFwcC5hZGRyZXNzLAoJLy8gICAgICAgeGZlckFzc2V0OiBiQXNzZXQsCgkvLyAgICAgfSkKCS8vIHZlcmlmeSBzZW5kZXIKCWZyYW1lX2RpZyAtMiAvLyBiWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgU2VuZGVyCgl0eG4gU2VuZGVyCgk9PQoKCS8vIHRyYW5zYWN0aW9uIHZlcmlmaWNhdGlvbiBmYWlsZWQ6IHsidHhuIjoiYlhmZXIiLCJmaWVsZCI6InNlbmRlciIsImV4cGVjdGVkIjoidGhpcy50eG4uc2VuZGVyIn0KCWFzc2VydAoKCS8vIHZlcmlmeSBhc3NldEFtb3VudAoJZnJhbWVfZGlnIC0yIC8vIGJYZmVyOiBBc3NldFRyYW5zZmVyVHhuCglndHhucyBBc3NldEFtb3VudAoJaW50IDAKCT4KCgkvLyB0cmFuc2FjdGlvbiB2ZXJpZmljYXRpb24gZmFpbGVkOiB7InR4biI6ImJYZmVyIiwiZmllbGQiOiJhc3NldEFtb3VudCIsImNvbmRpdGlvbiI6ImdyZWF0ZXJUaGFuIiwiZXhwZWN0ZWQiOiI+MCJ9Cglhc3NlcnQKCgkvLyB2ZXJpZnkgYXNzZXRSZWNlaXZlcgoJZnJhbWVfZGlnIC0yIC8vIGJYZmVyOiBBc3NldFRyYW5zZmVyVHhuCglndHhucyBBc3NldFJlY2VpdmVyCglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJPT0KCgkvLyB0cmFuc2FjdGlvbiB2ZXJpZmljYXRpb24gZmFpbGVkOiB7InR4biI6ImJYZmVyIiwiZmllbGQiOiJhc3NldFJlY2VpdmVyIiwiZXhwZWN0ZWQiOiJ0aGlzLmFwcC5hZGRyZXNzIn0KCWFzc2VydAoKCS8vIHZlcmlmeSB4ZmVyQXNzZXQKCWZyYW1lX2RpZyAtMiAvLyBiWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgWGZlckFzc2V0CglmcmFtZV9kaWcgLTUgLy8gYkFzc2V0OiBBc3NldElECgk9PQoKCS8vIHRyYW5zYWN0aW9uIHZlcmlmaWNhdGlvbiBmYWlsZWQ6IHsidHhuIjoiYlhmZXIiLCJmaWVsZCI6InhmZXJBc3NldCIsImV4cGVjdGVkIjoiYkFzc2V0In0KCWFzc2VydAoKCS8vICppZjBfY29uZGl0aW9uCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTIzCgkvLyB0aGlzLmFwcC5hZGRyZXNzLmFzc2V0QmFsYW5jZShhQXNzZXQpID09PSBhWGZlci5hc3NldEFtb3VudCAmJgoJLy8gICAgICAgdGhpcy5hcHAuYWRkcmVzcy5hc3NldEJhbGFuY2UoYkFzc2V0KSA9PT0gYlhmZXIuYXNzZXRBbW91bnQKCWdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCglmcmFtZV9kaWcgLTQgLy8gYUFzc2V0OiBBc3NldElECglhc3NldF9ob2xkaW5nX2dldCBBc3NldEJhbGFuY2UKCXBvcAoJZnJhbWVfZGlnIC0xIC8vIGFYZmVyOiBBc3NldFRyYW5zZmVyVHhuCglndHhucyBBc3NldEFtb3VudAoJPT0KCWR1cAoJYnogKnNraXBfYW5kMAoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCWZyYW1lX2RpZyAtNSAvLyBiQXNzZXQ6IEFzc2V0SUQKCWFzc2V0X2hvbGRpbmdfZ2V0IEFzc2V0QmFsYW5jZQoJcG9wCglmcmFtZV9kaWcgLTIgLy8gYlhmZXI6IEFzc2V0VHJhbnNmZXJUeG4KCWd0eG5zIEFzc2V0QW1vdW50Cgk9PQoJJiYKCipza2lwX2FuZDA6CglieiAqaWYwX2Vsc2UKCgkvLyAqaWYwX2NvbnNlcXVlbnQKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoxMjYKCS8vIHRoaXMudG9rZW5zVG9NaW50SW50aWFsKGFYZmVyLmFzc2V0QW1vdW50LCBiWGZlci5hc3NldEFtb3VudCkKCWZyYW1lX2RpZyAtMiAvLyBiWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgQXNzZXRBbW91bnQKCWZyYW1lX2RpZyAtMSAvLyBhWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgQXNzZXRBbW91bnQKCWNhbGxzdWIgdG9rZW5zVG9NaW50SW50aWFsCgliICppZjBfZW5kCgoqaWYwX2Vsc2U6CgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTI4CgkvLyB0b01pbnQgPSB0aGlzLnRva2Vuc1RvTWludCgKCS8vICAgICAgICAgVE9UQUxfU1VQUExZIC0gdGhpcy5hcHAuYWRkcmVzcy5hc3NldEJhbGFuY2UocG9vbEFzc2V0KSwKCS8vICAgICAgICAgdGhpcy5hcHAuYWRkcmVzcy5hc3NldEJhbGFuY2UoYUFzc2V0KSAtIGFYZmVyLmFzc2V0QW1vdW50LAoJLy8gICAgICAgICB0aGlzLmFwcC5hZGRyZXNzLmFzc2V0QmFsYW5jZShiQXNzZXQpIC0gYlhmZXIuYXNzZXRBbW91bnQsCgkvLyAgICAgICAgIGFYZmVyLmFzc2V0QW1vdW50LAoJLy8gICAgICAgICBiWGZlci5hc3NldEFtb3VudAoJLy8gICAgICAgKQoJZnJhbWVfZGlnIC0yIC8vIGJYZmVyOiBBc3NldFRyYW5zZmVyVHhuCglndHhucyBBc3NldEFtb3VudAoJZnJhbWVfZGlnIC0xIC8vIGFYZmVyOiBBc3NldFRyYW5zZmVyVHhuCglndHhucyBBc3NldEFtb3VudAoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCWZyYW1lX2RpZyAtNSAvLyBiQXNzZXQ6IEFzc2V0SUQKCWFzc2V0X2hvbGRpbmdfZ2V0IEFzc2V0QmFsYW5jZQoJcG9wCglmcmFtZV9kaWcgLTIgLy8gYlhmZXI6IEFzc2V0VHJhbnNmZXJUeG4KCWd0eG5zIEFzc2V0QW1vdW50CgktCglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJZnJhbWVfZGlnIC00IC8vIGFBc3NldDogQXNzZXRJRAoJYXNzZXRfaG9sZGluZ19nZXQgQXNzZXRCYWxhbmNlCglwb3AKCWZyYW1lX2RpZyAtMSAvLyBhWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgQXNzZXRBbW91bnQKCS0KCWludCAxMDAwMDAwMDAwMAoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCWZyYW1lX2RpZyAtMyAvLyBwb29sQXNzZXQ6IEFzc2V0SUQKCWFzc2V0X2hvbGRpbmdfZ2V0IEFzc2V0QmFsYW5jZQoJcG9wCgktCgljYWxsc3ViIHRva2Vuc1RvTWludAoJZnJhbWVfYnVyeSAwIC8vIHRvTWludDogdWludDY0CgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjEzNgoJLy8gYXNzZXJ0KHRvTWludCA+IDApCglmcmFtZV9kaWcgMCAvLyB0b01pbnQ6IHVpbnQ2NAoJaW50IDAKCT4KCWFzc2VydAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoxMzgKCS8vIHRoaXMuZG9BeGZlcih0aGlzLnR4bi5zZW5kZXIsIHBvb2xBc3NldCwgdG9NaW50KQoJZnJhbWVfZGlnIDAgLy8gdG9NaW50OiB1aW50NjQKCWZyYW1lX2RpZyAtMyAvLyBwb29sQXNzZXQ6IEFzc2V0SUQKCXR4biBTZW5kZXIKCWNhbGxzdWIgZG9BeGZlcgoKKmlmMF9lbmQ6CglyZXRzdWIKCi8vIGJ1cm4oYXhmZXIsdWludDY0LHVpbnQ2NCx1aW50NjQpdm9pZAoqYWJpX3JvdXRlX2J1cm46CgkvLyBiQXNzZXQ6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMwoJYnRvaQoKCS8vIGFBc3NldDogdWludDY0Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAyCglidG9pCgoJLy8gcG9vbEFzc2V0OiB1aW50NjQKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWJ0b2kKCgkvLyBwb29sWGZlcjogYXhmZXIKCXR4biBHcm91cEluZGV4CglpbnQgMQoJLQoJZHVwCglndHhucyBUeXBlRW51bQoJcHVzaGludCA0IC8vIGF4ZmVyCgk9PQoKCS8vIGFyZ3VtZW50IDMgKHBvb2xYZmVyKSBmb3IgYnVybiBtdXN0IGJlIGEgYXhmZXIgdHJhbnNhY3Rpb24KCWFzc2VydAoKCS8vIGV4ZWN1dGUgYnVybihheGZlcix1aW50NjQsdWludDY0LHVpbnQ2NCl2b2lkCgljYWxsc3ViIGJ1cm4KCWludCAxCglyZXR1cm4KCi8vIGJ1cm4ocG9vbFhmZXI6IEFzc2V0VHJhbnNmZXJUeG4sIHBvb2xBc3NldDogQXNzZXRJRCwgYUFzc2V0OiBBc3NldElELCBiQXNzZXQ6IEFzc2V0SUQpOiB2b2lkCmJ1cm46Cglwcm90byA0IDAKCgkvLyBQdXNoIGVtcHR5IGJ5dGVzIGFmdGVyIHRoZSBmcmFtZSBwb2ludGVyIHRvIHJlc2VydmUgc3BhY2UgZm9yIGxvY2FsIHZhcmlhYmxlcwoJYnl0ZSAweAoJZHVwbiAyCgoJLy8gd2VsbCBmb3JtZWQgYnVybgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjE0NAoJLy8gYXNzZXJ0KHBvb2xBc3NldCA9PT0gdGhpcy5wb29sVG9rZW4udmFsdWUpCglmcmFtZV9kaWcgLTIgLy8gcG9vbEFzc2V0OiBBc3NldElECglieXRlIDB4NzAgLy8gInAiCglhcHBfZ2xvYmFsX2dldAoJPT0KCWFzc2VydAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoxNDUKCS8vIGFzc2VydChhQXNzZXQgPT09IHRoaXMuYXNzZXRBLnZhbHVlKQoJZnJhbWVfZGlnIC0zIC8vIGFBc3NldDogQXNzZXRJRAoJYnl0ZSAweDYxIC8vICJhIgoJYXBwX2dsb2JhbF9nZXQKCT09Cglhc3NlcnQKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTQ2CgkvLyBhc3NlcnQoYkFzc2V0ID09PSB0aGlzLmFzc2V0Qi52YWx1ZSkKCWZyYW1lX2RpZyAtNCAvLyBiQXNzZXQ6IEFzc2V0SUQKCWJ5dGUgMHg2MiAvLyAiYiIKCWFwcF9nbG9iYWxfZ2V0Cgk9PQoJYXNzZXJ0CgoJLy8gdmFsaWQgcG9vbCBheGZlcgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjE0OQoJLy8gdmVyaWZ5QXNzZXRUcmFuc2ZlclR4bihwb29sWGZlciwgewoJLy8gICAgICAgc2VuZGVyOiB0aGlzLnR4bi5zZW5kZXIsCgkvLyAgICAgICBhc3NldEFtb3VudDogeyBncmVhdGVyVGhhbjogMCB9LAoJLy8gICAgICAgYXNzZXRSZWNlaXZlcjogdGhpcy5hcHAuYWRkcmVzcywKCS8vICAgICAgIHhmZXJBc3NldDogcG9vbEFzc2V0LAoJLy8gICAgIH0pCgkvLyB2ZXJpZnkgc2VuZGVyCglmcmFtZV9kaWcgLTEgLy8gcG9vbFhmZXI6IEFzc2V0VHJhbnNmZXJUeG4KCWd0eG5zIFNlbmRlcgoJdHhuIFNlbmRlcgoJPT0KCgkvLyB0cmFuc2FjdGlvbiB2ZXJpZmljYXRpb24gZmFpbGVkOiB7InR4biI6InBvb2xYZmVyIiwiZmllbGQiOiJzZW5kZXIiLCJleHBlY3RlZCI6InRoaXMudHhuLnNlbmRlciJ9Cglhc3NlcnQKCgkvLyB2ZXJpZnkgYXNzZXRBbW91bnQKCWZyYW1lX2RpZyAtMSAvLyBwb29sWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgQXNzZXRBbW91bnQKCWludCAwCgk+CgoJLy8gdHJhbnNhY3Rpb24gdmVyaWZpY2F0aW9uIGZhaWxlZDogeyJ0eG4iOiJwb29sWGZlciIsImZpZWxkIjoiYXNzZXRBbW91bnQiLCJjb25kaXRpb24iOiJncmVhdGVyVGhhbiIsImV4cGVjdGVkIjoiPjAifQoJYXNzZXJ0CgoJLy8gdmVyaWZ5IGFzc2V0UmVjZWl2ZXIKCWZyYW1lX2RpZyAtMSAvLyBwb29sWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgQXNzZXRSZWNlaXZlcgoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCT09CgoJLy8gdHJhbnNhY3Rpb24gdmVyaWZpY2F0aW9uIGZhaWxlZDogeyJ0eG4iOiJwb29sWGZlciIsImZpZWxkIjoiYXNzZXRSZWNlaXZlciIsImV4cGVjdGVkIjoidGhpcy5hcHAuYWRkcmVzcyJ9Cglhc3NlcnQKCgkvLyB2ZXJpZnkgeGZlckFzc2V0CglmcmFtZV9kaWcgLTEgLy8gcG9vbFhmZXI6IEFzc2V0VHJhbnNmZXJUeG4KCWd0eG5zIFhmZXJBc3NldAoJZnJhbWVfZGlnIC0yIC8vIHBvb2xBc3NldDogQXNzZXRJRAoJPT0KCgkvLyB0cmFuc2FjdGlvbiB2ZXJpZmljYXRpb24gZmFpbGVkOiB7InR4biI6InBvb2xYZmVyIiwiZmllbGQiOiJ4ZmVyQXNzZXQiLCJleHBlY3RlZCI6InBvb2xBc3NldCJ9Cglhc3NlcnQKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTU2CgkvLyBpc3N1ZWQgPSBUT1RBTF9TVVBQTFkgLSAodGhpcy5hcHAuYWRkcmVzcy5hc3NldEJhbGFuY2UocG9vbEFzc2V0KSAtIHBvb2xYZmVyLmFzc2V0QW1vdW50KQoJaW50IDEwMDAwMDAwMDAwCglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJZnJhbWVfZGlnIC0yIC8vIHBvb2xBc3NldDogQXNzZXRJRAoJYXNzZXRfaG9sZGluZ19nZXQgQXNzZXRCYWxhbmNlCglwb3AKCWZyYW1lX2RpZyAtMSAvLyBwb29sWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgQXNzZXRBbW91bnQKCS0KCS0KCWZyYW1lX2J1cnkgMCAvLyBpc3N1ZWQ6IHVpbnQ2NAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoxNTgKCS8vIGFBbXQgPSB0aGlzLnRva2Vuc1RvQnVybihpc3N1ZWQsIHRoaXMuYXBwLmFkZHJlc3MuYXNzZXRCYWxhbmNlKGFBc3NldCksIHBvb2xYZmVyLmFzc2V0QW1vdW50KQoJZnJhbWVfZGlnIC0xIC8vIHBvb2xYZmVyOiBBc3NldFRyYW5zZmVyVHhuCglndHhucyBBc3NldEFtb3VudAoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCWZyYW1lX2RpZyAtMyAvLyBhQXNzZXQ6IEFzc2V0SUQKCWFzc2V0X2hvbGRpbmdfZ2V0IEFzc2V0QmFsYW5jZQoJcG9wCglmcmFtZV9kaWcgMCAvLyBpc3N1ZWQ6IHVpbnQ2NAoJY2FsbHN1YiB0b2tlbnNUb0J1cm4KCWZyYW1lX2J1cnkgMSAvLyBhQW10OiB1aW50NjQKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTYwCgkvLyBiQW10ID0gdGhpcy50b2tlbnNUb0J1cm4oaXNzdWVkLCB0aGlzLmFwcC5hZGRyZXNzLmFzc2V0QmFsYW5jZShiQXNzZXQpLCBwb29sWGZlci5hc3NldEFtb3VudCkKCWZyYW1lX2RpZyAtMSAvLyBwb29sWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgQXNzZXRBbW91bnQKCWdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCglmcmFtZV9kaWcgLTQgLy8gYkFzc2V0OiBBc3NldElECglhc3NldF9ob2xkaW5nX2dldCBBc3NldEJhbGFuY2UKCXBvcAoJZnJhbWVfZGlnIDAgLy8gaXNzdWVkOiB1aW50NjQKCWNhbGxzdWIgdG9rZW5zVG9CdXJuCglmcmFtZV9idXJ5IDIgLy8gYkFtdDogdWludDY0CgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjE2MgoJLy8gdGhpcy5kb0F4ZmVyKHRoaXMudHhuLnNlbmRlciwgYUFzc2V0LCBhQW10KQoJZnJhbWVfZGlnIDEgLy8gYUFtdDogdWludDY0CglmcmFtZV9kaWcgLTMgLy8gYUFzc2V0OiBBc3NldElECgl0eG4gU2VuZGVyCgljYWxsc3ViIGRvQXhmZXIKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTYzCgkvLyB0aGlzLmRvQXhmZXIodGhpcy50eG4uc2VuZGVyLCBiQXNzZXQsIGJBbXQpCglmcmFtZV9kaWcgMiAvLyBiQW10OiB1aW50NjQKCWZyYW1lX2RpZyAtNCAvLyBiQXNzZXQ6IEFzc2V0SUQKCXR4biBTZW5kZXIKCWNhbGxzdWIgZG9BeGZlcgoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoxNjUKCS8vIHRoaXMucmF0aW8udmFsdWUgPSB0aGlzLmNvbXB1dGVSYXRpbygpCglieXRlIDB4NzIgLy8gInIiCgljYWxsc3ViIGNvbXB1dGVSYXRpbwoJYXBwX2dsb2JhbF9wdXQKCXJldHN1YgoKLy8gc3dhcChheGZlcix1aW50NjQsdWludDY0KXZvaWQKKmFiaV9yb3V0ZV9zd2FwOgoJLy8gYkFzc2V0OiB1aW50NjQKCXR4bmEgQXBwbGljYXRpb25BcmdzIDIKCWJ0b2kKCgkvLyBhQXNzZXQ6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJYnRvaQoKCS8vIHN3YXBYZmVyOiBheGZlcgoJdHhuIEdyb3VwSW5kZXgKCWludCAxCgktCglkdXAKCWd0eG5zIFR5cGVFbnVtCglwdXNoaW50IDQgLy8gYXhmZXIKCT09CgoJLy8gYXJndW1lbnQgMiAoc3dhcFhmZXIpIGZvciBzd2FwIG11c3QgYmUgYSBheGZlciB0cmFuc2FjdGlvbgoJYXNzZXJ0CgoJLy8gZXhlY3V0ZSBzd2FwKGF4ZmVyLHVpbnQ2NCx1aW50NjQpdm9pZAoJY2FsbHN1YiBzd2FwCglpbnQgMQoJcmV0dXJuCgovLyBzd2FwKHN3YXBYZmVyOiBBc3NldFRyYW5zZmVyVHhuLCBhQXNzZXQ6IEFzc2V0SUQsIGJBc3NldDogQXNzZXRJRCk6IHZvaWQKc3dhcDoKCXByb3RvIDMgMAoKCS8vIFB1c2ggZW1wdHkgYnl0ZXMgYWZ0ZXIgdGhlIGZyYW1lIHBvaW50ZXIgdG8gcmVzZXJ2ZSBzcGFjZSBmb3IgbG9jYWwgdmFyaWFibGVzCglieXRlIDB4CglkdXBuIDIKCgkvLyB3ZWxsIGZvcm1lZCBzd2FwCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTcwCgkvLyBhc3NlcnQoYUFzc2V0ID09PSB0aGlzLmFzc2V0QS52YWx1ZSkKCWZyYW1lX2RpZyAtMiAvLyBhQXNzZXQ6IEFzc2V0SUQKCWJ5dGUgMHg2MSAvLyAiYSIKCWFwcF9nbG9iYWxfZ2V0Cgk9PQoJYXNzZXJ0CgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjE3MQoJLy8gYXNzZXJ0KGJBc3NldCA9PT0gdGhpcy5hc3NldEIudmFsdWUpCglmcmFtZV9kaWcgLTMgLy8gYkFzc2V0OiBBc3NldElECglieXRlIDB4NjIgLy8gImIiCglhcHBfZ2xvYmFsX2dldAoJPT0KCWFzc2VydAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoxNzMKCS8vIHZlcmlmeUFzc2V0VHJhbnNmZXJUeG4oc3dhcFhmZXIsIHsKCS8vICAgICAgIGFzc2V0QW1vdW50OiB7IGdyZWF0ZXJUaGFuOiAwIH0sCgkvLyAgICAgICBhc3NldFJlY2VpdmVyOiB0aGlzLmFwcC5hZGRyZXNzLAoJLy8gICAgICAgc2VuZGVyOiB0aGlzLnR4bi5zZW5kZXIsCgkvLyAgICAgICB4ZmVyQXNzZXQ6IHsgaW5jbHVkZWRJbjogW2FBc3NldCwgYkFzc2V0XSB9LAoJLy8gICAgIH0pCgkvLyB2ZXJpZnkgYXNzZXRBbW91bnQKCWZyYW1lX2RpZyAtMSAvLyBzd2FwWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgQXNzZXRBbW91bnQKCWludCAwCgk+CgoJLy8gdHJhbnNhY3Rpb24gdmVyaWZpY2F0aW9uIGZhaWxlZDogeyJ0eG4iOiJzd2FwWGZlciIsImZpZWxkIjoiYXNzZXRBbW91bnQiLCJjb25kaXRpb24iOiJncmVhdGVyVGhhbiIsImV4cGVjdGVkIjoiPjAifQoJYXNzZXJ0CgoJLy8gdmVyaWZ5IGFzc2V0UmVjZWl2ZXIKCWZyYW1lX2RpZyAtMSAvLyBzd2FwWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgQXNzZXRSZWNlaXZlcgoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCT09CgoJLy8gdHJhbnNhY3Rpb24gdmVyaWZpY2F0aW9uIGZhaWxlZDogeyJ0eG4iOiJzd2FwWGZlciIsImZpZWxkIjoiYXNzZXRSZWNlaXZlciIsImV4cGVjdGVkIjoidGhpcy5hcHAuYWRkcmVzcyJ9Cglhc3NlcnQKCgkvLyB2ZXJpZnkgc2VuZGVyCglmcmFtZV9kaWcgLTEgLy8gc3dhcFhmZXI6IEFzc2V0VHJhbnNmZXJUeG4KCWd0eG5zIFNlbmRlcgoJdHhuIFNlbmRlcgoJPT0KCgkvLyB0cmFuc2FjdGlvbiB2ZXJpZmljYXRpb24gZmFpbGVkOiB7InR4biI6InN3YXBYZmVyIiwiZmllbGQiOiJzZW5kZXIiLCJleHBlY3RlZCI6InRoaXMudHhuLnNlbmRlciJ9Cglhc3NlcnQKCgkvLyB2ZXJpZnkgeGZlckFzc2V0CglmcmFtZV9kaWcgLTEgLy8gc3dhcFhmZXI6IEFzc2V0VHJhbnNmZXJUeG4KCWd0eG5zIFhmZXJBc3NldAoJZnJhbWVfZGlnIC0yIC8vIGFBc3NldDogQXNzZXRJRAoJPT0KCWZyYW1lX2RpZyAtMSAvLyBzd2FwWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgWGZlckFzc2V0CglmcmFtZV9kaWcgLTMgLy8gYkFzc2V0OiBBc3NldElECgk9PQoJfHwKCgkvLyB0cmFuc2FjdGlvbiB2ZXJpZmljYXRpb24gZmFpbGVkOiB7InR4biI6eyJ0eG5UZXh0Ijoic3dhcFhmZXIifSwiZmllbGQiOiJ4ZmVyQXNzZXQiLCJjb25kaXRpb24iOiJpbmNsdWRlZEluIiwiZXhwZWN0ZWQiOiJbYUFzc2V0LCBiQXNzZXRdIn0KCWFzc2VydAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoxODAKCS8vIG91dElkID0gc3dhcFhmZXIueGZlckFzc2V0ID09PSBhQXNzZXQgPyBhQXNzZXQgOiBiQXNzZXQKCWZyYW1lX2RpZyAtMSAvLyBzd2FwWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgWGZlckFzc2V0CglmcmFtZV9kaWcgLTIgLy8gYUFzc2V0OiBBc3NldElECgk9PQoJYnogKnRlcm5hcnkxX2ZhbHNlCglmcmFtZV9kaWcgLTIgLy8gYUFzc2V0OiBBc3NldElECgliICp0ZXJuYXJ5MV9lbmQKCip0ZXJuYXJ5MV9mYWxzZToKCWZyYW1lX2RpZyAtMyAvLyBiQXNzZXQ6IEFzc2V0SUQKCip0ZXJuYXJ5MV9lbmQ6CglmcmFtZV9idXJ5IDAgLy8gb3V0SWQ6IHVpbnQ2NAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoxODIKCS8vIGluSWQgPSBzd2FwWGZlci54ZmVyQXNzZXQKCWZyYW1lX2RpZyAtMSAvLyBzd2FwWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgWGZlckFzc2V0CglmcmFtZV9idXJ5IDEgLy8gaW5JZDogdWludDY0CgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjE4NAoJLy8gdG9Td2FwID0gdGhpcy50b2tlbnNUb1N3YXAoCgkvLyAgICAgICBzd2FwWGZlci5hc3NldEFtb3VudCwKCS8vICAgICAgIHRoaXMuYXBwLmFkZHJlc3MuYXNzZXRCYWxhbmNlKGluSWQpIC0gc3dhcFhmZXIuYXNzZXRBbW91bnQsCgkvLyAgICAgICB0aGlzLmFwcC5hZGRyZXNzLmFzc2V0QmFsYW5jZShvdXRJZCkKCS8vICAgICApCglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJZnJhbWVfZGlnIDAgLy8gb3V0SWQ6IHVpbnQ2NAoJYXNzZXRfaG9sZGluZ19nZXQgQXNzZXRCYWxhbmNlCglwb3AKCWdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCglmcmFtZV9kaWcgMSAvLyBpbklkOiB1aW50NjQKCWFzc2V0X2hvbGRpbmdfZ2V0IEFzc2V0QmFsYW5jZQoJcG9wCglmcmFtZV9kaWcgLTEgLy8gc3dhcFhmZXI6IEFzc2V0VHJhbnNmZXJUeG4KCWd0eG5zIEFzc2V0QW1vdW50CgktCglmcmFtZV9kaWcgLTEgLy8gc3dhcFhmZXI6IEFzc2V0VHJhbnNmZXJUeG4KCWd0eG5zIEFzc2V0QW1vdW50CgljYWxsc3ViIHRva2Vuc1RvU3dhcAoJZnJhbWVfYnVyeSAyIC8vIHRvU3dhcDogdWludDY0CgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjE5MAoJLy8gYXNzZXJ0KHRvU3dhcCA+IDApCglmcmFtZV9kaWcgMiAvLyB0b1N3YXA6IHVpbnQ2NAoJaW50IDAKCT4KCWFzc2VydAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoxOTIKCS8vIHRoaXMuZG9BeGZlcih0aGlzLnR4bi5zZW5kZXIsIG91dElkLCB0b1N3YXApCglmcmFtZV9kaWcgMiAvLyB0b1N3YXA6IHVpbnQ2NAoJZnJhbWVfZGlnIDAgLy8gb3V0SWQ6IHVpbnQ2NAoJdHhuIFNlbmRlcgoJY2FsbHN1YiBkb0F4ZmVyCgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjE5NAoJLy8gdGhpcy5yYXRpby52YWx1ZSA9IHRoaXMuY29tcHV0ZVJhdGlvKCkKCWJ5dGUgMHg3MiAvLyAiciIKCWNhbGxzdWIgY29tcHV0ZVJhdGlvCglhcHBfZ2xvYmFsX3B1dAoJcmV0c3ViCgoqY3JlYXRlX05vT3A6CglwdXNoYnl0ZXMgMHhiODQ0N2IzNiAvLyBtZXRob2QgImNyZWF0ZUFwcGxpY2F0aW9uKCl2b2lkIgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggKmFiaV9yb3V0ZV9jcmVhdGVBcHBsaWNhdGlvbgoKCS8vIHRoaXMgY29udHJhY3QgZG9lcyBub3QgaW1wbGVtZW50IHRoZSBnaXZlbiBBQkkgbWV0aG9kIGZvciBjcmVhdGUgTm9PcAoJZXJyCgoqY2FsbF9Ob09wOgoJcHVzaGJ5dGVzIDB4ZGRjNGNiNGEgLy8gbWV0aG9kICJzZXRfZ292ZXJub3IoYWRkcmVzcyl2b2lkIgoJcHVzaGJ5dGVzIDB4MjVlNmMzNzYgLy8gbWV0aG9kICJib290c3RyYXAocGF5LHVpbnQ2NCx1aW50NjQpdWludDY0IgoJcHVzaGJ5dGVzIDB4MTAwNDVjNzkgLy8gbWV0aG9kICJtaW50KGF4ZmVyLGF4ZmVyLHVpbnQ2NCx1aW50NjQsdWludDY0KXZvaWQiCglwdXNoYnl0ZXMgMHgwMjhlMzdjMSAvLyBtZXRob2QgImJ1cm4oYXhmZXIsdWludDY0LHVpbnQ2NCx1aW50NjQpdm9pZCIKCXB1c2hieXRlcyAweDYzMmFhZWQ4IC8vIG1ldGhvZCAic3dhcChheGZlcix1aW50NjQsdWludDY0KXZvaWQiCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAwCgltYXRjaCAqYWJpX3JvdXRlX3NldF9nb3Zlcm5vciAqYWJpX3JvdXRlX2Jvb3RzdHJhcCAqYWJpX3JvdXRlX21pbnQgKmFiaV9yb3V0ZV9idXJuICphYmlfcm91dGVfc3dhcAoKCS8vIHRoaXMgY29udHJhY3QgZG9lcyBub3QgaW1wbGVtZW50IHRoZSBnaXZlbiBBQkkgbWV0aG9kIGZvciBjYWxsIE5vT3AKCWVycg==",
+    "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCmludGNibG9jayAwIDEgMTAwMCA0IDEwMDAwMDAwMDAwIDIgMwpieXRlY2Jsb2NrIDB4IDB4NjEgMHg2MiAweDY3IDB4NzAgMHg3MgoKLy8gVGhpcyBURUFMIHdhcyBnZW5lcmF0ZWQgYnkgVEVBTFNjcmlwdCB2MC4xMDUuMQovLyBodHRwczovL2dpdGh1Yi5jb20vYWxnb3JhbmRmb3VuZGF0aW9uL1RFQUxTY3JpcHQKCi8vIFRoaXMgY29udHJhY3QgaXMgY29tcGxpYW50IHdpdGggYW5kL29yIGltcGxlbWVudHMgdGhlIGZvbGxvd2luZyBBUkNzOiBbIEFSQzQgXQoKLy8gVGhlIGZvbGxvd2luZyB0ZW4gbGluZXMgb2YgVEVBTCBoYW5kbGUgaW5pdGlhbCBwcm9ncmFtIGZsb3cKLy8gVGhpcyBwYXR0ZXJuIGlzIHVzZWQgdG8gbWFrZSBpdCBlYXN5IGZvciBhbnlvbmUgdG8gcGFyc2UgdGhlIHN0YXJ0IG9mIHRoZSBwcm9ncmFtIGFuZCBkZXRlcm1pbmUgaWYgYSBzcGVjaWZpYyBhY3Rpb24gaXMgYWxsb3dlZAovLyBIZXJlLCBhY3Rpb24gcmVmZXJzIHRvIHRoZSBPbkNvbXBsZXRlIGluIGNvbWJpbmF0aW9uIHdpdGggd2hldGhlciB0aGUgYXBwIGlzIGJlaW5nIGNyZWF0ZWQgb3IgY2FsbGVkCi8vIEV2ZXJ5IHBvc3NpYmxlIGFjdGlvbiBmb3IgdGhpcyBjb250cmFjdCBpcyByZXByZXNlbnRlZCBpbiB0aGUgc3dpdGNoIHN0YXRlbWVudAovLyBJZiB0aGUgYWN0aW9uIGlzIG5vdCBpbXBsZW1lbnRlZCBpbiB0aGUgY29udHJhY3QsIGl0cyByZXNwZWN0aXZlIGJyYW5jaCB3aWxsIGJlICIqTk9UX0lNUExFTUVOVEVEIiB3aGljaCBqdXN0IGNvbnRhaW5zICJlcnIiCnR4biBBcHBsaWNhdGlvbklECiEKcHVzaGludCA2CioKdHhuIE9uQ29tcGxldGlvbgorCnN3aXRjaCAqY2FsbF9Ob09wICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqY3JlYXRlX05vT3AgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVECgoqTk9UX0lNUExFTUVOVEVEOgoJLy8gVGhlIHJlcXVlc3RlZCBhY3Rpb24gaXMgbm90IGltcGxlbWVudGVkIGluIHRoaXMgY29udHJhY3QuIEFyZSB5b3UgdXNpbmcgdGhlIGNvcnJlY3QgT25Db21wbGV0ZT8gRGlkIHlvdSBzZXQgeW91ciBhcHAgSUQ/CgllcnIKCi8vIGNyZWF0ZUFwcGxpY2F0aW9uKCl2b2lkCiphYmlfcm91dGVfY3JlYXRlQXBwbGljYXRpb246CgkvLyBleGVjdXRlIGNyZWF0ZUFwcGxpY2F0aW9uKCl2b2lkCgljYWxsc3ViIGNyZWF0ZUFwcGxpY2F0aW9uCglpbnRjIDEgLy8gMQoJcmV0dXJuCgovLyBjcmVhdGVBcHBsaWNhdGlvbigpOiB2b2lkCmNyZWF0ZUFwcGxpY2F0aW9uOgoJcHJvdG8gMCAwCgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjIwCgkvLyB0aGlzLmdvdmVybm9yLnZhbHVlID0gdGhpcy50eG4uc2VuZGVyCglieXRlYyAzIC8vICAiZyIKCXR4biBTZW5kZXIKCWFwcF9nbG9iYWxfcHV0CglyZXRzdWIKCi8vIGRvQ3JlYXRlUG9vbFRva2VuKGFBc3NldDogQXNzZXRJRCwgYkFzc2V0OiBBc3NldElEKTogQXNzZXRJRApkb0NyZWF0ZVBvb2xUb2tlbjoKCXByb3RvIDIgMQoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoyNgoJLy8gcmV0dXJuIHNlbmRBc3NldENyZWF0aW9uKHsKCS8vICAgICAgIGNvbmZpZ0Fzc2V0TmFtZTogJ0RQVC0nICsgYUFzc2V0LnVuaXROYW1lICsgJy0nICsgYkFzc2V0LnVuaXROYW1lLAoJLy8gICAgICAgY29uZmlnQXNzZXRVbml0TmFtZTogJ2RwdCcsCgkvLyAgICAgICBjb25maWdBc3NldFRvdGFsOiBUT1RBTF9TVVBQTFksCgkvLyAgICAgICBjb25maWdBc3NldERlY2ltYWxzOiAzLAoJLy8gICAgICAgY29uZmlnQXNzZXRNYW5hZ2VyOiB0aGlzLmFwcC5hZGRyZXNzLAoJLy8gICAgICAgY29uZmlnQXNzZXRSZXNlcnZlOiB0aGlzLmFwcC5hZGRyZXNzLAoJLy8gICAgIH0pOwoJaXR4bl9iZWdpbgoJaW50YyA2IC8vICBhY2ZnCglpdHhuX2ZpZWxkIFR5cGVFbnVtCgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjI3CgkvLyBjb25maWdBc3NldE5hbWU6ICdEUFQtJyArIGFBc3NldC51bml0TmFtZSArICctJyArIGJBc3NldC51bml0TmFtZQoJcHVzaGJ5dGVzIDB4NDQ1MDU0MmQgLy8gIkRQVC0iCglmcmFtZV9kaWcgLTEgLy8gYUFzc2V0OiBBc3NldElECglhc3NldF9wYXJhbXNfZ2V0IEFzc2V0VW5pdE5hbWUKCXBvcAoJY29uY2F0CglwdXNoYnl0ZXMgMHgyZCAvLyAiLSIKCWNvbmNhdAoJZnJhbWVfZGlnIC0yIC8vIGJBc3NldDogQXNzZXRJRAoJYXNzZXRfcGFyYW1zX2dldCBBc3NldFVuaXROYW1lCglwb3AKCWNvbmNhdAoJaXR4bl9maWVsZCBDb25maWdBc3NldE5hbWUKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MjgKCS8vIGNvbmZpZ0Fzc2V0VW5pdE5hbWU6ICdkcHQnCglwdXNoYnl0ZXMgMHg2NDcwNzQgLy8gImRwdCIKCWl0eG5fZmllbGQgQ29uZmlnQXNzZXRVbml0TmFtZQoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoyOQoJLy8gY29uZmlnQXNzZXRUb3RhbDogVE9UQUxfU1VQUExZCglpbnRjIDQgLy8gMTAwMDAwMDAwMDAKCWl0eG5fZmllbGQgQ29uZmlnQXNzZXRUb3RhbAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czozMAoJLy8gY29uZmlnQXNzZXREZWNpbWFsczogMwoJaW50YyA2IC8vIDMKCWl0eG5fZmllbGQgQ29uZmlnQXNzZXREZWNpbWFscwoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czozMQoJLy8gY29uZmlnQXNzZXRNYW5hZ2VyOiB0aGlzLmFwcC5hZGRyZXNzCglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJaXR4bl9maWVsZCBDb25maWdBc3NldE1hbmFnZXIKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MzIKCS8vIGNvbmZpZ0Fzc2V0UmVzZXJ2ZTogdGhpcy5hcHAuYWRkcmVzcwoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCWl0eG5fZmllbGQgQ29uZmlnQXNzZXRSZXNlcnZlCgoJLy8gRmVlIGZpZWxkIG5vdCBzZXQsIGRlZmF1bHRpbmcgdG8gMAoJaW50YyAwIC8vIDAKCWl0eG5fZmllbGQgRmVlCgoJLy8gU3VibWl0IGlubmVyIHRyYW5zYWN0aW9uCglpdHhuX3N1Ym1pdAoJaXR4biBDcmVhdGVkQXNzZXRJRAoJcmV0c3ViCgovLyBkb0F4ZmVyKHJlY2VpdmVyOiBBZGRyZXNzLCBhc3NldDogQXNzZXRJRCwgYW1vdW50OiB1aW50NjQpOiB2b2lkCmRvQXhmZXI6Cglwcm90byAzIDAKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MzcKCS8vIHNlbmRBc3NldFRyYW5zZmVyKHsKCS8vICAgICAgIGFzc2V0UmVjZWl2ZXI6IHJlY2VpdmVyLAoJLy8gICAgICAgeGZlckFzc2V0OiBhc3NldCwKCS8vICAgICAgIGFzc2V0QW1vdW50OiBhbW91bnQsCgkvLyAgICAgfSkKCWl0eG5fYmVnaW4KCWludGMgMyAvLyAgYXhmZXIKCWl0eG5fZmllbGQgVHlwZUVudW0KCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MzgKCS8vIGFzc2V0UmVjZWl2ZXI6IHJlY2VpdmVyCglmcmFtZV9kaWcgLTEgLy8gcmVjZWl2ZXI6IEFkZHJlc3MKCWl0eG5fZmllbGQgQXNzZXRSZWNlaXZlcgoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czozOQoJLy8geGZlckFzc2V0OiBhc3NldAoJZnJhbWVfZGlnIC0yIC8vIGFzc2V0OiBBc3NldElECglpdHhuX2ZpZWxkIFhmZXJBc3NldAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czo0MAoJLy8gYXNzZXRBbW91bnQ6IGFtb3VudAoJZnJhbWVfZGlnIC0zIC8vIGFtb3VudDogdWludDY0CglpdHhuX2ZpZWxkIEFzc2V0QW1vdW50CgoJLy8gRmVlIGZpZWxkIG5vdCBzZXQsIGRlZmF1bHRpbmcgdG8gMAoJaW50YyAwIC8vIDAKCWl0eG5fZmllbGQgRmVlCgoJLy8gU3VibWl0IGlubmVyIHRyYW5zYWN0aW9uCglpdHhuX3N1Ym1pdAoJcmV0c3ViCgovLyBkb09wdEluKGFzc2V0OiBBc3NldElEKTogdm9pZApkb09wdEluOgoJcHJvdG8gMSAwCgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjQ1CgkvLyB0aGlzLmRvQXhmZXIodGhpcy5hcHAuYWRkcmVzcywgYXNzZXQsIDApCglpbnRjIDAgLy8gMAoJZnJhbWVfZGlnIC0xIC8vIGFzc2V0OiBBc3NldElECglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJY2FsbHN1YiBkb0F4ZmVyCglyZXRzdWIKCi8vIHRva2Vuc1RvTWludEludGlhbChhQW1vdW50OiB1aW50NjQsIGJBbW91bnQ6IHVpbnQ2NCk6IHVpbnQ2NAp0b2tlbnNUb01pbnRJbnRpYWw6Cglwcm90byAyIDEKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6NDkKCS8vIHJldHVybiBzcXJ0KGFBbW91bnQgKiBiQW1vdW50KTsKCWZyYW1lX2RpZyAtMSAvLyBhQW1vdW50OiB1aW50NjQKCWZyYW1lX2RpZyAtMiAvLyBiQW1vdW50OiB1aW50NjQKCSoKCXNxcnQKCXJldHN1YgoKLy8gdG9rZW5zVG9NaW50KGlzc3VlZDogdWludDY0LCBhU3VwcGx5OiB1aW50NjQsIGJTdXBwbHk6IHVpbnQ2NCwgYUFtb3VudDogdWludDY0LCBiQW1vdW50OiB1aW50NjQpOiB1aW50NjQKdG9rZW5zVG9NaW50OgoJcHJvdG8gNSAxCgoJLy8gUHVzaCBlbXB0eSBieXRlcyBhZnRlciB0aGUgZnJhbWUgcG9pbnRlciB0byByZXNlcnZlIHNwYWNlIGZvciBsb2NhbCB2YXJpYWJsZXMKCWJ5dGVjIDAgLy8gMHgKCWR1cG4gMgoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czo1MwoJLy8gYVJhdGlvID0gd2lkZVJhdGlvKFthQW1vdW50LCBTQ0FMRV0sIFthU3VwcGx5XSkKCWZyYW1lX2RpZyAtNCAvLyBhQW1vdW50OiB1aW50NjQKCWludGMgMiAvLyAxMDAwCgltdWx3CglpbnRjIDAgLy8gMAoJZnJhbWVfZGlnIC0yIC8vIGFTdXBwbHk6IHVpbnQ2NAoJZGl2bW9kdwoJcG9wCglwb3AKCXN3YXAKCSEKCgkvLyB3aWRlUmF0aW8gZmFpbGVkCglhc3NlcnQKCWZyYW1lX2J1cnkgMCAvLyBhUmF0aW86IHVpbnQ2NAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czo1NAoJLy8gYlJhdGlvID0gd2lkZVJhdGlvKFtiQW1vdW50LCBTQ0FMRV0sIFtiU3VwcGx5XSkKCWZyYW1lX2RpZyAtNSAvLyBiQW1vdW50OiB1aW50NjQKCWludGMgMiAvLyAxMDAwCgltdWx3CglpbnRjIDAgLy8gMAoJZnJhbWVfZGlnIC0zIC8vIGJTdXBwbHk6IHVpbnQ2NAoJZGl2bW9kdwoJcG9wCglwb3AKCXN3YXAKCSEKCgkvLyB3aWRlUmF0aW8gZmFpbGVkCglhc3NlcnQKCWZyYW1lX2J1cnkgMSAvLyBiUmF0aW86IHVpbnQ2NAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czo1NgoJLy8gcmF0aW8gPSBhUmF0aW8gPCBiUmF0aW8gPyBhUmF0aW8gOiBiUmF0aW8KCWZyYW1lX2RpZyAwIC8vIGFSYXRpbzogdWludDY0CglmcmFtZV9kaWcgMSAvLyBiUmF0aW86IHVpbnQ2NAoJPAoJYnogKnRlcm5hcnkwX2ZhbHNlCglmcmFtZV9kaWcgMCAvLyBhUmF0aW86IHVpbnQ2NAoJYiAqdGVybmFyeTBfZW5kCgoqdGVybmFyeTBfZmFsc2U6CglmcmFtZV9kaWcgMSAvLyBiUmF0aW86IHVpbnQ2NAoKKnRlcm5hcnkwX2VuZDoKCWZyYW1lX2J1cnkgMiAvLyByYXRpbzogdWludDY0CgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjU4CgkvLyByZXR1cm4gd2lkZVJhdGlvKFtyYXRpbywgaXNzdWVkXSwgW1NDQUxFXSk7CglmcmFtZV9kaWcgMiAvLyByYXRpbzogdWludDY0CglmcmFtZV9kaWcgLTEgLy8gaXNzdWVkOiB1aW50NjQKCW11bHcKCWludGMgMCAvLyAwCglpbnRjIDIgLy8gMTAwMAoJZGl2bW9kdwoJcG9wCglwb3AKCXN3YXAKCSEKCgkvLyB3aWRlUmF0aW8gZmFpbGVkCglhc3NlcnQKCgkvLyBzZXQgdGhlIHN1YnJvdXRpbmUgcmV0dXJuIHZhbHVlCglmcmFtZV9idXJ5IDAKCgkvLyBwb3AgYWxsIGxvY2FsIHZhcmlhYmxlcyBmcm9tIHRoZSBzdGFjawoJcG9wbiAyCglyZXRzdWIKCi8vIGNvbXB1dGVSYXRpbygpOiB1aW50NjQKY29tcHV0ZVJhdGlvOgoJcHJvdG8gMCAxCgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjYyCgkvLyByZXR1cm4gd2lkZVJhdGlvKAoJLy8gICAgICAgW3RoaXMuYXBwLmFkZHJlc3MuYXNzZXRCYWxhbmNlKHRoaXMuYXNzZXRBLnZhbHVlKSwgU0NBTEVdLAoJLy8gICAgICAgW3RoaXMuYXBwLmFkZHJlc3MuYXNzZXRCYWxhbmNlKHRoaXMuYXNzZXRCLnZhbHVlKV0KCS8vICAgICApOwoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCWJ5dGVjIDEgLy8gICJhIgoJYXBwX2dsb2JhbF9nZXQKCWFzc2V0X2hvbGRpbmdfZ2V0IEFzc2V0QmFsYW5jZQoJcG9wCglpbnRjIDIgLy8gMTAwMAoJbXVsdwoJaW50YyAwIC8vIDAKCWdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCglieXRlYyAyIC8vICAiYiIKCWFwcF9nbG9iYWxfZ2V0Cglhc3NldF9ob2xkaW5nX2dldCBBc3NldEJhbGFuY2UKCXBvcAoJZGl2bW9kdwoJcG9wCglwb3AKCXN3YXAKCSEKCgkvLyB3aWRlUmF0aW8gZmFpbGVkCglhc3NlcnQKCXJldHN1YgoKLy8gdG9rZW5zVG9CdXJuKGlzc3VlZDogdWludDY0LCBzdXBwbHk6IHVpbnQ2NCwgYW1vdW50OiB1aW50NjQpOiB1aW50NjQKdG9rZW5zVG9CdXJuOgoJcHJvdG8gMyAxCgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjY5CgkvLyByZXR1cm4gd2lkZVJhdGlvKFtzdXBwbHksIGFtb3VudF0sIFtpc3N1ZWRdKTsKCWZyYW1lX2RpZyAtMiAvLyBzdXBwbHk6IHVpbnQ2NAoJZnJhbWVfZGlnIC0zIC8vIGFtb3VudDogdWludDY0CgltdWx3CglpbnRjIDAgLy8gMAoJZnJhbWVfZGlnIC0xIC8vIGlzc3VlZDogdWludDY0CglkaXZtb2R3Cglwb3AKCXBvcAoJc3dhcAoJIQoKCS8vIHdpZGVSYXRpbyBmYWlsZWQKCWFzc2VydAoJcmV0c3ViCgovLyB0b2tlbnNUb1N3YXAoaW5BbW91bnQ6IHVpbnQ2NCwgaW5TdXBwbHk6IHVpbnQ2NCwgb3V0U3VwcGx5OiB1aW50NjQpOiB1aW50NjQKdG9rZW5zVG9Td2FwOgoJcHJvdG8gMyAxCgoJLy8gUHVzaCBlbXB0eSBieXRlcyBhZnRlciB0aGUgZnJhbWUgcG9pbnRlciB0byByZXNlcnZlIHNwYWNlIGZvciBsb2NhbCB2YXJpYWJsZXMKCWJ5dGVjIDAgLy8gMHgKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6NzMKCS8vIGZhY3RvciA9IFNDQUxFIC0gRkVFCglwdXNoaW50IDk5NQoJZnJhbWVfYnVyeSAwIC8vIGZhY3RvcjogdWludDY0CgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjc0CgkvLyByZXR1cm4gd2lkZVJhdGlvKFtpbkFtb3VudCwgZmFjdG9yLCBvdXRTdXBwbHldLCBbaW5TdXBwbHkgKiBTQ0FMRSArIGluQW1vdW50ICogZmFjdG9yXSk7CglmcmFtZV9kaWcgLTEgLy8gaW5BbW91bnQ6IHVpbnQ2NAoJZnJhbWVfZGlnIDAgLy8gZmFjdG9yOiB1aW50NjQKCW11bHcKCWZyYW1lX2RpZyAtMyAvLyBvdXRTdXBwbHk6IHVpbnQ2NAoJdW5jb3ZlciAyCglkaWcgMQoJKgoJY292ZXIgMgoJbXVsdwoJY292ZXIgMgoJKwoJc3dhcAoJaW50YyAwIC8vIDAKCWZyYW1lX2RpZyAtMiAvLyBpblN1cHBseTogdWludDY0CglpbnRjIDIgLy8gMTAwMAoJKgoJZnJhbWVfZGlnIC0xIC8vIGluQW1vdW50OiB1aW50NjQKCWZyYW1lX2RpZyAwIC8vIGZhY3RvcjogdWludDY0CgkqCgkrCglkaXZtb2R3Cglwb3AKCXBvcAoJc3dhcAoJIQoKCS8vIHdpZGVSYXRpbyBmYWlsZWQKCWFzc2VydAoKCS8vIHNldCB0aGUgc3Vicm91dGluZSByZXR1cm4gdmFsdWUKCWZyYW1lX2J1cnkgMAoJcmV0c3ViCgovLyBzZXRfZ292ZXJub3IoYWRkcmVzcyl2b2lkCiphYmlfcm91dGVfc2V0X2dvdmVybm9yOgoJLy8gZ292ZXJub3I6IGFkZHJlc3MKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWR1cAoJbGVuCglwdXNoaW50IDMyCgk9PQoKCS8vIGFyZ3VtZW50IDAgKGdvdmVybm9yKSBmb3Igc2V0X2dvdmVybm9yIG11c3QgYmUgYSBhZGRyZXNzCglhc3NlcnQKCgkvLyBleGVjdXRlIHNldF9nb3Zlcm5vcihhZGRyZXNzKXZvaWQKCWNhbGxzdWIgc2V0X2dvdmVybm9yCglpbnRjIDEgLy8gMQoJcmV0dXJuCgovLyBzZXRfZ292ZXJub3IoZ292ZXJub3I6IEFkZHJlc3MpOiB2b2lkCnNldF9nb3Zlcm5vcjoKCXByb3RvIDEgMAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czo3OAoJLy8gdmVyaWZ5QXBwQ2FsbFR4bih0aGlzLnR4biwgeyBzZW5kZXI6IHRoaXMuZ292ZXJub3IudmFsdWUgfSkKCS8vIHZlcmlmeSBzZW5kZXIKCXR4biBTZW5kZXIKCWJ5dGVjIDMgLy8gICJnIgoJYXBwX2dsb2JhbF9nZXQKCT09CgoJLy8gdHJhbnNhY3Rpb24gdmVyaWZpY2F0aW9uIGZhaWxlZDogeyJ0eG4iOiJ0aGlzLnR4biIsImZpZWxkIjoic2VuZGVyIiwiZXhwZWN0ZWQiOiJ0aGlzLmdvdmVybm9yLnZhbHVlIn0KCWFzc2VydAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czo3OQoJLy8gdGhpcy5nb3Zlcm5vci52YWx1ZSA9IGdvdmVybm9yCglieXRlYyAzIC8vICAiZyIKCWZyYW1lX2RpZyAtMSAvLyBnb3Zlcm5vcjogQWRkcmVzcwoJYXBwX2dsb2JhbF9wdXQKCXJldHN1YgoKLy8gYm9vdHN0cmFwKHBheSx1aW50NjQsdWludDY0KXVpbnQ2NAoqYWJpX3JvdXRlX2Jvb3RzdHJhcDoKCS8vIFRoZSBBQkkgcmV0dXJuIHByZWZpeAoJcHVzaGJ5dGVzIDB4MTUxZjdjNzUKCgkvLyBiQXNzZXQ6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgoJYnRvaQoKCS8vIGFBc3NldDogdWludDY0Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglidG9pCgoJLy8gc2VlZDogcGF5Cgl0eG4gR3JvdXBJbmRleAoJaW50YyAxIC8vIDEKCS0KCWR1cAoJZ3R4bnMgVHlwZUVudW0KCWludGMgMSAvLyAgcGF5Cgk9PQoKCS8vIGFyZ3VtZW50IDIgKHNlZWQpIGZvciBib290c3RyYXAgbXVzdCBiZSBhIHBheSB0cmFuc2FjdGlvbgoJYXNzZXJ0CgoJLy8gZXhlY3V0ZSBib290c3RyYXAocGF5LHVpbnQ2NCx1aW50NjQpdWludDY0CgljYWxsc3ViIGJvb3RzdHJhcAoJaXRvYgoJY29uY2F0Cglsb2cKCWludGMgMSAvLyAxCglyZXR1cm4KCi8vIGJvb3RzdHJhcChzZWVkOiBQYXlUeG4sIGFBc3NldDogQXNzZXRJRCwgYkFzc2V0OiBBc3NldElEKTogQXNzZXRJRApib290c3RyYXA6Cglwcm90byAzIDEKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6ODMKCS8vIHZlcmlmeUFwcENhbGxUeG4odGhpcy50eG4sIHsgc2VuZGVyOiB0aGlzLmdvdmVybm9yLnZhbHVlIH0pCgkvLyB2ZXJpZnkgc2VuZGVyCgl0eG4gU2VuZGVyCglieXRlYyAzIC8vICAiZyIKCWFwcF9nbG9iYWxfZ2V0Cgk9PQoKCS8vIHRyYW5zYWN0aW9uIHZlcmlmaWNhdGlvbiBmYWlsZWQ6IHsidHhuIjoidGhpcy50eG4iLCJmaWVsZCI6InNlbmRlciIsImV4cGVjdGVkIjoidGhpcy5nb3Zlcm5vci52YWx1ZSJ9Cglhc3NlcnQKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6ODUKCS8vIGFzc2VydChnbG9iYWxzLmdyb3VwU2l6ZSA9PT0gMikKCWdsb2JhbCBHcm91cFNpemUKCWludGMgNSAvLyAyCgk9PQoJYXNzZXJ0CgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjg3CgkvLyB2ZXJpZnlQYXlUeG4oc2VlZCwgeyByZWNlaXZlcjogdGhpcy5hcHAuYWRkcmVzcywgYW1vdW50OiB7IGdyZWF0ZXJUaGFuRXF1YWxUbzogMzAwXzAwMCB9IH0pCgkvLyB2ZXJpZnkgcmVjZWl2ZXIKCWZyYW1lX2RpZyAtMSAvLyBzZWVkOiBQYXlUeG4KCWd0eG5zIFJlY2VpdmVyCglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJPT0KCgkvLyB0cmFuc2FjdGlvbiB2ZXJpZmljYXRpb24gZmFpbGVkOiB7InR4biI6InNlZWQiLCJmaWVsZCI6InJlY2VpdmVyIiwiZXhwZWN0ZWQiOiJ0aGlzLmFwcC5hZGRyZXNzIn0KCWFzc2VydAoKCS8vIHZlcmlmeSBhbW91bnQKCWZyYW1lX2RpZyAtMSAvLyBzZWVkOiBQYXlUeG4KCWd0eG5zIEFtb3VudAoJcHVzaGludCAzMDBfMDAwCgk+PQoKCS8vIHRyYW5zYWN0aW9uIHZlcmlmaWNhdGlvbiBmYWlsZWQ6IHsidHhuIjoic2VlZCIsImZpZWxkIjoiYW1vdW50IiwiY29uZGl0aW9uIjoiZ3JlYXRlclRoYW5FcXVhbFRvIiwiZXhwZWN0ZWQiOiI+PTMwMF8wMDAifQoJYXNzZXJ0CgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjg4CgkvLyBhc3NlcnQoYUFzc2V0IDwgYkFzc2V0KQoJZnJhbWVfZGlnIC0yIC8vIGFBc3NldDogQXNzZXRJRAoJZnJhbWVfZGlnIC0zIC8vIGJBc3NldDogQXNzZXRJRAoJPAoJYXNzZXJ0CgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjkwCgkvLyB0aGlzLmFzc2V0QS52YWx1ZSA9IGFBc3NldAoJYnl0ZWMgMSAvLyAgImEiCglmcmFtZV9kaWcgLTIgLy8gYUFzc2V0OiBBc3NldElECglhcHBfZ2xvYmFsX3B1dAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czo5MQoJLy8gdGhpcy5hc3NldEIudmFsdWUgPSBiQXNzZXQKCWJ5dGVjIDIgLy8gICJiIgoJZnJhbWVfZGlnIC0zIC8vIGJBc3NldDogQXNzZXRJRAoJYXBwX2dsb2JhbF9wdXQKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6OTIKCS8vIHRoaXMucG9vbFRva2VuLnZhbHVlID0gdGhpcy5kb0NyZWF0ZVBvb2xUb2tlbihhQXNzZXQsIGJBc3NldCkKCWJ5dGVjIDQgLy8gICJwIgoJZnJhbWVfZGlnIC0zIC8vIGJBc3NldDogQXNzZXRJRAoJZnJhbWVfZGlnIC0yIC8vIGFBc3NldDogQXNzZXRJRAoJY2FsbHN1YiBkb0NyZWF0ZVBvb2xUb2tlbgoJYXBwX2dsb2JhbF9wdXQKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6OTQKCS8vIHRoaXMuZG9PcHRJbihhQXNzZXQpCglmcmFtZV9kaWcgLTIgLy8gYUFzc2V0OiBBc3NldElECgljYWxsc3ViIGRvT3B0SW4KCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6OTUKCS8vIHRoaXMuZG9PcHRJbihiQXNzZXQpCglmcmFtZV9kaWcgLTMgLy8gYkFzc2V0OiBBc3NldElECgljYWxsc3ViIGRvT3B0SW4KCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6OTcKCS8vIHJldHVybiB0aGlzLnBvb2xUb2tlbi52YWx1ZTsKCWJ5dGVjIDQgLy8gICJwIgoJYXBwX2dsb2JhbF9nZXQKCXJldHN1YgoKLy8gbWludChheGZlcixheGZlcix1aW50NjQsdWludDY0LHVpbnQ2NCl2b2lkCiphYmlfcm91dGVfbWludDoKCS8vIGJBc3NldDogdWludDY0Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAzCglidG9pCgoJLy8gYUFzc2V0OiB1aW50NjQKCXR4bmEgQXBwbGljYXRpb25BcmdzIDIKCWJ0b2kKCgkvLyBwb29sQXNzZXQ6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJYnRvaQoKCS8vIGJYZmVyOiBheGZlcgoJdHhuIEdyb3VwSW5kZXgKCWludGMgMSAvLyAxCgktCglkdXAKCWd0eG5zIFR5cGVFbnVtCglpbnRjIDMgLy8gIGF4ZmVyCgk9PQoKCS8vIGFyZ3VtZW50IDMgKGJYZmVyKSBmb3IgbWludCBtdXN0IGJlIGEgYXhmZXIgdHJhbnNhY3Rpb24KCWFzc2VydAoKCS8vIGFYZmVyOiBheGZlcgoJdHhuIEdyb3VwSW5kZXgKCWludGMgNSAvLyAyCgktCglkdXAKCWd0eG5zIFR5cGVFbnVtCglpbnRjIDMgLy8gIGF4ZmVyCgk9PQoKCS8vIGFyZ3VtZW50IDQgKGFYZmVyKSBmb3IgbWludCBtdXN0IGJlIGEgYXhmZXIgdHJhbnNhY3Rpb24KCWFzc2VydAoKCS8vIGV4ZWN1dGUgbWludChheGZlcixheGZlcix1aW50NjQsdWludDY0LHVpbnQ2NCl2b2lkCgljYWxsc3ViIG1pbnQKCWludGMgMSAvLyAxCglyZXR1cm4KCi8vIG1pbnQoYVhmZXI6IEFzc2V0VHJhbnNmZXJUeG4sIGJYZmVyOiBBc3NldFRyYW5zZmVyVHhuLCBwb29sQXNzZXQ6IEFzc2V0SUQsIGFBc3NldDogQXNzZXRJRCwgYkFzc2V0OiBBc3NldElEKTogdm9pZAptaW50OgoJcHJvdG8gNSAwCgoJLy8gUHVzaCBlbXB0eSBieXRlcyBhZnRlciB0aGUgZnJhbWUgcG9pbnRlciB0byByZXNlcnZlIHNwYWNlIGZvciBsb2NhbCB2YXJpYWJsZXMKCWJ5dGVjIDAgLy8gMHgKCgkvLyB3ZWxsIGZvcm1lZCBtaW50CgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTAyCgkvLyBhc3NlcnQoYUFzc2V0ID09PSB0aGlzLmFzc2V0QS52YWx1ZSkKCWZyYW1lX2RpZyAtNCAvLyBhQXNzZXQ6IEFzc2V0SUQKCWJ5dGVjIDEgLy8gICJhIgoJYXBwX2dsb2JhbF9nZXQKCT09Cglhc3NlcnQKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTAzCgkvLyBhc3NlcnQoYkFzc2V0ID09PSB0aGlzLmFzc2V0Qi52YWx1ZSkKCWZyYW1lX2RpZyAtNSAvLyBiQXNzZXQ6IEFzc2V0SUQKCWJ5dGVjIDIgLy8gICJiIgoJYXBwX2dsb2JhbF9nZXQKCT09Cglhc3NlcnQKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTA0CgkvLyBhc3NlcnQocG9vbEFzc2V0ID09PSB0aGlzLnBvb2xUb2tlbi52YWx1ZSkKCWZyYW1lX2RpZyAtMyAvLyBwb29sQXNzZXQ6IEFzc2V0SUQKCWJ5dGVjIDQgLy8gICJwIgoJYXBwX2dsb2JhbF9nZXQKCT09Cglhc3NlcnQKCgkvLyB2YWxpZCBhc3NldCBBIGF4ZmVyCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTA3CgkvLyB2ZXJpZnlBc3NldFRyYW5zZmVyVHhuKGFYZmVyLCB7CgkvLyAgICAgICBzZW5kZXI6IHRoaXMudHhuLnNlbmRlciwKCS8vICAgICAgIGFzc2V0QW1vdW50OiB7IGdyZWF0ZXJUaGFuOiAwIH0sCgkvLyAgICAgICBhc3NldFJlY2VpdmVyOiB0aGlzLmFwcC5hZGRyZXNzLAoJLy8gICAgICAgeGZlckFzc2V0OiBhQXNzZXQsCgkvLyAgICAgfSkKCS8vIHZlcmlmeSBzZW5kZXIKCWZyYW1lX2RpZyAtMSAvLyBhWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgU2VuZGVyCgl0eG4gU2VuZGVyCgk9PQoKCS8vIHRyYW5zYWN0aW9uIHZlcmlmaWNhdGlvbiBmYWlsZWQ6IHsidHhuIjoiYVhmZXIiLCJmaWVsZCI6InNlbmRlciIsImV4cGVjdGVkIjoidGhpcy50eG4uc2VuZGVyIn0KCWFzc2VydAoKCS8vIHZlcmlmeSBhc3NldEFtb3VudAoJZnJhbWVfZGlnIC0xIC8vIGFYZmVyOiBBc3NldFRyYW5zZmVyVHhuCglndHhucyBBc3NldEFtb3VudAoJaW50YyAwIC8vIDAKCT4KCgkvLyB0cmFuc2FjdGlvbiB2ZXJpZmljYXRpb24gZmFpbGVkOiB7InR4biI6ImFYZmVyIiwiZmllbGQiOiJhc3NldEFtb3VudCIsImNvbmRpdGlvbiI6ImdyZWF0ZXJUaGFuIiwiZXhwZWN0ZWQiOiI+MCJ9Cglhc3NlcnQKCgkvLyB2ZXJpZnkgYXNzZXRSZWNlaXZlcgoJZnJhbWVfZGlnIC0xIC8vIGFYZmVyOiBBc3NldFRyYW5zZmVyVHhuCglndHhucyBBc3NldFJlY2VpdmVyCglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJPT0KCgkvLyB0cmFuc2FjdGlvbiB2ZXJpZmljYXRpb24gZmFpbGVkOiB7InR4biI6ImFYZmVyIiwiZmllbGQiOiJhc3NldFJlY2VpdmVyIiwiZXhwZWN0ZWQiOiJ0aGlzLmFwcC5hZGRyZXNzIn0KCWFzc2VydAoKCS8vIHZlcmlmeSB4ZmVyQXNzZXQKCWZyYW1lX2RpZyAtMSAvLyBhWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgWGZlckFzc2V0CglmcmFtZV9kaWcgLTQgLy8gYUFzc2V0OiBBc3NldElECgk9PQoKCS8vIHRyYW5zYWN0aW9uIHZlcmlmaWNhdGlvbiBmYWlsZWQ6IHsidHhuIjoiYVhmZXIiLCJmaWVsZCI6InhmZXJBc3NldCIsImV4cGVjdGVkIjoiYUFzc2V0In0KCWFzc2VydAoKCS8vIHZhbGlkIGFzc2V0IEIgYXhmZXIKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoxMTUKCS8vIHZlcmlmeUFzc2V0VHJhbnNmZXJUeG4oYlhmZXIsIHsKCS8vICAgICAgIHNlbmRlcjogdGhpcy50eG4uc2VuZGVyLAoJLy8gICAgICAgYXNzZXRBbW91bnQ6IHsgZ3JlYXRlclRoYW46IDAgfSwKCS8vICAgICAgIGFzc2V0UmVjZWl2ZXI6IHRoaXMuYXBwLmFkZHJlc3MsCgkvLyAgICAgICB4ZmVyQXNzZXQ6IGJBc3NldCwKCS8vICAgICB9KQoJLy8gdmVyaWZ5IHNlbmRlcgoJZnJhbWVfZGlnIC0yIC8vIGJYZmVyOiBBc3NldFRyYW5zZmVyVHhuCglndHhucyBTZW5kZXIKCXR4biBTZW5kZXIKCT09CgoJLy8gdHJhbnNhY3Rpb24gdmVyaWZpY2F0aW9uIGZhaWxlZDogeyJ0eG4iOiJiWGZlciIsImZpZWxkIjoic2VuZGVyIiwiZXhwZWN0ZWQiOiJ0aGlzLnR4bi5zZW5kZXIifQoJYXNzZXJ0CgoJLy8gdmVyaWZ5IGFzc2V0QW1vdW50CglmcmFtZV9kaWcgLTIgLy8gYlhmZXI6IEFzc2V0VHJhbnNmZXJUeG4KCWd0eG5zIEFzc2V0QW1vdW50CglpbnRjIDAgLy8gMAoJPgoKCS8vIHRyYW5zYWN0aW9uIHZlcmlmaWNhdGlvbiBmYWlsZWQ6IHsidHhuIjoiYlhmZXIiLCJmaWVsZCI6ImFzc2V0QW1vdW50IiwiY29uZGl0aW9uIjoiZ3JlYXRlclRoYW4iLCJleHBlY3RlZCI6Ij4wIn0KCWFzc2VydAoKCS8vIHZlcmlmeSBhc3NldFJlY2VpdmVyCglmcmFtZV9kaWcgLTIgLy8gYlhmZXI6IEFzc2V0VHJhbnNmZXJUeG4KCWd0eG5zIEFzc2V0UmVjZWl2ZXIKCWdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCgk9PQoKCS8vIHRyYW5zYWN0aW9uIHZlcmlmaWNhdGlvbiBmYWlsZWQ6IHsidHhuIjoiYlhmZXIiLCJmaWVsZCI6ImFzc2V0UmVjZWl2ZXIiLCJleHBlY3RlZCI6InRoaXMuYXBwLmFkZHJlc3MifQoJYXNzZXJ0CgoJLy8gdmVyaWZ5IHhmZXJBc3NldAoJZnJhbWVfZGlnIC0yIC8vIGJYZmVyOiBBc3NldFRyYW5zZmVyVHhuCglndHhucyBYZmVyQXNzZXQKCWZyYW1lX2RpZyAtNSAvLyBiQXNzZXQ6IEFzc2V0SUQKCT09CgoJLy8gdHJhbnNhY3Rpb24gdmVyaWZpY2F0aW9uIGZhaWxlZDogeyJ0eG4iOiJiWGZlciIsImZpZWxkIjoieGZlckFzc2V0IiwiZXhwZWN0ZWQiOiJiQXNzZXQifQoJYXNzZXJ0CgoJLy8gKmlmMF9jb25kaXRpb24KCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoxMjMKCS8vIHRoaXMuYXBwLmFkZHJlc3MuYXNzZXRCYWxhbmNlKGFBc3NldCkgPT09IGFYZmVyLmFzc2V0QW1vdW50ICYmCgkvLyAgICAgICB0aGlzLmFwcC5hZGRyZXNzLmFzc2V0QmFsYW5jZShiQXNzZXQpID09PSBiWGZlci5hc3NldEFtb3VudAoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCWZyYW1lX2RpZyAtNCAvLyBhQXNzZXQ6IEFzc2V0SUQKCWFzc2V0X2hvbGRpbmdfZ2V0IEFzc2V0QmFsYW5jZQoJcG9wCglmcmFtZV9kaWcgLTEgLy8gYVhmZXI6IEFzc2V0VHJhbnNmZXJUeG4KCWd0eG5zIEFzc2V0QW1vdW50Cgk9PQoJZHVwCglieiAqc2tpcF9hbmQwCglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJZnJhbWVfZGlnIC01IC8vIGJBc3NldDogQXNzZXRJRAoJYXNzZXRfaG9sZGluZ19nZXQgQXNzZXRCYWxhbmNlCglwb3AKCWZyYW1lX2RpZyAtMiAvLyBiWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgQXNzZXRBbW91bnQKCT09CgkmJgoKKnNraXBfYW5kMDoKCWJ6ICppZjBfZWxzZQoKCS8vICppZjBfY29uc2VxdWVudAoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjEyNgoJLy8gdGhpcy50b2tlbnNUb01pbnRJbnRpYWwoYVhmZXIuYXNzZXRBbW91bnQsIGJYZmVyLmFzc2V0QW1vdW50KQoJZnJhbWVfZGlnIC0yIC8vIGJYZmVyOiBBc3NldFRyYW5zZmVyVHhuCglndHhucyBBc3NldEFtb3VudAoJZnJhbWVfZGlnIC0xIC8vIGFYZmVyOiBBc3NldFRyYW5zZmVyVHhuCglndHhucyBBc3NldEFtb3VudAoJY2FsbHN1YiB0b2tlbnNUb01pbnRJbnRpYWwKCWIgKmlmMF9lbmQKCippZjBfZWxzZToKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoxMjgKCS8vIHRvTWludCA9IHRoaXMudG9rZW5zVG9NaW50KAoJLy8gICAgICAgICBUT1RBTF9TVVBQTFkgLSB0aGlzLmFwcC5hZGRyZXNzLmFzc2V0QmFsYW5jZShwb29sQXNzZXQpLAoJLy8gICAgICAgICB0aGlzLmFwcC5hZGRyZXNzLmFzc2V0QmFsYW5jZShhQXNzZXQpIC0gYVhmZXIuYXNzZXRBbW91bnQsCgkvLyAgICAgICAgIHRoaXMuYXBwLmFkZHJlc3MuYXNzZXRCYWxhbmNlKGJBc3NldCkgLSBiWGZlci5hc3NldEFtb3VudCwKCS8vICAgICAgICAgYVhmZXIuYXNzZXRBbW91bnQsCgkvLyAgICAgICAgIGJYZmVyLmFzc2V0QW1vdW50CgkvLyAgICAgICApCglmcmFtZV9kaWcgLTIgLy8gYlhmZXI6IEFzc2V0VHJhbnNmZXJUeG4KCWd0eG5zIEFzc2V0QW1vdW50CglmcmFtZV9kaWcgLTEgLy8gYVhmZXI6IEFzc2V0VHJhbnNmZXJUeG4KCWd0eG5zIEFzc2V0QW1vdW50CglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJZnJhbWVfZGlnIC01IC8vIGJBc3NldDogQXNzZXRJRAoJYXNzZXRfaG9sZGluZ19nZXQgQXNzZXRCYWxhbmNlCglwb3AKCWZyYW1lX2RpZyAtMiAvLyBiWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgQXNzZXRBbW91bnQKCS0KCWdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCglmcmFtZV9kaWcgLTQgLy8gYUFzc2V0OiBBc3NldElECglhc3NldF9ob2xkaW5nX2dldCBBc3NldEJhbGFuY2UKCXBvcAoJZnJhbWVfZGlnIC0xIC8vIGFYZmVyOiBBc3NldFRyYW5zZmVyVHhuCglndHhucyBBc3NldEFtb3VudAoJLQoJaW50YyA0IC8vIDEwMDAwMDAwMDAwCglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJZnJhbWVfZGlnIC0zIC8vIHBvb2xBc3NldDogQXNzZXRJRAoJYXNzZXRfaG9sZGluZ19nZXQgQXNzZXRCYWxhbmNlCglwb3AKCS0KCWNhbGxzdWIgdG9rZW5zVG9NaW50CglmcmFtZV9idXJ5IDAgLy8gdG9NaW50OiB1aW50NjQKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTM2CgkvLyBhc3NlcnQodG9NaW50ID4gMCkKCWZyYW1lX2RpZyAwIC8vIHRvTWludDogdWludDY0CglpbnRjIDAgLy8gMAoJPgoJYXNzZXJ0CgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjEzOAoJLy8gdGhpcy5kb0F4ZmVyKHRoaXMudHhuLnNlbmRlciwgcG9vbEFzc2V0LCB0b01pbnQpCglmcmFtZV9kaWcgMCAvLyB0b01pbnQ6IHVpbnQ2NAoJZnJhbWVfZGlnIC0zIC8vIHBvb2xBc3NldDogQXNzZXRJRAoJdHhuIFNlbmRlcgoJY2FsbHN1YiBkb0F4ZmVyCgoqaWYwX2VuZDoKCXJldHN1YgoKLy8gYnVybihheGZlcix1aW50NjQsdWludDY0LHVpbnQ2NCl2b2lkCiphYmlfcm91dGVfYnVybjoKCS8vIGJBc3NldDogdWludDY0Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAzCglidG9pCgoJLy8gYUFzc2V0OiB1aW50NjQKCXR4bmEgQXBwbGljYXRpb25BcmdzIDIKCWJ0b2kKCgkvLyBwb29sQXNzZXQ6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJYnRvaQoKCS8vIHBvb2xYZmVyOiBheGZlcgoJdHhuIEdyb3VwSW5kZXgKCWludGMgMSAvLyAxCgktCglkdXAKCWd0eG5zIFR5cGVFbnVtCglpbnRjIDMgLy8gIGF4ZmVyCgk9PQoKCS8vIGFyZ3VtZW50IDMgKHBvb2xYZmVyKSBmb3IgYnVybiBtdXN0IGJlIGEgYXhmZXIgdHJhbnNhY3Rpb24KCWFzc2VydAoKCS8vIGV4ZWN1dGUgYnVybihheGZlcix1aW50NjQsdWludDY0LHVpbnQ2NCl2b2lkCgljYWxsc3ViIGJ1cm4KCWludGMgMSAvLyAxCglyZXR1cm4KCi8vIGJ1cm4ocG9vbFhmZXI6IEFzc2V0VHJhbnNmZXJUeG4sIHBvb2xBc3NldDogQXNzZXRJRCwgYUFzc2V0OiBBc3NldElELCBiQXNzZXQ6IEFzc2V0SUQpOiB2b2lkCmJ1cm46Cglwcm90byA0IDAKCgkvLyBQdXNoIGVtcHR5IGJ5dGVzIGFmdGVyIHRoZSBmcmFtZSBwb2ludGVyIHRvIHJlc2VydmUgc3BhY2UgZm9yIGxvY2FsIHZhcmlhYmxlcwoJYnl0ZWMgMCAvLyAweAoJZHVwbiAyCgoJLy8gd2VsbCBmb3JtZWQgYnVybgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjE0NAoJLy8gYXNzZXJ0KHBvb2xBc3NldCA9PT0gdGhpcy5wb29sVG9rZW4udmFsdWUpCglmcmFtZV9kaWcgLTIgLy8gcG9vbEFzc2V0OiBBc3NldElECglieXRlYyA0IC8vICAicCIKCWFwcF9nbG9iYWxfZ2V0Cgk9PQoJYXNzZXJ0CgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjE0NQoJLy8gYXNzZXJ0KGFBc3NldCA9PT0gdGhpcy5hc3NldEEudmFsdWUpCglmcmFtZV9kaWcgLTMgLy8gYUFzc2V0OiBBc3NldElECglieXRlYyAxIC8vICAiYSIKCWFwcF9nbG9iYWxfZ2V0Cgk9PQoJYXNzZXJ0CgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjE0NgoJLy8gYXNzZXJ0KGJBc3NldCA9PT0gdGhpcy5hc3NldEIudmFsdWUpCglmcmFtZV9kaWcgLTQgLy8gYkFzc2V0OiBBc3NldElECglieXRlYyAyIC8vICAiYiIKCWFwcF9nbG9iYWxfZ2V0Cgk9PQoJYXNzZXJ0CgoJLy8gdmFsaWQgcG9vbCBheGZlcgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjE0OQoJLy8gdmVyaWZ5QXNzZXRUcmFuc2ZlclR4bihwb29sWGZlciwgewoJLy8gICAgICAgc2VuZGVyOiB0aGlzLnR4bi5zZW5kZXIsCgkvLyAgICAgICBhc3NldEFtb3VudDogeyBncmVhdGVyVGhhbjogMCB9LAoJLy8gICAgICAgYXNzZXRSZWNlaXZlcjogdGhpcy5hcHAuYWRkcmVzcywKCS8vICAgICAgIHhmZXJBc3NldDogcG9vbEFzc2V0LAoJLy8gICAgIH0pCgkvLyB2ZXJpZnkgc2VuZGVyCglmcmFtZV9kaWcgLTEgLy8gcG9vbFhmZXI6IEFzc2V0VHJhbnNmZXJUeG4KCWd0eG5zIFNlbmRlcgoJdHhuIFNlbmRlcgoJPT0KCgkvLyB0cmFuc2FjdGlvbiB2ZXJpZmljYXRpb24gZmFpbGVkOiB7InR4biI6InBvb2xYZmVyIiwiZmllbGQiOiJzZW5kZXIiLCJleHBlY3RlZCI6InRoaXMudHhuLnNlbmRlciJ9Cglhc3NlcnQKCgkvLyB2ZXJpZnkgYXNzZXRBbW91bnQKCWZyYW1lX2RpZyAtMSAvLyBwb29sWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgQXNzZXRBbW91bnQKCWludGMgMCAvLyAwCgk+CgoJLy8gdHJhbnNhY3Rpb24gdmVyaWZpY2F0aW9uIGZhaWxlZDogeyJ0eG4iOiJwb29sWGZlciIsImZpZWxkIjoiYXNzZXRBbW91bnQiLCJjb25kaXRpb24iOiJncmVhdGVyVGhhbiIsImV4cGVjdGVkIjoiPjAifQoJYXNzZXJ0CgoJLy8gdmVyaWZ5IGFzc2V0UmVjZWl2ZXIKCWZyYW1lX2RpZyAtMSAvLyBwb29sWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgQXNzZXRSZWNlaXZlcgoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCT09CgoJLy8gdHJhbnNhY3Rpb24gdmVyaWZpY2F0aW9uIGZhaWxlZDogeyJ0eG4iOiJwb29sWGZlciIsImZpZWxkIjoiYXNzZXRSZWNlaXZlciIsImV4cGVjdGVkIjoidGhpcy5hcHAuYWRkcmVzcyJ9Cglhc3NlcnQKCgkvLyB2ZXJpZnkgeGZlckFzc2V0CglmcmFtZV9kaWcgLTEgLy8gcG9vbFhmZXI6IEFzc2V0VHJhbnNmZXJUeG4KCWd0eG5zIFhmZXJBc3NldAoJZnJhbWVfZGlnIC0yIC8vIHBvb2xBc3NldDogQXNzZXRJRAoJPT0KCgkvLyB0cmFuc2FjdGlvbiB2ZXJpZmljYXRpb24gZmFpbGVkOiB7InR4biI6InBvb2xYZmVyIiwiZmllbGQiOiJ4ZmVyQXNzZXQiLCJleHBlY3RlZCI6InBvb2xBc3NldCJ9Cglhc3NlcnQKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTU2CgkvLyBpc3N1ZWQgPSBUT1RBTF9TVVBQTFkgLSAodGhpcy5hcHAuYWRkcmVzcy5hc3NldEJhbGFuY2UocG9vbEFzc2V0KSAtIHBvb2xYZmVyLmFzc2V0QW1vdW50KQoJaW50YyA0IC8vIDEwMDAwMDAwMDAwCglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJZnJhbWVfZGlnIC0yIC8vIHBvb2xBc3NldDogQXNzZXRJRAoJYXNzZXRfaG9sZGluZ19nZXQgQXNzZXRCYWxhbmNlCglwb3AKCWZyYW1lX2RpZyAtMSAvLyBwb29sWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgQXNzZXRBbW91bnQKCS0KCS0KCWZyYW1lX2J1cnkgMCAvLyBpc3N1ZWQ6IHVpbnQ2NAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoxNTgKCS8vIGFBbXQgPSB0aGlzLnRva2Vuc1RvQnVybihpc3N1ZWQsIHRoaXMuYXBwLmFkZHJlc3MuYXNzZXRCYWxhbmNlKGFBc3NldCksIHBvb2xYZmVyLmFzc2V0QW1vdW50KQoJZnJhbWVfZGlnIC0xIC8vIHBvb2xYZmVyOiBBc3NldFRyYW5zZmVyVHhuCglndHhucyBBc3NldEFtb3VudAoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCWZyYW1lX2RpZyAtMyAvLyBhQXNzZXQ6IEFzc2V0SUQKCWFzc2V0X2hvbGRpbmdfZ2V0IEFzc2V0QmFsYW5jZQoJcG9wCglmcmFtZV9kaWcgMCAvLyBpc3N1ZWQ6IHVpbnQ2NAoJY2FsbHN1YiB0b2tlbnNUb0J1cm4KCWZyYW1lX2J1cnkgMSAvLyBhQW10OiB1aW50NjQKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTYwCgkvLyBiQW10ID0gdGhpcy50b2tlbnNUb0J1cm4oaXNzdWVkLCB0aGlzLmFwcC5hZGRyZXNzLmFzc2V0QmFsYW5jZShiQXNzZXQpLCBwb29sWGZlci5hc3NldEFtb3VudCkKCWZyYW1lX2RpZyAtMSAvLyBwb29sWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgQXNzZXRBbW91bnQKCWdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCglmcmFtZV9kaWcgLTQgLy8gYkFzc2V0OiBBc3NldElECglhc3NldF9ob2xkaW5nX2dldCBBc3NldEJhbGFuY2UKCXBvcAoJZnJhbWVfZGlnIDAgLy8gaXNzdWVkOiB1aW50NjQKCWNhbGxzdWIgdG9rZW5zVG9CdXJuCglmcmFtZV9idXJ5IDIgLy8gYkFtdDogdWludDY0CgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjE2MgoJLy8gdGhpcy5kb0F4ZmVyKHRoaXMudHhuLnNlbmRlciwgYUFzc2V0LCBhQW10KQoJZnJhbWVfZGlnIDEgLy8gYUFtdDogdWludDY0CglmcmFtZV9kaWcgLTMgLy8gYUFzc2V0OiBBc3NldElECgl0eG4gU2VuZGVyCgljYWxsc3ViIGRvQXhmZXIKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTYzCgkvLyB0aGlzLmRvQXhmZXIodGhpcy50eG4uc2VuZGVyLCBiQXNzZXQsIGJBbXQpCglmcmFtZV9kaWcgMiAvLyBiQW10OiB1aW50NjQKCWZyYW1lX2RpZyAtNCAvLyBiQXNzZXQ6IEFzc2V0SUQKCXR4biBTZW5kZXIKCWNhbGxzdWIgZG9BeGZlcgoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoxNjUKCS8vIHRoaXMucmF0aW8udmFsdWUgPSB0aGlzLmNvbXB1dGVSYXRpbygpCglieXRlYyA1IC8vICAiciIKCWNhbGxzdWIgY29tcHV0ZVJhdGlvCglhcHBfZ2xvYmFsX3B1dAoJcmV0c3ViCgovLyBzd2FwKGF4ZmVyLHVpbnQ2NCx1aW50NjQpdm9pZAoqYWJpX3JvdXRlX3N3YXA6CgkvLyBiQXNzZXQ6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgoJYnRvaQoKCS8vIGFBc3NldDogdWludDY0Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglidG9pCgoJLy8gc3dhcFhmZXI6IGF4ZmVyCgl0eG4gR3JvdXBJbmRleAoJaW50YyAxIC8vIDEKCS0KCWR1cAoJZ3R4bnMgVHlwZUVudW0KCWludGMgMyAvLyAgYXhmZXIKCT09CgoJLy8gYXJndW1lbnQgMiAoc3dhcFhmZXIpIGZvciBzd2FwIG11c3QgYmUgYSBheGZlciB0cmFuc2FjdGlvbgoJYXNzZXJ0CgoJLy8gZXhlY3V0ZSBzd2FwKGF4ZmVyLHVpbnQ2NCx1aW50NjQpdm9pZAoJY2FsbHN1YiBzd2FwCglpbnRjIDEgLy8gMQoJcmV0dXJuCgovLyBzd2FwKHN3YXBYZmVyOiBBc3NldFRyYW5zZmVyVHhuLCBhQXNzZXQ6IEFzc2V0SUQsIGJBc3NldDogQXNzZXRJRCk6IHZvaWQKc3dhcDoKCXByb3RvIDMgMAoKCS8vIFB1c2ggZW1wdHkgYnl0ZXMgYWZ0ZXIgdGhlIGZyYW1lIHBvaW50ZXIgdG8gcmVzZXJ2ZSBzcGFjZSBmb3IgbG9jYWwgdmFyaWFibGVzCglieXRlYyAwIC8vIDB4CglkdXBuIDIKCgkvLyB3ZWxsIGZvcm1lZCBzd2FwCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTcwCgkvLyBhc3NlcnQoYUFzc2V0ID09PSB0aGlzLmFzc2V0QS52YWx1ZSkKCWZyYW1lX2RpZyAtMiAvLyBhQXNzZXQ6IEFzc2V0SUQKCWJ5dGVjIDEgLy8gICJhIgoJYXBwX2dsb2JhbF9nZXQKCT09Cglhc3NlcnQKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTcxCgkvLyBhc3NlcnQoYkFzc2V0ID09PSB0aGlzLmFzc2V0Qi52YWx1ZSkKCWZyYW1lX2RpZyAtMyAvLyBiQXNzZXQ6IEFzc2V0SUQKCWJ5dGVjIDIgLy8gICJiIgoJYXBwX2dsb2JhbF9nZXQKCT09Cglhc3NlcnQKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTczCgkvLyB2ZXJpZnlBc3NldFRyYW5zZmVyVHhuKHN3YXBYZmVyLCB7CgkvLyAgICAgICBhc3NldEFtb3VudDogeyBncmVhdGVyVGhhbjogMCB9LAoJLy8gICAgICAgYXNzZXRSZWNlaXZlcjogdGhpcy5hcHAuYWRkcmVzcywKCS8vICAgICAgIHNlbmRlcjogdGhpcy50eG4uc2VuZGVyLAoJLy8gICAgICAgeGZlckFzc2V0OiB7IGluY2x1ZGVkSW46IFthQXNzZXQsIGJBc3NldF0gfSwKCS8vICAgICB9KQoJLy8gdmVyaWZ5IGFzc2V0QW1vdW50CglmcmFtZV9kaWcgLTEgLy8gc3dhcFhmZXI6IEFzc2V0VHJhbnNmZXJUeG4KCWd0eG5zIEFzc2V0QW1vdW50CglpbnRjIDAgLy8gMAoJPgoKCS8vIHRyYW5zYWN0aW9uIHZlcmlmaWNhdGlvbiBmYWlsZWQ6IHsidHhuIjoic3dhcFhmZXIiLCJmaWVsZCI6ImFzc2V0QW1vdW50IiwiY29uZGl0aW9uIjoiZ3JlYXRlclRoYW4iLCJleHBlY3RlZCI6Ij4wIn0KCWFzc2VydAoKCS8vIHZlcmlmeSBhc3NldFJlY2VpdmVyCglmcmFtZV9kaWcgLTEgLy8gc3dhcFhmZXI6IEFzc2V0VHJhbnNmZXJUeG4KCWd0eG5zIEFzc2V0UmVjZWl2ZXIKCWdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCgk9PQoKCS8vIHRyYW5zYWN0aW9uIHZlcmlmaWNhdGlvbiBmYWlsZWQ6IHsidHhuIjoic3dhcFhmZXIiLCJmaWVsZCI6ImFzc2V0UmVjZWl2ZXIiLCJleHBlY3RlZCI6InRoaXMuYXBwLmFkZHJlc3MifQoJYXNzZXJ0CgoJLy8gdmVyaWZ5IHNlbmRlcgoJZnJhbWVfZGlnIC0xIC8vIHN3YXBYZmVyOiBBc3NldFRyYW5zZmVyVHhuCglndHhucyBTZW5kZXIKCXR4biBTZW5kZXIKCT09CgoJLy8gdHJhbnNhY3Rpb24gdmVyaWZpY2F0aW9uIGZhaWxlZDogeyJ0eG4iOiJzd2FwWGZlciIsImZpZWxkIjoic2VuZGVyIiwiZXhwZWN0ZWQiOiJ0aGlzLnR4bi5zZW5kZXIifQoJYXNzZXJ0CgoJLy8gdmVyaWZ5IHhmZXJBc3NldAoJZnJhbWVfZGlnIC0xIC8vIHN3YXBYZmVyOiBBc3NldFRyYW5zZmVyVHhuCglndHhucyBYZmVyQXNzZXQKCWZyYW1lX2RpZyAtMiAvLyBhQXNzZXQ6IEFzc2V0SUQKCT09CglmcmFtZV9kaWcgLTEgLy8gc3dhcFhmZXI6IEFzc2V0VHJhbnNmZXJUeG4KCWd0eG5zIFhmZXJBc3NldAoJZnJhbWVfZGlnIC0zIC8vIGJBc3NldDogQXNzZXRJRAoJPT0KCXx8CgoJLy8gdHJhbnNhY3Rpb24gdmVyaWZpY2F0aW9uIGZhaWxlZDogeyJ0eG4iOnsidHhuVGV4dCI6InN3YXBYZmVyIn0sImZpZWxkIjoieGZlckFzc2V0IiwiY29uZGl0aW9uIjoiaW5jbHVkZWRJbiIsImV4cGVjdGVkIjoiW2FBc3NldCwgYkFzc2V0XSJ9Cglhc3NlcnQKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTgwCgkvLyBvdXRJZCA9IHN3YXBYZmVyLnhmZXJBc3NldCA9PT0gYUFzc2V0ID8gYUFzc2V0IDogYkFzc2V0CglmcmFtZV9kaWcgLTEgLy8gc3dhcFhmZXI6IEFzc2V0VHJhbnNmZXJUeG4KCWd0eG5zIFhmZXJBc3NldAoJZnJhbWVfZGlnIC0yIC8vIGFBc3NldDogQXNzZXRJRAoJPT0KCWJ6ICp0ZXJuYXJ5MV9mYWxzZQoJZnJhbWVfZGlnIC0yIC8vIGFBc3NldDogQXNzZXRJRAoJYiAqdGVybmFyeTFfZW5kCgoqdGVybmFyeTFfZmFsc2U6CglmcmFtZV9kaWcgLTMgLy8gYkFzc2V0OiBBc3NldElECgoqdGVybmFyeTFfZW5kOgoJZnJhbWVfYnVyeSAwIC8vIG91dElkOiB1aW50NjQKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTgyCgkvLyBpbklkID0gc3dhcFhmZXIueGZlckFzc2V0CglmcmFtZV9kaWcgLTEgLy8gc3dhcFhmZXI6IEFzc2V0VHJhbnNmZXJUeG4KCWd0eG5zIFhmZXJBc3NldAoJZnJhbWVfYnVyeSAxIC8vIGluSWQ6IHVpbnQ2NAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoxODQKCS8vIHRvU3dhcCA9IHRoaXMudG9rZW5zVG9Td2FwKAoJLy8gICAgICAgc3dhcFhmZXIuYXNzZXRBbW91bnQsCgkvLyAgICAgICB0aGlzLmFwcC5hZGRyZXNzLmFzc2V0QmFsYW5jZShpbklkKSAtIHN3YXBYZmVyLmFzc2V0QW1vdW50LAoJLy8gICAgICAgdGhpcy5hcHAuYWRkcmVzcy5hc3NldEJhbGFuY2Uob3V0SWQpCgkvLyAgICAgKQoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCWZyYW1lX2RpZyAwIC8vIG91dElkOiB1aW50NjQKCWFzc2V0X2hvbGRpbmdfZ2V0IEFzc2V0QmFsYW5jZQoJcG9wCglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJZnJhbWVfZGlnIDEgLy8gaW5JZDogdWludDY0Cglhc3NldF9ob2xkaW5nX2dldCBBc3NldEJhbGFuY2UKCXBvcAoJZnJhbWVfZGlnIC0xIC8vIHN3YXBYZmVyOiBBc3NldFRyYW5zZmVyVHhuCglndHhucyBBc3NldEFtb3VudAoJLQoJZnJhbWVfZGlnIC0xIC8vIHN3YXBYZmVyOiBBc3NldFRyYW5zZmVyVHhuCglndHhucyBBc3NldEFtb3VudAoJY2FsbHN1YiB0b2tlbnNUb1N3YXAKCWZyYW1lX2J1cnkgMiAvLyB0b1N3YXA6IHVpbnQ2NAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoxOTAKCS8vIGFzc2VydCh0b1N3YXAgPiAwKQoJZnJhbWVfZGlnIDIgLy8gdG9Td2FwOiB1aW50NjQKCWludGMgMCAvLyAwCgk+Cglhc3NlcnQKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTkyCgkvLyB0aGlzLmRvQXhmZXIodGhpcy50eG4uc2VuZGVyLCBvdXRJZCwgdG9Td2FwKQoJZnJhbWVfZGlnIDIgLy8gdG9Td2FwOiB1aW50NjQKCWZyYW1lX2RpZyAwIC8vIG91dElkOiB1aW50NjQKCXR4biBTZW5kZXIKCWNhbGxzdWIgZG9BeGZlcgoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoxOTQKCS8vIHRoaXMucmF0aW8udmFsdWUgPSB0aGlzLmNvbXB1dGVSYXRpbygpCglieXRlYyA1IC8vICAiciIKCWNhbGxzdWIgY29tcHV0ZVJhdGlvCglhcHBfZ2xvYmFsX3B1dAoJcmV0c3ViCgoqY3JlYXRlX05vT3A6CglwdXNoYnl0ZXMgMHhiODQ0N2IzNiAvLyBtZXRob2QgImNyZWF0ZUFwcGxpY2F0aW9uKCl2b2lkIgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggKmFiaV9yb3V0ZV9jcmVhdGVBcHBsaWNhdGlvbgoKCS8vIHRoaXMgY29udHJhY3QgZG9lcyBub3QgaW1wbGVtZW50IHRoZSBnaXZlbiBBQkkgbWV0aG9kIGZvciBjcmVhdGUgTm9PcAoJZXJyCgoqY2FsbF9Ob09wOgoJcHVzaGJ5dGVzIDB4ZGRjNGNiNGEgLy8gbWV0aG9kICJzZXRfZ292ZXJub3IoYWRkcmVzcyl2b2lkIgoJcHVzaGJ5dGVzIDB4MjVlNmMzNzYgLy8gbWV0aG9kICJib290c3RyYXAocGF5LHVpbnQ2NCx1aW50NjQpdWludDY0IgoJcHVzaGJ5dGVzIDB4MTAwNDVjNzkgLy8gbWV0aG9kICJtaW50KGF4ZmVyLGF4ZmVyLHVpbnQ2NCx1aW50NjQsdWludDY0KXZvaWQiCglwdXNoYnl0ZXMgMHgwMjhlMzdjMSAvLyBtZXRob2QgImJ1cm4oYXhmZXIsdWludDY0LHVpbnQ2NCx1aW50NjQpdm9pZCIKCXB1c2hieXRlcyAweDYzMmFhZWQ4IC8vIG1ldGhvZCAic3dhcChheGZlcix1aW50NjQsdWludDY0KXZvaWQiCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAwCgltYXRjaCAqYWJpX3JvdXRlX3NldF9nb3Zlcm5vciAqYWJpX3JvdXRlX2Jvb3RzdHJhcCAqYWJpX3JvdXRlX21pbnQgKmFiaV9yb3V0ZV9idXJuICphYmlfcm91dGVfc3dhcAoKCS8vIHRoaXMgY29udHJhY3QgZG9lcyBub3QgaW1wbGVtZW50IHRoZSBnaXZlbiBBQkkgbWV0aG9kIGZvciBjYWxsIE5vT3AKCWVycg==",
     "clear": "I3ByYWdtYSB2ZXJzaW9uIDEw"
   },
   "byteCode": {
-    "approval": "CiAEAIDIr6AlAegHJgYAAWEBYgFnAXABcjEYFIEGCzEZCI0MBC0AAAAAAAAAAAAABB8AAAAAAAAAAAAAAIgAA4EBQ4oAAIABZzEAZ4mKAgGxgQOyEIAERFBULYv/cQNIUIABLVCL/nEDSFCyJoADZHB0siWBgMivoCWyIoEDsiMyCrIpMgqyKoEAsgGztDyJigMAsYEEshCL/7IUi/6yEYv9shKBALIBs4mKAQCBAIv/MgqI/9qJigIBi/+L/guSiYoFAYAARwKL/IHoBx2BAIv+H0hITBREjACL+4HoBx2BAIv9H0hITBREjAGLAIsBDEEABYsAQgACiwGMAosCi/8dgQCB6AcfSEhMFESMAEYCiYoAATIKgAFhZHAASIHoBx2BADIKgAFiZHAASB9ISEwURImKAwGL/ov9HYEAi/8fSEhMFESJigMBgACB4weMAIv/iwAdi/1PAksBC04CHU4CCEyBAIv+gegHC4v/iwALCB9ISEwURIwAiTYaAUkVgSASRIgAA4EBQ4oBADEAgAFnZBJEgAFni/9niYAEFR98dTYaAhc2GgEXMRaBAQlJOBCBARJEiAAGFlCwgQFDigMBMQCAAWdkEkQyBIECEkSL/zgHMgoSRIv/OAiB4KcSD0SL/ov9DESAAWGL/meAAWKL/WeAAXCL/Yv+iP5PZ4v+iP6mi/2I/qGAAXBkiTYaAxc2GgIXNhoBFzEWgQEJSTgQgQQSRDEWgQIJSTgQgQQSRIgAA4EBQ4oFAIAAi/yAAWFkEkSL+4ABYmQSRIv9gAFwZBJEi/84ADEAEkSL/zgSgQANRIv/OBQyChJEi/84EYv8EkSL/jgAMQASRIv+OBKBAA1Ei/44FDIKEkSL/jgRi/sSRDIKi/xwAEiL/zgSEklBAA0yCov7cABIi/44EhIQQQAOi/44Eov/OBKI/fdCAEKL/jgSi/84EjIKi/twAEiL/jgSCTIKi/xwAEiL/zgSCYGAyK+gJTIKi/1wAEgJiP3NjACLAIEADUSLAIv9MQCI/YuJNhoDFzYaAhc2GgEXMRaBAQlJOBCBBBJEiAADgQFDigQAgABHAov+gAFwZBJEi/2AAWFkEkSL/IABYmQSRIv/OAAxABJEi/84EoEADUSL/zgUMgoSRIv/OBGL/hJEgYDIr6AlMgqL/nAASIv/OBIJCYwAi/84EjIKi/1wAEiLAIj9rIwBi/84EjIKi/xwAEiLAIj9mowCiwGL/TEAiPzriwKL/DEAiPzigAFyiP1eZ4k2GgIXNhoBFzEWgQEJSTgQgQQSRIgAA4EBQ4oDAIAARwKL/oABYWQSRIv9gAFiZBJEi/84EoEADUSL/zgUMgoSRIv/OAAxABJEi/84EYv+Eov/OBGL/RIRRIv/OBGL/hJBAAWL/kIAAov9jACL/zgRjAEyCosAcABIMgqLAXAASIv/OBIJi/84Eoj9BYwCiwKBAA1EiwKLADEAiPw9gAFyiPy5Z4mABLhEezY2GgCOAfvVAIAE3cTLSoAEJebDdoAEEARceYAEAo43wYAEYyqu2DYaAI4F/OX9Bv14/nD/IAA=",
+    "approval": "CiAHAAHoBwSAyK+gJQIDJgYAAWEBYgFnAXABcjEYFIEGCzEZCI0MA9EAAAAAAAAAAAAAA8MAAAAAAAAAAAAAAIgAAiNDigAAKzEAZ4mKAgGxIQayEIAERFBULYv/cQNIUIABLVCL/nEDSFCyJoADZHB0siUhBLIiIQayIzIKsikyCrIqIrIBs7Q8iYoDALElshCL/7IUi/6yEYv9shIisgGziYoBACKL/zIKiP/diYoCAYv/i/4LkomKBQEoRwKL/CQdIov+H0hITBREjACL+yQdIov9H0hITBREjAGLAIsBDEEABYsAQgACiwGMAosCi/8dIiQfSEhMFESMAEYCiYoAATIKKWRwAEgkHSIyCipkcABIH0hITBREiYoDAYv+i/0dIov/H0hITBREiYoDASiB4weMAIv/iwAdi/1PAksBC04CHU4CCEwii/4kC4v/iwALCB9ISEwURIwAiTYaAUkVgSASRIgAAiNDigEAMQArZBJEK4v/Z4mABBUffHU2GgIXNhoBFzEWIwlJOBAjEkSIAAUWULAjQ4oDATEAK2QSRDIEIQUSRIv/OAcyChJEi/84CIHgpxIPRIv+i/0MRCmL/mcqi/1nJwSL/Yv+iP58Z4v+iP7Mi/2I/scnBGSJNhoDFzYaAhc2GgEXMRYjCUk4ECUSRDEWIQUJSTgQJRJEiAACI0OKBQAoi/wpZBJEi/sqZBJEi/0nBGQSRIv/OAAxABJEi/84EiINRIv/OBQyChJEi/84EYv8EkSL/jgAMQASRIv+OBIiDUSL/jgUMgoSRIv+OBGL+xJEMgqL/HAASIv/OBISSUEADTIKi/twAEiL/jgSEhBBAA6L/jgSi/84Eoj+KUIAPYv+OBKL/zgSMgqL+3AASIv+OBIJMgqL/HAASIv/OBIJIQQyCov9cABICYj+A4wAiwAiDUSLAIv9MQCI/cWJNhoDFzYaAhc2GgEXMRYjCUk4ECUSRIgAAiNDigQAKEcCi/4nBGQSRIv9KWQSRIv8KmQSRIv/OAAxABJEi/84EiINRIv/OBQyChJEi/84EYv+EkQhBDIKi/5wAEiL/zgSCQmMAIv/OBIyCov9cABIiwCI/eCMAYv/OBIyCov8cABIiwCI/c6MAosBi/0xAIj9M4sCi/wxAIj9KicFiP2aZ4k2GgIXNhoBFzEWIwlJOBAlEkSIAAIjQ4oDAChHAov+KWQSRIv9KmQSRIv/OBIiDUSL/zgUMgoSRIv/OAAxABJEi/84EYv+Eov/OBGL/RIRRIv/OBGL/hJBAAWL/kIAAov9jACL/zgRjAEyCosAcABIMgqLAXAASIv/OBIJi/84Eoj9QowCiwIiDUSLAosAMQCI/JAnBYj9AGeJgAS4RHs2NhoAjgH8MQCABN3Ey0qABCXmw3aABBAEXHmABAKON8GABGMqrtg2GgCOBf0g/Tz9o/6K/ysA",
     "clear": "Cg=="
   },
   "compilerInfo": {

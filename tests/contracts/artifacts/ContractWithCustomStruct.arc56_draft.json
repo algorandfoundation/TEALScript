@@ -85,22 +85,16 @@
           ]
         },
         {
-          "teal": 13,
+          "teal": 2,
           "source": "tests/contracts/inheritance-external.algo.ts:19",
           "pc": [
             1,
-            2
-          ]
-        },
-        {
-          "teal": 14,
-          "source": "tests/contracts/inheritance-external.algo.ts:19",
-          "pc": [
+            2,
             3
           ]
         },
         {
-          "teal": 15,
+          "teal": 14,
           "source": "tests/contracts/inheritance-external.algo.ts:19",
           "pc": [
             4,
@@ -108,14 +102,14 @@
           ]
         },
         {
-          "teal": 16,
+          "teal": 15,
           "source": "tests/contracts/inheritance-external.algo.ts:19",
           "pc": [
             6
           ]
         },
         {
-          "teal": 17,
+          "teal": 16,
           "source": "tests/contracts/inheritance-external.algo.ts:19",
           "pc": [
             7,
@@ -123,19 +117,31 @@
           ]
         },
         {
-          "teal": 18,
+          "teal": 17,
           "source": "tests/contracts/inheritance-external.algo.ts:19",
           "pc": [
             9
           ]
         },
         {
-          "teal": 19,
+          "teal": 18,
           "source": "tests/contracts/inheritance-external.algo.ts:19",
           "pc": [
             10,
-            11,
-            12,
+            11
+          ]
+        },
+        {
+          "teal": 19,
+          "source": "tests/contracts/inheritance-external.algo.ts:19",
+          "pc": [
+            12
+          ]
+        },
+        {
+          "teal": 20,
+          "source": "tests/contracts/inheritance-external.algo.ts:19",
+          "pc": [
             13,
             14,
             15,
@@ -158,33 +164,27 @@
             32,
             33,
             34,
-            35
+            35,
+            36,
+            37,
+            38
           ]
         },
         {
-          "teal": 23,
+          "teal": 24,
           "source": "tests/contracts/inheritance-external.algo.ts:19",
           "errorMessage": "The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?",
           "pc": [
-            36
+            39
           ]
         },
         {
-          "teal": 28,
+          "teal": 29,
           "source": "tests/contracts/inheritance-external.algo.ts:20",
           "pc": [
-            37,
-            38,
-            39,
             40,
             41,
-            42
-          ]
-        },
-        {
-          "teal": 31,
-          "source": "tests/contracts/inheritance-external.algo.ts:20",
-          "pc": [
+            42,
             43,
             44,
             45
@@ -194,45 +194,45 @@
           "teal": 32,
           "source": "tests/contracts/inheritance-external.algo.ts:20",
           "pc": [
-            46
+            46,
+            47,
+            48
           ]
         },
         {
           "teal": 33,
           "source": "tests/contracts/inheritance-external.algo.ts:20",
           "pc": [
-            47
+            49
           ]
         },
         {
           "teal": 34,
           "source": "tests/contracts/inheritance-external.algo.ts:20",
           "pc": [
-            48,
-            49
+            50
           ]
         },
         {
           "teal": 35,
           "source": "tests/contracts/inheritance-external.algo.ts:20",
           "pc": [
-            50
+            51,
+            52
           ]
         },
         {
-          "teal": 38,
+          "teal": 36,
+          "source": "tests/contracts/inheritance-external.algo.ts:20",
+          "pc": [
+            53
+          ]
+        },
+        {
+          "teal": 39,
           "source": "tests/contracts/inheritance-external.algo.ts:20",
           "errorMessage": "argument 0 (input) for customStructMethod must be a (uint64)",
           "pc": [
-            51
-          ]
-        },
-        {
-          "teal": 41,
-          "source": "tests/contracts/inheritance-external.algo.ts:20",
-          "pc": [
-            52,
-            53,
             54
           ]
         },
@@ -240,60 +240,60 @@
           "teal": 42,
           "source": "tests/contracts/inheritance-external.algo.ts:20",
           "pc": [
-            55
+            55,
+            56,
+            57
           ]
         },
         {
           "teal": 43,
           "source": "tests/contracts/inheritance-external.algo.ts:20",
           "pc": [
-            56
+            58
           ]
         },
         {
           "teal": 44,
           "source": "tests/contracts/inheritance-external.algo.ts:20",
           "pc": [
-            57,
-            58
+            59
           ]
         },
         {
           "teal": 45,
           "source": "tests/contracts/inheritance-external.algo.ts:20",
           "pc": [
-            59
+            60
           ]
         },
         {
-          "teal": 49,
+          "teal": 46,
           "source": "tests/contracts/inheritance-external.algo.ts:20",
           "pc": [
-            60,
-            61,
-            62
+            61
           ]
         },
         {
-          "teal": 53,
-          "source": "tests/contracts/inheritance-external.algo.ts:21",
+          "teal": 50,
+          "source": "tests/contracts/inheritance-external.algo.ts:20",
           "pc": [
+            62,
             63,
             64
           ]
         },
         {
           "teal": 54,
-          "source": "tests/contracts/inheritance-external.algo.ts:20",
+          "source": "tests/contracts/inheritance-external.algo.ts:21",
           "pc": [
-            65
+            65,
+            66
           ]
         },
         {
-          "teal": 57,
-          "source": "tests/contracts/inheritance-external.algo.ts:19",
+          "teal": 55,
+          "source": "tests/contracts/inheritance-external.algo.ts:20",
           "pc": [
-            66,
             67
           ]
         },
@@ -305,81 +305,88 @@
           ]
         },
         {
-          "teal": 61,
+          "teal": 59,
           "source": "tests/contracts/inheritance-external.algo.ts:19",
           "pc": [
-            69,
-            70,
-            71,
-            72,
-            73,
-            74
+            69
           ]
         },
         {
           "teal": 62,
           "source": "tests/contracts/inheritance-external.algo.ts:19",
           "pc": [
-            75,
-            76,
-            77
+            70,
+            71,
+            72,
+            73,
+            74,
+            75
           ]
         },
         {
           "teal": 63,
           "source": "tests/contracts/inheritance-external.algo.ts:19",
           "pc": [
-            78,
-            79,
-            80,
-            81
+            76,
+            77,
+            78
           ]
         },
         {
-          "teal": 66,
+          "teal": 64,
           "source": "tests/contracts/inheritance-external.algo.ts:19",
-          "errorMessage": "this contract does not implement the given ABI method for create NoOp",
           "pc": [
+            79,
+            80,
+            81,
             82
           ]
         },
         {
-          "teal": 69,
+          "teal": 67,
           "source": "tests/contracts/inheritance-external.algo.ts:19",
+          "errorMessage": "this contract does not implement the given ABI method for create NoOp",
           "pc": [
-            83,
-            84,
-            85,
-            86,
-            87,
-            88
+            83
           ]
         },
         {
           "teal": 70,
           "source": "tests/contracts/inheritance-external.algo.ts:19",
           "pc": [
-            89,
-            90,
-            91
+            84,
+            85,
+            86,
+            87,
+            88,
+            89
           ]
         },
         {
           "teal": 71,
           "source": "tests/contracts/inheritance-external.algo.ts:19",
           "pc": [
-            92,
-            93,
-            94,
-            95
+            90,
+            91,
+            92
           ]
         },
         {
-          "teal": 74,
+          "teal": 72,
+          "source": "tests/contracts/inheritance-external.algo.ts:19",
+          "pc": [
+            93,
+            94,
+            95,
+            96
+          ]
+        },
+        {
+          "teal": 75,
           "source": "tests/contracts/inheritance-external.algo.ts:19",
           "errorMessage": "this contract does not implement the given ABI method for call NoOp",
           "pc": [
-            96
+            97
           ]
         }
       ],
@@ -391,11 +398,11 @@
     }
   },
   "source": {
-    "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCgovLyBUaGlzIFRFQUwgd2FzIGdlbmVyYXRlZCBieSBURUFMU2NyaXB0IHYwLjEwNS4wCi8vIGh0dHBzOi8vZ2l0aHViLmNvbS9hbGdvcmFuZGZvdW5kYXRpb24vVEVBTFNjcmlwdAoKLy8gVGhpcyBjb250cmFjdCBpcyBjb21wbGlhbnQgd2l0aCBhbmQvb3IgaW1wbGVtZW50cyB0aGUgZm9sbG93aW5nIEFSQ3M6IFsgQVJDNCBdCgovLyBUaGUgZm9sbG93aW5nIHRlbiBsaW5lcyBvZiBURUFMIGhhbmRsZSBpbml0aWFsIHByb2dyYW0gZmxvdwovLyBUaGlzIHBhdHRlcm4gaXMgdXNlZCB0byBtYWtlIGl0IGVhc3kgZm9yIGFueW9uZSB0byBwYXJzZSB0aGUgc3RhcnQgb2YgdGhlIHByb2dyYW0gYW5kIGRldGVybWluZSBpZiBhIHNwZWNpZmljIGFjdGlvbiBpcyBhbGxvd2VkCi8vIEhlcmUsIGFjdGlvbiByZWZlcnMgdG8gdGhlIE9uQ29tcGxldGUgaW4gY29tYmluYXRpb24gd2l0aCB3aGV0aGVyIHRoZSBhcHAgaXMgYmVpbmcgY3JlYXRlZCBvciBjYWxsZWQKLy8gRXZlcnkgcG9zc2libGUgYWN0aW9uIGZvciB0aGlzIGNvbnRyYWN0IGlzIHJlcHJlc2VudGVkIGluIHRoZSBzd2l0Y2ggc3RhdGVtZW50Ci8vIElmIHRoZSBhY3Rpb24gaXMgbm90IGltcGxlbWVudGVkIGluIHRoZSBjb250cmFjdCwgaXRzIHJlc3BlY3RpdmUgYnJhbmNoIHdpbGwgYmUgIipOT1RfSU1QTEVNRU5URUQiIHdoaWNoIGp1c3QgY29udGFpbnMgImVyciIKdHhuIEFwcGxpY2F0aW9uSUQKIQpwdXNoaW50IDYKKgp0eG4gT25Db21wbGV0aW9uCisKc3dpdGNoICpjYWxsX05vT3AgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpjcmVhdGVfTm9PcCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQKCipOT1RfSU1QTEVNRU5URUQ6CgkvLyBUaGUgcmVxdWVzdGVkIGFjdGlvbiBpcyBub3QgaW1wbGVtZW50ZWQgaW4gdGhpcyBjb250cmFjdC4gQXJlIHlvdSB1c2luZyB0aGUgY29ycmVjdCBPbkNvbXBsZXRlPyBEaWQgeW91IHNldCB5b3VyIGFwcCBJRD8KCWVycgoKLy8gY3VzdG9tU3RydWN0TWV0aG9kKCh1aW50NjQpKSh1aW50NjQpCiphYmlfcm91dGVfY3VzdG9tU3RydWN0TWV0aG9kOgoJLy8gVGhlIEFCSSByZXR1cm4gcHJlZml4CglwdXNoYnl0ZXMgMHgxNTFmN2M3NQoKCS8vIGlucHV0OiAodWludDY0KQoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJZHVwCglsZW4KCXB1c2hpbnQgOAoJPT0KCgkvLyBhcmd1bWVudCAwIChpbnB1dCkgZm9yIGN1c3RvbVN0cnVjdE1ldGhvZCBtdXN0IGJlIGEgKHVpbnQ2NCkKCWFzc2VydAoKCS8vIGV4ZWN1dGUgY3VzdG9tU3RydWN0TWV0aG9kKCh1aW50NjQpKSh1aW50NjQpCgljYWxsc3ViIGN1c3RvbVN0cnVjdE1ldGhvZAoJY29uY2F0Cglsb2cKCXB1c2hpbnQgMQoJcmV0dXJuCgovLyBjdXN0b21TdHJ1Y3RNZXRob2QoaW5wdXQ6IEFub3RoZXJDdXN0b21TdHJ1Y3QpOiBBbm90aGVyQ3VzdG9tU3RydWN0CmN1c3RvbVN0cnVjdE1ldGhvZDoKCXByb3RvIDEgMQoKCS8vIHRlc3RzL2NvbnRyYWN0cy9pbmhlcml0YW5jZS1leHRlcm5hbC5hbGdvLnRzOjIxCgkvLyByZXR1cm4gaW5wdXQ7CglmcmFtZV9kaWcgLTEgLy8gaW5wdXQ6IEFub3RoZXJDdXN0b21TdHJ1Y3QKCXJldHN1YgoKKmFiaV9yb3V0ZV9jcmVhdGVBcHBsaWNhdGlvbjoKCXB1c2hpbnQgMQoJcmV0dXJuCgoqY3JlYXRlX05vT3A6CglwdXNoYnl0ZXMgMHhiODQ0N2IzNiAvLyBtZXRob2QgImNyZWF0ZUFwcGxpY2F0aW9uKCl2b2lkIgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggKmFiaV9yb3V0ZV9jcmVhdGVBcHBsaWNhdGlvbgoKCS8vIHRoaXMgY29udHJhY3QgZG9lcyBub3QgaW1wbGVtZW50IHRoZSBnaXZlbiBBQkkgbWV0aG9kIGZvciBjcmVhdGUgTm9PcAoJZXJyCgoqY2FsbF9Ob09wOgoJcHVzaGJ5dGVzIDB4OGQyMjczOWEgLy8gbWV0aG9kICJjdXN0b21TdHJ1Y3RNZXRob2QoKHVpbnQ2NCkpKHVpbnQ2NCkiCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAwCgltYXRjaCAqYWJpX3JvdXRlX2N1c3RvbVN0cnVjdE1ldGhvZAoKCS8vIHRoaXMgY29udHJhY3QgZG9lcyBub3QgaW1wbGVtZW50IHRoZSBnaXZlbiBBQkkgbWV0aG9kIGZvciBjYWxsIE5vT3AKCWVycg==",
+    "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCmludGNibG9jayAxCgovLyBUaGlzIFRFQUwgd2FzIGdlbmVyYXRlZCBieSBURUFMU2NyaXB0IHYwLjEwNS4xCi8vIGh0dHBzOi8vZ2l0aHViLmNvbS9hbGdvcmFuZGZvdW5kYXRpb24vVEVBTFNjcmlwdAoKLy8gVGhpcyBjb250cmFjdCBpcyBjb21wbGlhbnQgd2l0aCBhbmQvb3IgaW1wbGVtZW50cyB0aGUgZm9sbG93aW5nIEFSQ3M6IFsgQVJDNCBdCgovLyBUaGUgZm9sbG93aW5nIHRlbiBsaW5lcyBvZiBURUFMIGhhbmRsZSBpbml0aWFsIHByb2dyYW0gZmxvdwovLyBUaGlzIHBhdHRlcm4gaXMgdXNlZCB0byBtYWtlIGl0IGVhc3kgZm9yIGFueW9uZSB0byBwYXJzZSB0aGUgc3RhcnQgb2YgdGhlIHByb2dyYW0gYW5kIGRldGVybWluZSBpZiBhIHNwZWNpZmljIGFjdGlvbiBpcyBhbGxvd2VkCi8vIEhlcmUsIGFjdGlvbiByZWZlcnMgdG8gdGhlIE9uQ29tcGxldGUgaW4gY29tYmluYXRpb24gd2l0aCB3aGV0aGVyIHRoZSBhcHAgaXMgYmVpbmcgY3JlYXRlZCBvciBjYWxsZWQKLy8gRXZlcnkgcG9zc2libGUgYWN0aW9uIGZvciB0aGlzIGNvbnRyYWN0IGlzIHJlcHJlc2VudGVkIGluIHRoZSBzd2l0Y2ggc3RhdGVtZW50Ci8vIElmIHRoZSBhY3Rpb24gaXMgbm90IGltcGxlbWVudGVkIGluIHRoZSBjb250cmFjdCwgaXRzIHJlc3BlY3RpdmUgYnJhbmNoIHdpbGwgYmUgIipOT1RfSU1QTEVNRU5URUQiIHdoaWNoIGp1c3QgY29udGFpbnMgImVyciIKdHhuIEFwcGxpY2F0aW9uSUQKIQpwdXNoaW50IDYKKgp0eG4gT25Db21wbGV0aW9uCisKc3dpdGNoICpjYWxsX05vT3AgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpjcmVhdGVfTm9PcCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQKCipOT1RfSU1QTEVNRU5URUQ6CgkvLyBUaGUgcmVxdWVzdGVkIGFjdGlvbiBpcyBub3QgaW1wbGVtZW50ZWQgaW4gdGhpcyBjb250cmFjdC4gQXJlIHlvdSB1c2luZyB0aGUgY29ycmVjdCBPbkNvbXBsZXRlPyBEaWQgeW91IHNldCB5b3VyIGFwcCBJRD8KCWVycgoKLy8gY3VzdG9tU3RydWN0TWV0aG9kKCh1aW50NjQpKSh1aW50NjQpCiphYmlfcm91dGVfY3VzdG9tU3RydWN0TWV0aG9kOgoJLy8gVGhlIEFCSSByZXR1cm4gcHJlZml4CglwdXNoYnl0ZXMgMHgxNTFmN2M3NQoKCS8vIGlucHV0OiAodWludDY0KQoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJZHVwCglsZW4KCXB1c2hpbnQgOAoJPT0KCgkvLyBhcmd1bWVudCAwIChpbnB1dCkgZm9yIGN1c3RvbVN0cnVjdE1ldGhvZCBtdXN0IGJlIGEgKHVpbnQ2NCkKCWFzc2VydAoKCS8vIGV4ZWN1dGUgY3VzdG9tU3RydWN0TWV0aG9kKCh1aW50NjQpKSh1aW50NjQpCgljYWxsc3ViIGN1c3RvbVN0cnVjdE1ldGhvZAoJY29uY2F0Cglsb2cKCWludGMgMCAvLyAxCglyZXR1cm4KCi8vIGN1c3RvbVN0cnVjdE1ldGhvZChpbnB1dDogQW5vdGhlckN1c3RvbVN0cnVjdCk6IEFub3RoZXJDdXN0b21TdHJ1Y3QKY3VzdG9tU3RydWN0TWV0aG9kOgoJcHJvdG8gMSAxCgoJLy8gdGVzdHMvY29udHJhY3RzL2luaGVyaXRhbmNlLWV4dGVybmFsLmFsZ28udHM6MjEKCS8vIHJldHVybiBpbnB1dDsKCWZyYW1lX2RpZyAtMSAvLyBpbnB1dDogQW5vdGhlckN1c3RvbVN0cnVjdAoJcmV0c3ViCgoqYWJpX3JvdXRlX2NyZWF0ZUFwcGxpY2F0aW9uOgoJaW50YyAwIC8vIDEKCXJldHVybgoKKmNyZWF0ZV9Ob09wOgoJcHVzaGJ5dGVzIDB4Yjg0NDdiMzYgLy8gbWV0aG9kICJjcmVhdGVBcHBsaWNhdGlvbigpdm9pZCIKCXR4bmEgQXBwbGljYXRpb25BcmdzIDAKCW1hdGNoICphYmlfcm91dGVfY3JlYXRlQXBwbGljYXRpb24KCgkvLyB0aGlzIGNvbnRyYWN0IGRvZXMgbm90IGltcGxlbWVudCB0aGUgZ2l2ZW4gQUJJIG1ldGhvZCBmb3IgY3JlYXRlIE5vT3AKCWVycgoKKmNhbGxfTm9PcDoKCXB1c2hieXRlcyAweDhkMjI3MzlhIC8vIG1ldGhvZCAiY3VzdG9tU3RydWN0TWV0aG9kKCh1aW50NjQpKSh1aW50NjQpIgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggKmFiaV9yb3V0ZV9jdXN0b21TdHJ1Y3RNZXRob2QKCgkvLyB0aGlzIGNvbnRyYWN0IGRvZXMgbm90IGltcGxlbWVudCB0aGUgZ2l2ZW4gQUJJIG1ldGhvZCBmb3IgY2FsbCBOb09wCgllcnI=",
     "clear": "I3ByYWdtYSB2ZXJzaW9uIDEw"
   },
   "byteCode": {
-    "approval": "CjEYFIEGCzEZCI0MAC8AAAAAAAAAAAAAACEAAAAAAAAAAAAAAIAEFR98dTYaAUkVgQgSRIgABVCwgQFDigEBi/+JgQFDgAS4RHs2NhoAjgH/8ACABI0ic5o2GgCOAf/FAA==",
+    "approval": "CiABATEYFIEGCzEZCI0MAC0AAAAAAAAAAAAAAB8AAAAAAAAAAAAAAIAEFR98dTYaAUkVgQgSRIgABFCwIkOKAQGL/4kiQ4AEuER7NjYaAI4B//EAgASNInOaNhoAjgH/xwA=",
     "clear": "Cg=="
   },
   "compilerInfo": {

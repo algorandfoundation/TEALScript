@@ -52,7 +52,14 @@ function getConstantBlockOffsets(bytes: number[]) {
 }
 
 describe('Template Variables', function () {
-  artifactsTest(PATH, ARTIFACTS_DIR, NAME);
+  artifactsTest(PATH, ARTIFACTS_DIR, NAME, {
+    templateVars: {
+      bytes64TmplVar: `0x${'0'.repeat(64)}`,
+      uint64TmplVar: 123,
+      bytes32TmplVar: `0x${'0'.repeat(32)}`,
+      bytesTmplVar: '0xFF',
+    },
+  });
 
   describe('E2E', function () {
     const sender = algokit.getLocalNetDispenserAccount(algodClient, kmdClient);

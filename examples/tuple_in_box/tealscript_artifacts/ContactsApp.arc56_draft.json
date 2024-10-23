@@ -181,38 +181,26 @@
           "pc": [
             1,
             2,
-            3
+            3,
+            4,
+            5,
+            6
           ]
         },
         {
           "teal": 3,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
-            4,
-            5,
-            6,
             7,
             8,
-            9
-          ]
-        },
-        {
-          "teal": 15,
-          "source": "examples/tuple_in_box/app.algo.ts:6",
-          "pc": [
+            9,
             10,
-            11
-          ]
-        },
-        {
-          "teal": 16,
-          "source": "examples/tuple_in_box/app.algo.ts:6",
-          "pc": [
+            11,
             12
           ]
         },
         {
-          "teal": 17,
+          "teal": 15,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
             13,
@@ -220,14 +208,14 @@
           ]
         },
         {
-          "teal": 18,
+          "teal": 16,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
             15
           ]
         },
         {
-          "teal": 19,
+          "teal": 17,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
             16,
@@ -235,19 +223,31 @@
           ]
         },
         {
-          "teal": 20,
+          "teal": 18,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
             18
           ]
         },
         {
-          "teal": 21,
+          "teal": 19,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
             19,
-            20,
-            21,
+            20
+          ]
+        },
+        {
+          "teal": 20,
+          "source": "examples/tuple_in_box/app.algo.ts:6",
+          "pc": [
+            21
+          ]
+        },
+        {
+          "teal": 21,
+          "source": "examples/tuple_in_box/app.algo.ts:6",
+          "pc": [
             22,
             23,
             24,
@@ -270,7 +270,10 @@
             41,
             42,
             43,
-            44
+            44,
+            45,
+            46,
+            47
           ]
         },
         {
@@ -278,20 +281,11 @@
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "errorMessage": "The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?",
           "pc": [
-            45
-          ]
-        },
-        {
-          "teal": 30,
-          "source": "examples/tuple_in_box/app.algo.ts:11",
-          "pc": [
-            46,
-            47,
             48
           ]
         },
         {
-          "teal": 31,
+          "teal": 30,
           "source": "examples/tuple_in_box/app.algo.ts:11",
           "pc": [
             49,
@@ -300,7 +294,7 @@
           ]
         },
         {
-          "teal": 34,
+          "teal": 31,
           "source": "examples/tuple_in_box/app.algo.ts:11",
           "pc": [
             52,
@@ -309,7 +303,7 @@
           ]
         },
         {
-          "teal": 35,
+          "teal": 34,
           "source": "examples/tuple_in_box/app.algo.ts:11",
           "pc": [
             55,
@@ -318,7 +312,7 @@
           ]
         },
         {
-          "teal": 38,
+          "teal": 35,
           "source": "examples/tuple_in_box/app.algo.ts:11",
           "pc": [
             58,
@@ -327,42 +321,48 @@
           ]
         },
         {
-          "teal": 39,
+          "teal": 38,
           "source": "examples/tuple_in_box/app.algo.ts:11",
           "pc": [
             61,
-            62
+            62,
+            63
+          ]
+        },
+        {
+          "teal": 39,
+          "source": "examples/tuple_in_box/app.algo.ts:11",
+          "pc": [
+            64
           ]
         },
         {
           "teal": 40,
           "source": "examples/tuple_in_box/app.algo.ts:11",
           "pc": [
-            63
+            65
           ]
         },
         {
           "teal": 44,
           "source": "examples/tuple_in_box/app.algo.ts:11",
           "pc": [
-            64,
-            65,
-            66
+            66,
+            67,
+            68
           ]
         },
         {
           "teal": 47,
           "source": "examples/tuple_in_box/app.algo.ts:11",
           "pc": [
-            67,
-            68
+            69
           ]
         },
         {
           "teal": 51,
           "source": "examples/tuple_in_box/app.algo.ts:12",
           "pc": [
-            69,
             70
           ]
         },
@@ -370,283 +370,278 @@
           "teal": 52,
           "source": "examples/tuple_in_box/app.algo.ts:12",
           "pc": [
-            71,
-            72
+            71
           ]
         },
         {
           "teal": 53,
           "source": "examples/tuple_in_box/app.algo.ts:12",
           "pc": [
-            73,
-            74,
-            75,
-            76
+            72
           ]
         },
         {
           "teal": 54,
           "source": "examples/tuple_in_box/app.algo.ts:12",
           "pc": [
-            77,
-            78
+            73,
+            74
           ]
         },
         {
           "teal": 55,
           "source": "examples/tuple_in_box/app.algo.ts:12",
           "pc": [
-            79
+            75
           ]
         },
         {
           "teal": 56,
           "source": "examples/tuple_in_box/app.algo.ts:12",
           "pc": [
-            80
+            76
           ]
         },
         {
           "teal": 57,
           "source": "examples/tuple_in_box/app.algo.ts:12",
           "pc": [
-            81
+            77
           ]
         },
         {
           "teal": 58,
           "source": "examples/tuple_in_box/app.algo.ts:12",
           "pc": [
-            82,
-            83,
-            84
+            78,
+            79,
+            80
           ]
         },
         {
           "teal": 59,
           "source": "examples/tuple_in_box/app.algo.ts:12",
           "pc": [
-            85
+            81
           ]
         },
         {
           "teal": 60,
           "source": "examples/tuple_in_box/app.algo.ts:12",
           "pc": [
-            86
+            82
           ]
         },
         {
           "teal": 61,
           "source": "examples/tuple_in_box/app.algo.ts:12",
           "pc": [
-            87,
-            88,
-            89
+            83,
+            84,
+            85
           ]
         },
         {
           "teal": 62,
           "source": "examples/tuple_in_box/app.algo.ts:12",
           "pc": [
-            90,
-            91
+            86,
+            87
           ]
         },
         {
           "teal": 63,
           "source": "examples/tuple_in_box/app.algo.ts:12",
           "pc": [
-            92
+            88
           ]
         },
         {
           "teal": 64,
           "source": "examples/tuple_in_box/app.algo.ts:12",
           "pc": [
-            93
+            89
           ]
         },
         {
           "teal": 65,
           "source": "examples/tuple_in_box/app.algo.ts:12",
           "pc": [
-            94
+            90
           ]
         },
         {
           "teal": 66,
           "source": "examples/tuple_in_box/app.algo.ts:12",
           "pc": [
-            95,
-            96,
-            97
+            91,
+            92,
+            93
           ]
         },
         {
           "teal": 67,
           "source": "examples/tuple_in_box/app.algo.ts:12",
           "pc": [
-            98
+            94
           ]
         },
         {
           "teal": 68,
           "source": "examples/tuple_in_box/app.algo.ts:12",
           "pc": [
-            99
+            95
           ]
         },
         {
           "teal": 69,
           "source": "examples/tuple_in_box/app.algo.ts:12",
           "pc": [
-            100,
-            101,
-            102
+            96,
+            97,
+            98
           ]
         },
         {
           "teal": 70,
           "source": "examples/tuple_in_box/app.algo.ts:12",
           "pc": [
-            103
+            99
           ]
         },
         {
           "teal": 71,
           "source": "examples/tuple_in_box/app.algo.ts:12",
           "pc": [
-            104
+            100
           ]
         },
         {
           "teal": 72,
           "source": "examples/tuple_in_box/app.algo.ts:12",
           "pc": [
-            105,
-            106
+            101,
+            102
           ]
         },
         {
           "teal": 76,
           "source": "examples/tuple_in_box/app.algo.ts:14",
           "pc": [
+            103,
+            104,
+            105,
+            106,
             107,
             108,
             109,
             110,
             111,
             112,
-            113,
-            114,
-            115,
-            116,
-            117
+            113
           ]
         },
         {
           "teal": 77,
           "source": "examples/tuple_in_box/app.algo.ts:14",
           "pc": [
-            118,
-            119
+            114,
+            115
           ]
         },
         {
           "teal": 78,
           "source": "examples/tuple_in_box/app.algo.ts:14",
           "pc": [
-            120
+            116
           ]
         },
         {
           "teal": 82,
           "source": "examples/tuple_in_box/app.algo.ts:15",
           "pc": [
-            121,
-            122
+            117,
+            118
           ]
         },
         {
           "teal": 83,
           "source": "examples/tuple_in_box/app.algo.ts:15",
           "pc": [
-            123
+            119
           ]
         },
         {
           "teal": 84,
           "source": "examples/tuple_in_box/app.algo.ts:15",
           "pc": [
-            124
+            120
           ]
         },
         {
           "teal": 85,
           "source": "examples/tuple_in_box/app.algo.ts:15",
           "pc": [
-            125
+            121
           ]
         },
         {
           "teal": 86,
           "source": "examples/tuple_in_box/app.algo.ts:15",
           "pc": [
-            126,
-            127
+            122,
+            123
           ]
         },
         {
           "teal": 87,
           "source": "examples/tuple_in_box/app.algo.ts:15",
           "pc": [
-            128
+            124
           ]
         },
         {
           "teal": 88,
           "source": "examples/tuple_in_box/app.algo.ts:11",
           "pc": [
-            129
+            125
           ]
         },
         {
           "teal": 93,
           "source": "examples/tuple_in_box/app.algo.ts:18",
           "pc": [
-            130,
-            131,
-            132
+            126,
+            127,
+            128
           ]
         },
         {
           "teal": 94,
           "source": "examples/tuple_in_box/app.algo.ts:18",
           "pc": [
-            133
+            129
           ]
         },
         {
           "teal": 95,
           "source": "examples/tuple_in_box/app.algo.ts:18",
           "pc": [
-            134
+            130
           ]
         },
         {
           "teal": 96,
           "source": "examples/tuple_in_box/app.algo.ts:18",
           "pc": [
-            135,
-            136
+            131
           ]
         },
         {
           "teal": 97,
           "source": "examples/tuple_in_box/app.algo.ts:18",
           "pc": [
-            137
+            132
           ]
         },
         {
@@ -654,47 +649,70 @@
           "source": "examples/tuple_in_box/app.algo.ts:18",
           "errorMessage": "argument 0 (address) for addContact must be a address",
           "pc": [
-            138
+            133
           ]
         },
         {
           "teal": 103,
           "source": "examples/tuple_in_box/app.algo.ts:18",
           "pc": [
-            139,
-            140,
-            141
+            134,
+            135,
+            136
           ]
         },
         {
           "teal": 104,
           "source": "examples/tuple_in_box/app.algo.ts:18",
           "pc": [
-            142,
-            143,
-            144
+            137,
+            138,
+            139
           ]
         },
         {
           "teal": 107,
           "source": "examples/tuple_in_box/app.algo.ts:18",
           "pc": [
-            145,
-            146,
-            147
+            140,
+            141,
+            142
           ]
         },
         {
           "teal": 108,
           "source": "examples/tuple_in_box/app.algo.ts:18",
           "pc": [
-            148,
-            149,
-            150
+            143,
+            144,
+            145
           ]
         },
         {
           "teal": 111,
+          "source": "examples/tuple_in_box/app.algo.ts:18",
+          "pc": [
+            146,
+            147,
+            148
+          ]
+        },
+        {
+          "teal": 112,
+          "source": "examples/tuple_in_box/app.algo.ts:18",
+          "pc": [
+            149
+          ]
+        },
+        {
+          "teal": 113,
+          "source": "examples/tuple_in_box/app.algo.ts:18",
+          "pc": [
+            150
+          ]
+        },
+        {
+          "teal": 117,
           "source": "examples/tuple_in_box/app.algo.ts:18",
           "pc": [
             151,
@@ -703,294 +721,263 @@
           ]
         },
         {
-          "teal": 112,
-          "source": "examples/tuple_in_box/app.algo.ts:18",
-          "pc": [
-            154,
-            155
-          ]
-        },
-        {
-          "teal": 113,
-          "source": "examples/tuple_in_box/app.algo.ts:18",
-          "pc": [
-            156
-          ]
-        },
-        {
-          "teal": 117,
-          "source": "examples/tuple_in_box/app.algo.ts:18",
-          "pc": [
-            157,
-            158,
-            159
-          ]
-        },
-        {
           "teal": 120,
           "source": "examples/tuple_in_box/app.algo.ts:18",
           "pc": [
-            160,
-            161
+            154
           ]
         },
         {
           "teal": 124,
           "source": "examples/tuple_in_box/app.algo.ts:19",
           "pc": [
-            162,
-            163
+            155
           ]
         },
         {
           "teal": 125,
           "source": "examples/tuple_in_box/app.algo.ts:19",
           "pc": [
-            164,
-            165
+            156
           ]
         },
         {
           "teal": 126,
           "source": "examples/tuple_in_box/app.algo.ts:19",
           "pc": [
-            166,
-            167,
-            168,
-            169
+            157
           ]
         },
         {
           "teal": 127,
           "source": "examples/tuple_in_box/app.algo.ts:19",
           "pc": [
-            170,
-            171
+            158,
+            159
           ]
         },
         {
           "teal": 128,
           "source": "examples/tuple_in_box/app.algo.ts:19",
           "pc": [
-            172
+            160
           ]
         },
         {
           "teal": 129,
           "source": "examples/tuple_in_box/app.algo.ts:19",
           "pc": [
-            173
+            161
           ]
         },
         {
           "teal": 130,
           "source": "examples/tuple_in_box/app.algo.ts:19",
           "pc": [
-            174
+            162
           ]
         },
         {
           "teal": 131,
           "source": "examples/tuple_in_box/app.algo.ts:19",
           "pc": [
-            175,
-            176,
-            177
+            163,
+            164,
+            165
           ]
         },
         {
           "teal": 132,
           "source": "examples/tuple_in_box/app.algo.ts:19",
           "pc": [
-            178
+            166
           ]
         },
         {
           "teal": 133,
           "source": "examples/tuple_in_box/app.algo.ts:19",
           "pc": [
-            179
+            167
           ]
         },
         {
           "teal": 134,
           "source": "examples/tuple_in_box/app.algo.ts:19",
           "pc": [
-            180,
-            181,
-            182
+            168,
+            169,
+            170
           ]
         },
         {
           "teal": 135,
           "source": "examples/tuple_in_box/app.algo.ts:19",
           "pc": [
-            183,
-            184
+            171,
+            172
           ]
         },
         {
           "teal": 136,
           "source": "examples/tuple_in_box/app.algo.ts:19",
           "pc": [
-            185
+            173
           ]
         },
         {
           "teal": 137,
           "source": "examples/tuple_in_box/app.algo.ts:19",
           "pc": [
-            186
+            174
           ]
         },
         {
           "teal": 138,
           "source": "examples/tuple_in_box/app.algo.ts:19",
           "pc": [
-            187
+            175
           ]
         },
         {
           "teal": 139,
           "source": "examples/tuple_in_box/app.algo.ts:19",
           "pc": [
-            188,
-            189,
-            190
+            176,
+            177,
+            178
           ]
         },
         {
           "teal": 140,
           "source": "examples/tuple_in_box/app.algo.ts:19",
           "pc": [
-            191
+            179
           ]
         },
         {
           "teal": 141,
           "source": "examples/tuple_in_box/app.algo.ts:19",
           "pc": [
-            192
+            180
           ]
         },
         {
           "teal": 142,
           "source": "examples/tuple_in_box/app.algo.ts:19",
           "pc": [
-            193,
-            194,
-            195
+            181,
+            182,
+            183
           ]
         },
         {
           "teal": 143,
           "source": "examples/tuple_in_box/app.algo.ts:19",
           "pc": [
-            196
+            184
           ]
         },
         {
           "teal": 144,
           "source": "examples/tuple_in_box/app.algo.ts:19",
           "pc": [
-            197
+            185
           ]
         },
         {
           "teal": 145,
           "source": "examples/tuple_in_box/app.algo.ts:19",
           "pc": [
-            198,
-            199
+            186,
+            187
           ]
         },
         {
           "teal": 149,
           "source": "examples/tuple_in_box/app.algo.ts:20",
           "pc": [
-            200,
-            201
+            188,
+            189
           ]
         },
         {
           "teal": 150,
           "source": "examples/tuple_in_box/app.algo.ts:20",
           "pc": [
-            202
+            190
           ]
         },
         {
           "teal": 151,
           "source": "examples/tuple_in_box/app.algo.ts:20",
           "pc": [
-            203
+            191
           ]
         },
         {
           "teal": 152,
           "source": "examples/tuple_in_box/app.algo.ts:20",
           "pc": [
-            204
+            192
           ]
         },
         {
           "teal": 153,
           "source": "examples/tuple_in_box/app.algo.ts:20",
           "pc": [
-            205,
-            206
+            193,
+            194
           ]
         },
         {
           "teal": 154,
           "source": "examples/tuple_in_box/app.algo.ts:20",
           "pc": [
-            207
+            195
           ]
         },
         {
           "teal": 155,
           "source": "examples/tuple_in_box/app.algo.ts:18",
           "pc": [
-            208
+            196
           ]
         },
         {
           "teal": 160,
           "source": "examples/tuple_in_box/app.algo.ts:23",
           "pc": [
-            209,
-            210,
-            211
+            197,
+            198,
+            199
           ]
         },
         {
           "teal": 161,
           "source": "examples/tuple_in_box/app.algo.ts:23",
           "pc": [
-            212
+            200
           ]
         },
         {
           "teal": 162,
           "source": "examples/tuple_in_box/app.algo.ts:23",
           "pc": [
-            213
+            201
           ]
         },
         {
           "teal": 163,
           "source": "examples/tuple_in_box/app.algo.ts:23",
           "pc": [
-            214,
-            215
+            202
           ]
         },
         {
           "teal": 164,
           "source": "examples/tuple_in_box/app.algo.ts:23",
           "pc": [
-            216
+            203
           ]
         },
         {
@@ -998,127 +985,126 @@
           "source": "examples/tuple_in_box/app.algo.ts:23",
           "errorMessage": "argument 0 (address) for updateContactField must be a address",
           "pc": [
-            217
+            204
           ]
         },
         {
           "teal": 170,
           "source": "examples/tuple_in_box/app.algo.ts:23",
           "pc": [
-            218,
-            219,
-            220
+            205,
+            206,
+            207
           ]
         },
         {
           "teal": 171,
           "source": "examples/tuple_in_box/app.algo.ts:23",
           "pc": [
-            221,
-            222,
-            223
+            208,
+            209,
+            210
           ]
         },
         {
           "teal": 174,
           "source": "examples/tuple_in_box/app.algo.ts:23",
           "pc": [
-            224,
-            225,
-            226
+            211,
+            212,
+            213
           ]
         },
         {
           "teal": 175,
           "source": "examples/tuple_in_box/app.algo.ts:23",
           "pc": [
-            227,
-            228,
-            229
+            214,
+            215,
+            216
           ]
         },
         {
           "teal": 178,
           "source": "examples/tuple_in_box/app.algo.ts:23",
           "pc": [
-            230,
-            231,
-            232
+            217,
+            218,
+            219
           ]
         },
         {
           "teal": 179,
           "source": "examples/tuple_in_box/app.algo.ts:23",
           "pc": [
-            233,
-            234
+            220
           ]
         },
         {
           "teal": 180,
           "source": "examples/tuple_in_box/app.algo.ts:23",
           "pc": [
-            235
+            221
           ]
         },
         {
           "teal": 184,
           "source": "examples/tuple_in_box/app.algo.ts:23",
           "pc": [
-            236,
-            237,
-            238
+            222,
+            223,
+            224
           ]
         },
         {
           "teal": 189,
           "source": "examples/tuple_in_box/app.algo.ts:24",
           "pc": [
-            239,
-            240
+            225,
+            226
           ]
         },
         {
           "teal": 190,
           "source": "examples/tuple_in_box/app.algo.ts:24",
           "pc": [
-            241,
-            242,
-            243,
-            244,
-            245,
-            246
+            227,
+            228,
+            229,
+            230,
+            231,
+            232
           ]
         },
         {
           "teal": 191,
           "source": "examples/tuple_in_box/app.algo.ts:24",
           "pc": [
-            247
+            233
           ]
         },
         {
           "teal": 192,
           "source": "examples/tuple_in_box/app.algo.ts:24",
           "pc": [
-            248,
-            249,
-            250
+            234,
+            235,
+            236
           ]
         },
         {
           "teal": 197,
           "source": "examples/tuple_in_box/app.algo.ts:25",
           "pc": [
-            251,
-            252
+            237,
+            238
           ]
         },
         {
           "teal": 198,
           "source": "examples/tuple_in_box/app.algo.ts:25",
           "pc": [
-            253
+            239
           ]
         },
         {
@@ -1126,11 +1112,79 @@
           "source": "examples/tuple_in_box/app.algo.ts:25",
           "errorMessage": "box value does not exist: this.contacts(address).value",
           "pc": [
-            254
+            240
           ]
         },
         {
           "teal": 202,
+          "source": "examples/tuple_in_box/app.algo.ts:25",
+          "pc": [
+            241,
+            242
+          ]
+        },
+        {
+          "teal": 203,
+          "source": "examples/tuple_in_box/app.algo.ts:25",
+          "pc": [
+            243
+          ]
+        },
+        {
+          "teal": 204,
+          "source": "examples/tuple_in_box/app.algo.ts:25",
+          "pc": [
+            244
+          ]
+        },
+        {
+          "teal": 205,
+          "source": "examples/tuple_in_box/app.algo.ts:25",
+          "pc": [
+            245,
+            246
+          ]
+        },
+        {
+          "teal": 206,
+          "source": "examples/tuple_in_box/app.algo.ts:25",
+          "pc": [
+            247,
+            248
+          ]
+        },
+        {
+          "teal": 207,
+          "source": "examples/tuple_in_box/app.algo.ts:25",
+          "pc": [
+            249,
+            250
+          ]
+        },
+        {
+          "teal": 208,
+          "source": "examples/tuple_in_box/app.algo.ts:25",
+          "pc": [
+            251,
+            252
+          ]
+        },
+        {
+          "teal": 209,
+          "source": "examples/tuple_in_box/app.algo.ts:25",
+          "pc": [
+            253
+          ]
+        },
+        {
+          "teal": 210,
+          "source": "examples/tuple_in_box/app.algo.ts:25",
+          "pc": [
+            254
+          ]
+        },
+        {
+          "teal": 211,
           "source": "examples/tuple_in_box/app.algo.ts:25",
           "pc": [
             255,
@@ -1138,46 +1192,64 @@
           ]
         },
         {
-          "teal": 203,
+          "teal": 212,
           "source": "examples/tuple_in_box/app.algo.ts:25",
           "pc": [
-            257,
-            258
+            257
           ]
         },
         {
-          "teal": 204,
+          "teal": 213,
           "source": "examples/tuple_in_box/app.algo.ts:25",
           "pc": [
+            258,
             259
           ]
         },
         {
-          "teal": 205,
+          "teal": 214,
           "source": "examples/tuple_in_box/app.algo.ts:25",
           "pc": [
-            260,
+            260
+          ]
+        },
+        {
+          "teal": 215,
+          "source": "examples/tuple_in_box/app.algo.ts:25",
+          "pc": [
             261
           ]
         },
         {
-          "teal": 206,
+          "teal": 216,
           "source": "examples/tuple_in_box/app.algo.ts:25",
           "pc": [
-            262,
+            262
+          ]
+        },
+        {
+          "teal": 217,
+          "source": "examples/tuple_in_box/app.algo.ts:25",
+          "pc": [
             263
           ]
         },
         {
-          "teal": 207,
+          "teal": 218,
           "source": "examples/tuple_in_box/app.algo.ts:25",
           "pc": [
-            264,
+            264
+          ]
+        },
+        {
+          "teal": 219,
+          "source": "examples/tuple_in_box/app.algo.ts:25",
+          "pc": [
             265
           ]
         },
         {
-          "teal": 208,
+          "teal": 220,
           "source": "examples/tuple_in_box/app.algo.ts:25",
           "pc": [
             266,
@@ -1185,96 +1257,96 @@
           ]
         },
         {
-          "teal": 209,
+          "teal": 221,
           "source": "examples/tuple_in_box/app.algo.ts:25",
           "pc": [
-            268
-          ]
-        },
-        {
-          "teal": 210,
-          "source": "examples/tuple_in_box/app.algo.ts:25",
-          "pc": [
+            268,
             269
           ]
         },
         {
-          "teal": 211,
+          "teal": 222,
           "source": "examples/tuple_in_box/app.algo.ts:25",
           "pc": [
-            270,
-            271
+            270
           ]
         },
         {
-          "teal": 212,
+          "teal": 223,
           "source": "examples/tuple_in_box/app.algo.ts:25",
           "pc": [
+            271,
             272
           ]
         },
         {
-          "teal": 213,
+          "teal": 224,
           "source": "examples/tuple_in_box/app.algo.ts:25",
           "pc": [
-            273,
-            274
+            273
           ]
         },
         {
-          "teal": 214,
+          "teal": 225,
           "source": "examples/tuple_in_box/app.algo.ts:25",
           "pc": [
+            274,
             275
           ]
         },
         {
-          "teal": 215,
+          "teal": 226,
           "source": "examples/tuple_in_box/app.algo.ts:25",
           "pc": [
             276
           ]
         },
         {
-          "teal": 216,
+          "teal": 227,
           "source": "examples/tuple_in_box/app.algo.ts:25",
           "pc": [
-            277,
+            277
+          ]
+        },
+        {
+          "teal": 228,
+          "source": "examples/tuple_in_box/app.algo.ts:25",
+          "pc": [
             278
           ]
         },
         {
-          "teal": 217,
+          "teal": 229,
           "source": "examples/tuple_in_box/app.algo.ts:25",
           "pc": [
-            279
-          ]
-        },
-        {
-          "teal": 218,
-          "source": "examples/tuple_in_box/app.algo.ts:25",
-          "pc": [
+            279,
             280,
             281
           ]
         },
         {
-          "teal": 219,
+          "teal": 230,
           "source": "examples/tuple_in_box/app.algo.ts:25",
           "pc": [
             282
           ]
         },
         {
-          "teal": 220,
+          "teal": 231,
           "source": "examples/tuple_in_box/app.algo.ts:25",
           "pc": [
-            283,
+            283
+          ]
+        },
+        {
+          "teal": 232,
+          "source": "examples/tuple_in_box/app.algo.ts:25",
+          "pc": [
             284
           ]
         },
         {
-          "teal": 221,
+          "teal": 233,
           "source": "examples/tuple_in_box/app.algo.ts:25",
           "pc": [
             285,
@@ -1282,7 +1354,7 @@
           ]
         },
         {
-          "teal": 222,
+          "teal": 234,
           "source": "examples/tuple_in_box/app.algo.ts:25",
           "pc": [
             287,
@@ -1290,7 +1362,7 @@
           ]
         },
         {
-          "teal": 223,
+          "teal": 235,
           "source": "examples/tuple_in_box/app.algo.ts:25",
           "pc": [
             289,
@@ -1298,81 +1370,75 @@
           ]
         },
         {
-          "teal": 224,
+          "teal": 236,
           "source": "examples/tuple_in_box/app.algo.ts:25",
           "pc": [
-            291
+            291,
+            292
           ]
         },
         {
-          "teal": 225,
+          "teal": 237,
           "source": "examples/tuple_in_box/app.algo.ts:25",
           "pc": [
-            292,
             293
           ]
         },
         {
-          "teal": 226,
+          "teal": 238,
           "source": "examples/tuple_in_box/app.algo.ts:25",
           "pc": [
-            294
-          ]
-        },
-        {
-          "teal": 227,
-          "source": "examples/tuple_in_box/app.algo.ts:25",
-          "pc": [
+            294,
             295
           ]
         },
         {
-          "teal": 228,
+          "teal": 239,
           "source": "examples/tuple_in_box/app.algo.ts:25",
           "pc": [
             296
           ]
         },
         {
-          "teal": 229,
+          "teal": 240,
           "source": "examples/tuple_in_box/app.algo.ts:25",
           "pc": [
-            297,
-            298,
+            297
+          ]
+        },
+        {
+          "teal": 241,
+          "source": "examples/tuple_in_box/app.algo.ts:25",
+          "pc": [
+            298
+          ]
+        },
+        {
+          "teal": 242,
+          "source": "examples/tuple_in_box/app.algo.ts:25",
+          "pc": [
             299
           ]
         },
         {
-          "teal": 230,
+          "teal": 243,
           "source": "examples/tuple_in_box/app.algo.ts:25",
           "pc": [
-            300
-          ]
-        },
-        {
-          "teal": 231,
-          "source": "examples/tuple_in_box/app.algo.ts:25",
-          "pc": [
+            300,
             301
           ]
         },
         {
-          "teal": 232,
+          "teal": 244,
           "source": "examples/tuple_in_box/app.algo.ts:25",
           "pc": [
-            302
-          ]
-        },
-        {
-          "teal": 233,
-          "source": "examples/tuple_in_box/app.algo.ts:25",
-          "pc": [
+            302,
             303,
             304
           ]
         },
         {
-          "teal": 234,
+          "teal": 245,
           "source": "examples/tuple_in_box/app.algo.ts:25",
           "pc": [
             305,
@@ -1380,7 +1446,7 @@
           ]
         },
         {
-          "teal": 235,
+          "teal": 246,
           "source": "examples/tuple_in_box/app.algo.ts:25",
           "pc": [
             307,
@@ -1388,225 +1454,140 @@
           ]
         },
         {
-          "teal": 236,
-          "source": "examples/tuple_in_box/app.algo.ts:25",
-          "pc": [
-            309,
-            310
-          ]
-        },
-        {
-          "teal": 237,
-          "source": "examples/tuple_in_box/app.algo.ts:25",
-          "pc": [
-            311
-          ]
-        },
-        {
-          "teal": 238,
-          "source": "examples/tuple_in_box/app.algo.ts:25",
-          "pc": [
-            312,
-            313
-          ]
-        },
-        {
-          "teal": 239,
-          "source": "examples/tuple_in_box/app.algo.ts:25",
-          "pc": [
-            314
-          ]
-        },
-        {
-          "teal": 240,
-          "source": "examples/tuple_in_box/app.algo.ts:25",
-          "pc": [
-            315
-          ]
-        },
-        {
-          "teal": 241,
-          "source": "examples/tuple_in_box/app.algo.ts:25",
-          "pc": [
-            316
-          ]
-        },
-        {
-          "teal": 242,
-          "source": "examples/tuple_in_box/app.algo.ts:25",
-          "pc": [
-            317
-          ]
-        },
-        {
-          "teal": 243,
-          "source": "examples/tuple_in_box/app.algo.ts:25",
-          "pc": [
-            318,
-            319
-          ]
-        },
-        {
-          "teal": 244,
-          "source": "examples/tuple_in_box/app.algo.ts:25",
-          "pc": [
-            320,
-            321,
-            322
-          ]
-        },
-        {
-          "teal": 245,
-          "source": "examples/tuple_in_box/app.algo.ts:25",
-          "pc": [
-            323,
-            324
-          ]
-        },
-        {
-          "teal": 246,
-          "source": "examples/tuple_in_box/app.algo.ts:25",
-          "pc": [
-            325,
-            326
-          ]
-        },
-        {
           "teal": 247,
           "source": "examples/tuple_in_box/app.algo.ts:25",
           "pc": [
-            327,
-            328
+            309
           ]
         },
         {
           "teal": 248,
           "source": "examples/tuple_in_box/app.algo.ts:25",
           "pc": [
-            329
+            310
           ]
         },
         {
           "teal": 249,
           "source": "examples/tuple_in_box/app.algo.ts:25",
           "pc": [
-            330,
-            331,
-            332
+            311,
+            312,
+            313
           ]
         },
         {
           "teal": 250,
           "source": "examples/tuple_in_box/app.algo.ts:25",
           "pc": [
-            333,
-            334
+            314,
+            315
           ]
         },
         {
           "teal": 251,
           "source": "examples/tuple_in_box/app.algo.ts:25",
           "pc": [
-            335,
-            336
+            316,
+            317
           ]
         },
         {
           "teal": 252,
           "source": "examples/tuple_in_box/app.algo.ts:25",
           "pc": [
-            337
+            318
           ]
         },
         {
           "teal": 253,
           "source": "examples/tuple_in_box/app.algo.ts:25",
           "pc": [
-            338
+            319
           ]
         },
         {
           "teal": 254,
           "source": "examples/tuple_in_box/app.algo.ts:25",
           "pc": [
-            339
+            320
           ]
         },
         {
           "teal": 255,
           "source": "examples/tuple_in_box/app.algo.ts:25",
           "pc": [
-            340
+            321
           ]
         },
         {
           "teal": 256,
           "source": "examples/tuple_in_box/app.algo.ts:25",
           "pc": [
-            341
+            322
           ]
         },
         {
           "teal": 257,
           "source": "examples/tuple_in_box/app.algo.ts:24",
           "pc": [
-            342,
-            343,
-            344
+            323,
+            324,
+            325
           ]
         },
         {
           "teal": 262,
           "source": "examples/tuple_in_box/app.algo.ts:26",
           "pc": [
-            345,
-            346
+            326,
+            327
           ]
         },
         {
           "teal": 263,
           "source": "examples/tuple_in_box/app.algo.ts:26",
           "pc": [
-            347,
-            348,
-            349,
-            350,
-            351,
-            352,
-            353,
-            354,
-            355
+            328,
+            329,
+            330,
+            331,
+            332,
+            333,
+            334,
+            335,
+            336
           ]
         },
         {
           "teal": 264,
           "source": "examples/tuple_in_box/app.algo.ts:26",
           "pc": [
-            356
+            337
           ]
         },
         {
           "teal": 265,
           "source": "examples/tuple_in_box/app.algo.ts:26",
           "pc": [
-            357,
-            358,
-            359
+            338,
+            339,
+            340
           ]
         },
         {
           "teal": 270,
           "source": "examples/tuple_in_box/app.algo.ts:27",
           "pc": [
-            360,
-            361
+            341,
+            342
           ]
         },
         {
           "teal": 271,
           "source": "examples/tuple_in_box/app.algo.ts:27",
           "pc": [
-            362
+            343
           ]
         },
         {
@@ -1614,58 +1595,167 @@
           "source": "examples/tuple_in_box/app.algo.ts:27",
           "errorMessage": "box value does not exist: this.contacts(address).value",
           "pc": [
-            363
+            344
           ]
         },
         {
           "teal": 275,
           "source": "examples/tuple_in_box/app.algo.ts:27",
           "pc": [
-            364,
-            365
+            345,
+            346
           ]
         },
         {
           "teal": 276,
           "source": "examples/tuple_in_box/app.algo.ts:27",
           "pc": [
-            366,
-            367
+            347
           ]
         },
         {
           "teal": 277,
           "source": "examples/tuple_in_box/app.algo.ts:27",
           "pc": [
-            368
+            348
           ]
         },
         {
           "teal": 278,
           "source": "examples/tuple_in_box/app.algo.ts:27",
           "pc": [
-            369,
-            370
+            349,
+            350
           ]
         },
         {
           "teal": 279,
           "source": "examples/tuple_in_box/app.algo.ts:27",
           "pc": [
-            371,
-            372
+            351,
+            352
           ]
         },
         {
           "teal": 280,
           "source": "examples/tuple_in_box/app.algo.ts:27",
           "pc": [
-            373,
-            374
+            353,
+            354
           ]
         },
         {
           "teal": 281,
+          "source": "examples/tuple_in_box/app.algo.ts:27",
+          "pc": [
+            355,
+            356
+          ]
+        },
+        {
+          "teal": 282,
+          "source": "examples/tuple_in_box/app.algo.ts:27",
+          "pc": [
+            357
+          ]
+        },
+        {
+          "teal": 283,
+          "source": "examples/tuple_in_box/app.algo.ts:27",
+          "pc": [
+            358
+          ]
+        },
+        {
+          "teal": 284,
+          "source": "examples/tuple_in_box/app.algo.ts:27",
+          "pc": [
+            359,
+            360
+          ]
+        },
+        {
+          "teal": 285,
+          "source": "examples/tuple_in_box/app.algo.ts:27",
+          "pc": [
+            361
+          ]
+        },
+        {
+          "teal": 286,
+          "source": "examples/tuple_in_box/app.algo.ts:27",
+          "pc": [
+            362,
+            363
+          ]
+        },
+        {
+          "teal": 287,
+          "source": "examples/tuple_in_box/app.algo.ts:27",
+          "pc": [
+            364
+          ]
+        },
+        {
+          "teal": 288,
+          "source": "examples/tuple_in_box/app.algo.ts:27",
+          "pc": [
+            365
+          ]
+        },
+        {
+          "teal": 289,
+          "source": "examples/tuple_in_box/app.algo.ts:27",
+          "pc": [
+            366
+          ]
+        },
+        {
+          "teal": 290,
+          "source": "examples/tuple_in_box/app.algo.ts:27",
+          "pc": [
+            367
+          ]
+        },
+        {
+          "teal": 291,
+          "source": "examples/tuple_in_box/app.algo.ts:27",
+          "pc": [
+            368
+          ]
+        },
+        {
+          "teal": 292,
+          "source": "examples/tuple_in_box/app.algo.ts:27",
+          "pc": [
+            369
+          ]
+        },
+        {
+          "teal": 293,
+          "source": "examples/tuple_in_box/app.algo.ts:27",
+          "pc": [
+            370,
+            371
+          ]
+        },
+        {
+          "teal": 294,
+          "source": "examples/tuple_in_box/app.algo.ts:27",
+          "pc": [
+            372,
+            373
+          ]
+        },
+        {
+          "teal": 295,
+          "source": "examples/tuple_in_box/app.algo.ts:27",
+          "pc": [
+            374
+          ]
+        },
+        {
+          "teal": 296,
           "source": "examples/tuple_in_box/app.algo.ts:27",
           "pc": [
             375,
@@ -1673,73 +1763,73 @@
           ]
         },
         {
-          "teal": 282,
+          "teal": 297,
           "source": "examples/tuple_in_box/app.algo.ts:27",
           "pc": [
             377
           ]
         },
         {
-          "teal": 283,
+          "teal": 298,
           "source": "examples/tuple_in_box/app.algo.ts:27",
           "pc": [
-            378
+            378,
+            379
           ]
         },
         {
-          "teal": 284,
+          "teal": 299,
           "source": "examples/tuple_in_box/app.algo.ts:27",
           "pc": [
-            379,
             380
           ]
         },
         {
-          "teal": 285,
+          "teal": 300,
           "source": "examples/tuple_in_box/app.algo.ts:27",
           "pc": [
             381
           ]
         },
         {
-          "teal": 286,
+          "teal": 301,
           "source": "examples/tuple_in_box/app.algo.ts:27",
           "pc": [
-            382,
-            383
+            382
           ]
         },
         {
-          "teal": 287,
+          "teal": 302,
           "source": "examples/tuple_in_box/app.algo.ts:27",
           "pc": [
-            384
-          ]
-        },
-        {
-          "teal": 288,
-          "source": "examples/tuple_in_box/app.algo.ts:27",
-          "pc": [
+            383,
+            384,
             385
           ]
         },
         {
-          "teal": 289,
+          "teal": 303,
           "source": "examples/tuple_in_box/app.algo.ts:27",
           "pc": [
-            386,
+            386
+          ]
+        },
+        {
+          "teal": 304,
+          "source": "examples/tuple_in_box/app.algo.ts:27",
+          "pc": [
             387
           ]
         },
         {
-          "teal": 290,
+          "teal": 305,
           "source": "examples/tuple_in_box/app.algo.ts:27",
           "pc": [
             388
           ]
         },
         {
-          "teal": 291,
+          "teal": 306,
           "source": "examples/tuple_in_box/app.algo.ts:27",
           "pc": [
             389,
@@ -1747,38 +1837,38 @@
           ]
         },
         {
-          "teal": 292,
+          "teal": 307,
           "source": "examples/tuple_in_box/app.algo.ts:27",
           "pc": [
-            391
+            391,
+            392
           ]
         },
         {
-          "teal": 293,
+          "teal": 308,
           "source": "examples/tuple_in_box/app.algo.ts:27",
           "pc": [
-            392,
-            393
+            393,
+            394
           ]
         },
         {
-          "teal": 294,
+          "teal": 309,
           "source": "examples/tuple_in_box/app.algo.ts:27",
           "pc": [
-            394,
-            395
+            395,
+            396
           ]
         },
         {
-          "teal": 295,
+          "teal": 310,
           "source": "examples/tuple_in_box/app.algo.ts:27",
           "pc": [
-            396,
             397
           ]
         },
         {
-          "teal": 296,
+          "teal": 311,
           "source": "examples/tuple_in_box/app.algo.ts:27",
           "pc": [
             398,
@@ -1786,43 +1876,43 @@
           ]
         },
         {
-          "teal": 297,
+          "teal": 312,
           "source": "examples/tuple_in_box/app.algo.ts:27",
           "pc": [
             400
           ]
         },
         {
-          "teal": 298,
+          "teal": 313,
           "source": "examples/tuple_in_box/app.algo.ts:27",
           "pc": [
-            401,
+            401
+          ]
+        },
+        {
+          "teal": 314,
+          "source": "examples/tuple_in_box/app.algo.ts:27",
+          "pc": [
             402
           ]
         },
         {
-          "teal": 299,
+          "teal": 315,
           "source": "examples/tuple_in_box/app.algo.ts:27",
           "pc": [
             403
           ]
         },
         {
-          "teal": 300,
+          "teal": 316,
           "source": "examples/tuple_in_box/app.algo.ts:27",
           "pc": [
-            404
-          ]
-        },
-        {
-          "teal": 301,
-          "source": "examples/tuple_in_box/app.algo.ts:27",
-          "pc": [
+            404,
             405
           ]
         },
         {
-          "teal": 302,
+          "teal": 317,
           "source": "examples/tuple_in_box/app.algo.ts:27",
           "pc": [
             406,
@@ -1831,176 +1921,63 @@
           ]
         },
         {
-          "teal": 303,
-          "source": "examples/tuple_in_box/app.algo.ts:27",
-          "pc": [
-            409
-          ]
-        },
-        {
-          "teal": 304,
-          "source": "examples/tuple_in_box/app.algo.ts:27",
-          "pc": [
-            410
-          ]
-        },
-        {
-          "teal": 305,
-          "source": "examples/tuple_in_box/app.algo.ts:27",
-          "pc": [
-            411
-          ]
-        },
-        {
-          "teal": 306,
-          "source": "examples/tuple_in_box/app.algo.ts:27",
-          "pc": [
-            412,
-            413
-          ]
-        },
-        {
-          "teal": 307,
-          "source": "examples/tuple_in_box/app.algo.ts:27",
-          "pc": [
-            414,
-            415
-          ]
-        },
-        {
-          "teal": 308,
-          "source": "examples/tuple_in_box/app.algo.ts:27",
-          "pc": [
-            416,
-            417
-          ]
-        },
-        {
-          "teal": 309,
-          "source": "examples/tuple_in_box/app.algo.ts:27",
-          "pc": [
-            418,
-            419
-          ]
-        },
-        {
-          "teal": 310,
-          "source": "examples/tuple_in_box/app.algo.ts:27",
-          "pc": [
-            420
-          ]
-        },
-        {
-          "teal": 311,
-          "source": "examples/tuple_in_box/app.algo.ts:27",
-          "pc": [
-            421,
-            422
-          ]
-        },
-        {
-          "teal": 312,
-          "source": "examples/tuple_in_box/app.algo.ts:27",
-          "pc": [
-            423
-          ]
-        },
-        {
-          "teal": 313,
-          "source": "examples/tuple_in_box/app.algo.ts:27",
-          "pc": [
-            424
-          ]
-        },
-        {
-          "teal": 314,
-          "source": "examples/tuple_in_box/app.algo.ts:27",
-          "pc": [
-            425
-          ]
-        },
-        {
-          "teal": 315,
-          "source": "examples/tuple_in_box/app.algo.ts:27",
-          "pc": [
-            426
-          ]
-        },
-        {
-          "teal": 316,
-          "source": "examples/tuple_in_box/app.algo.ts:27",
-          "pc": [
-            427,
-            428
-          ]
-        },
-        {
-          "teal": 317,
-          "source": "examples/tuple_in_box/app.algo.ts:27",
-          "pc": [
-            429,
-            430,
-            431
-          ]
-        },
-        {
           "teal": 318,
           "source": "examples/tuple_in_box/app.algo.ts:27",
           "pc": [
-            432,
-            433
+            409,
+            410
           ]
         },
         {
           "teal": 319,
           "source": "examples/tuple_in_box/app.algo.ts:27",
           "pc": [
-            434,
-            435
+            411,
+            412
           ]
         },
         {
           "teal": 320,
           "source": "examples/tuple_in_box/app.algo.ts:27",
           "pc": [
-            436
+            413
           ]
         },
         {
           "teal": 321,
           "source": "examples/tuple_in_box/app.algo.ts:27",
           "pc": [
-            437
+            414
           ]
         },
         {
           "teal": 322,
           "source": "examples/tuple_in_box/app.algo.ts:27",
           "pc": [
-            438
+            415
           ]
         },
         {
           "teal": 323,
           "source": "examples/tuple_in_box/app.algo.ts:27",
           "pc": [
-            439
+            416
           ]
         },
         {
           "teal": 324,
           "source": "examples/tuple_in_box/app.algo.ts:27",
           "pc": [
-            440
+            417
           ]
         },
         {
           "teal": 325,
           "source": "examples/tuple_in_box/app.algo.ts:26",
           "pc": [
-            441,
-            442,
-            443
+            418,
+            419,
+            420
           ]
         },
         {
@@ -2008,52 +1985,51 @@
           "source": "examples/tuple_in_box/app.algo.ts:28",
           "errorMessage": "Invalid field",
           "pc": [
-            444
+            421
           ]
         },
         {
           "teal": 332,
           "source": "examples/tuple_in_box/app.algo.ts:23",
           "pc": [
-            445
+            422
           ]
         },
         {
           "teal": 337,
           "source": "examples/tuple_in_box/app.algo.ts:31",
           "pc": [
-            446,
-            447,
-            448
+            423,
+            424,
+            425
           ]
         },
         {
           "teal": 338,
           "source": "examples/tuple_in_box/app.algo.ts:31",
           "pc": [
-            449
+            426
           ]
         },
         {
           "teal": 339,
           "source": "examples/tuple_in_box/app.algo.ts:31",
           "pc": [
-            450
+            427
           ]
         },
         {
           "teal": 340,
           "source": "examples/tuple_in_box/app.algo.ts:31",
           "pc": [
-            451,
-            452
+            428
           ]
         },
         {
           "teal": 341,
           "source": "examples/tuple_in_box/app.algo.ts:31",
           "pc": [
-            453
+            429
           ]
         },
         {
@@ -2061,73 +2037,72 @@
           "source": "examples/tuple_in_box/app.algo.ts:31",
           "errorMessage": "argument 0 (address) for verifyContactName must be a address",
           "pc": [
-            454
+            430
           ]
         },
         {
           "teal": 347,
           "source": "examples/tuple_in_box/app.algo.ts:31",
           "pc": [
-            455,
-            456,
-            457
+            431,
+            432,
+            433
           ]
         },
         {
           "teal": 348,
           "source": "examples/tuple_in_box/app.algo.ts:31",
           "pc": [
-            458,
-            459,
-            460
+            434,
+            435,
+            436
           ]
         },
         {
           "teal": 351,
           "source": "examples/tuple_in_box/app.algo.ts:31",
           "pc": [
-            461,
-            462,
-            463
+            437,
+            438,
+            439
           ]
         },
         {
           "teal": 352,
           "source": "examples/tuple_in_box/app.algo.ts:31",
           "pc": [
-            464,
-            465
+            440
           ]
         },
         {
           "teal": 353,
           "source": "examples/tuple_in_box/app.algo.ts:31",
           "pc": [
-            466
+            441
           ]
         },
         {
           "teal": 357,
           "source": "examples/tuple_in_box/app.algo.ts:31",
           "pc": [
-            467,
-            468,
-            469
+            442,
+            443,
+            444
           ]
         },
         {
           "teal": 361,
           "source": "examples/tuple_in_box/app.algo.ts:32",
           "pc": [
-            470,
-            471
+            445,
+            446
           ]
         },
         {
           "teal": 362,
           "source": "examples/tuple_in_box/app.algo.ts:32",
           "pc": [
-            472
+            447
           ]
         },
         {
@@ -2135,204 +2110,200 @@
           "source": "examples/tuple_in_box/app.algo.ts:32",
           "errorMessage": "box value does not exist: this.contacts(address).value",
           "pc": [
-            473
+            448
           ]
         },
         {
           "teal": 366,
           "source": "examples/tuple_in_box/app.algo.ts:32",
           "pc": [
-            474,
-            475
+            449,
+            450
           ]
         },
         {
           "teal": 367,
           "source": "examples/tuple_in_box/app.algo.ts:32",
           "pc": [
-            476,
-            477
+            451
           ]
         },
         {
           "teal": 368,
           "source": "examples/tuple_in_box/app.algo.ts:32",
           "pc": [
-            478,
-            479
+            452,
+            453
           ]
         },
         {
           "teal": 369,
           "source": "examples/tuple_in_box/app.algo.ts:32",
           "pc": [
-            480,
-            481
+            454,
+            455
           ]
         },
         {
           "teal": 370,
           "source": "examples/tuple_in_box/app.algo.ts:32",
           "pc": [
-            482,
-            483
+            456,
+            457
           ]
         },
         {
           "teal": 371,
           "source": "examples/tuple_in_box/app.algo.ts:32",
           "pc": [
-            484
+            458
           ]
         },
         {
           "teal": 372,
           "source": "examples/tuple_in_box/app.algo.ts:32",
           "pc": [
-            485
+            459
           ]
         },
         {
           "teal": 373,
           "source": "examples/tuple_in_box/app.algo.ts:32",
           "pc": [
-            486,
-            487
+            460,
+            461
           ]
         },
         {
           "teal": 374,
           "source": "examples/tuple_in_box/app.algo.ts:32",
           "pc": [
-            488
+            462
           ]
         },
         {
           "teal": 375,
           "source": "examples/tuple_in_box/app.algo.ts:32",
           "pc": [
-            489
+            463
           ]
         },
         {
           "teal": 376,
           "source": "examples/tuple_in_box/app.algo.ts:32",
           "pc": [
-            490,
-            491
+            464
           ]
         },
         {
           "teal": 377,
           "source": "examples/tuple_in_box/app.algo.ts:32",
           "pc": [
-            492
+            465
           ]
         },
         {
           "teal": 378,
           "source": "examples/tuple_in_box/app.algo.ts:32",
           "pc": [
-            493,
-            494
+            466
           ]
         },
         {
           "teal": 379,
           "source": "examples/tuple_in_box/app.algo.ts:32",
           "pc": [
-            495
+            467
           ]
         },
         {
           "teal": 380,
           "source": "examples/tuple_in_box/app.algo.ts:32",
           "pc": [
-            496
+            468
           ]
         },
         {
           "teal": 381,
           "source": "examples/tuple_in_box/app.algo.ts:32",
           "pc": [
-            497,
-            498,
-            499
+            469,
+            470,
+            471
           ]
         },
         {
           "teal": 382,
           "source": "examples/tuple_in_box/app.algo.ts:32",
           "pc": [
-            500,
-            501
+            472,
+            473
           ]
         },
         {
           "teal": 383,
           "source": "examples/tuple_in_box/app.algo.ts:32",
           "pc": [
-            502
+            474
           ]
         },
         {
           "teal": 384,
           "source": "examples/tuple_in_box/app.algo.ts:32",
           "pc": [
-            503
+            475
           ]
         },
         {
           "teal": 385,
           "source": "examples/tuple_in_box/app.algo.ts:31",
           "pc": [
-            504
+            476
           ]
         },
         {
           "teal": 388,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
-            505,
-            506
+            477
           ]
         },
         {
           "teal": 389,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
-            507
+            478
           ]
         },
         {
           "teal": 392,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
-            508,
-            509,
-            510,
-            511,
-            512,
-            513
+            479,
+            480,
+            481,
+            482,
+            483,
+            484
           ]
         },
         {
           "teal": 393,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
-            514,
-            515,
-            516
+            485,
+            486,
+            487
           ]
         },
         {
           "teal": 394,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
-            517,
-            518,
-            519,
-            520
+            488,
+            489,
+            490,
+            491
           ]
         },
         {
@@ -2340,80 +2311,80 @@
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "errorMessage": "this contract does not implement the given ABI method for create NoOp",
           "pc": [
-            521
+            492
           ]
         },
         {
           "teal": 400,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
-            522,
-            523,
-            524,
-            525,
-            526,
-            527
+            493,
+            494,
+            495,
+            496,
+            497,
+            498
           ]
         },
         {
           "teal": 401,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
-            528,
-            529,
-            530,
-            531,
-            532,
-            533
+            499,
+            500,
+            501,
+            502,
+            503,
+            504
           ]
         },
         {
           "teal": 402,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
-            534,
-            535,
-            536,
-            537,
-            538,
-            539
+            505,
+            506,
+            507,
+            508,
+            509,
+            510
           ]
         },
         {
           "teal": 403,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
-            540,
-            541,
-            542,
-            543,
-            544,
-            545
+            511,
+            512,
+            513,
+            514,
+            515,
+            516
           ]
         },
         {
           "teal": 404,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
-            546,
-            547,
-            548
+            517,
+            518,
+            519
           ]
         },
         {
           "teal": 405,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
-            549,
-            550,
-            551,
-            552,
-            553,
-            554,
-            555,
-            556,
-            557,
-            558
+            520,
+            521,
+            522,
+            523,
+            524,
+            525,
+            526,
+            527,
+            528,
+            529
           ]
         },
         {
@@ -2421,20 +2392,157 @@
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "errorMessage": "this contract does not implement the given ABI method for call NoOp",
           "pc": [
-            559
+            530
           ]
         },
         {
           "teal": 411,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
-            560,
+            531,
+            532,
+            533
+          ]
+        },
+        {
+          "teal": 412,
+          "source": "examples/tuple_in_box/app.algo.ts:6",
+          "pc": [
+            534,
+            535
+          ]
+        },
+        {
+          "teal": 413,
+          "source": "examples/tuple_in_box/app.algo.ts:6",
+          "pc": [
+            536,
+            537
+          ]
+        },
+        {
+          "teal": 414,
+          "source": "examples/tuple_in_box/app.algo.ts:6",
+          "pc": [
+            538
+          ]
+        },
+        {
+          "teal": 415,
+          "source": "examples/tuple_in_box/app.algo.ts:6",
+          "pc": [
+            539,
+            540
+          ]
+        },
+        {
+          "teal": 416,
+          "source": "examples/tuple_in_box/app.algo.ts:6",
+          "pc": [
+            541,
+            542
+          ]
+        },
+        {
+          "teal": 417,
+          "source": "examples/tuple_in_box/app.algo.ts:6",
+          "pc": [
+            543
+          ]
+        },
+        {
+          "teal": 418,
+          "source": "examples/tuple_in_box/app.algo.ts:6",
+          "pc": [
+            544
+          ]
+        },
+        {
+          "teal": 419,
+          "source": "examples/tuple_in_box/app.algo.ts:6",
+          "pc": [
+            545,
+            546
+          ]
+        },
+        {
+          "teal": 420,
+          "source": "examples/tuple_in_box/app.algo.ts:6",
+          "pc": [
+            547
+          ]
+        },
+        {
+          "teal": 421,
+          "source": "examples/tuple_in_box/app.algo.ts:6",
+          "pc": [
+            548
+          ]
+        },
+        {
+          "teal": 422,
+          "source": "examples/tuple_in_box/app.algo.ts:6",
+          "pc": [
+            549
+          ]
+        },
+        {
+          "teal": 423,
+          "source": "examples/tuple_in_box/app.algo.ts:6",
+          "pc": [
+            550,
+            551,
+            552
+          ]
+        },
+        {
+          "teal": 424,
+          "source": "examples/tuple_in_box/app.algo.ts:6",
+          "pc": [
+            553,
+            554
+          ]
+        },
+        {
+          "teal": 425,
+          "source": "examples/tuple_in_box/app.algo.ts:6",
+          "pc": [
+            555,
+            556
+          ]
+        },
+        {
+          "teal": 426,
+          "source": "examples/tuple_in_box/app.algo.ts:6",
+          "pc": [
+            557
+          ]
+        },
+        {
+          "teal": 427,
+          "source": "examples/tuple_in_box/app.algo.ts:6",
+          "pc": [
+            558
+          ]
+        },
+        {
+          "teal": 428,
+          "source": "examples/tuple_in_box/app.algo.ts:6",
+          "pc": [
+            559,
+            560
+          ]
+        },
+        {
+          "teal": 429,
+          "source": "examples/tuple_in_box/app.algo.ts:6",
+          "pc": [
             561,
             562
           ]
         },
         {
-          "teal": 412,
+          "teal": 430,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
             563,
@@ -2442,7 +2550,7 @@
           ]
         },
         {
-          "teal": 413,
+          "teal": 431,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
             565,
@@ -2450,160 +2558,154 @@
           ]
         },
         {
-          "teal": 414,
+          "teal": 432,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
             567
           ]
         },
         {
-          "teal": 415,
+          "teal": 435,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
             568,
-            569
+            569,
+            570
           ]
         },
         {
-          "teal": 416,
+          "teal": 436,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
-            570,
-            571
-          ]
-        },
-        {
-          "teal": 417,
-          "source": "examples/tuple_in_box/app.algo.ts:6",
-          "pc": [
+            571,
             572
           ]
         },
         {
-          "teal": 418,
+          "teal": 437,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
-            573
+            573,
+            574
           ]
         },
         {
-          "teal": 419,
+          "teal": 438,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
-            574,
-            575
-          ]
-        },
-        {
-          "teal": 420,
-          "source": "examples/tuple_in_box/app.algo.ts:6",
-          "pc": [
+            575,
             576
           ]
         },
         {
-          "teal": 421,
+          "teal": 439,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
             577
           ]
         },
         {
-          "teal": 422,
+          "teal": 440,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
-            578
+            578,
+            579
           ]
         },
         {
-          "teal": 423,
+          "teal": 441,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
-            579,
             580,
-            581
+            581,
+            582
           ]
         },
         {
-          "teal": 424,
+          "teal": 442,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
-            582,
             583
           ]
         },
         {
-          "teal": 425,
+          "teal": 443,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
             584,
-            585
-          ]
-        },
-        {
-          "teal": 426,
-          "source": "examples/tuple_in_box/app.algo.ts:6",
-          "pc": [
+            585,
             586
           ]
         },
         {
-          "teal": 427,
+          "teal": 446,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
             587
           ]
         },
         {
-          "teal": 428,
+          "teal": 447,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
-            588,
+            588
+          ]
+        },
+        {
+          "teal": 450,
+          "source": "examples/tuple_in_box/app.algo.ts:6",
+          "pc": [
             589
           ]
         },
         {
-          "teal": 429,
+          "teal": 451,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
             590,
-            591
+            591,
+            592
           ]
         },
         {
-          "teal": 430,
+          "teal": 452,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
-            592,
-            593
+            593,
+            594
           ]
         },
         {
-          "teal": 431,
+          "teal": 453,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
-            594,
             595
           ]
         },
         {
-          "teal": 432,
+          "teal": 454,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
-            596
+            596,
+            597
           ]
         },
         {
-          "teal": 435,
+          "teal": 455,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
-            597,
-            598,
+            598
+          ]
+        },
+        {
+          "teal": 456,
+          "source": "examples/tuple_in_box/app.algo.ts:6",
+          "pc": [
             599
           ]
         },
         {
-          "teal": 436,
+          "teal": 457,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
             600,
@@ -2611,38 +2713,44 @@
           ]
         },
         {
-          "teal": 437,
+          "teal": 458,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
-            602,
-            603
+            602
           ]
         },
         {
-          "teal": 438,
+          "teal": 461,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
-            604,
+            603,
+            604
+          ]
+        },
+        {
+          "teal": 462,
+          "source": "examples/tuple_in_box/app.algo.ts:6",
+          "pc": [
             605
           ]
         },
         {
-          "teal": 439,
+          "teal": 463,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
-            606
+            606,
+            607
           ]
         },
         {
-          "teal": 440,
+          "teal": 464,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
-            607,
             608
           ]
         },
         {
-          "teal": 441,
+          "teal": 465,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
             609,
@@ -2651,68 +2759,62 @@
           ]
         },
         {
-          "teal": 442,
+          "teal": 466,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
-            612
+            612,
+            613
           ]
         },
         {
-          "teal": 443,
+          "teal": 467,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
-            613,
-            614,
-            615
+            614
           ]
         },
         {
-          "teal": 446,
+          "teal": 468,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
+            615,
             616
           ]
         },
         {
-          "teal": 447,
+          "teal": 469,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
             617
           ]
         },
         {
-          "teal": 450,
+          "teal": 470,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
-            618
+            618,
+            619
           ]
         },
         {
-          "teal": 451,
+          "teal": 471,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
-            619,
             620,
-            621
+            621,
+            622
           ]
         },
         {
-          "teal": 452,
+          "teal": 474,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
-            622,
-            623
-          ]
-        },
-        {
-          "teal": 453,
-          "source": "examples/tuple_in_box/app.algo.ts:6",
-          "pc": [
+            623,
             624
           ]
         },
         {
-          "teal": 454,
+          "teal": 475,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
             625,
@@ -2720,21 +2822,21 @@
           ]
         },
         {
-          "teal": 455,
+          "teal": 476,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
             627
           ]
         },
         {
-          "teal": 456,
+          "teal": 477,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
             628
           ]
         },
         {
-          "teal": 457,
+          "teal": 478,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
             629,
@@ -2742,14 +2844,14 @@
           ]
         },
         {
-          "teal": 458,
+          "teal": 481,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
             631
           ]
         },
         {
-          "teal": 461,
+          "teal": 482,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
             632,
@@ -2757,143 +2859,10 @@
           ]
         },
         {
-          "teal": 462,
-          "source": "examples/tuple_in_box/app.algo.ts:6",
-          "pc": [
-            634
-          ]
-        },
-        {
-          "teal": 463,
-          "source": "examples/tuple_in_box/app.algo.ts:6",
-          "pc": [
-            635,
-            636
-          ]
-        },
-        {
-          "teal": 464,
-          "source": "examples/tuple_in_box/app.algo.ts:6",
-          "pc": [
-            637
-          ]
-        },
-        {
-          "teal": 465,
-          "source": "examples/tuple_in_box/app.algo.ts:6",
-          "pc": [
-            638,
-            639,
-            640
-          ]
-        },
-        {
-          "teal": 466,
-          "source": "examples/tuple_in_box/app.algo.ts:6",
-          "pc": [
-            641,
-            642
-          ]
-        },
-        {
-          "teal": 467,
-          "source": "examples/tuple_in_box/app.algo.ts:6",
-          "pc": [
-            643
-          ]
-        },
-        {
-          "teal": 468,
-          "source": "examples/tuple_in_box/app.algo.ts:6",
-          "pc": [
-            644,
-            645
-          ]
-        },
-        {
-          "teal": 469,
-          "source": "examples/tuple_in_box/app.algo.ts:6",
-          "pc": [
-            646,
-            647
-          ]
-        },
-        {
-          "teal": 470,
-          "source": "examples/tuple_in_box/app.algo.ts:6",
-          "pc": [
-            648,
-            649
-          ]
-        },
-        {
-          "teal": 471,
-          "source": "examples/tuple_in_box/app.algo.ts:6",
-          "pc": [
-            650,
-            651,
-            652
-          ]
-        },
-        {
-          "teal": 474,
-          "source": "examples/tuple_in_box/app.algo.ts:6",
-          "pc": [
-            653,
-            654
-          ]
-        },
-        {
-          "teal": 475,
-          "source": "examples/tuple_in_box/app.algo.ts:6",
-          "pc": [
-            655,
-            656
-          ]
-        },
-        {
-          "teal": 476,
-          "source": "examples/tuple_in_box/app.algo.ts:6",
-          "pc": [
-            657
-          ]
-        },
-        {
-          "teal": 477,
-          "source": "examples/tuple_in_box/app.algo.ts:6",
-          "pc": [
-            658,
-            659
-          ]
-        },
-        {
-          "teal": 478,
-          "source": "examples/tuple_in_box/app.algo.ts:6",
-          "pc": [
-            660,
-            661
-          ]
-        },
-        {
-          "teal": 481,
-          "source": "examples/tuple_in_box/app.algo.ts:6",
-          "pc": [
-            662
-          ]
-        },
-        {
-          "teal": 482,
-          "source": "examples/tuple_in_box/app.algo.ts:6",
-          "pc": [
-            663,
-            664
-          ]
-        },
-        {
           "teal": 483,
           "source": "examples/tuple_in_box/app.algo.ts:6",
           "pc": [
-            665
+            634
           ]
         }
       ],
@@ -2905,11 +2874,11 @@
     }
   },
   "source": {
-    "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCmludGNibG9jayAxCmJ5dGVjYmxvY2sgMHggMHgwMDA0CgovLyBUaGlzIFRFQUwgd2FzIGdlbmVyYXRlZCBieSBURUFMU2NyaXB0IHYwLjEwNS4wCi8vIGh0dHBzOi8vZ2l0aHViLmNvbS9hbGdvcmFuZGZvdW5kYXRpb24vVEVBTFNjcmlwdAoKLy8gVGhpcyBjb250cmFjdCBpcyBjb21wbGlhbnQgd2l0aCBhbmQvb3IgaW1wbGVtZW50cyB0aGUgZm9sbG93aW5nIEFSQ3M6IFsgQVJDNCBdCgovLyBUaGUgZm9sbG93aW5nIHRlbiBsaW5lcyBvZiBURUFMIGhhbmRsZSBpbml0aWFsIHByb2dyYW0gZmxvdwovLyBUaGlzIHBhdHRlcm4gaXMgdXNlZCB0byBtYWtlIGl0IGVhc3kgZm9yIGFueW9uZSB0byBwYXJzZSB0aGUgc3RhcnQgb2YgdGhlIHByb2dyYW0gYW5kIGRldGVybWluZSBpZiBhIHNwZWNpZmljIGFjdGlvbiBpcyBhbGxvd2VkCi8vIEhlcmUsIGFjdGlvbiByZWZlcnMgdG8gdGhlIE9uQ29tcGxldGUgaW4gY29tYmluYXRpb24gd2l0aCB3aGV0aGVyIHRoZSBhcHAgaXMgYmVpbmcgY3JlYXRlZCBvciBjYWxsZWQKLy8gRXZlcnkgcG9zc2libGUgYWN0aW9uIGZvciB0aGlzIGNvbnRyYWN0IGlzIHJlcHJlc2VudGVkIGluIHRoZSBzd2l0Y2ggc3RhdGVtZW50Ci8vIElmIHRoZSBhY3Rpb24gaXMgbm90IGltcGxlbWVudGVkIGluIHRoZSBjb250cmFjdCwgaXRzIHJlc3BlY3RpdmUgYnJhbmNoIHdpbGwgYmUgIipOT1RfSU1QTEVNRU5URUQiIHdoaWNoIGp1c3QgY29udGFpbnMgImVyciIKdHhuIEFwcGxpY2F0aW9uSUQKIQpwdXNoaW50IDYKKgp0eG4gT25Db21wbGV0aW9uCisKc3dpdGNoICpjYWxsX05vT3AgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpjcmVhdGVfTm9PcCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQKCipOT1RfSU1QTEVNRU5URUQ6CgkvLyBUaGUgcmVxdWVzdGVkIGFjdGlvbiBpcyBub3QgaW1wbGVtZW50ZWQgaW4gdGhpcyBjb250cmFjdC4gQXJlIHlvdSB1c2luZyB0aGUgY29ycmVjdCBPbkNvbXBsZXRlPyBEaWQgeW91IHNldCB5b3VyIGFwcCBJRD8KCWVycgoKLy8gc2V0TXlDb250YWN0KHN0cmluZyxzdHJpbmcpdm9pZAoqYWJpX3JvdXRlX3NldE15Q29udGFjdDoKCS8vIGNvbXBhbnk6IHN0cmluZwoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgoJZXh0cmFjdCAyIDAKCgkvLyBuYW1lOiBzdHJpbmcKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWV4dHJhY3QgMiAwCgoJLy8gZXhlY3V0ZSBzZXRNeUNvbnRhY3Qoc3RyaW5nLHN0cmluZyl2b2lkCgljYWxsc3ViIHNldE15Q29udGFjdAoJaW50IDEKCXJldHVybgoKLy8gc2V0TXlDb250YWN0KG5hbWU6IHN0cmluZywgY29tcGFueTogc3RyaW5nKTogdm9pZApzZXRNeUNvbnRhY3Q6Cglwcm90byAyIDAKCgkvLyBQdXNoIGVtcHR5IGJ5dGVzIGFmdGVyIHRoZSBmcmFtZSBwb2ludGVyIHRvIHJlc2VydmUgc3BhY2UgZm9yIGxvY2FsIHZhcmlhYmxlcwoJYnl0ZSAweAoKCS8vIGV4YW1wbGVzL3R1cGxlX2luX2JveC9hcHAuYWxnby50czoxMgoJLy8gY29udGFjdDogQ29udGFjdCA9IHsgbmFtZTogbmFtZSwgY29tcGFueTogY29tcGFueSB9CglieXRlIDB4IC8vIGluaXRpYWwgaGVhZAoJYnl0ZSAweCAvLyBpbml0aWFsIHRhaWwKCWJ5dGUgMHgwMDA0IC8vIGluaXRpYWwgaGVhZCBvZmZzZXQKCWZyYW1lX2RpZyAtMSAvLyBuYW1lOiBzdHJpbmcKCWR1cAoJbGVuCglpdG9iCglleHRyYWN0IDYgMgoJc3dhcAoJY29uY2F0CgljYWxsc3ViICpwcm9jZXNzX2R5bmFtaWNfdHVwbGVfZWxlbWVudAoJZnJhbWVfZGlnIC0yIC8vIGNvbXBhbnk6IHN0cmluZwoJZHVwCglsZW4KCWl0b2IKCWV4dHJhY3QgNiAyCglzd2FwCgljb25jYXQKCWNhbGxzdWIgKnByb2Nlc3NfZHluYW1pY190dXBsZV9lbGVtZW50Cglwb3AgLy8gcG9wIGhlYWQgb2Zmc2V0Cgljb25jYXQgLy8gY29uY2F0IGhlYWQgYW5kIHRhaWwKCWZyYW1lX2J1cnkgMCAvLyBjb250YWN0OiBDb250YWN0CgoJLy8gZXhhbXBsZXMvdHVwbGVfaW5fYm94L2FwcC5hbGdvLnRzOjE0CgkvLyB0aGlzLm15Q29udGFjdC52YWx1ZSA9IGNvbnRhY3QKCXB1c2hieXRlcyAweDZkNzk0MzZmNmU3NDYxNjM3NCAvLyAibXlDb250YWN0IgoJZnJhbWVfZGlnIDAgLy8gY29udGFjdDogQ29udGFjdAoJYXBwX2dsb2JhbF9wdXQKCgkvLyBleGFtcGxlcy90dXBsZV9pbl9ib3gvYXBwLmFsZ28udHM6MTUKCS8vIHRoaXMuY29udGFjdHModGhpcy50eG4uc2VuZGVyKS52YWx1ZSA9IGNvbnRhY3QKCXR4biBTZW5kZXIKCWR1cAoJYm94X2RlbAoJcG9wCglmcmFtZV9kaWcgMCAvLyBjb250YWN0OiBDb250YWN0Cglib3hfcHV0CglyZXRzdWIKCi8vIGFkZENvbnRhY3Qoc3RyaW5nLHN0cmluZyxhZGRyZXNzKXZvaWQKKmFiaV9yb3V0ZV9hZGRDb250YWN0OgoJLy8gYWRkcmVzczogYWRkcmVzcwoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMwoJZHVwCglsZW4KCXB1c2hpbnQgMzIKCT09CgoJLy8gYXJndW1lbnQgMCAoYWRkcmVzcykgZm9yIGFkZENvbnRhY3QgbXVzdCBiZSBhIGFkZHJlc3MKCWFzc2VydAoKCS8vIGNvbXBhbnk6IHN0cmluZwoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgoJZXh0cmFjdCAyIDAKCgkvLyBuYW1lOiBzdHJpbmcKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWV4dHJhY3QgMiAwCgoJLy8gZXhlY3V0ZSBhZGRDb250YWN0KHN0cmluZyxzdHJpbmcsYWRkcmVzcyl2b2lkCgljYWxsc3ViIGFkZENvbnRhY3QKCWludCAxCglyZXR1cm4KCi8vIGFkZENvbnRhY3QobmFtZTogc3RyaW5nLCBjb21wYW55OiBzdHJpbmcsIGFkZHJlc3M6IEFkZHJlc3MpOiB2b2lkCmFkZENvbnRhY3Q6Cglwcm90byAzIDAKCgkvLyBQdXNoIGVtcHR5IGJ5dGVzIGFmdGVyIHRoZSBmcmFtZSBwb2ludGVyIHRvIHJlc2VydmUgc3BhY2UgZm9yIGxvY2FsIHZhcmlhYmxlcwoJYnl0ZSAweAoKCS8vIGV4YW1wbGVzL3R1cGxlX2luX2JveC9hcHAuYWxnby50czoxOQoJLy8gY29udGFjdDogQ29udGFjdCA9IHsgbmFtZTogbmFtZSwgY29tcGFueTogY29tcGFueSB9CglieXRlIDB4IC8vIGluaXRpYWwgaGVhZAoJYnl0ZSAweCAvLyBpbml0aWFsIHRhaWwKCWJ5dGUgMHgwMDA0IC8vIGluaXRpYWwgaGVhZCBvZmZzZXQKCWZyYW1lX2RpZyAtMSAvLyBuYW1lOiBzdHJpbmcKCWR1cAoJbGVuCglpdG9iCglleHRyYWN0IDYgMgoJc3dhcAoJY29uY2F0CgljYWxsc3ViICpwcm9jZXNzX2R5bmFtaWNfdHVwbGVfZWxlbWVudAoJZnJhbWVfZGlnIC0yIC8vIGNvbXBhbnk6IHN0cmluZwoJZHVwCglsZW4KCWl0b2IKCWV4dHJhY3QgNiAyCglzd2FwCgljb25jYXQKCWNhbGxzdWIgKnByb2Nlc3NfZHluYW1pY190dXBsZV9lbGVtZW50Cglwb3AgLy8gcG9wIGhlYWQgb2Zmc2V0Cgljb25jYXQgLy8gY29uY2F0IGhlYWQgYW5kIHRhaWwKCWZyYW1lX2J1cnkgMCAvLyBjb250YWN0OiBDb250YWN0CgoJLy8gZXhhbXBsZXMvdHVwbGVfaW5fYm94L2FwcC5hbGdvLnRzOjIwCgkvLyB0aGlzLmNvbnRhY3RzKGFkZHJlc3MpLnZhbHVlID0gY29udGFjdAoJZnJhbWVfZGlnIC0zIC8vIGFkZHJlc3M6IEFkZHJlc3MKCWR1cAoJYm94X2RlbAoJcG9wCglmcmFtZV9kaWcgMCAvLyBjb250YWN0OiBDb250YWN0Cglib3hfcHV0CglyZXRzdWIKCi8vIHVwZGF0ZUNvbnRhY3RGaWVsZChzdHJpbmcsc3RyaW5nLGFkZHJlc3Mpdm9pZAoqYWJpX3JvdXRlX3VwZGF0ZUNvbnRhY3RGaWVsZDoKCS8vIGFkZHJlc3M6IGFkZHJlc3MKCXR4bmEgQXBwbGljYXRpb25BcmdzIDMKCWR1cAoJbGVuCglwdXNoaW50IDMyCgk9PQoKCS8vIGFyZ3VtZW50IDAgKGFkZHJlc3MpIGZvciB1cGRhdGVDb250YWN0RmllbGQgbXVzdCBiZSBhIGFkZHJlc3MKCWFzc2VydAoKCS8vIHZhbHVlOiBzdHJpbmcKCXR4bmEgQXBwbGljYXRpb25BcmdzIDIKCWV4dHJhY3QgMiAwCgoJLy8gZmllbGQ6IHN0cmluZwoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJZXh0cmFjdCAyIDAKCgkvLyBleGVjdXRlIHVwZGF0ZUNvbnRhY3RGaWVsZChzdHJpbmcsc3RyaW5nLGFkZHJlc3Mpdm9pZAoJY2FsbHN1YiB1cGRhdGVDb250YWN0RmllbGQKCWludCAxCglyZXR1cm4KCi8vIHVwZGF0ZUNvbnRhY3RGaWVsZChmaWVsZDogc3RyaW5nLCB2YWx1ZTogc3RyaW5nLCBhZGRyZXNzOiBBZGRyZXNzKTogdm9pZAp1cGRhdGVDb250YWN0RmllbGQ6Cglwcm90byAzIDAKCgkvLyAqaWYwX2NvbmRpdGlvbgoJLy8gZXhhbXBsZXMvdHVwbGVfaW5fYm94L2FwcC5hbGdvLnRzOjI0CgkvLyBmaWVsZCA9PT0gJ25hbWUnCglmcmFtZV9kaWcgLTEgLy8gZmllbGQ6IHN0cmluZwoJcHVzaGJ5dGVzIDB4NmU2MTZkNjUgLy8gIm5hbWUiCgk9PQoJYnogKmlmMF9lbHNlaWYxX2NvbmRpdGlvbgoKCS8vICppZjBfY29uc2VxdWVudAoJLy8gZXhhbXBsZXMvdHVwbGVfaW5fYm94L2FwcC5hbGdvLnRzOjI1CgkvLyB0aGlzLmNvbnRhY3RzKGFkZHJlc3MpLnZhbHVlLm5hbWUgPSB2YWx1ZQoJZnJhbWVfZGlnIC0zIC8vIGFkZHJlc3M6IEFkZHJlc3MKCWJveF9nZXQKCgkvLyBib3ggdmFsdWUgZG9lcyBub3QgZXhpc3Q6IHRoaXMuY29udGFjdHMoYWRkcmVzcykudmFsdWUKCWFzc2VydAoJc3RvcmUgMjU1IC8vIGZ1bGwgYXJyYXkKCXB1c2hpbnQgMAoJZHVwCglzdG9yZSAyNTEgLy8gZWxlbWVudCBoZWFkIG9mZnNldAoJbG9hZCAyNTUgLy8gZnVsbCBhcnJheQoJbG9hZCAyNTUgLy8gZnVsbCBhcnJheQoJdW5jb3ZlciAyCglleHRyYWN0X3VpbnQxNgoJZHVwCglzdG9yZSAyNTQgLy8gZWxlbWVudCBzdGFydAoJZHVwIC8vIGR1cGxpY2F0ZSBzdGFydCBvZiBlbGVtZW50Cglsb2FkIDI1NSAvLyBmdWxsIGFycmF5Cglzd2FwCglleHRyYWN0X3VpbnQxNiAvLyBnZXQgbnVtYmVyIG9mIGVsZW1lbnRzCglpbnQgMSAvLyBnZXQgdHlwZSBsZW5ndGgKCSogLy8gbXVsdGlwbHkgYnkgdHlwZSBsZW5ndGgKCXB1c2hpbnQgMgoJKyAvLyBhZGQgdHdvIGZvciBsZW5ndGgKCXN0b3JlIDI1MyAvLyBlbGVtZW50IGxlbmd0aAoJbG9hZCAyNTUgLy8gZnVsbCBhcnJheQoJcHVzaGludCAwCglsb2FkIDI1NCAvLyBlbGVtZW50IHN0YXJ0CglzdWJzdHJpbmczCglmcmFtZV9kaWcgLTIgLy8gdmFsdWU6IHN0cmluZwoJZHVwCglsZW4KCWl0b2IKCWV4dHJhY3QgNiAyCglzd2FwCgljb25jYXQKCWR1cAoJc3RvcmUgMjUyIC8vIG5ldyBlbGVtZW50Cglsb2FkIDI1NSAvLyBmdWxsIGFycmF5Cglsb2FkIDI1NCAvLyBlbGVtZW50IHN0YXJ0Cglsb2FkIDI1MyAvLyBlbGVtZW50IGxlbmd0aAoJKyAvLyBnZXQgZW5kIG9mIEVsZW1lbnQKCWxvYWQgMjU1IC8vIGZ1bGwgYXJyYXkKCWxlbgoJc3Vic3RyaW5nMwoJY29uY2F0Cgljb25jYXQKCXN0b3JlIDI1NSAvLyBmdWxsIGFycmF5CgljYWxsc3ViICpnZXRfbGVuZ3RoX2RpZmZlcmVuY2UKCWxvYWQgMjUwIC8vIGxlbmd0aCBkaWZmZXJlbmNlCglsb2FkIDI1MSAvLyBlbGVtZW50IGhlYWQgb2Zmc2V0CglwdXNoaW50IDIKCSsgLy8gaGVhZCBvZnNldAoJY2FsbHN1YiAqdXBkYXRlX2R5bmFtaWNfaGVhZAoJbG9hZCAyNTUgLy8gZnVsbCBhcnJheQoJZnJhbWVfZGlnIC0zIC8vIGFkZHJlc3M6IEFkZHJlc3MKCWR1cAoJYm94X2RlbAoJcG9wCglzd2FwCglib3hfcHV0CgliICppZjBfZW5kCgoqaWYwX2Vsc2VpZjFfY29uZGl0aW9uOgoJLy8gZXhhbXBsZXMvdHVwbGVfaW5fYm94L2FwcC5hbGdvLnRzOjI2CgkvLyBmaWVsZCA9PT0gJ2NvbXBhbnknCglmcmFtZV9kaWcgLTEgLy8gZmllbGQ6IHN0cmluZwoJcHVzaGJ5dGVzIDB4NjM2ZjZkNzA2MTZlNzkgLy8gImNvbXBhbnkiCgk9PQoJYnogKmlmMF9lbHNlCgoJLy8gKmlmMF9lbHNlaWYxX2NvbnNlcXVlbnQKCS8vIGV4YW1wbGVzL3R1cGxlX2luX2JveC9hcHAuYWxnby50czoyNwoJLy8gdGhpcy5jb250YWN0cyhhZGRyZXNzKS52YWx1ZS5jb21wYW55ID0gdmFsdWUKCWZyYW1lX2RpZyAtMyAvLyBhZGRyZXNzOiBBZGRyZXNzCglib3hfZ2V0CgoJLy8gYm94IHZhbHVlIGRvZXMgbm90IGV4aXN0OiB0aGlzLmNvbnRhY3RzKGFkZHJlc3MpLnZhbHVlCglhc3NlcnQKCXN0b3JlIDI1NSAvLyBmdWxsIGFycmF5CglwdXNoaW50IDIKCWR1cAoJc3RvcmUgMjUxIC8vIGVsZW1lbnQgaGVhZCBvZmZzZXQKCWxvYWQgMjU1IC8vIGZ1bGwgYXJyYXkKCWxvYWQgMjU1IC8vIGZ1bGwgYXJyYXkKCXVuY292ZXIgMgoJZXh0cmFjdF91aW50MTYKCWR1cAoJc3RvcmUgMjU0IC8vIGVsZW1lbnQgc3RhcnQKCWR1cCAvLyBkdXBsaWNhdGUgc3RhcnQgb2YgZWxlbWVudAoJbG9hZCAyNTUgLy8gZnVsbCBhcnJheQoJc3dhcAoJZXh0cmFjdF91aW50MTYgLy8gZ2V0IG51bWJlciBvZiBlbGVtZW50cwoJaW50IDEgLy8gZ2V0IHR5cGUgbGVuZ3RoCgkqIC8vIG11bHRpcGx5IGJ5IHR5cGUgbGVuZ3RoCglwdXNoaW50IDIKCSsgLy8gYWRkIHR3byBmb3IgbGVuZ3RoCglzdG9yZSAyNTMgLy8gZWxlbWVudCBsZW5ndGgKCWxvYWQgMjU1IC8vIGZ1bGwgYXJyYXkKCXB1c2hpbnQgMAoJbG9hZCAyNTQgLy8gZWxlbWVudCBzdGFydAoJc3Vic3RyaW5nMwoJZnJhbWVfZGlnIC0yIC8vIHZhbHVlOiBzdHJpbmcKCWR1cAoJbGVuCglpdG9iCglleHRyYWN0IDYgMgoJc3dhcAoJY29uY2F0CglkdXAKCXN0b3JlIDI1MiAvLyBuZXcgZWxlbWVudAoJbG9hZCAyNTUgLy8gZnVsbCBhcnJheQoJbG9hZCAyNTQgLy8gZWxlbWVudCBzdGFydAoJbG9hZCAyNTMgLy8gZWxlbWVudCBsZW5ndGgKCSsgLy8gZ2V0IGVuZCBvZiBFbGVtZW50Cglsb2FkIDI1NSAvLyBmdWxsIGFycmF5CglsZW4KCXN1YnN0cmluZzMKCWNvbmNhdAoJY29uY2F0CglzdG9yZSAyNTUgLy8gZnVsbCBhcnJheQoJY2FsbHN1YiAqZ2V0X2xlbmd0aF9kaWZmZXJlbmNlCglsb2FkIDI1NSAvLyBmdWxsIGFycmF5CglmcmFtZV9kaWcgLTMgLy8gYWRkcmVzczogQWRkcmVzcwoJZHVwCglib3hfZGVsCglwb3AKCXN3YXAKCWJveF9wdXQKCWIgKmlmMF9lbmQKCippZjBfZWxzZToKCS8vIEludmFsaWQgZmllbGQKCWVycgoKKmlmMF9lbmQ6CglyZXRzdWIKCi8vIHZlcmlmeUNvbnRhY3ROYW1lKHN0cmluZyxhZGRyZXNzKXZvaWQKKmFiaV9yb3V0ZV92ZXJpZnlDb250YWN0TmFtZToKCS8vIGFkZHJlc3M6IGFkZHJlc3MKCXR4bmEgQXBwbGljYXRpb25BcmdzIDIKCWR1cAoJbGVuCglwdXNoaW50IDMyCgk9PQoKCS8vIGFyZ3VtZW50IDAgKGFkZHJlc3MpIGZvciB2ZXJpZnlDb250YWN0TmFtZSBtdXN0IGJlIGEgYWRkcmVzcwoJYXNzZXJ0CgoJLy8gbmFtZTogc3RyaW5nCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglleHRyYWN0IDIgMAoKCS8vIGV4ZWN1dGUgdmVyaWZ5Q29udGFjdE5hbWUoc3RyaW5nLGFkZHJlc3Mpdm9pZAoJY2FsbHN1YiB2ZXJpZnlDb250YWN0TmFtZQoJaW50IDEKCXJldHVybgoKLy8gdmVyaWZ5Q29udGFjdE5hbWUobmFtZTogc3RyaW5nLCBhZGRyZXNzOiBBZGRyZXNzKTogdm9pZAp2ZXJpZnlDb250YWN0TmFtZToKCXByb3RvIDIgMAoKCS8vIGV4YW1wbGVzL3R1cGxlX2luX2JveC9hcHAuYWxnby50czozMgoJLy8gYXNzZXJ0KHRoaXMuY29udGFjdHMoYWRkcmVzcykudmFsdWUubmFtZSA9PT0gbmFtZSkKCWZyYW1lX2RpZyAtMiAvLyBhZGRyZXNzOiBBZGRyZXNzCglib3hfZ2V0CgoJLy8gYm94IHZhbHVlIGRvZXMgbm90IGV4aXN0OiB0aGlzLmNvbnRhY3RzKGFkZHJlc3MpLnZhbHVlCglhc3NlcnQKCXN0b3JlIDI1NSAvLyBmdWxsIGFycmF5CglwdXNoaW50IDAKCWxvYWQgMjU1IC8vIGZ1bGwgYXJyYXkKCWxvYWQgMjU1IC8vIGZ1bGwgYXJyYXkKCXVuY292ZXIgMgoJZXh0cmFjdF91aW50MTYKCWR1cCAvLyBkdXBsaWNhdGUgc3RhcnQgb2YgZWxlbWVudAoJbG9hZCAyNTUgLy8gZnVsbCBhcnJheQoJc3dhcAoJZXh0cmFjdF91aW50MTYgLy8gZ2V0IG51bWJlciBvZiBlbGVtZW50cwoJaW50IDEgLy8gZ2V0IHR5cGUgbGVuZ3RoCgkqIC8vIG11bHRpcGx5IGJ5IHR5cGUgbGVuZ3RoCglwdXNoaW50IDIKCSsgLy8gYWRkIHR3byBmb3IgbGVuZ3RoCglleHRyYWN0MwoJZXh0cmFjdCAyIDAKCWZyYW1lX2RpZyAtMSAvLyBuYW1lOiBzdHJpbmcKCT09Cglhc3NlcnQKCXJldHN1YgoKKmFiaV9yb3V0ZV9jcmVhdGVBcHBsaWNhdGlvbjoKCWludCAxCglyZXR1cm4KCipjcmVhdGVfTm9PcDoKCXB1c2hieXRlcyAweGI4NDQ3YjM2IC8vIG1ldGhvZCAiY3JlYXRlQXBwbGljYXRpb24oKXZvaWQiCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAwCgltYXRjaCAqYWJpX3JvdXRlX2NyZWF0ZUFwcGxpY2F0aW9uCgoJLy8gdGhpcyBjb250cmFjdCBkb2VzIG5vdCBpbXBsZW1lbnQgdGhlIGdpdmVuIEFCSSBtZXRob2QgZm9yIGNyZWF0ZSBOb09wCgllcnIKCipjYWxsX05vT3A6CglwdXNoYnl0ZXMgMHg5MmNjZjk5YiAvLyBtZXRob2QgInNldE15Q29udGFjdChzdHJpbmcsc3RyaW5nKXZvaWQiCglwdXNoYnl0ZXMgMHg0OTVhY2JmNyAvLyBtZXRob2QgImFkZENvbnRhY3Qoc3RyaW5nLHN0cmluZyxhZGRyZXNzKXZvaWQiCglwdXNoYnl0ZXMgMHhmYTRlOGY5MyAvLyBtZXRob2QgInVwZGF0ZUNvbnRhY3RGaWVsZChzdHJpbmcsc3RyaW5nLGFkZHJlc3Mpdm9pZCIKCXB1c2hieXRlcyAweDhhMzBiODdlIC8vIG1ldGhvZCAidmVyaWZ5Q29udGFjdE5hbWUoc3RyaW5nLGFkZHJlc3Mpdm9pZCIKCXR4bmEgQXBwbGljYXRpb25BcmdzIDAKCW1hdGNoICphYmlfcm91dGVfc2V0TXlDb250YWN0ICphYmlfcm91dGVfYWRkQ29udGFjdCAqYWJpX3JvdXRlX3VwZGF0ZUNvbnRhY3RGaWVsZCAqYWJpX3JvdXRlX3ZlcmlmeUNvbnRhY3ROYW1lCgoJLy8gdGhpcyBjb250cmFjdCBkb2VzIG5vdCBpbXBsZW1lbnQgdGhlIGdpdmVuIEFCSSBtZXRob2QgZm9yIGNhbGwgTm9PcAoJZXJyCgoqcHJvY2Vzc19keW5hbWljX3R1cGxlX2VsZW1lbnQ6Cglwcm90byA0IDMKCWZyYW1lX2RpZyAtNCAvLyB0dXBsZSBoZWFkCglmcmFtZV9kaWcgLTIgLy8gaGVhZCBvZmZzZXQKCWNvbmNhdAoJZnJhbWVfYnVyeSAtNCAvLyB0dXBsZSBoZWFkCglmcmFtZV9kaWcgLTEgLy8gZWxlbWVudAoJZHVwCglsZW4KCWZyYW1lX2RpZyAtMiAvLyBoZWFkIG9mZnNldAoJYnRvaQoJKwoJaXRvYgoJZXh0cmFjdCA2IDIKCWZyYW1lX2J1cnkgLTIgLy8gaGVhZCBvZmZzZXQKCWZyYW1lX2RpZyAtMyAvLyB0dXBsZSB0YWlsCglzd2FwCgljb25jYXQKCWZyYW1lX2J1cnkgLTMgLy8gdHVwbGUgdGFpbAoJZnJhbWVfZGlnIC00IC8vIHR1cGxlIGhlYWQKCWZyYW1lX2RpZyAtMyAvLyB0dXBsZSB0YWlsCglmcmFtZV9kaWcgLTIgLy8gaGVhZCBvZmZzZXQKCXJldHN1YgoKKnVwZGF0ZV9keW5hbWljX2hlYWQ6Cglwcm90byAyIDAKCWZyYW1lX2RpZyAtMiAvLyBsZW5ndGggZGlmZmVyZW5jZQoJbG9hZCAyNTUgLy8gZnVsbCBhcnJheQoJZnJhbWVfZGlnIC0xIC8vIGR5bmFtaWMgYXJyYXkgb2Zmc2V0CglleHRyYWN0X3VpbnQxNiAvLyBleHRyYWN0IGR5bmFtaWMgYXJyYXkgb2Zmc2V0Cglsb2FkIDI0OSAvLyBzdWJ0cmFjdCBoZWFkIGRpZmZlcmVuY2UKCWJ6ICpzdWJ0cmFjdF9oZWFkX2RpZmZlcmVuY2UKCSsgLy8gYWRkIGRpZmZlcmVuY2UgdG8gb2Zmc2V0CgliICplbmRfY2FsY19uZXdfaGVhZAoKKnN1YnRyYWN0X2hlYWRfZGlmZmVyZW5jZToKCXN3YXAKCS0gLy8gc3VidHJhY3QgZGlmZmVyZW5jZSBmcm9tIG9mZmV0CgoqZW5kX2NhbGNfbmV3X2hlYWQ6CglpdG9iIC8vIGNvbnZlcnQgdG8gYnl0ZXMKCWV4dHJhY3QgNiAyIC8vIGNvbnZlcnQgdG8gdWludDE2Cglsb2FkIDI1NSAvLyBmdWxsIGFycmF5Cglzd2FwCglmcmFtZV9kaWcgLTEgLy8gb2Zmc2V0Cglzd2FwCglyZXBsYWNlMyAvLyB1cGRhdGUgb2Zmc2V0CglzdG9yZSAyNTUgLy8gZnVsbCBhcnJheQoJcmV0c3ViCgoqZ2V0X2xlbmd0aF9kaWZmZXJlbmNlOgoJbG9hZCAyNTIgLy8gbmV3IGVsZW1lbnQKCWxlbiAvLyBsZW5ndGggb2YgbmV3IGVsZW1lbnQKCWxvYWQgMjUzIC8vIGVsZW1lbnQgbGVuZ3RoCgk8CglibnogKnN3YXBwZWRfZGlmZmVyZW5jZQoJbG9hZCAyNTIgLy8gbmV3IGVsZW1lbnQKCWxlbiAvLyBsZW5ndGggb2YgbmV3IGVsZW1lbnQKCWxvYWQgMjUzIC8vIGVsZW1lbnQgbGVuZ3RoCglpbnQgMQoJc3RvcmUgMjQ5IC8vIHN1YnRyYWN0IGhlYWQgZGlmZmVyZW5jZQoJYiAqZ2V0X2RpZmZlcmVuY2UKCipzd2FwcGVkX2RpZmZlcmVuY2U6Cglsb2FkIDI1MyAvLyBlbGVtZW50IGxlbmd0aAoJbG9hZCAyNTIgLy8gbmV3IGVsZW1lbnQKCWxlbiAvLyBsZW5ndGggb2YgbmV3IGVsZW1lbnQKCXB1c2hpbnQgMAoJc3RvcmUgMjQ5IC8vIHN1YnRyYWN0IGhlYWQgZGlmZmVyZW5jZQoKKmdldF9kaWZmZXJlbmNlOgoJLSAvLyBnZXQgbGVuZ3RoIGRpZmZlcmVuY2UKCXN0b3JlIDI1MCAvLyBsZW5ndGggZGlmZmVyZW5jZQoJcmV0c3Vi",
+    "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCmludGNibG9jayAxIDAgMiAzMgpieXRlY2Jsb2NrIDB4IDB4MDAwNAoKLy8gVGhpcyBURUFMIHdhcyBnZW5lcmF0ZWQgYnkgVEVBTFNjcmlwdCB2MC4xMDUuMQovLyBodHRwczovL2dpdGh1Yi5jb20vYWxnb3JhbmRmb3VuZGF0aW9uL1RFQUxTY3JpcHQKCi8vIFRoaXMgY29udHJhY3QgaXMgY29tcGxpYW50IHdpdGggYW5kL29yIGltcGxlbWVudHMgdGhlIGZvbGxvd2luZyBBUkNzOiBbIEFSQzQgXQoKLy8gVGhlIGZvbGxvd2luZyB0ZW4gbGluZXMgb2YgVEVBTCBoYW5kbGUgaW5pdGlhbCBwcm9ncmFtIGZsb3cKLy8gVGhpcyBwYXR0ZXJuIGlzIHVzZWQgdG8gbWFrZSBpdCBlYXN5IGZvciBhbnlvbmUgdG8gcGFyc2UgdGhlIHN0YXJ0IG9mIHRoZSBwcm9ncmFtIGFuZCBkZXRlcm1pbmUgaWYgYSBzcGVjaWZpYyBhY3Rpb24gaXMgYWxsb3dlZAovLyBIZXJlLCBhY3Rpb24gcmVmZXJzIHRvIHRoZSBPbkNvbXBsZXRlIGluIGNvbWJpbmF0aW9uIHdpdGggd2hldGhlciB0aGUgYXBwIGlzIGJlaW5nIGNyZWF0ZWQgb3IgY2FsbGVkCi8vIEV2ZXJ5IHBvc3NpYmxlIGFjdGlvbiBmb3IgdGhpcyBjb250cmFjdCBpcyByZXByZXNlbnRlZCBpbiB0aGUgc3dpdGNoIHN0YXRlbWVudAovLyBJZiB0aGUgYWN0aW9uIGlzIG5vdCBpbXBsZW1lbnRlZCBpbiB0aGUgY29udHJhY3QsIGl0cyByZXNwZWN0aXZlIGJyYW5jaCB3aWxsIGJlICIqTk9UX0lNUExFTUVOVEVEIiB3aGljaCBqdXN0IGNvbnRhaW5zICJlcnIiCnR4biBBcHBsaWNhdGlvbklECiEKcHVzaGludCA2CioKdHhuIE9uQ29tcGxldGlvbgorCnN3aXRjaCAqY2FsbF9Ob09wICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqY3JlYXRlX05vT3AgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVECgoqTk9UX0lNUExFTUVOVEVEOgoJLy8gVGhlIHJlcXVlc3RlZCBhY3Rpb24gaXMgbm90IGltcGxlbWVudGVkIGluIHRoaXMgY29udHJhY3QuIEFyZSB5b3UgdXNpbmcgdGhlIGNvcnJlY3QgT25Db21wbGV0ZT8gRGlkIHlvdSBzZXQgeW91ciBhcHAgSUQ/CgllcnIKCi8vIHNldE15Q29udGFjdChzdHJpbmcsc3RyaW5nKXZvaWQKKmFiaV9yb3V0ZV9zZXRNeUNvbnRhY3Q6CgkvLyBjb21wYW55OiBzdHJpbmcKCXR4bmEgQXBwbGljYXRpb25BcmdzIDIKCWV4dHJhY3QgMiAwCgoJLy8gbmFtZTogc3RyaW5nCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglleHRyYWN0IDIgMAoKCS8vIGV4ZWN1dGUgc2V0TXlDb250YWN0KHN0cmluZyxzdHJpbmcpdm9pZAoJY2FsbHN1YiBzZXRNeUNvbnRhY3QKCWludGMgMCAvLyAxCglyZXR1cm4KCi8vIHNldE15Q29udGFjdChuYW1lOiBzdHJpbmcsIGNvbXBhbnk6IHN0cmluZyk6IHZvaWQKc2V0TXlDb250YWN0OgoJcHJvdG8gMiAwCgoJLy8gUHVzaCBlbXB0eSBieXRlcyBhZnRlciB0aGUgZnJhbWUgcG9pbnRlciB0byByZXNlcnZlIHNwYWNlIGZvciBsb2NhbCB2YXJpYWJsZXMKCWJ5dGVjIDAgLy8gMHgKCgkvLyBleGFtcGxlcy90dXBsZV9pbl9ib3gvYXBwLmFsZ28udHM6MTIKCS8vIGNvbnRhY3Q6IENvbnRhY3QgPSB7IG5hbWU6IG5hbWUsIGNvbXBhbnk6IGNvbXBhbnkgfQoJYnl0ZWMgMCAvLyAgaW5pdGlhbCBoZWFkCglieXRlYyAwIC8vICBpbml0aWFsIHRhaWwKCWJ5dGVjIDEgLy8gIGluaXRpYWwgaGVhZCBvZmZzZXQKCWZyYW1lX2RpZyAtMSAvLyBuYW1lOiBzdHJpbmcKCWR1cAoJbGVuCglpdG9iCglleHRyYWN0IDYgMgoJc3dhcAoJY29uY2F0CgljYWxsc3ViICpwcm9jZXNzX2R5bmFtaWNfdHVwbGVfZWxlbWVudAoJZnJhbWVfZGlnIC0yIC8vIGNvbXBhbnk6IHN0cmluZwoJZHVwCglsZW4KCWl0b2IKCWV4dHJhY3QgNiAyCglzd2FwCgljb25jYXQKCWNhbGxzdWIgKnByb2Nlc3NfZHluYW1pY190dXBsZV9lbGVtZW50Cglwb3AgLy8gcG9wIGhlYWQgb2Zmc2V0Cgljb25jYXQgLy8gY29uY2F0IGhlYWQgYW5kIHRhaWwKCWZyYW1lX2J1cnkgMCAvLyBjb250YWN0OiBDb250YWN0CgoJLy8gZXhhbXBsZXMvdHVwbGVfaW5fYm94L2FwcC5hbGdvLnRzOjE0CgkvLyB0aGlzLm15Q29udGFjdC52YWx1ZSA9IGNvbnRhY3QKCXB1c2hieXRlcyAweDZkNzk0MzZmNmU3NDYxNjM3NCAvLyAibXlDb250YWN0IgoJZnJhbWVfZGlnIDAgLy8gY29udGFjdDogQ29udGFjdAoJYXBwX2dsb2JhbF9wdXQKCgkvLyBleGFtcGxlcy90dXBsZV9pbl9ib3gvYXBwLmFsZ28udHM6MTUKCS8vIHRoaXMuY29udGFjdHModGhpcy50eG4uc2VuZGVyKS52YWx1ZSA9IGNvbnRhY3QKCXR4biBTZW5kZXIKCWR1cAoJYm94X2RlbAoJcG9wCglmcmFtZV9kaWcgMCAvLyBjb250YWN0OiBDb250YWN0Cglib3hfcHV0CglyZXRzdWIKCi8vIGFkZENvbnRhY3Qoc3RyaW5nLHN0cmluZyxhZGRyZXNzKXZvaWQKKmFiaV9yb3V0ZV9hZGRDb250YWN0OgoJLy8gYWRkcmVzczogYWRkcmVzcwoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMwoJZHVwCglsZW4KCWludGMgMyAvLyAzMgoJPT0KCgkvLyBhcmd1bWVudCAwIChhZGRyZXNzKSBmb3IgYWRkQ29udGFjdCBtdXN0IGJlIGEgYWRkcmVzcwoJYXNzZXJ0CgoJLy8gY29tcGFueTogc3RyaW5nCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAyCglleHRyYWN0IDIgMAoKCS8vIG5hbWU6IHN0cmluZwoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJZXh0cmFjdCAyIDAKCgkvLyBleGVjdXRlIGFkZENvbnRhY3Qoc3RyaW5nLHN0cmluZyxhZGRyZXNzKXZvaWQKCWNhbGxzdWIgYWRkQ29udGFjdAoJaW50YyAwIC8vIDEKCXJldHVybgoKLy8gYWRkQ29udGFjdChuYW1lOiBzdHJpbmcsIGNvbXBhbnk6IHN0cmluZywgYWRkcmVzczogQWRkcmVzcyk6IHZvaWQKYWRkQ29udGFjdDoKCXByb3RvIDMgMAoKCS8vIFB1c2ggZW1wdHkgYnl0ZXMgYWZ0ZXIgdGhlIGZyYW1lIHBvaW50ZXIgdG8gcmVzZXJ2ZSBzcGFjZSBmb3IgbG9jYWwgdmFyaWFibGVzCglieXRlYyAwIC8vIDB4CgoJLy8gZXhhbXBsZXMvdHVwbGVfaW5fYm94L2FwcC5hbGdvLnRzOjE5CgkvLyBjb250YWN0OiBDb250YWN0ID0geyBuYW1lOiBuYW1lLCBjb21wYW55OiBjb21wYW55IH0KCWJ5dGVjIDAgLy8gIGluaXRpYWwgaGVhZAoJYnl0ZWMgMCAvLyAgaW5pdGlhbCB0YWlsCglieXRlYyAxIC8vICBpbml0aWFsIGhlYWQgb2Zmc2V0CglmcmFtZV9kaWcgLTEgLy8gbmFtZTogc3RyaW5nCglkdXAKCWxlbgoJaXRvYgoJZXh0cmFjdCA2IDIKCXN3YXAKCWNvbmNhdAoJY2FsbHN1YiAqcHJvY2Vzc19keW5hbWljX3R1cGxlX2VsZW1lbnQKCWZyYW1lX2RpZyAtMiAvLyBjb21wYW55OiBzdHJpbmcKCWR1cAoJbGVuCglpdG9iCglleHRyYWN0IDYgMgoJc3dhcAoJY29uY2F0CgljYWxsc3ViICpwcm9jZXNzX2R5bmFtaWNfdHVwbGVfZWxlbWVudAoJcG9wIC8vIHBvcCBoZWFkIG9mZnNldAoJY29uY2F0IC8vIGNvbmNhdCBoZWFkIGFuZCB0YWlsCglmcmFtZV9idXJ5IDAgLy8gY29udGFjdDogQ29udGFjdAoKCS8vIGV4YW1wbGVzL3R1cGxlX2luX2JveC9hcHAuYWxnby50czoyMAoJLy8gdGhpcy5jb250YWN0cyhhZGRyZXNzKS52YWx1ZSA9IGNvbnRhY3QKCWZyYW1lX2RpZyAtMyAvLyBhZGRyZXNzOiBBZGRyZXNzCglkdXAKCWJveF9kZWwKCXBvcAoJZnJhbWVfZGlnIDAgLy8gY29udGFjdDogQ29udGFjdAoJYm94X3B1dAoJcmV0c3ViCgovLyB1cGRhdGVDb250YWN0RmllbGQoc3RyaW5nLHN0cmluZyxhZGRyZXNzKXZvaWQKKmFiaV9yb3V0ZV91cGRhdGVDb250YWN0RmllbGQ6CgkvLyBhZGRyZXNzOiBhZGRyZXNzCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAzCglkdXAKCWxlbgoJaW50YyAzIC8vIDMyCgk9PQoKCS8vIGFyZ3VtZW50IDAgKGFkZHJlc3MpIGZvciB1cGRhdGVDb250YWN0RmllbGQgbXVzdCBiZSBhIGFkZHJlc3MKCWFzc2VydAoKCS8vIHZhbHVlOiBzdHJpbmcKCXR4bmEgQXBwbGljYXRpb25BcmdzIDIKCWV4dHJhY3QgMiAwCgoJLy8gZmllbGQ6IHN0cmluZwoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJZXh0cmFjdCAyIDAKCgkvLyBleGVjdXRlIHVwZGF0ZUNvbnRhY3RGaWVsZChzdHJpbmcsc3RyaW5nLGFkZHJlc3Mpdm9pZAoJY2FsbHN1YiB1cGRhdGVDb250YWN0RmllbGQKCWludGMgMCAvLyAxCglyZXR1cm4KCi8vIHVwZGF0ZUNvbnRhY3RGaWVsZChmaWVsZDogc3RyaW5nLCB2YWx1ZTogc3RyaW5nLCBhZGRyZXNzOiBBZGRyZXNzKTogdm9pZAp1cGRhdGVDb250YWN0RmllbGQ6Cglwcm90byAzIDAKCgkvLyAqaWYwX2NvbmRpdGlvbgoJLy8gZXhhbXBsZXMvdHVwbGVfaW5fYm94L2FwcC5hbGdvLnRzOjI0CgkvLyBmaWVsZCA9PT0gJ25hbWUnCglmcmFtZV9kaWcgLTEgLy8gZmllbGQ6IHN0cmluZwoJcHVzaGJ5dGVzIDB4NmU2MTZkNjUgLy8gIm5hbWUiCgk9PQoJYnogKmlmMF9lbHNlaWYxX2NvbmRpdGlvbgoKCS8vICppZjBfY29uc2VxdWVudAoJLy8gZXhhbXBsZXMvdHVwbGVfaW5fYm94L2FwcC5hbGdvLnRzOjI1CgkvLyB0aGlzLmNvbnRhY3RzKGFkZHJlc3MpLnZhbHVlLm5hbWUgPSB2YWx1ZQoJZnJhbWVfZGlnIC0zIC8vIGFkZHJlc3M6IEFkZHJlc3MKCWJveF9nZXQKCgkvLyBib3ggdmFsdWUgZG9lcyBub3QgZXhpc3Q6IHRoaXMuY29udGFjdHMoYWRkcmVzcykudmFsdWUKCWFzc2VydAoJc3RvcmUgMjU1IC8vIGZ1bGwgYXJyYXkKCWludGMgMSAvLyAwCglkdXAKCXN0b3JlIDI1MSAvLyBlbGVtZW50IGhlYWQgb2Zmc2V0Cglsb2FkIDI1NSAvLyBmdWxsIGFycmF5Cglsb2FkIDI1NSAvLyBmdWxsIGFycmF5Cgl1bmNvdmVyIDIKCWV4dHJhY3RfdWludDE2CglkdXAKCXN0b3JlIDI1NCAvLyBlbGVtZW50IHN0YXJ0CglkdXAgLy8gZHVwbGljYXRlIHN0YXJ0IG9mIGVsZW1lbnQKCWxvYWQgMjU1IC8vIGZ1bGwgYXJyYXkKCXN3YXAKCWV4dHJhY3RfdWludDE2IC8vIGdldCBudW1iZXIgb2YgZWxlbWVudHMKCWludGMgMCAvLyAgZ2V0IHR5cGUgbGVuZ3RoCgkqIC8vIG11bHRpcGx5IGJ5IHR5cGUgbGVuZ3RoCglpbnRjIDIgLy8gMgoJKyAvLyBhZGQgdHdvIGZvciBsZW5ndGgKCXN0b3JlIDI1MyAvLyBlbGVtZW50IGxlbmd0aAoJbG9hZCAyNTUgLy8gZnVsbCBhcnJheQoJaW50YyAxIC8vIDAKCWxvYWQgMjU0IC8vIGVsZW1lbnQgc3RhcnQKCXN1YnN0cmluZzMKCWZyYW1lX2RpZyAtMiAvLyB2YWx1ZTogc3RyaW5nCglkdXAKCWxlbgoJaXRvYgoJZXh0cmFjdCA2IDIKCXN3YXAKCWNvbmNhdAoJZHVwCglzdG9yZSAyNTIgLy8gbmV3IGVsZW1lbnQKCWxvYWQgMjU1IC8vIGZ1bGwgYXJyYXkKCWxvYWQgMjU0IC8vIGVsZW1lbnQgc3RhcnQKCWxvYWQgMjUzIC8vIGVsZW1lbnQgbGVuZ3RoCgkrIC8vIGdldCBlbmQgb2YgRWxlbWVudAoJbG9hZCAyNTUgLy8gZnVsbCBhcnJheQoJbGVuCglzdWJzdHJpbmczCgljb25jYXQKCWNvbmNhdAoJc3RvcmUgMjU1IC8vIGZ1bGwgYXJyYXkKCWNhbGxzdWIgKmdldF9sZW5ndGhfZGlmZmVyZW5jZQoJbG9hZCAyNTAgLy8gbGVuZ3RoIGRpZmZlcmVuY2UKCWxvYWQgMjUxIC8vIGVsZW1lbnQgaGVhZCBvZmZzZXQKCWludGMgMiAvLyAyCgkrIC8vIGhlYWQgb2ZzZXQKCWNhbGxzdWIgKnVwZGF0ZV9keW5hbWljX2hlYWQKCWxvYWQgMjU1IC8vIGZ1bGwgYXJyYXkKCWZyYW1lX2RpZyAtMyAvLyBhZGRyZXNzOiBBZGRyZXNzCglkdXAKCWJveF9kZWwKCXBvcAoJc3dhcAoJYm94X3B1dAoJYiAqaWYwX2VuZAoKKmlmMF9lbHNlaWYxX2NvbmRpdGlvbjoKCS8vIGV4YW1wbGVzL3R1cGxlX2luX2JveC9hcHAuYWxnby50czoyNgoJLy8gZmllbGQgPT09ICdjb21wYW55JwoJZnJhbWVfZGlnIC0xIC8vIGZpZWxkOiBzdHJpbmcKCXB1c2hieXRlcyAweDYzNmY2ZDcwNjE2ZTc5IC8vICJjb21wYW55IgoJPT0KCWJ6ICppZjBfZWxzZQoKCS8vICppZjBfZWxzZWlmMV9jb25zZXF1ZW50CgkvLyBleGFtcGxlcy90dXBsZV9pbl9ib3gvYXBwLmFsZ28udHM6MjcKCS8vIHRoaXMuY29udGFjdHMoYWRkcmVzcykudmFsdWUuY29tcGFueSA9IHZhbHVlCglmcmFtZV9kaWcgLTMgLy8gYWRkcmVzczogQWRkcmVzcwoJYm94X2dldAoKCS8vIGJveCB2YWx1ZSBkb2VzIG5vdCBleGlzdDogdGhpcy5jb250YWN0cyhhZGRyZXNzKS52YWx1ZQoJYXNzZXJ0CglzdG9yZSAyNTUgLy8gZnVsbCBhcnJheQoJaW50YyAyIC8vIDIKCWR1cAoJc3RvcmUgMjUxIC8vIGVsZW1lbnQgaGVhZCBvZmZzZXQKCWxvYWQgMjU1IC8vIGZ1bGwgYXJyYXkKCWxvYWQgMjU1IC8vIGZ1bGwgYXJyYXkKCXVuY292ZXIgMgoJZXh0cmFjdF91aW50MTYKCWR1cAoJc3RvcmUgMjU0IC8vIGVsZW1lbnQgc3RhcnQKCWR1cCAvLyBkdXBsaWNhdGUgc3RhcnQgb2YgZWxlbWVudAoJbG9hZCAyNTUgLy8gZnVsbCBhcnJheQoJc3dhcAoJZXh0cmFjdF91aW50MTYgLy8gZ2V0IG51bWJlciBvZiBlbGVtZW50cwoJaW50YyAwIC8vICBnZXQgdHlwZSBsZW5ndGgKCSogLy8gbXVsdGlwbHkgYnkgdHlwZSBsZW5ndGgKCWludGMgMiAvLyAyCgkrIC8vIGFkZCB0d28gZm9yIGxlbmd0aAoJc3RvcmUgMjUzIC8vIGVsZW1lbnQgbGVuZ3RoCglsb2FkIDI1NSAvLyBmdWxsIGFycmF5CglpbnRjIDEgLy8gMAoJbG9hZCAyNTQgLy8gZWxlbWVudCBzdGFydAoJc3Vic3RyaW5nMwoJZnJhbWVfZGlnIC0yIC8vIHZhbHVlOiBzdHJpbmcKCWR1cAoJbGVuCglpdG9iCglleHRyYWN0IDYgMgoJc3dhcAoJY29uY2F0CglkdXAKCXN0b3JlIDI1MiAvLyBuZXcgZWxlbWVudAoJbG9hZCAyNTUgLy8gZnVsbCBhcnJheQoJbG9hZCAyNTQgLy8gZWxlbWVudCBzdGFydAoJbG9hZCAyNTMgLy8gZWxlbWVudCBsZW5ndGgKCSsgLy8gZ2V0IGVuZCBvZiBFbGVtZW50Cglsb2FkIDI1NSAvLyBmdWxsIGFycmF5CglsZW4KCXN1YnN0cmluZzMKCWNvbmNhdAoJY29uY2F0CglzdG9yZSAyNTUgLy8gZnVsbCBhcnJheQoJY2FsbHN1YiAqZ2V0X2xlbmd0aF9kaWZmZXJlbmNlCglsb2FkIDI1NSAvLyBmdWxsIGFycmF5CglmcmFtZV9kaWcgLTMgLy8gYWRkcmVzczogQWRkcmVzcwoJZHVwCglib3hfZGVsCglwb3AKCXN3YXAKCWJveF9wdXQKCWIgKmlmMF9lbmQKCippZjBfZWxzZToKCS8vIEludmFsaWQgZmllbGQKCWVycgoKKmlmMF9lbmQ6CglyZXRzdWIKCi8vIHZlcmlmeUNvbnRhY3ROYW1lKHN0cmluZyxhZGRyZXNzKXZvaWQKKmFiaV9yb3V0ZV92ZXJpZnlDb250YWN0TmFtZToKCS8vIGFkZHJlc3M6IGFkZHJlc3MKCXR4bmEgQXBwbGljYXRpb25BcmdzIDIKCWR1cAoJbGVuCglpbnRjIDMgLy8gMzIKCT09CgoJLy8gYXJndW1lbnQgMCAoYWRkcmVzcykgZm9yIHZlcmlmeUNvbnRhY3ROYW1lIG11c3QgYmUgYSBhZGRyZXNzCglhc3NlcnQKCgkvLyBuYW1lOiBzdHJpbmcKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWV4dHJhY3QgMiAwCgoJLy8gZXhlY3V0ZSB2ZXJpZnlDb250YWN0TmFtZShzdHJpbmcsYWRkcmVzcyl2b2lkCgljYWxsc3ViIHZlcmlmeUNvbnRhY3ROYW1lCglpbnRjIDAgLy8gMQoJcmV0dXJuCgovLyB2ZXJpZnlDb250YWN0TmFtZShuYW1lOiBzdHJpbmcsIGFkZHJlc3M6IEFkZHJlc3MpOiB2b2lkCnZlcmlmeUNvbnRhY3ROYW1lOgoJcHJvdG8gMiAwCgoJLy8gZXhhbXBsZXMvdHVwbGVfaW5fYm94L2FwcC5hbGdvLnRzOjMyCgkvLyBhc3NlcnQodGhpcy5jb250YWN0cyhhZGRyZXNzKS52YWx1ZS5uYW1lID09PSBuYW1lKQoJZnJhbWVfZGlnIC0yIC8vIGFkZHJlc3M6IEFkZHJlc3MKCWJveF9nZXQKCgkvLyBib3ggdmFsdWUgZG9lcyBub3QgZXhpc3Q6IHRoaXMuY29udGFjdHMoYWRkcmVzcykudmFsdWUKCWFzc2VydAoJc3RvcmUgMjU1IC8vIGZ1bGwgYXJyYXkKCWludGMgMSAvLyAwCglsb2FkIDI1NSAvLyBmdWxsIGFycmF5Cglsb2FkIDI1NSAvLyBmdWxsIGFycmF5Cgl1bmNvdmVyIDIKCWV4dHJhY3RfdWludDE2CglkdXAgLy8gZHVwbGljYXRlIHN0YXJ0IG9mIGVsZW1lbnQKCWxvYWQgMjU1IC8vIGZ1bGwgYXJyYXkKCXN3YXAKCWV4dHJhY3RfdWludDE2IC8vIGdldCBudW1iZXIgb2YgZWxlbWVudHMKCWludGMgMCAvLyAgZ2V0IHR5cGUgbGVuZ3RoCgkqIC8vIG11bHRpcGx5IGJ5IHR5cGUgbGVuZ3RoCglpbnRjIDIgLy8gMgoJKyAvLyBhZGQgdHdvIGZvciBsZW5ndGgKCWV4dHJhY3QzCglleHRyYWN0IDIgMAoJZnJhbWVfZGlnIC0xIC8vIG5hbWU6IHN0cmluZwoJPT0KCWFzc2VydAoJcmV0c3ViCgoqYWJpX3JvdXRlX2NyZWF0ZUFwcGxpY2F0aW9uOgoJaW50YyAwIC8vIDEKCXJldHVybgoKKmNyZWF0ZV9Ob09wOgoJcHVzaGJ5dGVzIDB4Yjg0NDdiMzYgLy8gbWV0aG9kICJjcmVhdGVBcHBsaWNhdGlvbigpdm9pZCIKCXR4bmEgQXBwbGljYXRpb25BcmdzIDAKCW1hdGNoICphYmlfcm91dGVfY3JlYXRlQXBwbGljYXRpb24KCgkvLyB0aGlzIGNvbnRyYWN0IGRvZXMgbm90IGltcGxlbWVudCB0aGUgZ2l2ZW4gQUJJIG1ldGhvZCBmb3IgY3JlYXRlIE5vT3AKCWVycgoKKmNhbGxfTm9PcDoKCXB1c2hieXRlcyAweDkyY2NmOTliIC8vIG1ldGhvZCAic2V0TXlDb250YWN0KHN0cmluZyxzdHJpbmcpdm9pZCIKCXB1c2hieXRlcyAweDQ5NWFjYmY3IC8vIG1ldGhvZCAiYWRkQ29udGFjdChzdHJpbmcsc3RyaW5nLGFkZHJlc3Mpdm9pZCIKCXB1c2hieXRlcyAweGZhNGU4ZjkzIC8vIG1ldGhvZCAidXBkYXRlQ29udGFjdEZpZWxkKHN0cmluZyxzdHJpbmcsYWRkcmVzcyl2b2lkIgoJcHVzaGJ5dGVzIDB4OGEzMGI4N2UgLy8gbWV0aG9kICJ2ZXJpZnlDb250YWN0TmFtZShzdHJpbmcsYWRkcmVzcyl2b2lkIgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggKmFiaV9yb3V0ZV9zZXRNeUNvbnRhY3QgKmFiaV9yb3V0ZV9hZGRDb250YWN0ICphYmlfcm91dGVfdXBkYXRlQ29udGFjdEZpZWxkICphYmlfcm91dGVfdmVyaWZ5Q29udGFjdE5hbWUKCgkvLyB0aGlzIGNvbnRyYWN0IGRvZXMgbm90IGltcGxlbWVudCB0aGUgZ2l2ZW4gQUJJIG1ldGhvZCBmb3IgY2FsbCBOb09wCgllcnIKCipwcm9jZXNzX2R5bmFtaWNfdHVwbGVfZWxlbWVudDoKCXByb3RvIDQgMwoJZnJhbWVfZGlnIC00IC8vIHR1cGxlIGhlYWQKCWZyYW1lX2RpZyAtMiAvLyBoZWFkIG9mZnNldAoJY29uY2F0CglmcmFtZV9idXJ5IC00IC8vIHR1cGxlIGhlYWQKCWZyYW1lX2RpZyAtMSAvLyBlbGVtZW50CglkdXAKCWxlbgoJZnJhbWVfZGlnIC0yIC8vIGhlYWQgb2Zmc2V0CglidG9pCgkrCglpdG9iCglleHRyYWN0IDYgMgoJZnJhbWVfYnVyeSAtMiAvLyBoZWFkIG9mZnNldAoJZnJhbWVfZGlnIC0zIC8vIHR1cGxlIHRhaWwKCXN3YXAKCWNvbmNhdAoJZnJhbWVfYnVyeSAtMyAvLyB0dXBsZSB0YWlsCglmcmFtZV9kaWcgLTQgLy8gdHVwbGUgaGVhZAoJZnJhbWVfZGlnIC0zIC8vIHR1cGxlIHRhaWwKCWZyYW1lX2RpZyAtMiAvLyBoZWFkIG9mZnNldAoJcmV0c3ViCgoqdXBkYXRlX2R5bmFtaWNfaGVhZDoKCXByb3RvIDIgMAoJZnJhbWVfZGlnIC0yIC8vIGxlbmd0aCBkaWZmZXJlbmNlCglsb2FkIDI1NSAvLyBmdWxsIGFycmF5CglmcmFtZV9kaWcgLTEgLy8gZHluYW1pYyBhcnJheSBvZmZzZXQKCWV4dHJhY3RfdWludDE2IC8vIGV4dHJhY3QgZHluYW1pYyBhcnJheSBvZmZzZXQKCWxvYWQgMjQ5IC8vIHN1YnRyYWN0IGhlYWQgZGlmZmVyZW5jZQoJYnogKnN1YnRyYWN0X2hlYWRfZGlmZmVyZW5jZQoJKyAvLyBhZGQgZGlmZmVyZW5jZSB0byBvZmZzZXQKCWIgKmVuZF9jYWxjX25ld19oZWFkCgoqc3VidHJhY3RfaGVhZF9kaWZmZXJlbmNlOgoJc3dhcAoJLSAvLyBzdWJ0cmFjdCBkaWZmZXJlbmNlIGZyb20gb2ZmZXQKCiplbmRfY2FsY19uZXdfaGVhZDoKCWl0b2IgLy8gY29udmVydCB0byBieXRlcwoJZXh0cmFjdCA2IDIgLy8gY29udmVydCB0byB1aW50MTYKCWxvYWQgMjU1IC8vIGZ1bGwgYXJyYXkKCXN3YXAKCWZyYW1lX2RpZyAtMSAvLyBvZmZzZXQKCXN3YXAKCXJlcGxhY2UzIC8vIHVwZGF0ZSBvZmZzZXQKCXN0b3JlIDI1NSAvLyBmdWxsIGFycmF5CglyZXRzdWIKCipnZXRfbGVuZ3RoX2RpZmZlcmVuY2U6Cglsb2FkIDI1MiAvLyBuZXcgZWxlbWVudAoJbGVuIC8vIGxlbmd0aCBvZiBuZXcgZWxlbWVudAoJbG9hZCAyNTMgLy8gZWxlbWVudCBsZW5ndGgKCTwKCWJueiAqc3dhcHBlZF9kaWZmZXJlbmNlCglsb2FkIDI1MiAvLyBuZXcgZWxlbWVudAoJbGVuIC8vIGxlbmd0aCBvZiBuZXcgZWxlbWVudAoJbG9hZCAyNTMgLy8gZWxlbWVudCBsZW5ndGgKCWludGMgMCAvLyAxCglzdG9yZSAyNDkgLy8gc3VidHJhY3QgaGVhZCBkaWZmZXJlbmNlCgliICpnZXRfZGlmZmVyZW5jZQoKKnN3YXBwZWRfZGlmZmVyZW5jZToKCWxvYWQgMjUzIC8vIGVsZW1lbnQgbGVuZ3RoCglsb2FkIDI1MiAvLyBuZXcgZWxlbWVudAoJbGVuIC8vIGxlbmd0aCBvZiBuZXcgZWxlbWVudAoJaW50YyAxIC8vIDAKCXN0b3JlIDI0OSAvLyBzdWJ0cmFjdCBoZWFkIGRpZmZlcmVuY2UKCipnZXRfZGlmZmVyZW5jZToKCS0gLy8gZ2V0IGxlbmd0aCBkaWZmZXJlbmNlCglzdG9yZSAyNTAgLy8gbGVuZ3RoIGRpZmZlcmVuY2UKCXJldHN1Yg==",
     "clear": "I3ByYWdtYSB2ZXJzaW9uIDEw"
   },
   "byteCode": {
-    "approval": "CiABASYCAAIABDEYFIEGCzEZCI0MAd0AAAAAAAAAAAAAAc8AAAAAAAAAAAAAADYaAlcCADYaAVcCAIgAA4EBQ4oCAIAAgACAAIACAASL/0kVFlcGAkxQiAHWi/5JFRZXBgJMUIgByUhQjACACW15Q29udGFjdIsAZzEASbxIiwC/iTYaA0kVgSASRDYaAlcCADYaAVcCAIgAA4EBQ4oDAIAAgACAAIACAASL/0kVFlcGAkxQiAF5i/5JFRZXBgJMUIgBbEhQjACL/Um8SIsAv4k2GgNJFYEgEkQ2GgJXAgA2GgFXAgCIAAOBAUOKAwCL/4AEbmFtZRJBAF6L/b5ENf+BAEk1+zT/NP9PAllJNf5JNP9MWYEBC4ECCDX9NP+BADT+Uov+SRUWVwYCTFBJNfw0/zT+NP0INP8VUlBQNf+IATU0+jT7gQIIiAEINP+L/Um8SEy/QgBki/+AB2NvbXBhbnkSQQBUi/2+RDX/gQJJNfs0/zT/TwJZSTX+STT/TFmBAQuBAgg1/TT/gQA0/lKL/kkVFlcGAkxQSTX8NP80/jT9CDT/FVJQUDX/iADINP+L/Um8SEy/QgABAIk2GgJJFYEgEkQ2GgFXAgCIAAOBAUOKAgCL/r5ENf+BADT/NP9PAllJNP9MWYEBC4ECCFhXAgCL/xJEiYEBQ4AEuER7NjYaAI4B//AAgASSzPmbgARJWsv3gAT6To+TgASKMLh+NhoAjgT9//5T/qL/jwCKBAOL/Iv+UIz8i/9JFYv+FwgWVwYCjP6L/UxQjP2L/Iv9i/6JigIAi/40/4v/WTT5QQAECEIAAkwJFlcGAjT/TIv/TF01/4k0/BU0/QxAAAw0/BU0/YEBNflCAAk0/TT8FYEANfkJNfqJ",
+    "approval": "CiAEAQACICYCAAIABDEYFIEGCzEZCI0MAb0AAAAAAAAAAAAAAa8AAAAAAAAAAAAAADYaAlcCADYaAVcCAIgAAiJDigIAKCgoKYv/SRUWVwYCTFCIAb2L/kkVFlcGAkxQiAGwSFCMAIAJbXlDb250YWN0iwBnMQBJvEiLAL+JNhoDSRUlEkQ2GgJXAgA2GgFXAgCIAAIiQ4oDACgoKCmL/0kVFlcGAkxQiAFoi/5JFRZXBgJMUIgBW0hQjACL/Um8SIsAv4k2GgNJFSUSRDYaAlcCADYaAVcCAIgAAiJDigMAi/+ABG5hbWUSQQBZi/2+RDX/I0k1+zT/NP9PAllJNf5JNP9MWSILJAg1/TT/IzT+Uov+SRUWVwYCTFBJNfw0/zT+NP0INP8VUlBQNf+IASo0+jT7JAiIAP40/4v9SbxITL9CAGCL/4AHY29tcGFueRJBAFCL/b5ENf8kSTX7NP80/08CWUk1/kk0/0xZIgskCDX9NP8jNP5Si/5JFRZXBgJMUEk1/DT/NP40/Qg0/xVSUFA1/4gAwjT/i/1JvEhMv0IAAQCJNhoCSRUlEkQ2GgFXAgCIAAIiQ4oCAIv+vkQ1/yM0/zT/TwJZSTT/TFkiCyQIWFcCAIv/EkSJIkOABLhEezY2GgCOAf/xAIAEksz5m4AESVrL94AE+k6Pk4AEijC4fjYaAI4E/h/+bP6z/5UAigQDi/yL/lCM/Iv/SRWL/hcIFlcGAoz+i/1MUIz9i/yL/Yv+iYoCAIv+NP+L/1k0+UEABAhCAAJMCRZXBgI0/0yL/0xdNf+JNPwVNP0MQAALNPwVNP0iNflCAAg0/TT8FSM1+Qk1+ok=",
     "clear": "Cg=="
   },
   "compilerInfo": {
