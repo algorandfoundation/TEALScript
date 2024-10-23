@@ -7491,6 +7491,7 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
   }
 
   async algodCompileProgram(program: 'approval' | 'clear' | 'lsig'): Promise<{ result: string; hash: string }> {
+    let dynamicTemplateWarning = false;
     const body = this.teal[program]
       .map((t) => t.teal)
       .map((t) => {
@@ -7502,14 +7503,15 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
             if (tVar === undefined) return arg;
 
             if (this.isDynamicType(tVar.type) || isNumeric(tVar.type)) {
-              if (program === 'lsig' || program === 'approval') {
+              if (program === 'lsig' || (program === 'approval' && !dynamicTemplateWarning)) {
                 console.warn(
                   `WARNING: Due to dynamic template variable type for ${tVar.name} (${typeInfoToABIString(
                     tVar.type
-                  )}) PC values will be offset from first opcode after constant blocks`
+                  )}) PC values will be offset from first opcode after constant blocks. This will be handled by algokit clients, but ARC56 has a minimal reference implementation available for scenarios where algokit is not being used: https://github.com/joe-p/ARCs/blob/extended_app_description/ARCs/arc-0056.md#calculating-cblock-offsets`
                 );
 
                 this.hasDynamicTemplateVar = true;
+                dynamicTemplateWarning = true;
               }
 
               return isNumeric(tVar.type) ? '0' : '0x';
@@ -7611,6 +7613,16 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
     this.sourceInfo.forEach((sm) => {
       if (this.hasDynamicTemplateVar) {
         if (sm.teal - 1 <= lastCblockLine) return;
+        const pcs = this.lineToPc[sm.teal - 1];
+
+        if (pcs === undefined) {
+          throw new Error(
+            `Internal Compiler Error: PC values not found when trying to calculate cblock offsets for TEAL line ${
+              sm.teal
+            } (${this.teal[program][sm.teal - 1].teal}). Last cblock line was ${lastCblockLine}.`
+          );
+        }
+
         // eslint-disable-next-line no-param-reassign
         sm.pc = this.lineToPc[sm.teal - 1].map((pc) => pc - lastCblockPc);
         return;
@@ -7679,12 +7691,7 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
       },
     };
 
-    const arc56SourceInfo: { pc: number[]; errorMessage: string }[] = this.sourceInfo
-      .filter((s) => s.errorMessage)
-      .map((s) => ({
-        pc: s.pc as number[],
-        errorMessage: s.errorMessage as string,
-      }));
+    const sourceInfo = this.sourceInfo.filter((s) => s.pc !== undefined);
 
     const arc56: ARC56Contract = {
       ...this.arc4Description(),
@@ -7694,7 +7701,11 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
       bareActions: { create: [], call: [] },
       // TODO: clear source mapping
       sourceInfo: {
-        approval: { sourceInfo: arc56SourceInfo, pcOffsetMethod: this.hasDynamicTemplateVar ? 'cblocks' : 'none' },
+        approval: {
+          // @ts-expect-error Undefined PCs are filtered out above
+          sourceInfo,
+          pcOffsetMethod: this.hasDynamicTemplateVar ? 'cblocks' : 'none',
+        },
         clear: { sourceInfo: [], pcOffsetMethod: 'none' },
       },
       source: {

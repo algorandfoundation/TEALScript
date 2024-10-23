@@ -211,214 +211,4880 @@
     "approval": {
       "sourceInfo": [
         {
+          "teal": 1,
+          "source": "examples/amm/amm.algo.ts:8",
+          "pc": [
+            0
+          ]
+        },
+        {
+          "teal": 2,
+          "source": "examples/amm/amm.algo.ts:8",
+          "pc": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ]
+        },
+        {
+          "teal": 3,
+          "source": "examples/amm/amm.algo.ts:8",
+          "pc": [
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24
+          ]
+        },
+        {
+          "teal": 15,
+          "source": "examples/amm/amm.algo.ts:8",
+          "pc": [
+            25,
+            26
+          ]
+        },
+        {
+          "teal": 16,
+          "source": "examples/amm/amm.algo.ts:8",
+          "pc": [
+            27
+          ]
+        },
+        {
+          "teal": 17,
+          "source": "examples/amm/amm.algo.ts:8",
+          "pc": [
+            28,
+            29
+          ]
+        },
+        {
+          "teal": 18,
+          "source": "examples/amm/amm.algo.ts:8",
+          "pc": [
+            30
+          ]
+        },
+        {
+          "teal": 19,
+          "source": "examples/amm/amm.algo.ts:8",
+          "pc": [
+            31,
+            32
+          ]
+        },
+        {
+          "teal": 20,
+          "source": "examples/amm/amm.algo.ts:8",
+          "pc": [
+            33
+          ]
+        },
+        {
+          "teal": 21,
+          "source": "examples/amm/amm.algo.ts:8",
+          "pc": [
+            34,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57,
+            58,
+            59
+          ]
+        },
+        {
+          "teal": 25,
+          "source": "examples/amm/amm.algo.ts:8",
+          "errorMessage": "The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?",
           "pc": [
             60
-          ],
-          "errorMessage": "The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?"
+          ]
         },
         {
+          "teal": 30,
+          "source": "examples/amm/amm.algo.ts:19",
+          "pc": [
+            61,
+            62,
+            63
+          ]
+        },
+        {
+          "teal": 31,
+          "source": "examples/amm/amm.algo.ts:19",
+          "pc": [
+            64,
+            65
+          ]
+        },
+        {
+          "teal": 32,
+          "source": "examples/amm/amm.algo.ts:19",
+          "pc": [
+            66
+          ]
+        },
+        {
+          "teal": 36,
+          "source": "examples/amm/amm.algo.ts:19",
+          "pc": [
+            67,
+            68,
+            69
+          ]
+        },
+        {
+          "teal": 40,
+          "source": "examples/amm/amm.algo.ts:20",
+          "pc": [
+            70,
+            71,
+            72
+          ]
+        },
+        {
+          "teal": 41,
+          "source": "examples/amm/amm.algo.ts:20",
+          "pc": [
+            73,
+            74
+          ]
+        },
+        {
+          "teal": 42,
+          "source": "examples/amm/amm.algo.ts:20",
+          "pc": [
+            75
+          ]
+        },
+        {
+          "teal": 43,
+          "source": "examples/amm/amm.algo.ts:19",
+          "pc": [
+            76
+          ]
+        },
+        {
+          "teal": 47,
+          "source": "examples/amm/amm.algo.ts:23",
+          "pc": [
+            77,
+            78,
+            79
+          ]
+        },
+        {
+          "teal": 58,
+          "source": "examples/amm/amm.algo.ts:26",
+          "pc": [
+            80
+          ]
+        },
+        {
+          "teal": 59,
+          "source": "examples/amm/amm.algo.ts:26",
+          "pc": [
+            81,
+            82
+          ]
+        },
+        {
+          "teal": 60,
+          "source": "examples/amm/amm.algo.ts:26",
+          "pc": [
+            83,
+            84
+          ]
+        },
+        {
+          "teal": 64,
+          "source": "examples/amm/amm.algo.ts:27",
+          "pc": [
+            85,
+            86,
+            87,
+            88,
+            89,
+            90
+          ]
+        },
+        {
+          "teal": 65,
+          "source": "examples/amm/amm.algo.ts:27",
+          "pc": [
+            91,
+            92
+          ]
+        },
+        {
+          "teal": 66,
+          "source": "examples/amm/amm.algo.ts:27",
+          "pc": [
+            93,
+            94
+          ]
+        },
+        {
+          "teal": 67,
+          "source": "examples/amm/amm.algo.ts:27",
+          "pc": [
+            95
+          ]
+        },
+        {
+          "teal": 68,
+          "source": "examples/amm/amm.algo.ts:27",
+          "pc": [
+            96
+          ]
+        },
+        {
+          "teal": 69,
+          "source": "examples/amm/amm.algo.ts:27",
+          "pc": [
+            97,
+            98,
+            99
+          ]
+        },
+        {
+          "teal": 70,
+          "source": "examples/amm/amm.algo.ts:27",
+          "pc": [
+            100
+          ]
+        },
+        {
+          "teal": 71,
+          "source": "examples/amm/amm.algo.ts:27",
+          "pc": [
+            101,
+            102
+          ]
+        },
+        {
+          "teal": 72,
+          "source": "examples/amm/amm.algo.ts:27",
+          "pc": [
+            103,
+            104
+          ]
+        },
+        {
+          "teal": 73,
+          "source": "examples/amm/amm.algo.ts:27",
+          "pc": [
+            105
+          ]
+        },
+        {
+          "teal": 74,
+          "source": "examples/amm/amm.algo.ts:27",
+          "pc": [
+            106
+          ]
+        },
+        {
+          "teal": 75,
+          "source": "examples/amm/amm.algo.ts:27",
+          "pc": [
+            107,
+            108
+          ]
+        },
+        {
+          "teal": 79,
+          "source": "examples/amm/amm.algo.ts:28",
+          "pc": [
+            109,
+            110,
+            111,
+            112,
+            113
+          ]
+        },
+        {
+          "teal": 80,
+          "source": "examples/amm/amm.algo.ts:28",
+          "pc": [
+            114,
+            115
+          ]
+        },
+        {
+          "teal": 84,
+          "source": "examples/amm/amm.algo.ts:29",
+          "pc": [
+            116,
+            117,
+            118,
+            119,
+            120,
+            121
+          ]
+        },
+        {
+          "teal": 85,
+          "source": "examples/amm/amm.algo.ts:29",
+          "pc": [
+            122,
+            123
+          ]
+        },
+        {
+          "teal": 89,
+          "source": "examples/amm/amm.algo.ts:30",
+          "pc": [
+            124,
+            125
+          ]
+        },
+        {
+          "teal": 90,
+          "source": "examples/amm/amm.algo.ts:30",
+          "pc": [
+            126,
+            127
+          ]
+        },
+        {
+          "teal": 94,
+          "source": "examples/amm/amm.algo.ts:31",
+          "pc": [
+            128,
+            129
+          ]
+        },
+        {
+          "teal": 95,
+          "source": "examples/amm/amm.algo.ts:31",
+          "pc": [
+            130,
+            131
+          ]
+        },
+        {
+          "teal": 99,
+          "source": "examples/amm/amm.algo.ts:32",
+          "pc": [
+            132,
+            133
+          ]
+        },
+        {
+          "teal": 100,
+          "source": "examples/amm/amm.algo.ts:32",
+          "pc": [
+            134,
+            135
+          ]
+        },
+        {
+          "teal": 103,
+          "source": "examples/amm/amm.algo.ts:26",
+          "pc": [
+            136,
+            137
+          ]
+        },
+        {
+          "teal": 104,
+          "source": "examples/amm/amm.algo.ts:26",
+          "pc": [
+            138,
+            139
+          ]
+        },
+        {
+          "teal": 107,
+          "source": "examples/amm/amm.algo.ts:26",
+          "pc": [
+            140
+          ]
+        },
+        {
+          "teal": 108,
+          "source": "examples/amm/amm.algo.ts:26",
+          "pc": [
+            141,
+            142
+          ]
+        },
+        {
+          "teal": 109,
+          "source": "examples/amm/amm.algo.ts:23",
+          "pc": [
+            143
+          ]
+        },
+        {
+          "teal": 113,
+          "source": "examples/amm/amm.algo.ts:36",
+          "pc": [
+            144,
+            145,
+            146
+          ]
+        },
+        {
+          "teal": 121,
+          "source": "examples/amm/amm.algo.ts:37",
+          "pc": [
+            147
+          ]
+        },
+        {
+          "teal": 122,
+          "source": "examples/amm/amm.algo.ts:37",
+          "pc": [
+            148,
+            149
+          ]
+        },
+        {
+          "teal": 123,
+          "source": "examples/amm/amm.algo.ts:37",
+          "pc": [
+            150,
+            151
+          ]
+        },
+        {
+          "teal": 127,
+          "source": "examples/amm/amm.algo.ts:38",
+          "pc": [
+            152,
+            153
+          ]
+        },
+        {
+          "teal": 128,
+          "source": "examples/amm/amm.algo.ts:38",
+          "pc": [
+            154,
+            155
+          ]
+        },
+        {
+          "teal": 132,
+          "source": "examples/amm/amm.algo.ts:39",
+          "pc": [
+            156,
+            157
+          ]
+        },
+        {
+          "teal": 133,
+          "source": "examples/amm/amm.algo.ts:39",
+          "pc": [
+            158,
+            159
+          ]
+        },
+        {
+          "teal": 137,
+          "source": "examples/amm/amm.algo.ts:40",
+          "pc": [
+            160,
+            161
+          ]
+        },
+        {
+          "teal": 138,
+          "source": "examples/amm/amm.algo.ts:40",
+          "pc": [
+            162,
+            163
+          ]
+        },
+        {
+          "teal": 141,
+          "source": "examples/amm/amm.algo.ts:37",
+          "pc": [
+            164,
+            165
+          ]
+        },
+        {
+          "teal": 142,
+          "source": "examples/amm/amm.algo.ts:37",
+          "pc": [
+            166,
+            167
+          ]
+        },
+        {
+          "teal": 145,
+          "source": "examples/amm/amm.algo.ts:37",
+          "pc": [
+            168
+          ]
+        },
+        {
+          "teal": 146,
+          "source": "examples/amm/amm.algo.ts:36",
+          "pc": [
+            169
+          ]
+        },
+        {
+          "teal": 150,
+          "source": "examples/amm/amm.algo.ts:44",
+          "pc": [
+            170,
+            171,
+            172
+          ]
+        },
+        {
+          "teal": 154,
+          "source": "examples/amm/amm.algo.ts:45",
+          "pc": [
+            173,
+            174
+          ]
+        },
+        {
+          "teal": 155,
+          "source": "examples/amm/amm.algo.ts:45",
+          "pc": [
+            175,
+            176
+          ]
+        },
+        {
+          "teal": 156,
+          "source": "examples/amm/amm.algo.ts:45",
+          "pc": [
+            177,
+            178
+          ]
+        },
+        {
+          "teal": 157,
+          "source": "examples/amm/amm.algo.ts:45",
+          "pc": [
+            179,
+            180,
+            181
+          ]
+        },
+        {
+          "teal": 158,
+          "source": "examples/amm/amm.algo.ts:44",
+          "pc": [
+            182
+          ]
+        },
+        {
+          "teal": 162,
+          "source": "examples/amm/amm.algo.ts:48",
+          "pc": [
+            183,
+            184,
+            185
+          ]
+        },
+        {
+          "teal": 166,
+          "source": "examples/amm/amm.algo.ts:49",
+          "pc": [
+            186,
+            187
+          ]
+        },
+        {
+          "teal": 167,
+          "source": "examples/amm/amm.algo.ts:49",
+          "pc": [
+            188,
+            189
+          ]
+        },
+        {
+          "teal": 168,
+          "source": "examples/amm/amm.algo.ts:49",
+          "pc": [
+            190
+          ]
+        },
+        {
+          "teal": 169,
+          "source": "examples/amm/amm.algo.ts:49",
+          "pc": [
+            191
+          ]
+        },
+        {
+          "teal": 170,
+          "source": "examples/amm/amm.algo.ts:48",
+          "pc": [
+            192
+          ]
+        },
+        {
+          "teal": 174,
+          "source": "examples/amm/amm.algo.ts:52",
+          "pc": [
+            193,
+            194,
+            195
+          ]
+        },
+        {
+          "teal": 177,
+          "source": "examples/amm/amm.algo.ts:52",
+          "pc": [
+            196,
+            197
+          ]
+        },
+        {
+          "teal": 178,
+          "source": "examples/amm/amm.algo.ts:52",
+          "pc": [
+            198,
+            199
+          ]
+        },
+        {
+          "teal": 182,
+          "source": "examples/amm/amm.algo.ts:53",
+          "pc": [
+            200,
+            201
+          ]
+        },
+        {
+          "teal": 183,
+          "source": "examples/amm/amm.algo.ts:53",
+          "pc": [
+            202,
+            203,
+            204
+          ]
+        },
+        {
+          "teal": 184,
+          "source": "examples/amm/amm.algo.ts:53",
+          "pc": [
+            205
+          ]
+        },
+        {
+          "teal": 185,
+          "source": "examples/amm/amm.algo.ts:53",
+          "pc": [
+            206,
+            207
+          ]
+        },
+        {
+          "teal": 186,
+          "source": "examples/amm/amm.algo.ts:53",
+          "pc": [
+            208,
+            209
+          ]
+        },
+        {
+          "teal": 187,
+          "source": "examples/amm/amm.algo.ts:53",
+          "pc": [
+            210
+          ]
+        },
+        {
+          "teal": 188,
+          "source": "examples/amm/amm.algo.ts:53",
+          "pc": [
+            211
+          ]
+        },
+        {
+          "teal": 189,
+          "source": "examples/amm/amm.algo.ts:53",
+          "pc": [
+            212
+          ]
+        },
+        {
+          "teal": 190,
+          "source": "examples/amm/amm.algo.ts:53",
+          "pc": [
+            213
+          ]
+        },
+        {
+          "teal": 191,
+          "source": "examples/amm/amm.algo.ts:53",
+          "pc": [
+            214
+          ]
+        },
+        {
+          "teal": 194,
+          "source": "examples/amm/amm.algo.ts:53",
+          "errorMessage": "wideRatio failed",
           "pc": [
             215
-          ],
-          "errorMessage": "wideRatio failed"
+          ]
         },
         {
+          "teal": 195,
+          "source": "examples/amm/amm.algo.ts:53",
+          "pc": [
+            216,
+            217
+          ]
+        },
+        {
+          "teal": 199,
+          "source": "examples/amm/amm.algo.ts:54",
+          "pc": [
+            218,
+            219
+          ]
+        },
+        {
+          "teal": 200,
+          "source": "examples/amm/amm.algo.ts:54",
+          "pc": [
+            220,
+            221,
+            222
+          ]
+        },
+        {
+          "teal": 201,
+          "source": "examples/amm/amm.algo.ts:54",
+          "pc": [
+            223
+          ]
+        },
+        {
+          "teal": 202,
+          "source": "examples/amm/amm.algo.ts:54",
+          "pc": [
+            224,
+            225
+          ]
+        },
+        {
+          "teal": 203,
+          "source": "examples/amm/amm.algo.ts:54",
+          "pc": [
+            226,
+            227
+          ]
+        },
+        {
+          "teal": 204,
+          "source": "examples/amm/amm.algo.ts:54",
+          "pc": [
+            228
+          ]
+        },
+        {
+          "teal": 205,
+          "source": "examples/amm/amm.algo.ts:54",
+          "pc": [
+            229
+          ]
+        },
+        {
+          "teal": 206,
+          "source": "examples/amm/amm.algo.ts:54",
+          "pc": [
+            230
+          ]
+        },
+        {
+          "teal": 207,
+          "source": "examples/amm/amm.algo.ts:54",
+          "pc": [
+            231
+          ]
+        },
+        {
+          "teal": 208,
+          "source": "examples/amm/amm.algo.ts:54",
+          "pc": [
+            232
+          ]
+        },
+        {
+          "teal": 211,
+          "source": "examples/amm/amm.algo.ts:54",
+          "errorMessage": "wideRatio failed",
           "pc": [
             233
-          ],
-          "errorMessage": "wideRatio failed"
+          ]
         },
         {
+          "teal": 212,
+          "source": "examples/amm/amm.algo.ts:54",
+          "pc": [
+            234,
+            235
+          ]
+        },
+        {
+          "teal": 216,
+          "source": "examples/amm/amm.algo.ts:56",
+          "pc": [
+            236,
+            237
+          ]
+        },
+        {
+          "teal": 217,
+          "source": "examples/amm/amm.algo.ts:56",
+          "pc": [
+            238,
+            239
+          ]
+        },
+        {
+          "teal": 218,
+          "source": "examples/amm/amm.algo.ts:56",
+          "pc": [
+            240
+          ]
+        },
+        {
+          "teal": 219,
+          "source": "examples/amm/amm.algo.ts:56",
+          "pc": [
+            241,
+            242,
+            243
+          ]
+        },
+        {
+          "teal": 220,
+          "source": "examples/amm/amm.algo.ts:56",
+          "pc": [
+            244,
+            245
+          ]
+        },
+        {
+          "teal": 221,
+          "source": "examples/amm/amm.algo.ts:56",
+          "pc": [
+            246,
+            247,
+            248
+          ]
+        },
+        {
+          "teal": 224,
+          "source": "examples/amm/amm.algo.ts:56",
+          "pc": [
+            249,
+            250
+          ]
+        },
+        {
+          "teal": 227,
+          "source": "examples/amm/amm.algo.ts:56",
+          "pc": [
+            251,
+            252
+          ]
+        },
+        {
+          "teal": 231,
+          "source": "examples/amm/amm.algo.ts:58",
+          "pc": [
+            253,
+            254
+          ]
+        },
+        {
+          "teal": 232,
+          "source": "examples/amm/amm.algo.ts:58",
+          "pc": [
+            255,
+            256
+          ]
+        },
+        {
+          "teal": 233,
+          "source": "examples/amm/amm.algo.ts:58",
+          "pc": [
+            257
+          ]
+        },
+        {
+          "teal": 234,
+          "source": "examples/amm/amm.algo.ts:58",
+          "pc": [
+            258,
+            259
+          ]
+        },
+        {
+          "teal": 235,
+          "source": "examples/amm/amm.algo.ts:58",
+          "pc": [
+            260,
+            261,
+            262
+          ]
+        },
+        {
+          "teal": 236,
+          "source": "examples/amm/amm.algo.ts:58",
+          "pc": [
+            263
+          ]
+        },
+        {
+          "teal": 237,
+          "source": "examples/amm/amm.algo.ts:58",
+          "pc": [
+            264
+          ]
+        },
+        {
+          "teal": 238,
+          "source": "examples/amm/amm.algo.ts:58",
+          "pc": [
+            265
+          ]
+        },
+        {
+          "teal": 239,
+          "source": "examples/amm/amm.algo.ts:58",
+          "pc": [
+            266
+          ]
+        },
+        {
+          "teal": 240,
+          "source": "examples/amm/amm.algo.ts:58",
+          "pc": [
+            267
+          ]
+        },
+        {
+          "teal": 243,
+          "source": "examples/amm/amm.algo.ts:58",
+          "errorMessage": "wideRatio failed",
           "pc": [
             268
-          ],
-          "errorMessage": "wideRatio failed"
+          ]
         },
         {
+          "teal": 246,
+          "source": "examples/amm/amm.algo.ts:52",
+          "pc": [
+            269,
+            270
+          ]
+        },
+        {
+          "teal": 249,
+          "source": "examples/amm/amm.algo.ts:52",
+          "pc": [
+            271,
+            272
+          ]
+        },
+        {
+          "teal": 250,
+          "source": "examples/amm/amm.algo.ts:52",
+          "pc": [
+            273
+          ]
+        },
+        {
+          "teal": 254,
+          "source": "examples/amm/amm.algo.ts:61",
+          "pc": [
+            274,
+            275,
+            276
+          ]
+        },
+        {
+          "teal": 261,
+          "source": "examples/amm/amm.algo.ts:63",
+          "pc": [
+            277,
+            278
+          ]
+        },
+        {
+          "teal": 262,
+          "source": "examples/amm/amm.algo.ts:63",
+          "pc": [
+            279,
+            280,
+            281
+          ]
+        },
+        {
+          "teal": 263,
+          "source": "examples/amm/amm.algo.ts:63",
+          "pc": [
+            282
+          ]
+        },
+        {
+          "teal": 264,
+          "source": "examples/amm/amm.algo.ts:63",
+          "pc": [
+            283,
+            284
+          ]
+        },
+        {
+          "teal": 265,
+          "source": "examples/amm/amm.algo.ts:63",
+          "pc": [
+            285
+          ]
+        },
+        {
+          "teal": 266,
+          "source": "examples/amm/amm.algo.ts:63",
+          "pc": [
+            286,
+            287,
+            288
+          ]
+        },
+        {
+          "teal": 267,
+          "source": "examples/amm/amm.algo.ts:62",
+          "pc": [
+            289
+          ]
+        },
+        {
+          "teal": 268,
+          "source": "examples/amm/amm.algo.ts:62",
+          "pc": [
+            290,
+            291
+          ]
+        },
+        {
+          "teal": 269,
+          "source": "examples/amm/amm.algo.ts:64",
+          "pc": [
+            292,
+            293
+          ]
+        },
+        {
+          "teal": 270,
+          "source": "examples/amm/amm.algo.ts:64",
+          "pc": [
+            294,
+            295,
+            296
+          ]
+        },
+        {
+          "teal": 271,
+          "source": "examples/amm/amm.algo.ts:64",
+          "pc": [
+            297
+          ]
+        },
+        {
+          "teal": 272,
+          "source": "examples/amm/amm.algo.ts:64",
+          "pc": [
+            298,
+            299
+          ]
+        },
+        {
+          "teal": 273,
+          "source": "examples/amm/amm.algo.ts:64",
+          "pc": [
+            300
+          ]
+        },
+        {
+          "teal": 274,
+          "source": "examples/amm/amm.algo.ts:62",
+          "pc": [
+            301
+          ]
+        },
+        {
+          "teal": 275,
+          "source": "examples/amm/amm.algo.ts:62",
+          "pc": [
+            302
+          ]
+        },
+        {
+          "teal": 276,
+          "source": "examples/amm/amm.algo.ts:62",
+          "pc": [
+            303
+          ]
+        },
+        {
+          "teal": 277,
+          "source": "examples/amm/amm.algo.ts:62",
+          "pc": [
+            304
+          ]
+        },
+        {
+          "teal": 278,
+          "source": "examples/amm/amm.algo.ts:62",
+          "pc": [
+            305
+          ]
+        },
+        {
+          "teal": 281,
+          "source": "examples/amm/amm.algo.ts:62",
+          "errorMessage": "wideRatio failed",
           "pc": [
             306
-          ],
-          "errorMessage": "wideRatio failed"
+          ]
         },
         {
+          "teal": 282,
+          "source": "examples/amm/amm.algo.ts:61",
+          "pc": [
+            307
+          ]
+        },
+        {
+          "teal": 286,
+          "source": "examples/amm/amm.algo.ts:68",
+          "pc": [
+            308,
+            309,
+            310
+          ]
+        },
+        {
+          "teal": 290,
+          "source": "examples/amm/amm.algo.ts:69",
+          "pc": [
+            311,
+            312
+          ]
+        },
+        {
+          "teal": 291,
+          "source": "examples/amm/amm.algo.ts:69",
+          "pc": [
+            313,
+            314
+          ]
+        },
+        {
+          "teal": 292,
+          "source": "examples/amm/amm.algo.ts:69",
+          "pc": [
+            315
+          ]
+        },
+        {
+          "teal": 293,
+          "source": "examples/amm/amm.algo.ts:69",
+          "pc": [
+            316,
+            317
+          ]
+        },
+        {
+          "teal": 294,
+          "source": "examples/amm/amm.algo.ts:69",
+          "pc": [
+            318,
+            319
+          ]
+        },
+        {
+          "teal": 295,
+          "source": "examples/amm/amm.algo.ts:69",
+          "pc": [
+            320
+          ]
+        },
+        {
+          "teal": 296,
+          "source": "examples/amm/amm.algo.ts:69",
+          "pc": [
+            321
+          ]
+        },
+        {
+          "teal": 297,
+          "source": "examples/amm/amm.algo.ts:69",
+          "pc": [
+            322
+          ]
+        },
+        {
+          "teal": 298,
+          "source": "examples/amm/amm.algo.ts:69",
+          "pc": [
+            323
+          ]
+        },
+        {
+          "teal": 299,
+          "source": "examples/amm/amm.algo.ts:69",
+          "pc": [
+            324
+          ]
+        },
+        {
+          "teal": 302,
+          "source": "examples/amm/amm.algo.ts:69",
+          "errorMessage": "wideRatio failed",
           "pc": [
             325
-          ],
-          "errorMessage": "wideRatio failed"
+          ]
         },
         {
+          "teal": 303,
+          "source": "examples/amm/amm.algo.ts:68",
+          "pc": [
+            326
+          ]
+        },
+        {
+          "teal": 307,
+          "source": "examples/amm/amm.algo.ts:72",
+          "pc": [
+            327,
+            328,
+            329
+          ]
+        },
+        {
+          "teal": 310,
+          "source": "examples/amm/amm.algo.ts:72",
+          "pc": [
+            330,
+            331
+          ]
+        },
+        {
+          "teal": 314,
+          "source": "examples/amm/amm.algo.ts:73",
+          "pc": [
+            332,
+            333,
+            334
+          ]
+        },
+        {
+          "teal": 315,
+          "source": "examples/amm/amm.algo.ts:73",
+          "pc": [
+            335,
+            336
+          ]
+        },
+        {
+          "teal": 319,
+          "source": "examples/amm/amm.algo.ts:74",
+          "pc": [
+            337,
+            338
+          ]
+        },
+        {
+          "teal": 320,
+          "source": "examples/amm/amm.algo.ts:74",
+          "pc": [
+            339,
+            340
+          ]
+        },
+        {
+          "teal": 321,
+          "source": "examples/amm/amm.algo.ts:74",
+          "pc": [
+            341
+          ]
+        },
+        {
+          "teal": 322,
+          "source": "examples/amm/amm.algo.ts:74",
+          "pc": [
+            342,
+            343
+          ]
+        },
+        {
+          "teal": 323,
+          "source": "examples/amm/amm.algo.ts:74",
+          "pc": [
+            344,
+            345
+          ]
+        },
+        {
+          "teal": 324,
+          "source": "examples/amm/amm.algo.ts:74",
+          "pc": [
+            346,
+            347
+          ]
+        },
+        {
+          "teal": 325,
+          "source": "examples/amm/amm.algo.ts:74",
+          "pc": [
+            348
+          ]
+        },
+        {
+          "teal": 326,
+          "source": "examples/amm/amm.algo.ts:74",
+          "pc": [
+            349,
+            350
+          ]
+        },
+        {
+          "teal": 327,
+          "source": "examples/amm/amm.algo.ts:74",
+          "pc": [
+            351
+          ]
+        },
+        {
+          "teal": 328,
+          "source": "examples/amm/amm.algo.ts:74",
+          "pc": [
+            352,
+            353
+          ]
+        },
+        {
+          "teal": 329,
+          "source": "examples/amm/amm.algo.ts:74",
+          "pc": [
+            354
+          ]
+        },
+        {
+          "teal": 330,
+          "source": "examples/amm/amm.algo.ts:74",
+          "pc": [
+            355
+          ]
+        },
+        {
+          "teal": 331,
+          "source": "examples/amm/amm.algo.ts:74",
+          "pc": [
+            356,
+            357
+          ]
+        },
+        {
+          "teal": 332,
+          "source": "examples/amm/amm.algo.ts:74",
+          "pc": [
+            358,
+            359
+          ]
+        },
+        {
+          "teal": 333,
+          "source": "examples/amm/amm.algo.ts:74",
+          "pc": [
+            360,
+            361,
+            362
+          ]
+        },
+        {
+          "teal": 334,
+          "source": "examples/amm/amm.algo.ts:74",
+          "pc": [
+            363
+          ]
+        },
+        {
+          "teal": 335,
+          "source": "examples/amm/amm.algo.ts:74",
+          "pc": [
+            364,
+            365
+          ]
+        },
+        {
+          "teal": 336,
+          "source": "examples/amm/amm.algo.ts:74",
+          "pc": [
+            366,
+            367
+          ]
+        },
+        {
+          "teal": 337,
+          "source": "examples/amm/amm.algo.ts:74",
+          "pc": [
+            368
+          ]
+        },
+        {
+          "teal": 338,
+          "source": "examples/amm/amm.algo.ts:74",
+          "pc": [
+            369
+          ]
+        },
+        {
+          "teal": 339,
+          "source": "examples/amm/amm.algo.ts:74",
+          "pc": [
+            370
+          ]
+        },
+        {
+          "teal": 340,
+          "source": "examples/amm/amm.algo.ts:74",
+          "pc": [
+            371
+          ]
+        },
+        {
+          "teal": 341,
+          "source": "examples/amm/amm.algo.ts:74",
+          "pc": [
+            372
+          ]
+        },
+        {
+          "teal": 342,
+          "source": "examples/amm/amm.algo.ts:74",
+          "pc": [
+            373
+          ]
+        },
+        {
+          "teal": 343,
+          "source": "examples/amm/amm.algo.ts:74",
+          "pc": [
+            374
+          ]
+        },
+        {
+          "teal": 346,
+          "source": "examples/amm/amm.algo.ts:74",
+          "errorMessage": "wideRatio failed",
           "pc": [
             375
-          ],
-          "errorMessage": "wideRatio failed"
+          ]
         },
         {
+          "teal": 349,
+          "source": "examples/amm/amm.algo.ts:72",
+          "pc": [
+            376,
+            377
+          ]
+        },
+        {
+          "teal": 350,
+          "source": "examples/amm/amm.algo.ts:72",
+          "pc": [
+            378
+          ]
+        },
+        {
+          "teal": 355,
+          "source": "examples/amm/amm.algo.ts:77",
+          "pc": [
+            379,
+            380,
+            381
+          ]
+        },
+        {
+          "teal": 356,
+          "source": "examples/amm/amm.algo.ts:77",
+          "pc": [
+            382
+          ]
+        },
+        {
+          "teal": 357,
+          "source": "examples/amm/amm.algo.ts:77",
+          "pc": [
+            383
+          ]
+        },
+        {
+          "teal": 358,
+          "source": "examples/amm/amm.algo.ts:77",
+          "pc": [
+            384,
+            385
+          ]
+        },
+        {
+          "teal": 359,
+          "source": "examples/amm/amm.algo.ts:77",
+          "pc": [
+            386
+          ]
+        },
+        {
+          "teal": 362,
+          "source": "examples/amm/amm.algo.ts:77",
+          "errorMessage": "argument 0 (governor) for set_governor must be a address",
           "pc": [
             387
-          ],
-          "errorMessage": "argument 0 (governor) for set_governor must be a address"
+          ]
         },
         {
+          "teal": 365,
+          "source": "examples/amm/amm.algo.ts:77",
+          "pc": [
+            388,
+            389,
+            390
+          ]
+        },
+        {
+          "teal": 366,
+          "source": "examples/amm/amm.algo.ts:77",
+          "pc": [
+            391,
+            392
+          ]
+        },
+        {
+          "teal": 367,
+          "source": "examples/amm/amm.algo.ts:77",
+          "pc": [
+            393
+          ]
+        },
+        {
+          "teal": 371,
+          "source": "examples/amm/amm.algo.ts:77",
+          "pc": [
+            394,
+            395,
+            396
+          ]
+        },
+        {
+          "teal": 376,
+          "source": "examples/amm/amm.algo.ts:78",
+          "pc": [
+            397,
+            398
+          ]
+        },
+        {
+          "teal": 377,
+          "source": "examples/amm/amm.algo.ts:78",
+          "pc": [
+            399,
+            400,
+            401
+          ]
+        },
+        {
+          "teal": 378,
+          "source": "examples/amm/amm.algo.ts:78",
+          "pc": [
+            402
+          ]
+        },
+        {
+          "teal": 379,
+          "source": "examples/amm/amm.algo.ts:78",
+          "pc": [
+            403
+          ]
+        },
+        {
+          "teal": 382,
+          "source": "examples/amm/amm.algo.ts:78",
+          "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"sender\",\"expected\":\"this.governor.value\"}",
           "pc": [
             404
-          ],
-          "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"sender\",\"expected\":\"this.governor.value\"}"
+          ]
         },
         {
+          "teal": 386,
+          "source": "examples/amm/amm.algo.ts:79",
+          "pc": [
+            405,
+            406,
+            407
+          ]
+        },
+        {
+          "teal": 387,
+          "source": "examples/amm/amm.algo.ts:79",
+          "pc": [
+            408,
+            409
+          ]
+        },
+        {
+          "teal": 388,
+          "source": "examples/amm/amm.algo.ts:79",
+          "pc": [
+            410
+          ]
+        },
+        {
+          "teal": 389,
+          "source": "examples/amm/amm.algo.ts:77",
+          "pc": [
+            411
+          ]
+        },
+        {
+          "teal": 394,
+          "source": "examples/amm/amm.algo.ts:82",
+          "pc": [
+            412,
+            413,
+            414,
+            415,
+            416,
+            417
+          ]
+        },
+        {
+          "teal": 397,
+          "source": "examples/amm/amm.algo.ts:82",
+          "pc": [
+            418,
+            419,
+            420
+          ]
+        },
+        {
+          "teal": 398,
+          "source": "examples/amm/amm.algo.ts:82",
+          "pc": [
+            421
+          ]
+        },
+        {
+          "teal": 401,
+          "source": "examples/amm/amm.algo.ts:82",
+          "pc": [
+            422,
+            423,
+            424
+          ]
+        },
+        {
+          "teal": 402,
+          "source": "examples/amm/amm.algo.ts:82",
+          "pc": [
+            425
+          ]
+        },
+        {
+          "teal": 405,
+          "source": "examples/amm/amm.algo.ts:82",
+          "pc": [
+            426,
+            427
+          ]
+        },
+        {
+          "teal": 406,
+          "source": "examples/amm/amm.algo.ts:82",
+          "pc": [
+            428,
+            429
+          ]
+        },
+        {
+          "teal": 407,
+          "source": "examples/amm/amm.algo.ts:82",
+          "pc": [
+            430
+          ]
+        },
+        {
+          "teal": 408,
+          "source": "examples/amm/amm.algo.ts:82",
+          "pc": [
+            431
+          ]
+        },
+        {
+          "teal": 409,
+          "source": "examples/amm/amm.algo.ts:82",
+          "pc": [
+            432,
+            433
+          ]
+        },
+        {
+          "teal": 410,
+          "source": "examples/amm/amm.algo.ts:82",
+          "pc": [
+            434,
+            435
+          ]
+        },
+        {
+          "teal": 411,
+          "source": "examples/amm/amm.algo.ts:82",
+          "pc": [
+            436
+          ]
+        },
+        {
+          "teal": 414,
+          "source": "examples/amm/amm.algo.ts:82",
+          "errorMessage": "argument 2 (seed) for bootstrap must be a pay transaction",
           "pc": [
             437
-          ],
-          "errorMessage": "argument 2 (seed) for bootstrap must be a pay transaction"
+          ]
         },
         {
+          "teal": 417,
+          "source": "examples/amm/amm.algo.ts:82",
+          "pc": [
+            438,
+            439,
+            440
+          ]
+        },
+        {
+          "teal": 418,
+          "source": "examples/amm/amm.algo.ts:82",
+          "pc": [
+            441
+          ]
+        },
+        {
+          "teal": 419,
+          "source": "examples/amm/amm.algo.ts:82",
+          "pc": [
+            442
+          ]
+        },
+        {
+          "teal": 420,
+          "source": "examples/amm/amm.algo.ts:82",
+          "pc": [
+            443
+          ]
+        },
+        {
+          "teal": 421,
+          "source": "examples/amm/amm.algo.ts:82",
+          "pc": [
+            444,
+            445
+          ]
+        },
+        {
+          "teal": 422,
+          "source": "examples/amm/amm.algo.ts:82",
+          "pc": [
+            446
+          ]
+        },
+        {
+          "teal": 426,
+          "source": "examples/amm/amm.algo.ts:82",
+          "pc": [
+            447,
+            448,
+            449
+          ]
+        },
+        {
+          "teal": 431,
+          "source": "examples/amm/amm.algo.ts:83",
+          "pc": [
+            450,
+            451
+          ]
+        },
+        {
+          "teal": 432,
+          "source": "examples/amm/amm.algo.ts:83",
+          "pc": [
+            452,
+            453,
+            454
+          ]
+        },
+        {
+          "teal": 433,
+          "source": "examples/amm/amm.algo.ts:83",
+          "pc": [
+            455
+          ]
+        },
+        {
+          "teal": 434,
+          "source": "examples/amm/amm.algo.ts:83",
+          "pc": [
+            456
+          ]
+        },
+        {
+          "teal": 437,
+          "source": "examples/amm/amm.algo.ts:83",
+          "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"sender\",\"expected\":\"this.governor.value\"}",
           "pc": [
             457
-          ],
-          "errorMessage": "transaction verification failed: {\"txn\":\"this.txn\",\"field\":\"sender\",\"expected\":\"this.governor.value\"}"
+          ]
         },
         {
+          "teal": 441,
+          "source": "examples/amm/amm.algo.ts:85",
+          "pc": [
+            458,
+            459
+          ]
+        },
+        {
+          "teal": 442,
+          "source": "examples/amm/amm.algo.ts:85",
+          "pc": [
+            460,
+            461
+          ]
+        },
+        {
+          "teal": 443,
+          "source": "examples/amm/amm.algo.ts:85",
+          "pc": [
+            462
+          ]
+        },
+        {
+          "teal": 444,
+          "source": "examples/amm/amm.algo.ts:85",
+          "pc": [
+            463
+          ]
+        },
+        {
+          "teal": 449,
+          "source": "examples/amm/amm.algo.ts:87",
+          "pc": [
+            464,
+            465
+          ]
+        },
+        {
+          "teal": 450,
+          "source": "examples/amm/amm.algo.ts:87",
+          "pc": [
+            466,
+            467
+          ]
+        },
+        {
+          "teal": 451,
+          "source": "examples/amm/amm.algo.ts:87",
+          "pc": [
+            468,
+            469
+          ]
+        },
+        {
+          "teal": 452,
+          "source": "examples/amm/amm.algo.ts:87",
+          "pc": [
+            470
+          ]
+        },
+        {
+          "teal": 455,
+          "source": "examples/amm/amm.algo.ts:87",
+          "errorMessage": "transaction verification failed: {\"txn\":\"seed\",\"field\":\"receiver\",\"expected\":\"this.app.address\"}",
           "pc": [
             471
-          ],
-          "errorMessage": "transaction verification failed: {\"txn\":\"seed\",\"field\":\"receiver\",\"expected\":\"this.app.address\"}"
+          ]
         },
         {
+          "teal": 458,
+          "source": "examples/amm/amm.algo.ts:87",
+          "pc": [
+            472,
+            473
+          ]
+        },
+        {
+          "teal": 459,
+          "source": "examples/amm/amm.algo.ts:87",
+          "pc": [
+            474,
+            475
+          ]
+        },
+        {
+          "teal": 460,
+          "source": "examples/amm/amm.algo.ts:87",
+          "pc": [
+            476,
+            477,
+            478,
+            479
+          ]
+        },
+        {
+          "teal": 461,
+          "source": "examples/amm/amm.algo.ts:87",
+          "pc": [
+            480
+          ]
+        },
+        {
+          "teal": 464,
+          "source": "examples/amm/amm.algo.ts:87",
+          "errorMessage": "transaction verification failed: {\"txn\":\"seed\",\"field\":\"amount\",\"condition\":\"greaterThanEqualTo\",\"expected\":\">=300_000\"}",
           "pc": [
             481
-          ],
-          "errorMessage": "transaction verification failed: {\"txn\":\"seed\",\"field\":\"amount\",\"condition\":\"greaterThanEqualTo\",\"expected\":\">=300_000\"}"
+          ]
         },
         {
+          "teal": 468,
+          "source": "examples/amm/amm.algo.ts:88",
+          "pc": [
+            482,
+            483
+          ]
+        },
+        {
+          "teal": 469,
+          "source": "examples/amm/amm.algo.ts:88",
+          "pc": [
+            484,
+            485
+          ]
+        },
+        {
+          "teal": 470,
+          "source": "examples/amm/amm.algo.ts:88",
+          "pc": [
+            486
+          ]
+        },
+        {
+          "teal": 471,
+          "source": "examples/amm/amm.algo.ts:88",
+          "pc": [
+            487
+          ]
+        },
+        {
+          "teal": 475,
+          "source": "examples/amm/amm.algo.ts:90",
+          "pc": [
+            488,
+            489,
+            490
+          ]
+        },
+        {
+          "teal": 476,
+          "source": "examples/amm/amm.algo.ts:90",
+          "pc": [
+            491,
+            492
+          ]
+        },
+        {
+          "teal": 477,
+          "source": "examples/amm/amm.algo.ts:90",
+          "pc": [
+            493
+          ]
+        },
+        {
+          "teal": 481,
+          "source": "examples/amm/amm.algo.ts:91",
+          "pc": [
+            494,
+            495,
+            496
+          ]
+        },
+        {
+          "teal": 482,
+          "source": "examples/amm/amm.algo.ts:91",
+          "pc": [
+            497,
+            498
+          ]
+        },
+        {
+          "teal": 483,
+          "source": "examples/amm/amm.algo.ts:91",
+          "pc": [
+            499
+          ]
+        },
+        {
+          "teal": 487,
+          "source": "examples/amm/amm.algo.ts:92",
+          "pc": [
+            500,
+            501,
+            502
+          ]
+        },
+        {
+          "teal": 488,
+          "source": "examples/amm/amm.algo.ts:92",
+          "pc": [
+            503,
+            504
+          ]
+        },
+        {
+          "teal": 489,
+          "source": "examples/amm/amm.algo.ts:92",
+          "pc": [
+            505,
+            506
+          ]
+        },
+        {
+          "teal": 490,
+          "source": "examples/amm/amm.algo.ts:92",
+          "pc": [
+            507,
+            508,
+            509
+          ]
+        },
+        {
+          "teal": 491,
+          "source": "examples/amm/amm.algo.ts:92",
+          "pc": [
+            510
+          ]
+        },
+        {
+          "teal": 495,
+          "source": "examples/amm/amm.algo.ts:94",
+          "pc": [
+            511,
+            512
+          ]
+        },
+        {
+          "teal": 496,
+          "source": "examples/amm/amm.algo.ts:94",
+          "pc": [
+            513,
+            514,
+            515
+          ]
+        },
+        {
+          "teal": 500,
+          "source": "examples/amm/amm.algo.ts:95",
+          "pc": [
+            516,
+            517
+          ]
+        },
+        {
+          "teal": 501,
+          "source": "examples/amm/amm.algo.ts:95",
+          "pc": [
+            518,
+            519,
+            520
+          ]
+        },
+        {
+          "teal": 505,
+          "source": "examples/amm/amm.algo.ts:97",
+          "pc": [
+            521,
+            522,
+            523
+          ]
+        },
+        {
+          "teal": 506,
+          "source": "examples/amm/amm.algo.ts:97",
+          "pc": [
+            524
+          ]
+        },
+        {
+          "teal": 507,
+          "source": "examples/amm/amm.algo.ts:82",
+          "pc": [
+            525
+          ]
+        },
+        {
+          "teal": 512,
+          "source": "examples/amm/amm.algo.ts:100",
+          "pc": [
+            526,
+            527,
+            528
+          ]
+        },
+        {
+          "teal": 513,
+          "source": "examples/amm/amm.algo.ts:100",
+          "pc": [
+            529
+          ]
+        },
+        {
+          "teal": 516,
+          "source": "examples/amm/amm.algo.ts:100",
+          "pc": [
+            530,
+            531,
+            532
+          ]
+        },
+        {
+          "teal": 517,
+          "source": "examples/amm/amm.algo.ts:100",
+          "pc": [
+            533
+          ]
+        },
+        {
+          "teal": 520,
+          "source": "examples/amm/amm.algo.ts:100",
+          "pc": [
+            534,
+            535,
+            536
+          ]
+        },
+        {
+          "teal": 521,
+          "source": "examples/amm/amm.algo.ts:100",
+          "pc": [
+            537
+          ]
+        },
+        {
+          "teal": 524,
+          "source": "examples/amm/amm.algo.ts:100",
+          "pc": [
+            538,
+            539
+          ]
+        },
+        {
+          "teal": 525,
+          "source": "examples/amm/amm.algo.ts:100",
+          "pc": [
+            540,
+            541
+          ]
+        },
+        {
+          "teal": 526,
+          "source": "examples/amm/amm.algo.ts:100",
+          "pc": [
+            542
+          ]
+        },
+        {
+          "teal": 527,
+          "source": "examples/amm/amm.algo.ts:100",
+          "pc": [
+            543
+          ]
+        },
+        {
+          "teal": 528,
+          "source": "examples/amm/amm.algo.ts:100",
+          "pc": [
+            544,
+            545
+          ]
+        },
+        {
+          "teal": 529,
+          "source": "examples/amm/amm.algo.ts:100",
+          "pc": [
+            546,
+            547
+          ]
+        },
+        {
+          "teal": 530,
+          "source": "examples/amm/amm.algo.ts:100",
+          "pc": [
+            548
+          ]
+        },
+        {
+          "teal": 533,
+          "source": "examples/amm/amm.algo.ts:100",
+          "errorMessage": "argument 3 (bXfer) for mint must be a axfer transaction",
           "pc": [
             549
-          ],
-          "errorMessage": "argument 3 (bXfer) for mint must be a axfer transaction"
+          ]
         },
         {
+          "teal": 536,
+          "source": "examples/amm/amm.algo.ts:100",
+          "pc": [
+            550,
+            551
+          ]
+        },
+        {
+          "teal": 537,
+          "source": "examples/amm/amm.algo.ts:100",
+          "pc": [
+            552,
+            553
+          ]
+        },
+        {
+          "teal": 538,
+          "source": "examples/amm/amm.algo.ts:100",
+          "pc": [
+            554
+          ]
+        },
+        {
+          "teal": 539,
+          "source": "examples/amm/amm.algo.ts:100",
+          "pc": [
+            555
+          ]
+        },
+        {
+          "teal": 540,
+          "source": "examples/amm/amm.algo.ts:100",
+          "pc": [
+            556,
+            557
+          ]
+        },
+        {
+          "teal": 541,
+          "source": "examples/amm/amm.algo.ts:100",
+          "pc": [
+            558,
+            559
+          ]
+        },
+        {
+          "teal": 542,
+          "source": "examples/amm/amm.algo.ts:100",
+          "pc": [
+            560
+          ]
+        },
+        {
+          "teal": 545,
+          "source": "examples/amm/amm.algo.ts:100",
+          "errorMessage": "argument 4 (aXfer) for mint must be a axfer transaction",
           "pc": [
             561
-          ],
-          "errorMessage": "argument 4 (aXfer) for mint must be a axfer transaction"
+          ]
         },
         {
+          "teal": 548,
+          "source": "examples/amm/amm.algo.ts:100",
+          "pc": [
+            562,
+            563,
+            564
+          ]
+        },
+        {
+          "teal": 549,
+          "source": "examples/amm/amm.algo.ts:100",
+          "pc": [
+            565,
+            566
+          ]
+        },
+        {
+          "teal": 550,
+          "source": "examples/amm/amm.algo.ts:100",
+          "pc": [
+            567
+          ]
+        },
+        {
+          "teal": 554,
+          "source": "examples/amm/amm.algo.ts:100",
+          "pc": [
+            568,
+            569,
+            570
+          ]
+        },
+        {
+          "teal": 557,
+          "source": "examples/amm/amm.algo.ts:100",
+          "pc": [
+            571,
+            572
+          ]
+        },
+        {
+          "teal": 562,
+          "source": "examples/amm/amm.algo.ts:102",
+          "pc": [
+            573,
+            574
+          ]
+        },
+        {
+          "teal": 563,
+          "source": "examples/amm/amm.algo.ts:102",
+          "pc": [
+            575,
+            576,
+            577
+          ]
+        },
+        {
+          "teal": 564,
+          "source": "examples/amm/amm.algo.ts:102",
+          "pc": [
+            578
+          ]
+        },
+        {
+          "teal": 565,
+          "source": "examples/amm/amm.algo.ts:102",
+          "pc": [
+            579
+          ]
+        },
+        {
+          "teal": 566,
+          "source": "examples/amm/amm.algo.ts:102",
+          "pc": [
+            580
+          ]
+        },
+        {
+          "teal": 570,
+          "source": "examples/amm/amm.algo.ts:103",
+          "pc": [
+            581,
+            582
+          ]
+        },
+        {
+          "teal": 571,
+          "source": "examples/amm/amm.algo.ts:103",
+          "pc": [
+            583,
+            584,
+            585
+          ]
+        },
+        {
+          "teal": 572,
+          "source": "examples/amm/amm.algo.ts:103",
+          "pc": [
+            586
+          ]
+        },
+        {
+          "teal": 573,
+          "source": "examples/amm/amm.algo.ts:103",
+          "pc": [
+            587
+          ]
+        },
+        {
+          "teal": 574,
+          "source": "examples/amm/amm.algo.ts:103",
+          "pc": [
+            588
+          ]
+        },
+        {
+          "teal": 578,
+          "source": "examples/amm/amm.algo.ts:104",
+          "pc": [
+            589,
+            590
+          ]
+        },
+        {
+          "teal": 579,
+          "source": "examples/amm/amm.algo.ts:104",
+          "pc": [
+            591,
+            592,
+            593
+          ]
+        },
+        {
+          "teal": 580,
+          "source": "examples/amm/amm.algo.ts:104",
+          "pc": [
+            594
+          ]
+        },
+        {
+          "teal": 581,
+          "source": "examples/amm/amm.algo.ts:104",
+          "pc": [
+            595
+          ]
+        },
+        {
+          "teal": 582,
+          "source": "examples/amm/amm.algo.ts:104",
+          "pc": [
+            596
+          ]
+        },
+        {
+          "teal": 593,
+          "source": "examples/amm/amm.algo.ts:107",
+          "pc": [
+            597,
+            598
+          ]
+        },
+        {
+          "teal": 594,
+          "source": "examples/amm/amm.algo.ts:108",
+          "pc": [
+            599,
+            600
+          ]
+        },
+        {
+          "teal": 595,
+          "source": "examples/amm/amm.algo.ts:108",
+          "pc": [
+            601,
+            602
+          ]
+        },
+        {
+          "teal": 596,
+          "source": "examples/amm/amm.algo.ts:108",
+          "pc": [
+            603
+          ]
+        },
+        {
+          "teal": 599,
+          "source": "examples/amm/amm.algo.ts:108",
+          "errorMessage": "transaction verification failed: {\"txn\":\"aXfer\",\"field\":\"sender\",\"expected\":\"this.txn.sender\"}",
           "pc": [
             604
-          ],
-          "errorMessage": "transaction verification failed: {\"txn\":\"aXfer\",\"field\":\"sender\",\"expected\":\"this.txn.sender\"}"
+          ]
         },
         {
+          "teal": 602,
+          "source": "examples/amm/amm.algo.ts:107",
+          "pc": [
+            605,
+            606
+          ]
+        },
+        {
+          "teal": 603,
+          "source": "examples/amm/amm.algo.ts:109",
+          "pc": [
+            607,
+            608
+          ]
+        },
+        {
+          "teal": 604,
+          "source": "examples/amm/amm.algo.ts:109",
+          "pc": [
+            609,
+            610
+          ]
+        },
+        {
+          "teal": 605,
+          "source": "examples/amm/amm.algo.ts:109",
+          "pc": [
+            611
+          ]
+        },
+        {
+          "teal": 608,
+          "source": "examples/amm/amm.algo.ts:109",
+          "errorMessage": "transaction verification failed: {\"txn\":\"aXfer\",\"field\":\"assetAmount\",\"condition\":\"greaterThan\",\"expected\":\">0\"}",
           "pc": [
             612
-          ],
-          "errorMessage": "transaction verification failed: {\"txn\":\"aXfer\",\"field\":\"assetAmount\",\"condition\":\"greaterThan\",\"expected\":\">0\"}"
+          ]
         },
         {
+          "teal": 611,
+          "source": "examples/amm/amm.algo.ts:107",
+          "pc": [
+            613,
+            614
+          ]
+        },
+        {
+          "teal": 612,
+          "source": "examples/amm/amm.algo.ts:110",
+          "pc": [
+            615,
+            616
+          ]
+        },
+        {
+          "teal": 613,
+          "source": "examples/amm/amm.algo.ts:110",
+          "pc": [
+            617,
+            618
+          ]
+        },
+        {
+          "teal": 614,
+          "source": "examples/amm/amm.algo.ts:110",
+          "pc": [
+            619
+          ]
+        },
+        {
+          "teal": 617,
+          "source": "examples/amm/amm.algo.ts:110",
+          "errorMessage": "transaction verification failed: {\"txn\":\"aXfer\",\"field\":\"assetReceiver\",\"expected\":\"this.app.address\"}",
           "pc": [
             620
-          ],
-          "errorMessage": "transaction verification failed: {\"txn\":\"aXfer\",\"field\":\"assetReceiver\",\"expected\":\"this.app.address\"}"
+          ]
         },
         {
+          "teal": 620,
+          "source": "examples/amm/amm.algo.ts:107",
+          "pc": [
+            621,
+            622
+          ]
+        },
+        {
+          "teal": 621,
+          "source": "examples/amm/amm.algo.ts:111",
+          "pc": [
+            623,
+            624
+          ]
+        },
+        {
+          "teal": 622,
+          "source": "examples/amm/amm.algo.ts:111",
+          "pc": [
+            625,
+            626
+          ]
+        },
+        {
+          "teal": 623,
+          "source": "examples/amm/amm.algo.ts:111",
+          "pc": [
+            627
+          ]
+        },
+        {
+          "teal": 626,
+          "source": "examples/amm/amm.algo.ts:111",
+          "errorMessage": "transaction verification failed: {\"txn\":\"aXfer\",\"field\":\"xferAsset\",\"expected\":\"aAsset\"}",
           "pc": [
             628
-          ],
-          "errorMessage": "transaction verification failed: {\"txn\":\"aXfer\",\"field\":\"xferAsset\",\"expected\":\"aAsset\"}"
+          ]
         },
         {
+          "teal": 637,
+          "source": "examples/amm/amm.algo.ts:115",
+          "pc": [
+            629,
+            630
+          ]
+        },
+        {
+          "teal": 638,
+          "source": "examples/amm/amm.algo.ts:116",
+          "pc": [
+            631,
+            632
+          ]
+        },
+        {
+          "teal": 639,
+          "source": "examples/amm/amm.algo.ts:116",
+          "pc": [
+            633,
+            634
+          ]
+        },
+        {
+          "teal": 640,
+          "source": "examples/amm/amm.algo.ts:116",
+          "pc": [
+            635
+          ]
+        },
+        {
+          "teal": 643,
+          "source": "examples/amm/amm.algo.ts:116",
+          "errorMessage": "transaction verification failed: {\"txn\":\"bXfer\",\"field\":\"sender\",\"expected\":\"this.txn.sender\"}",
           "pc": [
             636
-          ],
-          "errorMessage": "transaction verification failed: {\"txn\":\"bXfer\",\"field\":\"sender\",\"expected\":\"this.txn.sender\"}"
+          ]
         },
         {
+          "teal": 646,
+          "source": "examples/amm/amm.algo.ts:115",
+          "pc": [
+            637,
+            638
+          ]
+        },
+        {
+          "teal": 647,
+          "source": "examples/amm/amm.algo.ts:117",
+          "pc": [
+            639,
+            640
+          ]
+        },
+        {
+          "teal": 648,
+          "source": "examples/amm/amm.algo.ts:117",
+          "pc": [
+            641,
+            642
+          ]
+        },
+        {
+          "teal": 649,
+          "source": "examples/amm/amm.algo.ts:117",
+          "pc": [
+            643
+          ]
+        },
+        {
+          "teal": 652,
+          "source": "examples/amm/amm.algo.ts:117",
+          "errorMessage": "transaction verification failed: {\"txn\":\"bXfer\",\"field\":\"assetAmount\",\"condition\":\"greaterThan\",\"expected\":\">0\"}",
           "pc": [
             644
-          ],
-          "errorMessage": "transaction verification failed: {\"txn\":\"bXfer\",\"field\":\"assetAmount\",\"condition\":\"greaterThan\",\"expected\":\">0\"}"
+          ]
         },
         {
+          "teal": 655,
+          "source": "examples/amm/amm.algo.ts:115",
+          "pc": [
+            645,
+            646
+          ]
+        },
+        {
+          "teal": 656,
+          "source": "examples/amm/amm.algo.ts:118",
+          "pc": [
+            647,
+            648
+          ]
+        },
+        {
+          "teal": 657,
+          "source": "examples/amm/amm.algo.ts:118",
+          "pc": [
+            649,
+            650
+          ]
+        },
+        {
+          "teal": 658,
+          "source": "examples/amm/amm.algo.ts:118",
+          "pc": [
+            651
+          ]
+        },
+        {
+          "teal": 661,
+          "source": "examples/amm/amm.algo.ts:118",
+          "errorMessage": "transaction verification failed: {\"txn\":\"bXfer\",\"field\":\"assetReceiver\",\"expected\":\"this.app.address\"}",
           "pc": [
             652
-          ],
-          "errorMessage": "transaction verification failed: {\"txn\":\"bXfer\",\"field\":\"assetReceiver\",\"expected\":\"this.app.address\"}"
+          ]
         },
         {
+          "teal": 664,
+          "source": "examples/amm/amm.algo.ts:115",
+          "pc": [
+            653,
+            654
+          ]
+        },
+        {
+          "teal": 665,
+          "source": "examples/amm/amm.algo.ts:119",
+          "pc": [
+            655,
+            656
+          ]
+        },
+        {
+          "teal": 666,
+          "source": "examples/amm/amm.algo.ts:119",
+          "pc": [
+            657,
+            658
+          ]
+        },
+        {
+          "teal": 667,
+          "source": "examples/amm/amm.algo.ts:119",
+          "pc": [
+            659
+          ]
+        },
+        {
+          "teal": 670,
+          "source": "examples/amm/amm.algo.ts:119",
+          "errorMessage": "transaction verification failed: {\"txn\":\"bXfer\",\"field\":\"xferAsset\",\"expected\":\"bAsset\"}",
           "pc": [
             660
-          ],
-          "errorMessage": "transaction verification failed: {\"txn\":\"bXfer\",\"field\":\"xferAsset\",\"expected\":\"bAsset\"}"
+          ]
         },
         {
+          "teal": 676,
+          "source": "examples/amm/amm.algo.ts:123",
+          "pc": [
+            661,
+            662
+          ]
+        },
+        {
+          "teal": 677,
+          "source": "examples/amm/amm.algo.ts:123",
+          "pc": [
+            663,
+            664
+          ]
+        },
+        {
+          "teal": 678,
+          "source": "examples/amm/amm.algo.ts:123",
+          "pc": [
+            665,
+            666
+          ]
+        },
+        {
+          "teal": 679,
+          "source": "examples/amm/amm.algo.ts:123",
+          "pc": [
+            667
+          ]
+        },
+        {
+          "teal": 680,
+          "source": "examples/amm/amm.algo.ts:123",
+          "pc": [
+            668,
+            669
+          ]
+        },
+        {
+          "teal": 681,
+          "source": "examples/amm/amm.algo.ts:123",
+          "pc": [
+            670,
+            671
+          ]
+        },
+        {
+          "teal": 682,
+          "source": "examples/amm/amm.algo.ts:123",
+          "pc": [
+            672
+          ]
+        },
+        {
+          "teal": 683,
+          "source": "examples/amm/amm.algo.ts:123",
+          "pc": [
+            673
+          ]
+        },
+        {
+          "teal": 684,
+          "source": "examples/amm/amm.algo.ts:123",
+          "pc": [
+            674,
+            675,
+            676
+          ]
+        },
+        {
+          "teal": 685,
+          "source": "examples/amm/amm.algo.ts:124",
+          "pc": [
+            677,
+            678
+          ]
+        },
+        {
+          "teal": 686,
+          "source": "examples/amm/amm.algo.ts:124",
+          "pc": [
+            679,
+            680
+          ]
+        },
+        {
+          "teal": 687,
+          "source": "examples/amm/amm.algo.ts:124",
+          "pc": [
+            681,
+            682
+          ]
+        },
+        {
+          "teal": 688,
+          "source": "examples/amm/amm.algo.ts:124",
+          "pc": [
+            683
+          ]
+        },
+        {
+          "teal": 689,
+          "source": "examples/amm/amm.algo.ts:124",
+          "pc": [
+            684,
+            685
+          ]
+        },
+        {
+          "teal": 690,
+          "source": "examples/amm/amm.algo.ts:124",
+          "pc": [
+            686,
+            687
+          ]
+        },
+        {
+          "teal": 691,
+          "source": "examples/amm/amm.algo.ts:124",
+          "pc": [
+            688
+          ]
+        },
+        {
+          "teal": 692,
+          "source": "examples/amm/amm.algo.ts:123",
+          "pc": [
+            689
+          ]
+        },
+        {
+          "teal": 695,
+          "source": "examples/amm/amm.algo.ts:122",
+          "pc": [
+            690,
+            691,
+            692
+          ]
+        },
+        {
+          "teal": 700,
+          "source": "examples/amm/amm.algo.ts:126",
+          "pc": [
+            693,
+            694
+          ]
+        },
+        {
+          "teal": 701,
+          "source": "examples/amm/amm.algo.ts:126",
+          "pc": [
+            695,
+            696
+          ]
+        },
+        {
+          "teal": 702,
+          "source": "examples/amm/amm.algo.ts:126",
+          "pc": [
+            697,
+            698
+          ]
+        },
+        {
+          "teal": 703,
+          "source": "examples/amm/amm.algo.ts:126",
+          "pc": [
+            699,
+            700
+          ]
+        },
+        {
+          "teal": 704,
+          "source": "examples/amm/amm.algo.ts:126",
+          "pc": [
+            701,
+            702,
+            703
+          ]
+        },
+        {
+          "teal": 705,
+          "source": "examples/amm/amm.algo.ts:122",
+          "pc": [
+            704,
+            705,
+            706
+          ]
+        },
+        {
+          "teal": 716,
+          "source": "examples/amm/amm.algo.ts:133",
+          "pc": [
+            707,
+            708
+          ]
+        },
+        {
+          "teal": 717,
+          "source": "examples/amm/amm.algo.ts:133",
+          "pc": [
+            709,
+            710
+          ]
+        },
+        {
+          "teal": 718,
+          "source": "examples/amm/amm.algo.ts:132",
+          "pc": [
+            711,
+            712
+          ]
+        },
+        {
+          "teal": 719,
+          "source": "examples/amm/amm.algo.ts:132",
+          "pc": [
+            713,
+            714
+          ]
+        },
+        {
+          "teal": 720,
+          "source": "examples/amm/amm.algo.ts:131",
+          "pc": [
+            715,
+            716
+          ]
+        },
+        {
+          "teal": 721,
+          "source": "examples/amm/amm.algo.ts:131",
+          "pc": [
+            717,
+            718
+          ]
+        },
+        {
+          "teal": 722,
+          "source": "examples/amm/amm.algo.ts:131",
+          "pc": [
+            719,
+            720
+          ]
+        },
+        {
+          "teal": 723,
+          "source": "examples/amm/amm.algo.ts:131",
+          "pc": [
+            721
+          ]
+        },
+        {
+          "teal": 724,
+          "source": "examples/amm/amm.algo.ts:131",
+          "pc": [
+            722,
+            723
+          ]
+        },
+        {
+          "teal": 725,
+          "source": "examples/amm/amm.algo.ts:131",
+          "pc": [
+            724,
+            725
+          ]
+        },
+        {
+          "teal": 726,
+          "source": "examples/amm/amm.algo.ts:131",
+          "pc": [
+            726
+          ]
+        },
+        {
+          "teal": 727,
+          "source": "examples/amm/amm.algo.ts:130",
+          "pc": [
+            727,
+            728
+          ]
+        },
+        {
+          "teal": 728,
+          "source": "examples/amm/amm.algo.ts:130",
+          "pc": [
+            729,
+            730
+          ]
+        },
+        {
+          "teal": 729,
+          "source": "examples/amm/amm.algo.ts:130",
+          "pc": [
+            731,
+            732
+          ]
+        },
+        {
+          "teal": 730,
+          "source": "examples/amm/amm.algo.ts:130",
+          "pc": [
+            733
+          ]
+        },
+        {
+          "teal": 731,
+          "source": "examples/amm/amm.algo.ts:130",
+          "pc": [
+            734,
+            735
+          ]
+        },
+        {
+          "teal": 732,
+          "source": "examples/amm/amm.algo.ts:130",
+          "pc": [
+            736,
+            737
+          ]
+        },
+        {
+          "teal": 733,
+          "source": "examples/amm/amm.algo.ts:130",
+          "pc": [
+            738
+          ]
+        },
+        {
+          "teal": 734,
+          "source": "examples/amm/amm.algo.ts:129",
+          "pc": [
+            739,
+            740,
+            741,
+            742,
+            743,
+            744
+          ]
+        },
+        {
+          "teal": 735,
+          "source": "examples/amm/amm.algo.ts:129",
+          "pc": [
+            745,
+            746
+          ]
+        },
+        {
+          "teal": 736,
+          "source": "examples/amm/amm.algo.ts:129",
+          "pc": [
+            747,
+            748
+          ]
+        },
+        {
+          "teal": 737,
+          "source": "examples/amm/amm.algo.ts:129",
+          "pc": [
+            749,
+            750
+          ]
+        },
+        {
+          "teal": 738,
+          "source": "examples/amm/amm.algo.ts:129",
+          "pc": [
+            751
+          ]
+        },
+        {
+          "teal": 739,
+          "source": "examples/amm/amm.algo.ts:129",
+          "pc": [
+            752
+          ]
+        },
+        {
+          "teal": 740,
+          "source": "examples/amm/amm.algo.ts:128",
+          "pc": [
+            753,
+            754,
+            755
+          ]
+        },
+        {
+          "teal": 741,
+          "source": "examples/amm/amm.algo.ts:128",
+          "pc": [
+            756,
+            757
+          ]
+        },
+        {
+          "teal": 745,
+          "source": "examples/amm/amm.algo.ts:136",
+          "pc": [
+            758,
+            759
+          ]
+        },
+        {
+          "teal": 746,
+          "source": "examples/amm/amm.algo.ts:136",
+          "pc": [
+            760,
+            761
+          ]
+        },
+        {
+          "teal": 747,
+          "source": "examples/amm/amm.algo.ts:136",
+          "pc": [
+            762
+          ]
+        },
+        {
+          "teal": 748,
+          "source": "examples/amm/amm.algo.ts:136",
+          "pc": [
+            763
+          ]
+        },
+        {
+          "teal": 752,
+          "source": "examples/amm/amm.algo.ts:138",
+          "pc": [
+            764,
+            765
+          ]
+        },
+        {
+          "teal": 753,
+          "source": "examples/amm/amm.algo.ts:138",
+          "pc": [
+            766,
+            767
+          ]
+        },
+        {
+          "teal": 754,
+          "source": "examples/amm/amm.algo.ts:138",
+          "pc": [
+            768,
+            769
+          ]
+        },
+        {
+          "teal": 755,
+          "source": "examples/amm/amm.algo.ts:138",
+          "pc": [
+            770,
+            771,
+            772
+          ]
+        },
+        {
+          "teal": 758,
+          "source": "examples/amm/amm.algo.ts:100",
+          "pc": [
+            773
+          ]
+        },
+        {
+          "teal": 763,
+          "source": "examples/amm/amm.algo.ts:142",
+          "pc": [
+            774,
+            775,
+            776
+          ]
+        },
+        {
+          "teal": 764,
+          "source": "examples/amm/amm.algo.ts:142",
+          "pc": [
+            777
+          ]
+        },
+        {
+          "teal": 767,
+          "source": "examples/amm/amm.algo.ts:142",
+          "pc": [
+            778,
+            779,
+            780
+          ]
+        },
+        {
+          "teal": 768,
+          "source": "examples/amm/amm.algo.ts:142",
+          "pc": [
+            781
+          ]
+        },
+        {
+          "teal": 771,
+          "source": "examples/amm/amm.algo.ts:142",
+          "pc": [
+            782,
+            783,
+            784
+          ]
+        },
+        {
+          "teal": 772,
+          "source": "examples/amm/amm.algo.ts:142",
+          "pc": [
+            785
+          ]
+        },
+        {
+          "teal": 775,
+          "source": "examples/amm/amm.algo.ts:142",
+          "pc": [
+            786,
+            787
+          ]
+        },
+        {
+          "teal": 776,
+          "source": "examples/amm/amm.algo.ts:142",
+          "pc": [
+            788,
+            789
+          ]
+        },
+        {
+          "teal": 777,
+          "source": "examples/amm/amm.algo.ts:142",
+          "pc": [
+            790
+          ]
+        },
+        {
+          "teal": 778,
+          "source": "examples/amm/amm.algo.ts:142",
+          "pc": [
+            791
+          ]
+        },
+        {
+          "teal": 779,
+          "source": "examples/amm/amm.algo.ts:142",
+          "pc": [
+            792,
+            793
+          ]
+        },
+        {
+          "teal": 780,
+          "source": "examples/amm/amm.algo.ts:142",
+          "pc": [
+            794,
+            795
+          ]
+        },
+        {
+          "teal": 781,
+          "source": "examples/amm/amm.algo.ts:142",
+          "pc": [
+            796
+          ]
+        },
+        {
+          "teal": 784,
+          "source": "examples/amm/amm.algo.ts:142",
+          "errorMessage": "argument 3 (poolXfer) for burn must be a axfer transaction",
           "pc": [
             797
-          ],
-          "errorMessage": "argument 3 (poolXfer) for burn must be a axfer transaction"
+          ]
         },
         {
+          "teal": 787,
+          "source": "examples/amm/amm.algo.ts:142",
+          "pc": [
+            798,
+            799,
+            800
+          ]
+        },
+        {
+          "teal": 788,
+          "source": "examples/amm/amm.algo.ts:142",
+          "pc": [
+            801,
+            802
+          ]
+        },
+        {
+          "teal": 789,
+          "source": "examples/amm/amm.algo.ts:142",
+          "pc": [
+            803
+          ]
+        },
+        {
+          "teal": 793,
+          "source": "examples/amm/amm.algo.ts:142",
+          "pc": [
+            804,
+            805,
+            806
+          ]
+        },
+        {
+          "teal": 796,
+          "source": "examples/amm/amm.algo.ts:142",
+          "pc": [
+            807,
+            808
+          ]
+        },
+        {
+          "teal": 797,
+          "source": "examples/amm/amm.algo.ts:142",
+          "pc": [
+            809,
+            810
+          ]
+        },
+        {
+          "teal": 802,
+          "source": "examples/amm/amm.algo.ts:144",
+          "pc": [
+            811,
+            812
+          ]
+        },
+        {
+          "teal": 803,
+          "source": "examples/amm/amm.algo.ts:144",
+          "pc": [
+            813,
+            814,
+            815
+          ]
+        },
+        {
+          "teal": 804,
+          "source": "examples/amm/amm.algo.ts:144",
+          "pc": [
+            816
+          ]
+        },
+        {
+          "teal": 805,
+          "source": "examples/amm/amm.algo.ts:144",
+          "pc": [
+            817
+          ]
+        },
+        {
+          "teal": 806,
+          "source": "examples/amm/amm.algo.ts:144",
+          "pc": [
+            818
+          ]
+        },
+        {
+          "teal": 810,
+          "source": "examples/amm/amm.algo.ts:145",
+          "pc": [
+            819,
+            820
+          ]
+        },
+        {
+          "teal": 811,
+          "source": "examples/amm/amm.algo.ts:145",
+          "pc": [
+            821,
+            822,
+            823
+          ]
+        },
+        {
+          "teal": 812,
+          "source": "examples/amm/amm.algo.ts:145",
+          "pc": [
+            824
+          ]
+        },
+        {
+          "teal": 813,
+          "source": "examples/amm/amm.algo.ts:145",
+          "pc": [
+            825
+          ]
+        },
+        {
+          "teal": 814,
+          "source": "examples/amm/amm.algo.ts:145",
+          "pc": [
+            826
+          ]
+        },
+        {
+          "teal": 818,
+          "source": "examples/amm/amm.algo.ts:146",
+          "pc": [
+            827,
+            828
+          ]
+        },
+        {
+          "teal": 819,
+          "source": "examples/amm/amm.algo.ts:146",
+          "pc": [
+            829,
+            830,
+            831
+          ]
+        },
+        {
+          "teal": 820,
+          "source": "examples/amm/amm.algo.ts:146",
+          "pc": [
+            832
+          ]
+        },
+        {
+          "teal": 821,
+          "source": "examples/amm/amm.algo.ts:146",
+          "pc": [
+            833
+          ]
+        },
+        {
+          "teal": 822,
+          "source": "examples/amm/amm.algo.ts:146",
+          "pc": [
+            834
+          ]
+        },
+        {
+          "teal": 833,
+          "source": "examples/amm/amm.algo.ts:149",
+          "pc": [
+            835,
+            836
+          ]
+        },
+        {
+          "teal": 834,
+          "source": "examples/amm/amm.algo.ts:150",
+          "pc": [
+            837,
+            838
+          ]
+        },
+        {
+          "teal": 835,
+          "source": "examples/amm/amm.algo.ts:150",
+          "pc": [
+            839,
+            840
+          ]
+        },
+        {
+          "teal": 836,
+          "source": "examples/amm/amm.algo.ts:150",
+          "pc": [
+            841
+          ]
+        },
+        {
+          "teal": 839,
+          "source": "examples/amm/amm.algo.ts:150",
+          "errorMessage": "transaction verification failed: {\"txn\":\"poolXfer\",\"field\":\"sender\",\"expected\":\"this.txn.sender\"}",
           "pc": [
             842
-          ],
-          "errorMessage": "transaction verification failed: {\"txn\":\"poolXfer\",\"field\":\"sender\",\"expected\":\"this.txn.sender\"}"
+          ]
         },
         {
+          "teal": 842,
+          "source": "examples/amm/amm.algo.ts:149",
+          "pc": [
+            843,
+            844
+          ]
+        },
+        {
+          "teal": 843,
+          "source": "examples/amm/amm.algo.ts:151",
+          "pc": [
+            845,
+            846
+          ]
+        },
+        {
+          "teal": 844,
+          "source": "examples/amm/amm.algo.ts:151",
+          "pc": [
+            847,
+            848
+          ]
+        },
+        {
+          "teal": 845,
+          "source": "examples/amm/amm.algo.ts:151",
+          "pc": [
+            849
+          ]
+        },
+        {
+          "teal": 848,
+          "source": "examples/amm/amm.algo.ts:151",
+          "errorMessage": "transaction verification failed: {\"txn\":\"poolXfer\",\"field\":\"assetAmount\",\"condition\":\"greaterThan\",\"expected\":\">0\"}",
           "pc": [
             850
-          ],
-          "errorMessage": "transaction verification failed: {\"txn\":\"poolXfer\",\"field\":\"assetAmount\",\"condition\":\"greaterThan\",\"expected\":\">0\"}"
+          ]
         },
         {
+          "teal": 851,
+          "source": "examples/amm/amm.algo.ts:149",
+          "pc": [
+            851,
+            852
+          ]
+        },
+        {
+          "teal": 852,
+          "source": "examples/amm/amm.algo.ts:152",
+          "pc": [
+            853,
+            854
+          ]
+        },
+        {
+          "teal": 853,
+          "source": "examples/amm/amm.algo.ts:152",
+          "pc": [
+            855,
+            856
+          ]
+        },
+        {
+          "teal": 854,
+          "source": "examples/amm/amm.algo.ts:152",
+          "pc": [
+            857
+          ]
+        },
+        {
+          "teal": 857,
+          "source": "examples/amm/amm.algo.ts:152",
+          "errorMessage": "transaction verification failed: {\"txn\":\"poolXfer\",\"field\":\"assetReceiver\",\"expected\":\"this.app.address\"}",
           "pc": [
             858
-          ],
-          "errorMessage": "transaction verification failed: {\"txn\":\"poolXfer\",\"field\":\"assetReceiver\",\"expected\":\"this.app.address\"}"
+          ]
         },
         {
+          "teal": 860,
+          "source": "examples/amm/amm.algo.ts:149",
+          "pc": [
+            859,
+            860
+          ]
+        },
+        {
+          "teal": 861,
+          "source": "examples/amm/amm.algo.ts:153",
+          "pc": [
+            861,
+            862
+          ]
+        },
+        {
+          "teal": 862,
+          "source": "examples/amm/amm.algo.ts:153",
+          "pc": [
+            863,
+            864
+          ]
+        },
+        {
+          "teal": 863,
+          "source": "examples/amm/amm.algo.ts:153",
+          "pc": [
+            865
+          ]
+        },
+        {
+          "teal": 866,
+          "source": "examples/amm/amm.algo.ts:153",
+          "errorMessage": "transaction verification failed: {\"txn\":\"poolXfer\",\"field\":\"xferAsset\",\"expected\":\"poolAsset\"}",
           "pc": [
             866
-          ],
-          "errorMessage": "transaction verification failed: {\"txn\":\"poolXfer\",\"field\":\"xferAsset\",\"expected\":\"poolAsset\"}"
+          ]
         },
         {
+          "teal": 870,
+          "source": "examples/amm/amm.algo.ts:156",
+          "pc": [
+            867,
+            868,
+            869,
+            870,
+            871,
+            872
+          ]
+        },
+        {
+          "teal": 871,
+          "source": "examples/amm/amm.algo.ts:156",
+          "pc": [
+            873,
+            874
+          ]
+        },
+        {
+          "teal": 872,
+          "source": "examples/amm/amm.algo.ts:156",
+          "pc": [
+            875,
+            876
+          ]
+        },
+        {
+          "teal": 873,
+          "source": "examples/amm/amm.algo.ts:156",
+          "pc": [
+            877,
+            878
+          ]
+        },
+        {
+          "teal": 874,
+          "source": "examples/amm/amm.algo.ts:156",
+          "pc": [
+            879
+          ]
+        },
+        {
+          "teal": 875,
+          "source": "examples/amm/amm.algo.ts:156",
+          "pc": [
+            880,
+            881
+          ]
+        },
+        {
+          "teal": 876,
+          "source": "examples/amm/amm.algo.ts:156",
+          "pc": [
+            882,
+            883
+          ]
+        },
+        {
+          "teal": 877,
+          "source": "examples/amm/amm.algo.ts:156",
+          "pc": [
+            884
+          ]
+        },
+        {
+          "teal": 878,
+          "source": "examples/amm/amm.algo.ts:156",
+          "pc": [
+            885
+          ]
+        },
+        {
+          "teal": 879,
+          "source": "examples/amm/amm.algo.ts:156",
+          "pc": [
+            886,
+            887
+          ]
+        },
+        {
+          "teal": 883,
+          "source": "examples/amm/amm.algo.ts:158",
+          "pc": [
+            888,
+            889
+          ]
+        },
+        {
+          "teal": 884,
+          "source": "examples/amm/amm.algo.ts:158",
+          "pc": [
+            890,
+            891
+          ]
+        },
+        {
+          "teal": 885,
+          "source": "examples/amm/amm.algo.ts:158",
+          "pc": [
+            892,
+            893
+          ]
+        },
+        {
+          "teal": 886,
+          "source": "examples/amm/amm.algo.ts:158",
+          "pc": [
+            894,
+            895
+          ]
+        },
+        {
+          "teal": 887,
+          "source": "examples/amm/amm.algo.ts:158",
+          "pc": [
+            896,
+            897
+          ]
+        },
+        {
+          "teal": 888,
+          "source": "examples/amm/amm.algo.ts:158",
+          "pc": [
+            898
+          ]
+        },
+        {
+          "teal": 889,
+          "source": "examples/amm/amm.algo.ts:158",
+          "pc": [
+            899,
+            900
+          ]
+        },
+        {
+          "teal": 890,
+          "source": "examples/amm/amm.algo.ts:158",
+          "pc": [
+            901,
+            902,
+            903
+          ]
+        },
+        {
+          "teal": 891,
+          "source": "examples/amm/amm.algo.ts:158",
+          "pc": [
+            904,
+            905
+          ]
+        },
+        {
+          "teal": 895,
+          "source": "examples/amm/amm.algo.ts:160",
+          "pc": [
+            906,
+            907
+          ]
+        },
+        {
+          "teal": 896,
+          "source": "examples/amm/amm.algo.ts:160",
+          "pc": [
+            908,
+            909
+          ]
+        },
+        {
+          "teal": 897,
+          "source": "examples/amm/amm.algo.ts:160",
+          "pc": [
+            910,
+            911
+          ]
+        },
+        {
+          "teal": 898,
+          "source": "examples/amm/amm.algo.ts:160",
+          "pc": [
+            912,
+            913
+          ]
+        },
+        {
+          "teal": 899,
+          "source": "examples/amm/amm.algo.ts:160",
+          "pc": [
+            914,
+            915
+          ]
+        },
+        {
+          "teal": 900,
+          "source": "examples/amm/amm.algo.ts:160",
+          "pc": [
+            916
+          ]
+        },
+        {
+          "teal": 901,
+          "source": "examples/amm/amm.algo.ts:160",
+          "pc": [
+            917,
+            918
+          ]
+        },
+        {
+          "teal": 902,
+          "source": "examples/amm/amm.algo.ts:160",
+          "pc": [
+            919,
+            920,
+            921
+          ]
+        },
+        {
+          "teal": 903,
+          "source": "examples/amm/amm.algo.ts:160",
+          "pc": [
+            922,
+            923
+          ]
+        },
+        {
+          "teal": 907,
+          "source": "examples/amm/amm.algo.ts:162",
+          "pc": [
+            924,
+            925
+          ]
+        },
+        {
+          "teal": 908,
+          "source": "examples/amm/amm.algo.ts:162",
+          "pc": [
+            926,
+            927
+          ]
+        },
+        {
+          "teal": 909,
+          "source": "examples/amm/amm.algo.ts:162",
+          "pc": [
+            928,
+            929
+          ]
+        },
+        {
+          "teal": 910,
+          "source": "examples/amm/amm.algo.ts:162",
+          "pc": [
+            930,
+            931,
+            932
+          ]
+        },
+        {
+          "teal": 914,
+          "source": "examples/amm/amm.algo.ts:163",
+          "pc": [
+            933,
+            934
+          ]
+        },
+        {
+          "teal": 915,
+          "source": "examples/amm/amm.algo.ts:163",
+          "pc": [
+            935,
+            936
+          ]
+        },
+        {
+          "teal": 916,
+          "source": "examples/amm/amm.algo.ts:163",
+          "pc": [
+            937,
+            938
+          ]
+        },
+        {
+          "teal": 917,
+          "source": "examples/amm/amm.algo.ts:163",
+          "pc": [
+            939,
+            940,
+            941
+          ]
+        },
+        {
+          "teal": 921,
+          "source": "examples/amm/amm.algo.ts:165",
+          "pc": [
+            942,
+            943,
+            944
+          ]
+        },
+        {
+          "teal": 922,
+          "source": "examples/amm/amm.algo.ts:165",
+          "pc": [
+            945,
+            946,
+            947
+          ]
+        },
+        {
+          "teal": 923,
+          "source": "examples/amm/amm.algo.ts:165",
+          "pc": [
+            948
+          ]
+        },
+        {
+          "teal": 924,
+          "source": "examples/amm/amm.algo.ts:142",
+          "pc": [
+            949
+          ]
+        },
+        {
+          "teal": 929,
+          "source": "examples/amm/amm.algo.ts:168",
+          "pc": [
+            950,
+            951,
+            952
+          ]
+        },
+        {
+          "teal": 930,
+          "source": "examples/amm/amm.algo.ts:168",
+          "pc": [
+            953
+          ]
+        },
+        {
+          "teal": 933,
+          "source": "examples/amm/amm.algo.ts:168",
+          "pc": [
+            954,
+            955,
+            956
+          ]
+        },
+        {
+          "teal": 934,
+          "source": "examples/amm/amm.algo.ts:168",
+          "pc": [
+            957
+          ]
+        },
+        {
+          "teal": 937,
+          "source": "examples/amm/amm.algo.ts:168",
+          "pc": [
+            958,
+            959
+          ]
+        },
+        {
+          "teal": 938,
+          "source": "examples/amm/amm.algo.ts:168",
+          "pc": [
+            960,
+            961
+          ]
+        },
+        {
+          "teal": 939,
+          "source": "examples/amm/amm.algo.ts:168",
+          "pc": [
+            962
+          ]
+        },
+        {
+          "teal": 940,
+          "source": "examples/amm/amm.algo.ts:168",
+          "pc": [
+            963
+          ]
+        },
+        {
+          "teal": 941,
+          "source": "examples/amm/amm.algo.ts:168",
+          "pc": [
+            964,
+            965
+          ]
+        },
+        {
+          "teal": 942,
+          "source": "examples/amm/amm.algo.ts:168",
+          "pc": [
+            966,
+            967
+          ]
+        },
+        {
+          "teal": 943,
+          "source": "examples/amm/amm.algo.ts:168",
+          "pc": [
+            968
+          ]
+        },
+        {
+          "teal": 946,
+          "source": "examples/amm/amm.algo.ts:168",
+          "errorMessage": "argument 2 (swapXfer) for swap must be a axfer transaction",
           "pc": [
             969
-          ],
-          "errorMessage": "argument 2 (swapXfer) for swap must be a axfer transaction"
+          ]
         },
         {
+          "teal": 949,
+          "source": "examples/amm/amm.algo.ts:168",
+          "pc": [
+            970,
+            971,
+            972
+          ]
+        },
+        {
+          "teal": 950,
+          "source": "examples/amm/amm.algo.ts:168",
+          "pc": [
+            973,
+            974
+          ]
+        },
+        {
+          "teal": 951,
+          "source": "examples/amm/amm.algo.ts:168",
+          "pc": [
+            975
+          ]
+        },
+        {
+          "teal": 955,
+          "source": "examples/amm/amm.algo.ts:168",
+          "pc": [
+            976,
+            977,
+            978
+          ]
+        },
+        {
+          "teal": 958,
+          "source": "examples/amm/amm.algo.ts:168",
+          "pc": [
+            979,
+            980
+          ]
+        },
+        {
+          "teal": 959,
+          "source": "examples/amm/amm.algo.ts:168",
+          "pc": [
+            981,
+            982
+          ]
+        },
+        {
+          "teal": 964,
+          "source": "examples/amm/amm.algo.ts:170",
+          "pc": [
+            983,
+            984
+          ]
+        },
+        {
+          "teal": 965,
+          "source": "examples/amm/amm.algo.ts:170",
+          "pc": [
+            985,
+            986,
+            987
+          ]
+        },
+        {
+          "teal": 966,
+          "source": "examples/amm/amm.algo.ts:170",
+          "pc": [
+            988
+          ]
+        },
+        {
+          "teal": 967,
+          "source": "examples/amm/amm.algo.ts:170",
+          "pc": [
+            989
+          ]
+        },
+        {
+          "teal": 968,
+          "source": "examples/amm/amm.algo.ts:170",
+          "pc": [
+            990
+          ]
+        },
+        {
+          "teal": 972,
+          "source": "examples/amm/amm.algo.ts:171",
+          "pc": [
+            991,
+            992
+          ]
+        },
+        {
+          "teal": 973,
+          "source": "examples/amm/amm.algo.ts:171",
+          "pc": [
+            993,
+            994,
+            995
+          ]
+        },
+        {
+          "teal": 974,
+          "source": "examples/amm/amm.algo.ts:171",
+          "pc": [
+            996
+          ]
+        },
+        {
+          "teal": 975,
+          "source": "examples/amm/amm.algo.ts:171",
+          "pc": [
+            997
+          ]
+        },
+        {
+          "teal": 976,
+          "source": "examples/amm/amm.algo.ts:171",
+          "pc": [
+            998
+          ]
+        },
+        {
+          "teal": 986,
+          "source": "examples/amm/amm.algo.ts:173",
+          "pc": [
+            999,
+            1000
+          ]
+        },
+        {
+          "teal": 987,
+          "source": "examples/amm/amm.algo.ts:174",
+          "pc": [
+            1001,
+            1002
+          ]
+        },
+        {
+          "teal": 988,
+          "source": "examples/amm/amm.algo.ts:174",
+          "pc": [
+            1003,
+            1004
+          ]
+        },
+        {
+          "teal": 989,
+          "source": "examples/amm/amm.algo.ts:174",
+          "pc": [
+            1005
+          ]
+        },
+        {
+          "teal": 992,
+          "source": "examples/amm/amm.algo.ts:174",
+          "errorMessage": "transaction verification failed: {\"txn\":\"swapXfer\",\"field\":\"assetAmount\",\"condition\":\"greaterThan\",\"expected\":\">0\"}",
           "pc": [
             1006
-          ],
-          "errorMessage": "transaction verification failed: {\"txn\":\"swapXfer\",\"field\":\"assetAmount\",\"condition\":\"greaterThan\",\"expected\":\">0\"}"
+          ]
         },
         {
+          "teal": 995,
+          "source": "examples/amm/amm.algo.ts:173",
+          "pc": [
+            1007,
+            1008
+          ]
+        },
+        {
+          "teal": 996,
+          "source": "examples/amm/amm.algo.ts:175",
+          "pc": [
+            1009,
+            1010
+          ]
+        },
+        {
+          "teal": 997,
+          "source": "examples/amm/amm.algo.ts:175",
+          "pc": [
+            1011,
+            1012
+          ]
+        },
+        {
+          "teal": 998,
+          "source": "examples/amm/amm.algo.ts:175",
+          "pc": [
+            1013
+          ]
+        },
+        {
+          "teal": 1001,
+          "source": "examples/amm/amm.algo.ts:175",
+          "errorMessage": "transaction verification failed: {\"txn\":\"swapXfer\",\"field\":\"assetReceiver\",\"expected\":\"this.app.address\"}",
           "pc": [
             1014
-          ],
-          "errorMessage": "transaction verification failed: {\"txn\":\"swapXfer\",\"field\":\"assetReceiver\",\"expected\":\"this.app.address\"}"
+          ]
         },
         {
+          "teal": 1004,
+          "source": "examples/amm/amm.algo.ts:173",
+          "pc": [
+            1015,
+            1016
+          ]
+        },
+        {
+          "teal": 1005,
+          "source": "examples/amm/amm.algo.ts:176",
+          "pc": [
+            1017,
+            1018
+          ]
+        },
+        {
+          "teal": 1006,
+          "source": "examples/amm/amm.algo.ts:176",
+          "pc": [
+            1019,
+            1020
+          ]
+        },
+        {
+          "teal": 1007,
+          "source": "examples/amm/amm.algo.ts:176",
+          "pc": [
+            1021
+          ]
+        },
+        {
+          "teal": 1010,
+          "source": "examples/amm/amm.algo.ts:176",
+          "errorMessage": "transaction verification failed: {\"txn\":\"swapXfer\",\"field\":\"sender\",\"expected\":\"this.txn.sender\"}",
           "pc": [
             1022
-          ],
-          "errorMessage": "transaction verification failed: {\"txn\":\"swapXfer\",\"field\":\"sender\",\"expected\":\"this.txn.sender\"}"
+          ]
         },
         {
+          "teal": 1013,
+          "source": "examples/amm/amm.algo.ts:173",
+          "pc": [
+            1023,
+            1024
+          ]
+        },
+        {
+          "teal": 1014,
+          "source": "examples/amm/amm.algo.ts:177",
+          "pc": [
+            1025,
+            1026
+          ]
+        },
+        {
+          "teal": 1015,
+          "source": "examples/amm/amm.algo.ts:177",
+          "pc": [
+            1027,
+            1028
+          ]
+        },
+        {
+          "teal": 1016,
+          "source": "examples/amm/amm.algo.ts:177",
+          "pc": [
+            1029
+          ]
+        },
+        {
+          "teal": 1017,
+          "source": "examples/amm/amm.algo.ts:173",
+          "pc": [
+            1030,
+            1031
+          ]
+        },
+        {
+          "teal": 1018,
+          "source": "examples/amm/amm.algo.ts:177",
+          "pc": [
+            1032,
+            1033
+          ]
+        },
+        {
+          "teal": 1019,
+          "source": "examples/amm/amm.algo.ts:177",
+          "pc": [
+            1034,
+            1035
+          ]
+        },
+        {
+          "teal": 1020,
+          "source": "examples/amm/amm.algo.ts:177",
+          "pc": [
+            1036
+          ]
+        },
+        {
+          "teal": 1021,
+          "source": "examples/amm/amm.algo.ts:177",
+          "pc": [
+            1037
+          ]
+        },
+        {
+          "teal": 1024,
+          "source": "examples/amm/amm.algo.ts:177",
+          "errorMessage": "transaction verification failed: {\"txn\":{\"txnText\":\"swapXfer\"},\"field\":\"xferAsset\",\"condition\":\"includedIn\",\"expected\":\"[aAsset, bAsset]\"}",
           "pc": [
             1038
-          ],
-          "errorMessage": "transaction verification failed: {\"txn\":{\"txnText\":\"swapXfer\"},\"field\":\"xferAsset\",\"condition\":\"includedIn\",\"expected\":\"[aAsset, bAsset]\"}"
+          ]
         },
         {
+          "teal": 1028,
+          "source": "examples/amm/amm.algo.ts:180",
+          "pc": [
+            1039,
+            1040
+          ]
+        },
+        {
+          "teal": 1029,
+          "source": "examples/amm/amm.algo.ts:180",
+          "pc": [
+            1041,
+            1042
+          ]
+        },
+        {
+          "teal": 1030,
+          "source": "examples/amm/amm.algo.ts:180",
+          "pc": [
+            1043,
+            1044
+          ]
+        },
+        {
+          "teal": 1031,
+          "source": "examples/amm/amm.algo.ts:180",
+          "pc": [
+            1045
+          ]
+        },
+        {
+          "teal": 1032,
+          "source": "examples/amm/amm.algo.ts:180",
+          "pc": [
+            1046,
+            1047,
+            1048
+          ]
+        },
+        {
+          "teal": 1033,
+          "source": "examples/amm/amm.algo.ts:180",
+          "pc": [
+            1049,
+            1050
+          ]
+        },
+        {
+          "teal": 1034,
+          "source": "examples/amm/amm.algo.ts:180",
+          "pc": [
+            1051,
+            1052,
+            1053
+          ]
+        },
+        {
+          "teal": 1037,
+          "source": "examples/amm/amm.algo.ts:180",
+          "pc": [
+            1054,
+            1055
+          ]
+        },
+        {
+          "teal": 1040,
+          "source": "examples/amm/amm.algo.ts:180",
+          "pc": [
+            1056,
+            1057
+          ]
+        },
+        {
+          "teal": 1044,
+          "source": "examples/amm/amm.algo.ts:182",
+          "pc": [
+            1058,
+            1059
+          ]
+        },
+        {
+          "teal": 1045,
+          "source": "examples/amm/amm.algo.ts:182",
+          "pc": [
+            1060,
+            1061
+          ]
+        },
+        {
+          "teal": 1046,
+          "source": "examples/amm/amm.algo.ts:182",
+          "pc": [
+            1062,
+            1063
+          ]
+        },
+        {
+          "teal": 1054,
+          "source": "examples/amm/amm.algo.ts:187",
+          "pc": [
+            1064,
+            1065
+          ]
+        },
+        {
+          "teal": 1055,
+          "source": "examples/amm/amm.algo.ts:187",
+          "pc": [
+            1066,
+            1067
+          ]
+        },
+        {
+          "teal": 1056,
+          "source": "examples/amm/amm.algo.ts:187",
+          "pc": [
+            1068,
+            1069
+          ]
+        },
+        {
+          "teal": 1057,
+          "source": "examples/amm/amm.algo.ts:187",
+          "pc": [
+            1070
+          ]
+        },
+        {
+          "teal": 1058,
+          "source": "examples/amm/amm.algo.ts:186",
+          "pc": [
+            1071,
+            1072
+          ]
+        },
+        {
+          "teal": 1059,
+          "source": "examples/amm/amm.algo.ts:186",
+          "pc": [
+            1073,
+            1074
+          ]
+        },
+        {
+          "teal": 1060,
+          "source": "examples/amm/amm.algo.ts:186",
+          "pc": [
+            1075,
+            1076
+          ]
+        },
+        {
+          "teal": 1061,
+          "source": "examples/amm/amm.algo.ts:186",
+          "pc": [
+            1077
+          ]
+        },
+        {
+          "teal": 1062,
+          "source": "examples/amm/amm.algo.ts:186",
+          "pc": [
+            1078,
+            1079
+          ]
+        },
+        {
+          "teal": 1063,
+          "source": "examples/amm/amm.algo.ts:186",
+          "pc": [
+            1080,
+            1081
+          ]
+        },
+        {
+          "teal": 1064,
+          "source": "examples/amm/amm.algo.ts:186",
+          "pc": [
+            1082
+          ]
+        },
+        {
+          "teal": 1065,
+          "source": "examples/amm/amm.algo.ts:185",
+          "pc": [
+            1083,
+            1084
+          ]
+        },
+        {
+          "teal": 1066,
+          "source": "examples/amm/amm.algo.ts:185",
+          "pc": [
+            1085,
+            1086
+          ]
+        },
+        {
+          "teal": 1067,
+          "source": "examples/amm/amm.algo.ts:184",
+          "pc": [
+            1087,
+            1088,
+            1089
+          ]
+        },
+        {
+          "teal": 1068,
+          "source": "examples/amm/amm.algo.ts:184",
+          "pc": [
+            1090,
+            1091
+          ]
+        },
+        {
+          "teal": 1072,
+          "source": "examples/amm/amm.algo.ts:190",
+          "pc": [
+            1092,
+            1093
+          ]
+        },
+        {
+          "teal": 1073,
+          "source": "examples/amm/amm.algo.ts:190",
+          "pc": [
+            1094,
+            1095
+          ]
+        },
+        {
+          "teal": 1074,
+          "source": "examples/amm/amm.algo.ts:190",
+          "pc": [
+            1096
+          ]
+        },
+        {
+          "teal": 1075,
+          "source": "examples/amm/amm.algo.ts:190",
+          "pc": [
+            1097
+          ]
+        },
+        {
+          "teal": 1079,
+          "source": "examples/amm/amm.algo.ts:192",
+          "pc": [
+            1098,
+            1099
+          ]
+        },
+        {
+          "teal": 1080,
+          "source": "examples/amm/amm.algo.ts:192",
+          "pc": [
+            1100,
+            1101
+          ]
+        },
+        {
+          "teal": 1081,
+          "source": "examples/amm/amm.algo.ts:192",
+          "pc": [
+            1102,
+            1103
+          ]
+        },
+        {
+          "teal": 1082,
+          "source": "examples/amm/amm.algo.ts:192",
+          "pc": [
+            1104,
+            1105,
+            1106
+          ]
+        },
+        {
+          "teal": 1086,
+          "source": "examples/amm/amm.algo.ts:194",
+          "pc": [
+            1107,
+            1108,
+            1109
+          ]
+        },
+        {
+          "teal": 1087,
+          "source": "examples/amm/amm.algo.ts:194",
+          "pc": [
+            1110,
+            1111,
+            1112
+          ]
+        },
+        {
+          "teal": 1088,
+          "source": "examples/amm/amm.algo.ts:194",
+          "pc": [
+            1113
+          ]
+        },
+        {
+          "teal": 1089,
+          "source": "examples/amm/amm.algo.ts:168",
+          "pc": [
+            1114
+          ]
+        },
+        {
+          "teal": 1092,
+          "source": "examples/amm/amm.algo.ts:8",
+          "pc": [
+            1115,
+            1116,
+            1117,
+            1118,
+            1119,
+            1120
+          ]
+        },
+        {
+          "teal": 1093,
+          "source": "examples/amm/amm.algo.ts:8",
+          "pc": [
+            1121,
+            1122,
+            1123
+          ]
+        },
+        {
+          "teal": 1094,
+          "source": "examples/amm/amm.algo.ts:8",
+          "pc": [
+            1124,
+            1125,
+            1126,
+            1127
+          ]
+        },
+        {
+          "teal": 1097,
+          "source": "examples/amm/amm.algo.ts:8",
+          "errorMessage": "this contract does not implement the given ABI method for create NoOp",
           "pc": [
             1128
-          ],
-          "errorMessage": "this contract does not implement the given ABI method for create NoOp"
+          ]
         },
         {
+          "teal": 1100,
+          "source": "examples/amm/amm.algo.ts:8",
+          "pc": [
+            1129,
+            1130,
+            1131,
+            1132,
+            1133,
+            1134
+          ]
+        },
+        {
+          "teal": 1101,
+          "source": "examples/amm/amm.algo.ts:8",
+          "pc": [
+            1135,
+            1136,
+            1137,
+            1138,
+            1139,
+            1140
+          ]
+        },
+        {
+          "teal": 1102,
+          "source": "examples/amm/amm.algo.ts:8",
+          "pc": [
+            1141,
+            1142,
+            1143,
+            1144,
+            1145,
+            1146
+          ]
+        },
+        {
+          "teal": 1103,
+          "source": "examples/amm/amm.algo.ts:8",
+          "pc": [
+            1147,
+            1148,
+            1149,
+            1150,
+            1151,
+            1152
+          ]
+        },
+        {
+          "teal": 1104,
+          "source": "examples/amm/amm.algo.ts:8",
+          "pc": [
+            1153,
+            1154,
+            1155,
+            1156,
+            1157,
+            1158
+          ]
+        },
+        {
+          "teal": 1105,
+          "source": "examples/amm/amm.algo.ts:8",
+          "pc": [
+            1159,
+            1160,
+            1161
+          ]
+        },
+        {
+          "teal": 1106,
+          "source": "examples/amm/amm.algo.ts:8",
+          "pc": [
+            1162,
+            1163,
+            1164,
+            1165,
+            1166,
+            1167,
+            1168,
+            1169,
+            1170,
+            1171,
+            1172,
+            1173
+          ]
+        },
+        {
+          "teal": 1109,
+          "source": "examples/amm/amm.algo.ts:8",
+          "errorMessage": "this contract does not implement the given ABI method for call NoOp",
           "pc": [
             1174
-          ],
-          "errorMessage": "this contract does not implement the given ABI method for call NoOp"
+          ]
         }
       ],
       "pcOffsetMethod": "none"
@@ -429,7 +5095,7 @@
     }
   },
   "source": {
-    "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCmludGNibG9jayAwIDEwMDAwMDAwMDAwIDEgMTAwMApieXRlY2Jsb2NrIDB4IDB4NjEgMHg2MiAweDY3IDB4NzAgMHg3MgoKLy8gVGhpcyBURUFMIHdhcyBnZW5lcmF0ZWQgYnkgVEVBTFNjcmlwdCB2MC4xMDQuMQovLyBodHRwczovL2dpdGh1Yi5jb20vYWxnb3JhbmRmb3VuZGF0aW9uL1RFQUxTY3JpcHQKCi8vIFRoaXMgY29udHJhY3QgaXMgY29tcGxpYW50IHdpdGggYW5kL29yIGltcGxlbWVudHMgdGhlIGZvbGxvd2luZyBBUkNzOiBbIEFSQzQgXQoKLy8gVGhlIGZvbGxvd2luZyB0ZW4gbGluZXMgb2YgVEVBTCBoYW5kbGUgaW5pdGlhbCBwcm9ncmFtIGZsb3cKLy8gVGhpcyBwYXR0ZXJuIGlzIHVzZWQgdG8gbWFrZSBpdCBlYXN5IGZvciBhbnlvbmUgdG8gcGFyc2UgdGhlIHN0YXJ0IG9mIHRoZSBwcm9ncmFtIGFuZCBkZXRlcm1pbmUgaWYgYSBzcGVjaWZpYyBhY3Rpb24gaXMgYWxsb3dlZAovLyBIZXJlLCBhY3Rpb24gcmVmZXJzIHRvIHRoZSBPbkNvbXBsZXRlIGluIGNvbWJpbmF0aW9uIHdpdGggd2hldGhlciB0aGUgYXBwIGlzIGJlaW5nIGNyZWF0ZWQgb3IgY2FsbGVkCi8vIEV2ZXJ5IHBvc3NpYmxlIGFjdGlvbiBmb3IgdGhpcyBjb250cmFjdCBpcyByZXByZXNlbnRlZCBpbiB0aGUgc3dpdGNoIHN0YXRlbWVudAovLyBJZiB0aGUgYWN0aW9uIGlzIG5vdCBpbXBsZW1lbnRlZCBpbiB0aGUgY29udHJhY3QsIGl0cyByZXNwZWN0aXZlIGJyYW5jaCB3aWxsIGJlICIqTk9UX0lNUExFTUVOVEVEIiB3aGljaCBqdXN0IGNvbnRhaW5zICJlcnIiCnR4biBBcHBsaWNhdGlvbklECiEKcHVzaGludCA2CioKdHhuIE9uQ29tcGxldGlvbgorCnN3aXRjaCAqY2FsbF9Ob09wICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqY3JlYXRlX05vT3AgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVECgoqTk9UX0lNUExFTUVOVEVEOgoJLy8gVGhlIHJlcXVlc3RlZCBhY3Rpb24gaXMgbm90IGltcGxlbWVudGVkIGluIHRoaXMgY29udHJhY3QuIEFyZSB5b3UgdXNpbmcgdGhlIGNvcnJlY3QgT25Db21wbGV0ZT8gRGlkIHlvdSBzZXQgeW91ciBhcHAgSUQ/CgllcnIKCi8vIGNyZWF0ZUFwcGxpY2F0aW9uKCl2b2lkCiphYmlfcm91dGVfY3JlYXRlQXBwbGljYXRpb246CgkvLyBleGVjdXRlIGNyZWF0ZUFwcGxpY2F0aW9uKCl2b2lkCgljYWxsc3ViIGNyZWF0ZUFwcGxpY2F0aW9uCglpbnQgMQoJcmV0dXJuCgovLyBjcmVhdGVBcHBsaWNhdGlvbigpOiB2b2lkCmNyZWF0ZUFwcGxpY2F0aW9uOgoJcHJvdG8gMCAwCgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjIwCgkvLyB0aGlzLmdvdmVybm9yLnZhbHVlID0gdGhpcy50eG4uc2VuZGVyCglieXRlIDB4NjcgLy8gImciCgl0eG4gU2VuZGVyCglhcHBfZ2xvYmFsX3B1dAoJcmV0c3ViCgovLyBkb0NyZWF0ZVBvb2xUb2tlbihhQXNzZXQ6IEFzc2V0SUQsIGJBc3NldDogQXNzZXRJRCk6IEFzc2V0SUQKZG9DcmVhdGVQb29sVG9rZW46Cglwcm90byAyIDEKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MjYKCS8vIHJldHVybiBzZW5kQXNzZXRDcmVhdGlvbih7CgkvLyAgICAgICBjb25maWdBc3NldE5hbWU6ICdEUFQtJyArIGFBc3NldC51bml0TmFtZSArICctJyArIGJBc3NldC51bml0TmFtZSwKCS8vICAgICAgIGNvbmZpZ0Fzc2V0VW5pdE5hbWU6ICdkcHQnLAoJLy8gICAgICAgY29uZmlnQXNzZXRUb3RhbDogVE9UQUxfU1VQUExZLAoJLy8gICAgICAgY29uZmlnQXNzZXREZWNpbWFsczogMywKCS8vICAgICAgIGNvbmZpZ0Fzc2V0TWFuYWdlcjogdGhpcy5hcHAuYWRkcmVzcywKCS8vICAgICAgIGNvbmZpZ0Fzc2V0UmVzZXJ2ZTogdGhpcy5hcHAuYWRkcmVzcywKCS8vICAgICB9KTsKCWl0eG5fYmVnaW4KCXB1c2hpbnQgMyAvLyBhY2ZnCglpdHhuX2ZpZWxkIFR5cGVFbnVtCgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjI3CgkvLyBjb25maWdBc3NldE5hbWU6ICdEUFQtJyArIGFBc3NldC51bml0TmFtZSArICctJyArIGJBc3NldC51bml0TmFtZQoJcHVzaGJ5dGVzIDB4NDQ1MDU0MmQgLy8gIkRQVC0iCglmcmFtZV9kaWcgLTEgLy8gYUFzc2V0OiBBc3NldElECglhc3NldF9wYXJhbXNfZ2V0IEFzc2V0VW5pdE5hbWUKCXBvcAoJY29uY2F0CglwdXNoYnl0ZXMgMHgyZCAvLyAiLSIKCWNvbmNhdAoJZnJhbWVfZGlnIC0yIC8vIGJBc3NldDogQXNzZXRJRAoJYXNzZXRfcGFyYW1zX2dldCBBc3NldFVuaXROYW1lCglwb3AKCWNvbmNhdAoJaXR4bl9maWVsZCBDb25maWdBc3NldE5hbWUKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MjgKCS8vIGNvbmZpZ0Fzc2V0VW5pdE5hbWU6ICdkcHQnCglwdXNoYnl0ZXMgMHg2NDcwNzQgLy8gImRwdCIKCWl0eG5fZmllbGQgQ29uZmlnQXNzZXRVbml0TmFtZQoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoyOQoJLy8gY29uZmlnQXNzZXRUb3RhbDogVE9UQUxfU1VQUExZCglpbnQgMTAwMDAwMDAwMDAKCWl0eG5fZmllbGQgQ29uZmlnQXNzZXRUb3RhbAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czozMAoJLy8gY29uZmlnQXNzZXREZWNpbWFsczogMwoJcHVzaGludCAzCglpdHhuX2ZpZWxkIENvbmZpZ0Fzc2V0RGVjaW1hbHMKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MzEKCS8vIGNvbmZpZ0Fzc2V0TWFuYWdlcjogdGhpcy5hcHAuYWRkcmVzcwoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCWl0eG5fZmllbGQgQ29uZmlnQXNzZXRNYW5hZ2VyCgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjMyCgkvLyBjb25maWdBc3NldFJlc2VydmU6IHRoaXMuYXBwLmFkZHJlc3MKCWdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCglpdHhuX2ZpZWxkIENvbmZpZ0Fzc2V0UmVzZXJ2ZQoKCS8vIEZlZSBmaWVsZCBub3Qgc2V0LCBkZWZhdWx0aW5nIHRvIDAKCWludCAwCglpdHhuX2ZpZWxkIEZlZQoKCS8vIFN1Ym1pdCBpbm5lciB0cmFuc2FjdGlvbgoJaXR4bl9zdWJtaXQKCWl0eG4gQ3JlYXRlZEFzc2V0SUQKCXJldHN1YgoKLy8gZG9BeGZlcihyZWNlaXZlcjogQWRkcmVzcywgYXNzZXQ6IEFzc2V0SUQsIGFtb3VudDogdWludDY0KTogdm9pZApkb0F4ZmVyOgoJcHJvdG8gMyAwCgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjM3CgkvLyBzZW5kQXNzZXRUcmFuc2Zlcih7CgkvLyAgICAgICBhc3NldFJlY2VpdmVyOiByZWNlaXZlciwKCS8vICAgICAgIHhmZXJBc3NldDogYXNzZXQsCgkvLyAgICAgICBhc3NldEFtb3VudDogYW1vdW50LAoJLy8gICAgIH0pCglpdHhuX2JlZ2luCglwdXNoaW50IDQgLy8gYXhmZXIKCWl0eG5fZmllbGQgVHlwZUVudW0KCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MzgKCS8vIGFzc2V0UmVjZWl2ZXI6IHJlY2VpdmVyCglmcmFtZV9kaWcgLTEgLy8gcmVjZWl2ZXI6IEFkZHJlc3MKCWl0eG5fZmllbGQgQXNzZXRSZWNlaXZlcgoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czozOQoJLy8geGZlckFzc2V0OiBhc3NldAoJZnJhbWVfZGlnIC0yIC8vIGFzc2V0OiBBc3NldElECglpdHhuX2ZpZWxkIFhmZXJBc3NldAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czo0MAoJLy8gYXNzZXRBbW91bnQ6IGFtb3VudAoJZnJhbWVfZGlnIC0zIC8vIGFtb3VudDogdWludDY0CglpdHhuX2ZpZWxkIEFzc2V0QW1vdW50CgoJLy8gRmVlIGZpZWxkIG5vdCBzZXQsIGRlZmF1bHRpbmcgdG8gMAoJaW50IDAKCWl0eG5fZmllbGQgRmVlCgoJLy8gU3VibWl0IGlubmVyIHRyYW5zYWN0aW9uCglpdHhuX3N1Ym1pdAoJcmV0c3ViCgovLyBkb09wdEluKGFzc2V0OiBBc3NldElEKTogdm9pZApkb09wdEluOgoJcHJvdG8gMSAwCgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjQ1CgkvLyB0aGlzLmRvQXhmZXIodGhpcy5hcHAuYWRkcmVzcywgYXNzZXQsIDApCglpbnQgMAoJZnJhbWVfZGlnIC0xIC8vIGFzc2V0OiBBc3NldElECglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJY2FsbHN1YiBkb0F4ZmVyCglyZXRzdWIKCi8vIHRva2Vuc1RvTWludEludGlhbChhQW1vdW50OiB1aW50NjQsIGJBbW91bnQ6IHVpbnQ2NCk6IHVpbnQ2NAp0b2tlbnNUb01pbnRJbnRpYWw6Cglwcm90byAyIDEKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6NDkKCS8vIHJldHVybiBzcXJ0KGFBbW91bnQgKiBiQW1vdW50KTsKCWZyYW1lX2RpZyAtMSAvLyBhQW1vdW50OiB1aW50NjQKCWZyYW1lX2RpZyAtMiAvLyBiQW1vdW50OiB1aW50NjQKCSoKCXNxcnQKCXJldHN1YgoKLy8gdG9rZW5zVG9NaW50KGlzc3VlZDogdWludDY0LCBhU3VwcGx5OiB1aW50NjQsIGJTdXBwbHk6IHVpbnQ2NCwgYUFtb3VudDogdWludDY0LCBiQW1vdW50OiB1aW50NjQpOiB1aW50NjQKdG9rZW5zVG9NaW50OgoJcHJvdG8gNSAxCgoJLy8gUHVzaCBlbXB0eSBieXRlcyBhZnRlciB0aGUgZnJhbWUgcG9pbnRlciB0byByZXNlcnZlIHNwYWNlIGZvciBsb2NhbCB2YXJpYWJsZXMKCWJ5dGUgMHgKCWR1cG4gMgoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czo1MwoJLy8gYVJhdGlvID0gd2lkZVJhdGlvKFthQW1vdW50LCBTQ0FMRV0sIFthU3VwcGx5XSkKCWZyYW1lX2RpZyAtNCAvLyBhQW1vdW50OiB1aW50NjQKCWludCAxMDAwCgltdWx3CglpbnQgMAoJZnJhbWVfZGlnIC0yIC8vIGFTdXBwbHk6IHVpbnQ2NAoJZGl2bW9kdwoJcG9wCglwb3AKCXN3YXAKCSEKCgkvLyB3aWRlUmF0aW8gZmFpbGVkCglhc3NlcnQKCWZyYW1lX2J1cnkgMCAvLyBhUmF0aW86IHVpbnQ2NAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czo1NAoJLy8gYlJhdGlvID0gd2lkZVJhdGlvKFtiQW1vdW50LCBTQ0FMRV0sIFtiU3VwcGx5XSkKCWZyYW1lX2RpZyAtNSAvLyBiQW1vdW50OiB1aW50NjQKCWludCAxMDAwCgltdWx3CglpbnQgMAoJZnJhbWVfZGlnIC0zIC8vIGJTdXBwbHk6IHVpbnQ2NAoJZGl2bW9kdwoJcG9wCglwb3AKCXN3YXAKCSEKCgkvLyB3aWRlUmF0aW8gZmFpbGVkCglhc3NlcnQKCWZyYW1lX2J1cnkgMSAvLyBiUmF0aW86IHVpbnQ2NAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czo1NgoJLy8gcmF0aW8gPSBhUmF0aW8gPCBiUmF0aW8gPyBhUmF0aW8gOiBiUmF0aW8KCWZyYW1lX2RpZyAwIC8vIGFSYXRpbzogdWludDY0CglmcmFtZV9kaWcgMSAvLyBiUmF0aW86IHVpbnQ2NAoJPAoJYnogKnRlcm5hcnkwX2ZhbHNlCglmcmFtZV9kaWcgMCAvLyBhUmF0aW86IHVpbnQ2NAoJYiAqdGVybmFyeTBfZW5kCgoqdGVybmFyeTBfZmFsc2U6CglmcmFtZV9kaWcgMSAvLyBiUmF0aW86IHVpbnQ2NAoKKnRlcm5hcnkwX2VuZDoKCWZyYW1lX2J1cnkgMiAvLyByYXRpbzogdWludDY0CgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjU4CgkvLyByZXR1cm4gd2lkZVJhdGlvKFtyYXRpbywgaXNzdWVkXSwgW1NDQUxFXSk7CglmcmFtZV9kaWcgMiAvLyByYXRpbzogdWludDY0CglmcmFtZV9kaWcgLTEgLy8gaXNzdWVkOiB1aW50NjQKCW11bHcKCWludCAwCglpbnQgMTAwMAoJZGl2bW9kdwoJcG9wCglwb3AKCXN3YXAKCSEKCgkvLyB3aWRlUmF0aW8gZmFpbGVkCglhc3NlcnQKCgkvLyBzZXQgdGhlIHN1YnJvdXRpbmUgcmV0dXJuIHZhbHVlCglmcmFtZV9idXJ5IDAKCgkvLyBwb3AgYWxsIGxvY2FsIHZhcmlhYmxlcyBmcm9tIHRoZSBzdGFjawoJcG9wbiAyCglyZXRzdWIKCi8vIGNvbXB1dGVSYXRpbygpOiB1aW50NjQKY29tcHV0ZVJhdGlvOgoJcHJvdG8gMCAxCgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjYyCgkvLyByZXR1cm4gd2lkZVJhdGlvKAoJLy8gICAgICAgW3RoaXMuYXBwLmFkZHJlc3MuYXNzZXRCYWxhbmNlKHRoaXMuYXNzZXRBLnZhbHVlKSwgU0NBTEVdLAoJLy8gICAgICAgW3RoaXMuYXBwLmFkZHJlc3MuYXNzZXRCYWxhbmNlKHRoaXMuYXNzZXRCLnZhbHVlKV0KCS8vICAgICApOwoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCWJ5dGUgMHg2MSAvLyAiYSIKCWFwcF9nbG9iYWxfZ2V0Cglhc3NldF9ob2xkaW5nX2dldCBBc3NldEJhbGFuY2UKCXBvcAoJaW50IDEwMDAKCW11bHcKCWludCAwCglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJYnl0ZSAweDYyIC8vICJiIgoJYXBwX2dsb2JhbF9nZXQKCWFzc2V0X2hvbGRpbmdfZ2V0IEFzc2V0QmFsYW5jZQoJcG9wCglkaXZtb2R3Cglwb3AKCXBvcAoJc3dhcAoJIQoKCS8vIHdpZGVSYXRpbyBmYWlsZWQKCWFzc2VydAoJcmV0c3ViCgovLyB0b2tlbnNUb0J1cm4oaXNzdWVkOiB1aW50NjQsIHN1cHBseTogdWludDY0LCBhbW91bnQ6IHVpbnQ2NCk6IHVpbnQ2NAp0b2tlbnNUb0J1cm46Cglwcm90byAzIDEKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6NjkKCS8vIHJldHVybiB3aWRlUmF0aW8oW3N1cHBseSwgYW1vdW50XSwgW2lzc3VlZF0pOwoJZnJhbWVfZGlnIC0yIC8vIHN1cHBseTogdWludDY0CglmcmFtZV9kaWcgLTMgLy8gYW1vdW50OiB1aW50NjQKCW11bHcKCWludCAwCglmcmFtZV9kaWcgLTEgLy8gaXNzdWVkOiB1aW50NjQKCWRpdm1vZHcKCXBvcAoJcG9wCglzd2FwCgkhCgoJLy8gd2lkZVJhdGlvIGZhaWxlZAoJYXNzZXJ0CglyZXRzdWIKCi8vIHRva2Vuc1RvU3dhcChpbkFtb3VudDogdWludDY0LCBpblN1cHBseTogdWludDY0LCBvdXRTdXBwbHk6IHVpbnQ2NCk6IHVpbnQ2NAp0b2tlbnNUb1N3YXA6Cglwcm90byAzIDEKCgkvLyBQdXNoIGVtcHR5IGJ5dGVzIGFmdGVyIHRoZSBmcmFtZSBwb2ludGVyIHRvIHJlc2VydmUgc3BhY2UgZm9yIGxvY2FsIHZhcmlhYmxlcwoJYnl0ZSAweAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czo3MwoJLy8gZmFjdG9yID0gU0NBTEUgLSBGRUUKCXB1c2hpbnQgOTk1CglmcmFtZV9idXJ5IDAgLy8gZmFjdG9yOiB1aW50NjQKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6NzQKCS8vIHJldHVybiB3aWRlUmF0aW8oW2luQW1vdW50LCBmYWN0b3IsIG91dFN1cHBseV0sIFtpblN1cHBseSAqIFNDQUxFICsgaW5BbW91bnQgKiBmYWN0b3JdKTsKCWZyYW1lX2RpZyAtMSAvLyBpbkFtb3VudDogdWludDY0CglmcmFtZV9kaWcgMCAvLyBmYWN0b3I6IHVpbnQ2NAoJbXVsdwoJZnJhbWVfZGlnIC0zIC8vIG91dFN1cHBseTogdWludDY0Cgl1bmNvdmVyIDIKCWRpZyAxCgkqCgljb3ZlciAyCgltdWx3Cgljb3ZlciAyCgkrCglzd2FwCglpbnQgMAoJZnJhbWVfZGlnIC0yIC8vIGluU3VwcGx5OiB1aW50NjQKCWludCAxMDAwCgkqCglmcmFtZV9kaWcgLTEgLy8gaW5BbW91bnQ6IHVpbnQ2NAoJZnJhbWVfZGlnIDAgLy8gZmFjdG9yOiB1aW50NjQKCSoKCSsKCWRpdm1vZHcKCXBvcAoJcG9wCglzd2FwCgkhCgoJLy8gd2lkZVJhdGlvIGZhaWxlZAoJYXNzZXJ0CgoJLy8gc2V0IHRoZSBzdWJyb3V0aW5lIHJldHVybiB2YWx1ZQoJZnJhbWVfYnVyeSAwCglyZXRzdWIKCi8vIHNldF9nb3Zlcm5vcihhZGRyZXNzKXZvaWQKKmFiaV9yb3V0ZV9zZXRfZ292ZXJub3I6CgkvLyBnb3Zlcm5vcjogYWRkcmVzcwoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJZHVwCglsZW4KCXB1c2hpbnQgMzIKCT09CgoJLy8gYXJndW1lbnQgMCAoZ292ZXJub3IpIGZvciBzZXRfZ292ZXJub3IgbXVzdCBiZSBhIGFkZHJlc3MKCWFzc2VydAoKCS8vIGV4ZWN1dGUgc2V0X2dvdmVybm9yKGFkZHJlc3Mpdm9pZAoJY2FsbHN1YiBzZXRfZ292ZXJub3IKCWludCAxCglyZXR1cm4KCi8vIHNldF9nb3Zlcm5vcihnb3Zlcm5vcjogQWRkcmVzcyk6IHZvaWQKc2V0X2dvdmVybm9yOgoJcHJvdG8gMSAwCgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjc4CgkvLyB2ZXJpZnlBcHBDYWxsVHhuKHRoaXMudHhuLCB7IHNlbmRlcjogdGhpcy5nb3Zlcm5vci52YWx1ZSB9KQoJLy8gdmVyaWZ5IHNlbmRlcgoJdHhuIFNlbmRlcgoJYnl0ZSAweDY3IC8vICJnIgoJYXBwX2dsb2JhbF9nZXQKCT09CgoJLy8gdHJhbnNhY3Rpb24gdmVyaWZpY2F0aW9uIGZhaWxlZDogeyJ0eG4iOiJ0aGlzLnR4biIsImZpZWxkIjoic2VuZGVyIiwiZXhwZWN0ZWQiOiJ0aGlzLmdvdmVybm9yLnZhbHVlIn0KCWFzc2VydAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czo3OQoJLy8gdGhpcy5nb3Zlcm5vci52YWx1ZSA9IGdvdmVybm9yCglieXRlIDB4NjcgLy8gImciCglmcmFtZV9kaWcgLTEgLy8gZ292ZXJub3I6IEFkZHJlc3MKCWFwcF9nbG9iYWxfcHV0CglyZXRzdWIKCi8vIGJvb3RzdHJhcChwYXksdWludDY0LHVpbnQ2NCl1aW50NjQKKmFiaV9yb3V0ZV9ib290c3RyYXA6CgkvLyBUaGUgQUJJIHJldHVybiBwcmVmaXgKCXB1c2hieXRlcyAweDE1MWY3Yzc1CgoJLy8gYkFzc2V0OiB1aW50NjQKCXR4bmEgQXBwbGljYXRpb25BcmdzIDIKCWJ0b2kKCgkvLyBhQXNzZXQ6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJYnRvaQoKCS8vIHNlZWQ6IHBheQoJdHhuIEdyb3VwSW5kZXgKCWludCAxCgktCglkdXAKCWd0eG5zIFR5cGVFbnVtCglpbnQgMSAvLyBwYXkKCT09CgoJLy8gYXJndW1lbnQgMiAoc2VlZCkgZm9yIGJvb3RzdHJhcCBtdXN0IGJlIGEgcGF5IHRyYW5zYWN0aW9uCglhc3NlcnQKCgkvLyBleGVjdXRlIGJvb3RzdHJhcChwYXksdWludDY0LHVpbnQ2NCl1aW50NjQKCWNhbGxzdWIgYm9vdHN0cmFwCglpdG9iCgljb25jYXQKCWxvZwoJaW50IDEKCXJldHVybgoKLy8gYm9vdHN0cmFwKHNlZWQ6IFBheVR4biwgYUFzc2V0OiBBc3NldElELCBiQXNzZXQ6IEFzc2V0SUQpOiBBc3NldElECmJvb3RzdHJhcDoKCXByb3RvIDMgMQoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czo4MwoJLy8gdmVyaWZ5QXBwQ2FsbFR4bih0aGlzLnR4biwgeyBzZW5kZXI6IHRoaXMuZ292ZXJub3IudmFsdWUgfSkKCS8vIHZlcmlmeSBzZW5kZXIKCXR4biBTZW5kZXIKCWJ5dGUgMHg2NyAvLyAiZyIKCWFwcF9nbG9iYWxfZ2V0Cgk9PQoKCS8vIHRyYW5zYWN0aW9uIHZlcmlmaWNhdGlvbiBmYWlsZWQ6IHsidHhuIjoidGhpcy50eG4iLCJmaWVsZCI6InNlbmRlciIsImV4cGVjdGVkIjoidGhpcy5nb3Zlcm5vci52YWx1ZSJ9Cglhc3NlcnQKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6ODUKCS8vIGFzc2VydChnbG9iYWxzLmdyb3VwU2l6ZSA9PT0gMikKCWdsb2JhbCBHcm91cFNpemUKCXB1c2hpbnQgMgoJPT0KCWFzc2VydAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czo4NwoJLy8gdmVyaWZ5UGF5VHhuKHNlZWQsIHsgcmVjZWl2ZXI6IHRoaXMuYXBwLmFkZHJlc3MsIGFtb3VudDogeyBncmVhdGVyVGhhbkVxdWFsVG86IDMwMF8wMDAgfSB9KQoJLy8gdmVyaWZ5IHJlY2VpdmVyCglmcmFtZV9kaWcgLTEgLy8gc2VlZDogUGF5VHhuCglndHhucyBSZWNlaXZlcgoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCT09CgoJLy8gdHJhbnNhY3Rpb24gdmVyaWZpY2F0aW9uIGZhaWxlZDogeyJ0eG4iOiJzZWVkIiwiZmllbGQiOiJyZWNlaXZlciIsImV4cGVjdGVkIjoidGhpcy5hcHAuYWRkcmVzcyJ9Cglhc3NlcnQKCgkvLyB2ZXJpZnkgYW1vdW50CglmcmFtZV9kaWcgLTEgLy8gc2VlZDogUGF5VHhuCglndHhucyBBbW91bnQKCXB1c2hpbnQgMzAwXzAwMAoJPj0KCgkvLyB0cmFuc2FjdGlvbiB2ZXJpZmljYXRpb24gZmFpbGVkOiB7InR4biI6InNlZWQiLCJmaWVsZCI6ImFtb3VudCIsImNvbmRpdGlvbiI6ImdyZWF0ZXJUaGFuRXF1YWxUbyIsImV4cGVjdGVkIjoiPj0zMDBfMDAwIn0KCWFzc2VydAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czo4OAoJLy8gYXNzZXJ0KGFBc3NldCA8IGJBc3NldCkKCWZyYW1lX2RpZyAtMiAvLyBhQXNzZXQ6IEFzc2V0SUQKCWZyYW1lX2RpZyAtMyAvLyBiQXNzZXQ6IEFzc2V0SUQKCTwKCWFzc2VydAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czo5MAoJLy8gdGhpcy5hc3NldEEudmFsdWUgPSBhQXNzZXQKCWJ5dGUgMHg2MSAvLyAiYSIKCWZyYW1lX2RpZyAtMiAvLyBhQXNzZXQ6IEFzc2V0SUQKCWFwcF9nbG9iYWxfcHV0CgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjkxCgkvLyB0aGlzLmFzc2V0Qi52YWx1ZSA9IGJBc3NldAoJYnl0ZSAweDYyIC8vICJiIgoJZnJhbWVfZGlnIC0zIC8vIGJBc3NldDogQXNzZXRJRAoJYXBwX2dsb2JhbF9wdXQKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6OTIKCS8vIHRoaXMucG9vbFRva2VuLnZhbHVlID0gdGhpcy5kb0NyZWF0ZVBvb2xUb2tlbihhQXNzZXQsIGJBc3NldCkKCWJ5dGUgMHg3MCAvLyAicCIKCWZyYW1lX2RpZyAtMyAvLyBiQXNzZXQ6IEFzc2V0SUQKCWZyYW1lX2RpZyAtMiAvLyBhQXNzZXQ6IEFzc2V0SUQKCWNhbGxzdWIgZG9DcmVhdGVQb29sVG9rZW4KCWFwcF9nbG9iYWxfcHV0CgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjk0CgkvLyB0aGlzLmRvT3B0SW4oYUFzc2V0KQoJZnJhbWVfZGlnIC0yIC8vIGFBc3NldDogQXNzZXRJRAoJY2FsbHN1YiBkb09wdEluCgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjk1CgkvLyB0aGlzLmRvT3B0SW4oYkFzc2V0KQoJZnJhbWVfZGlnIC0zIC8vIGJBc3NldDogQXNzZXRJRAoJY2FsbHN1YiBkb09wdEluCgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjk3CgkvLyByZXR1cm4gdGhpcy5wb29sVG9rZW4udmFsdWU7CglieXRlIDB4NzAgLy8gInAiCglhcHBfZ2xvYmFsX2dldAoJcmV0c3ViCgovLyBtaW50KGF4ZmVyLGF4ZmVyLHVpbnQ2NCx1aW50NjQsdWludDY0KXZvaWQKKmFiaV9yb3V0ZV9taW50OgoJLy8gYkFzc2V0OiB1aW50NjQKCXR4bmEgQXBwbGljYXRpb25BcmdzIDMKCWJ0b2kKCgkvLyBhQXNzZXQ6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgoJYnRvaQoKCS8vIHBvb2xBc3NldDogdWludDY0Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglidG9pCgoJLy8gYlhmZXI6IGF4ZmVyCgl0eG4gR3JvdXBJbmRleAoJaW50IDEKCS0KCWR1cAoJZ3R4bnMgVHlwZUVudW0KCXB1c2hpbnQgNCAvLyBheGZlcgoJPT0KCgkvLyBhcmd1bWVudCAzIChiWGZlcikgZm9yIG1pbnQgbXVzdCBiZSBhIGF4ZmVyIHRyYW5zYWN0aW9uCglhc3NlcnQKCgkvLyBhWGZlcjogYXhmZXIKCXR4biBHcm91cEluZGV4CglwdXNoaW50IDIKCS0KCWR1cAoJZ3R4bnMgVHlwZUVudW0KCXB1c2hpbnQgNCAvLyBheGZlcgoJPT0KCgkvLyBhcmd1bWVudCA0IChhWGZlcikgZm9yIG1pbnQgbXVzdCBiZSBhIGF4ZmVyIHRyYW5zYWN0aW9uCglhc3NlcnQKCgkvLyBleGVjdXRlIG1pbnQoYXhmZXIsYXhmZXIsdWludDY0LHVpbnQ2NCx1aW50NjQpdm9pZAoJY2FsbHN1YiBtaW50CglpbnQgMQoJcmV0dXJuCgovLyBtaW50KGFYZmVyOiBBc3NldFRyYW5zZmVyVHhuLCBiWGZlcjogQXNzZXRUcmFuc2ZlclR4biwgcG9vbEFzc2V0OiBBc3NldElELCBhQXNzZXQ6IEFzc2V0SUQsIGJBc3NldDogQXNzZXRJRCk6IHZvaWQKbWludDoKCXByb3RvIDUgMAoKCS8vIFB1c2ggZW1wdHkgYnl0ZXMgYWZ0ZXIgdGhlIGZyYW1lIHBvaW50ZXIgdG8gcmVzZXJ2ZSBzcGFjZSBmb3IgbG9jYWwgdmFyaWFibGVzCglieXRlIDB4CgoJLy8gd2VsbCBmb3JtZWQgbWludAoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjEwMgoJLy8gYXNzZXJ0KGFBc3NldCA9PT0gdGhpcy5hc3NldEEudmFsdWUpCglmcmFtZV9kaWcgLTQgLy8gYUFzc2V0OiBBc3NldElECglieXRlIDB4NjEgLy8gImEiCglhcHBfZ2xvYmFsX2dldAoJPT0KCWFzc2VydAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoxMDMKCS8vIGFzc2VydChiQXNzZXQgPT09IHRoaXMuYXNzZXRCLnZhbHVlKQoJZnJhbWVfZGlnIC01IC8vIGJBc3NldDogQXNzZXRJRAoJYnl0ZSAweDYyIC8vICJiIgoJYXBwX2dsb2JhbF9nZXQKCT09Cglhc3NlcnQKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTA0CgkvLyBhc3NlcnQocG9vbEFzc2V0ID09PSB0aGlzLnBvb2xUb2tlbi52YWx1ZSkKCWZyYW1lX2RpZyAtMyAvLyBwb29sQXNzZXQ6IEFzc2V0SUQKCWJ5dGUgMHg3MCAvLyAicCIKCWFwcF9nbG9iYWxfZ2V0Cgk9PQoJYXNzZXJ0CgoJLy8gdmFsaWQgYXNzZXQgQSBheGZlcgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjEwNwoJLy8gdmVyaWZ5QXNzZXRUcmFuc2ZlclR4bihhWGZlciwgewoJLy8gICAgICAgc2VuZGVyOiB0aGlzLnR4bi5zZW5kZXIsCgkvLyAgICAgICBhc3NldEFtb3VudDogeyBncmVhdGVyVGhhbjogMCB9LAoJLy8gICAgICAgYXNzZXRSZWNlaXZlcjogdGhpcy5hcHAuYWRkcmVzcywKCS8vICAgICAgIHhmZXJBc3NldDogYUFzc2V0LAoJLy8gICAgIH0pCgkvLyB2ZXJpZnkgc2VuZGVyCglmcmFtZV9kaWcgLTEgLy8gYVhmZXI6IEFzc2V0VHJhbnNmZXJUeG4KCWd0eG5zIFNlbmRlcgoJdHhuIFNlbmRlcgoJPT0KCgkvLyB0cmFuc2FjdGlvbiB2ZXJpZmljYXRpb24gZmFpbGVkOiB7InR4biI6ImFYZmVyIiwiZmllbGQiOiJzZW5kZXIiLCJleHBlY3RlZCI6InRoaXMudHhuLnNlbmRlciJ9Cglhc3NlcnQKCgkvLyB2ZXJpZnkgYXNzZXRBbW91bnQKCWZyYW1lX2RpZyAtMSAvLyBhWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgQXNzZXRBbW91bnQKCWludCAwCgk+CgoJLy8gdHJhbnNhY3Rpb24gdmVyaWZpY2F0aW9uIGZhaWxlZDogeyJ0eG4iOiJhWGZlciIsImZpZWxkIjoiYXNzZXRBbW91bnQiLCJjb25kaXRpb24iOiJncmVhdGVyVGhhbiIsImV4cGVjdGVkIjoiPjAifQoJYXNzZXJ0CgoJLy8gdmVyaWZ5IGFzc2V0UmVjZWl2ZXIKCWZyYW1lX2RpZyAtMSAvLyBhWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgQXNzZXRSZWNlaXZlcgoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCT09CgoJLy8gdHJhbnNhY3Rpb24gdmVyaWZpY2F0aW9uIGZhaWxlZDogeyJ0eG4iOiJhWGZlciIsImZpZWxkIjoiYXNzZXRSZWNlaXZlciIsImV4cGVjdGVkIjoidGhpcy5hcHAuYWRkcmVzcyJ9Cglhc3NlcnQKCgkvLyB2ZXJpZnkgeGZlckFzc2V0CglmcmFtZV9kaWcgLTEgLy8gYVhmZXI6IEFzc2V0VHJhbnNmZXJUeG4KCWd0eG5zIFhmZXJBc3NldAoJZnJhbWVfZGlnIC00IC8vIGFBc3NldDogQXNzZXRJRAoJPT0KCgkvLyB0cmFuc2FjdGlvbiB2ZXJpZmljYXRpb24gZmFpbGVkOiB7InR4biI6ImFYZmVyIiwiZmllbGQiOiJ4ZmVyQXNzZXQiLCJleHBlY3RlZCI6ImFBc3NldCJ9Cglhc3NlcnQKCgkvLyB2YWxpZCBhc3NldCBCIGF4ZmVyCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTE1CgkvLyB2ZXJpZnlBc3NldFRyYW5zZmVyVHhuKGJYZmVyLCB7CgkvLyAgICAgICBzZW5kZXI6IHRoaXMudHhuLnNlbmRlciwKCS8vICAgICAgIGFzc2V0QW1vdW50OiB7IGdyZWF0ZXJUaGFuOiAwIH0sCgkvLyAgICAgICBhc3NldFJlY2VpdmVyOiB0aGlzLmFwcC5hZGRyZXNzLAoJLy8gICAgICAgeGZlckFzc2V0OiBiQXNzZXQsCgkvLyAgICAgfSkKCS8vIHZlcmlmeSBzZW5kZXIKCWZyYW1lX2RpZyAtMiAvLyBiWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgU2VuZGVyCgl0eG4gU2VuZGVyCgk9PQoKCS8vIHRyYW5zYWN0aW9uIHZlcmlmaWNhdGlvbiBmYWlsZWQ6IHsidHhuIjoiYlhmZXIiLCJmaWVsZCI6InNlbmRlciIsImV4cGVjdGVkIjoidGhpcy50eG4uc2VuZGVyIn0KCWFzc2VydAoKCS8vIHZlcmlmeSBhc3NldEFtb3VudAoJZnJhbWVfZGlnIC0yIC8vIGJYZmVyOiBBc3NldFRyYW5zZmVyVHhuCglndHhucyBBc3NldEFtb3VudAoJaW50IDAKCT4KCgkvLyB0cmFuc2FjdGlvbiB2ZXJpZmljYXRpb24gZmFpbGVkOiB7InR4biI6ImJYZmVyIiwiZmllbGQiOiJhc3NldEFtb3VudCIsImNvbmRpdGlvbiI6ImdyZWF0ZXJUaGFuIiwiZXhwZWN0ZWQiOiI+MCJ9Cglhc3NlcnQKCgkvLyB2ZXJpZnkgYXNzZXRSZWNlaXZlcgoJZnJhbWVfZGlnIC0yIC8vIGJYZmVyOiBBc3NldFRyYW5zZmVyVHhuCglndHhucyBBc3NldFJlY2VpdmVyCglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJPT0KCgkvLyB0cmFuc2FjdGlvbiB2ZXJpZmljYXRpb24gZmFpbGVkOiB7InR4biI6ImJYZmVyIiwiZmllbGQiOiJhc3NldFJlY2VpdmVyIiwiZXhwZWN0ZWQiOiJ0aGlzLmFwcC5hZGRyZXNzIn0KCWFzc2VydAoKCS8vIHZlcmlmeSB4ZmVyQXNzZXQKCWZyYW1lX2RpZyAtMiAvLyBiWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgWGZlckFzc2V0CglmcmFtZV9kaWcgLTUgLy8gYkFzc2V0OiBBc3NldElECgk9PQoKCS8vIHRyYW5zYWN0aW9uIHZlcmlmaWNhdGlvbiBmYWlsZWQ6IHsidHhuIjoiYlhmZXIiLCJmaWVsZCI6InhmZXJBc3NldCIsImV4cGVjdGVkIjoiYkFzc2V0In0KCWFzc2VydAoKCS8vICppZjBfY29uZGl0aW9uCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTIzCgkvLyB0aGlzLmFwcC5hZGRyZXNzLmFzc2V0QmFsYW5jZShhQXNzZXQpID09PSBhWGZlci5hc3NldEFtb3VudCAmJgoJLy8gICAgICAgdGhpcy5hcHAuYWRkcmVzcy5hc3NldEJhbGFuY2UoYkFzc2V0KSA9PT0gYlhmZXIuYXNzZXRBbW91bnQKCWdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCglmcmFtZV9kaWcgLTQgLy8gYUFzc2V0OiBBc3NldElECglhc3NldF9ob2xkaW5nX2dldCBBc3NldEJhbGFuY2UKCXBvcAoJZnJhbWVfZGlnIC0xIC8vIGFYZmVyOiBBc3NldFRyYW5zZmVyVHhuCglndHhucyBBc3NldEFtb3VudAoJPT0KCWR1cAoJYnogKnNraXBfYW5kMAoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCWZyYW1lX2RpZyAtNSAvLyBiQXNzZXQ6IEFzc2V0SUQKCWFzc2V0X2hvbGRpbmdfZ2V0IEFzc2V0QmFsYW5jZQoJcG9wCglmcmFtZV9kaWcgLTIgLy8gYlhmZXI6IEFzc2V0VHJhbnNmZXJUeG4KCWd0eG5zIEFzc2V0QW1vdW50Cgk9PQoJJiYKCipza2lwX2FuZDA6CglieiAqaWYwX2Vsc2UKCgkvLyAqaWYwX2NvbnNlcXVlbnQKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoxMjYKCS8vIHRoaXMudG9rZW5zVG9NaW50SW50aWFsKGFYZmVyLmFzc2V0QW1vdW50LCBiWGZlci5hc3NldEFtb3VudCkKCWZyYW1lX2RpZyAtMiAvLyBiWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgQXNzZXRBbW91bnQKCWZyYW1lX2RpZyAtMSAvLyBhWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgQXNzZXRBbW91bnQKCWNhbGxzdWIgdG9rZW5zVG9NaW50SW50aWFsCgliICppZjBfZW5kCgoqaWYwX2Vsc2U6CgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTI4CgkvLyB0b01pbnQgPSB0aGlzLnRva2Vuc1RvTWludCgKCS8vICAgICAgICAgVE9UQUxfU1VQUExZIC0gdGhpcy5hcHAuYWRkcmVzcy5hc3NldEJhbGFuY2UocG9vbEFzc2V0KSwKCS8vICAgICAgICAgdGhpcy5hcHAuYWRkcmVzcy5hc3NldEJhbGFuY2UoYUFzc2V0KSAtIGFYZmVyLmFzc2V0QW1vdW50LAoJLy8gICAgICAgICB0aGlzLmFwcC5hZGRyZXNzLmFzc2V0QmFsYW5jZShiQXNzZXQpIC0gYlhmZXIuYXNzZXRBbW91bnQsCgkvLyAgICAgICAgIGFYZmVyLmFzc2V0QW1vdW50LAoJLy8gICAgICAgICBiWGZlci5hc3NldEFtb3VudAoJLy8gICAgICAgKQoJZnJhbWVfZGlnIC0yIC8vIGJYZmVyOiBBc3NldFRyYW5zZmVyVHhuCglndHhucyBBc3NldEFtb3VudAoJZnJhbWVfZGlnIC0xIC8vIGFYZmVyOiBBc3NldFRyYW5zZmVyVHhuCglndHhucyBBc3NldEFtb3VudAoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCWZyYW1lX2RpZyAtNSAvLyBiQXNzZXQ6IEFzc2V0SUQKCWFzc2V0X2hvbGRpbmdfZ2V0IEFzc2V0QmFsYW5jZQoJcG9wCglmcmFtZV9kaWcgLTIgLy8gYlhmZXI6IEFzc2V0VHJhbnNmZXJUeG4KCWd0eG5zIEFzc2V0QW1vdW50CgktCglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJZnJhbWVfZGlnIC00IC8vIGFBc3NldDogQXNzZXRJRAoJYXNzZXRfaG9sZGluZ19nZXQgQXNzZXRCYWxhbmNlCglwb3AKCWZyYW1lX2RpZyAtMSAvLyBhWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgQXNzZXRBbW91bnQKCS0KCWludCAxMDAwMDAwMDAwMAoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCWZyYW1lX2RpZyAtMyAvLyBwb29sQXNzZXQ6IEFzc2V0SUQKCWFzc2V0X2hvbGRpbmdfZ2V0IEFzc2V0QmFsYW5jZQoJcG9wCgktCgljYWxsc3ViIHRva2Vuc1RvTWludAoJZnJhbWVfYnVyeSAwIC8vIHRvTWludDogdWludDY0CgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjEzNgoJLy8gYXNzZXJ0KHRvTWludCA+IDApCglmcmFtZV9kaWcgMCAvLyB0b01pbnQ6IHVpbnQ2NAoJaW50IDAKCT4KCWFzc2VydAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoxMzgKCS8vIHRoaXMuZG9BeGZlcih0aGlzLnR4bi5zZW5kZXIsIHBvb2xBc3NldCwgdG9NaW50KQoJZnJhbWVfZGlnIDAgLy8gdG9NaW50OiB1aW50NjQKCWZyYW1lX2RpZyAtMyAvLyBwb29sQXNzZXQ6IEFzc2V0SUQKCXR4biBTZW5kZXIKCWNhbGxzdWIgZG9BeGZlcgoKKmlmMF9lbmQ6CglyZXRzdWIKCi8vIGJ1cm4oYXhmZXIsdWludDY0LHVpbnQ2NCx1aW50NjQpdm9pZAoqYWJpX3JvdXRlX2J1cm46CgkvLyBiQXNzZXQ6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMwoJYnRvaQoKCS8vIGFBc3NldDogdWludDY0Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAyCglidG9pCgoJLy8gcG9vbEFzc2V0OiB1aW50NjQKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWJ0b2kKCgkvLyBwb29sWGZlcjogYXhmZXIKCXR4biBHcm91cEluZGV4CglpbnQgMQoJLQoJZHVwCglndHhucyBUeXBlRW51bQoJcHVzaGludCA0IC8vIGF4ZmVyCgk9PQoKCS8vIGFyZ3VtZW50IDMgKHBvb2xYZmVyKSBmb3IgYnVybiBtdXN0IGJlIGEgYXhmZXIgdHJhbnNhY3Rpb24KCWFzc2VydAoKCS8vIGV4ZWN1dGUgYnVybihheGZlcix1aW50NjQsdWludDY0LHVpbnQ2NCl2b2lkCgljYWxsc3ViIGJ1cm4KCWludCAxCglyZXR1cm4KCi8vIGJ1cm4ocG9vbFhmZXI6IEFzc2V0VHJhbnNmZXJUeG4sIHBvb2xBc3NldDogQXNzZXRJRCwgYUFzc2V0OiBBc3NldElELCBiQXNzZXQ6IEFzc2V0SUQpOiB2b2lkCmJ1cm46Cglwcm90byA0IDAKCgkvLyBQdXNoIGVtcHR5IGJ5dGVzIGFmdGVyIHRoZSBmcmFtZSBwb2ludGVyIHRvIHJlc2VydmUgc3BhY2UgZm9yIGxvY2FsIHZhcmlhYmxlcwoJYnl0ZSAweAoJZHVwbiAyCgoJLy8gd2VsbCBmb3JtZWQgYnVybgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjE0NAoJLy8gYXNzZXJ0KHBvb2xBc3NldCA9PT0gdGhpcy5wb29sVG9rZW4udmFsdWUpCglmcmFtZV9kaWcgLTIgLy8gcG9vbEFzc2V0OiBBc3NldElECglieXRlIDB4NzAgLy8gInAiCglhcHBfZ2xvYmFsX2dldAoJPT0KCWFzc2VydAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoxNDUKCS8vIGFzc2VydChhQXNzZXQgPT09IHRoaXMuYXNzZXRBLnZhbHVlKQoJZnJhbWVfZGlnIC0zIC8vIGFBc3NldDogQXNzZXRJRAoJYnl0ZSAweDYxIC8vICJhIgoJYXBwX2dsb2JhbF9nZXQKCT09Cglhc3NlcnQKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTQ2CgkvLyBhc3NlcnQoYkFzc2V0ID09PSB0aGlzLmFzc2V0Qi52YWx1ZSkKCWZyYW1lX2RpZyAtNCAvLyBiQXNzZXQ6IEFzc2V0SUQKCWJ5dGUgMHg2MiAvLyAiYiIKCWFwcF9nbG9iYWxfZ2V0Cgk9PQoJYXNzZXJ0CgoJLy8gdmFsaWQgcG9vbCBheGZlcgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjE0OQoJLy8gdmVyaWZ5QXNzZXRUcmFuc2ZlclR4bihwb29sWGZlciwgewoJLy8gICAgICAgc2VuZGVyOiB0aGlzLnR4bi5zZW5kZXIsCgkvLyAgICAgICBhc3NldEFtb3VudDogeyBncmVhdGVyVGhhbjogMCB9LAoJLy8gICAgICAgYXNzZXRSZWNlaXZlcjogdGhpcy5hcHAuYWRkcmVzcywKCS8vICAgICAgIHhmZXJBc3NldDogcG9vbEFzc2V0LAoJLy8gICAgIH0pCgkvLyB2ZXJpZnkgc2VuZGVyCglmcmFtZV9kaWcgLTEgLy8gcG9vbFhmZXI6IEFzc2V0VHJhbnNmZXJUeG4KCWd0eG5zIFNlbmRlcgoJdHhuIFNlbmRlcgoJPT0KCgkvLyB0cmFuc2FjdGlvbiB2ZXJpZmljYXRpb24gZmFpbGVkOiB7InR4biI6InBvb2xYZmVyIiwiZmllbGQiOiJzZW5kZXIiLCJleHBlY3RlZCI6InRoaXMudHhuLnNlbmRlciJ9Cglhc3NlcnQKCgkvLyB2ZXJpZnkgYXNzZXRBbW91bnQKCWZyYW1lX2RpZyAtMSAvLyBwb29sWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgQXNzZXRBbW91bnQKCWludCAwCgk+CgoJLy8gdHJhbnNhY3Rpb24gdmVyaWZpY2F0aW9uIGZhaWxlZDogeyJ0eG4iOiJwb29sWGZlciIsImZpZWxkIjoiYXNzZXRBbW91bnQiLCJjb25kaXRpb24iOiJncmVhdGVyVGhhbiIsImV4cGVjdGVkIjoiPjAifQoJYXNzZXJ0CgoJLy8gdmVyaWZ5IGFzc2V0UmVjZWl2ZXIKCWZyYW1lX2RpZyAtMSAvLyBwb29sWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgQXNzZXRSZWNlaXZlcgoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCT09CgoJLy8gdHJhbnNhY3Rpb24gdmVyaWZpY2F0aW9uIGZhaWxlZDogeyJ0eG4iOiJwb29sWGZlciIsImZpZWxkIjoiYXNzZXRSZWNlaXZlciIsImV4cGVjdGVkIjoidGhpcy5hcHAuYWRkcmVzcyJ9Cglhc3NlcnQKCgkvLyB2ZXJpZnkgeGZlckFzc2V0CglmcmFtZV9kaWcgLTEgLy8gcG9vbFhmZXI6IEFzc2V0VHJhbnNmZXJUeG4KCWd0eG5zIFhmZXJBc3NldAoJZnJhbWVfZGlnIC0yIC8vIHBvb2xBc3NldDogQXNzZXRJRAoJPT0KCgkvLyB0cmFuc2FjdGlvbiB2ZXJpZmljYXRpb24gZmFpbGVkOiB7InR4biI6InBvb2xYZmVyIiwiZmllbGQiOiJ4ZmVyQXNzZXQiLCJleHBlY3RlZCI6InBvb2xBc3NldCJ9Cglhc3NlcnQKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTU2CgkvLyBpc3N1ZWQgPSBUT1RBTF9TVVBQTFkgLSAodGhpcy5hcHAuYWRkcmVzcy5hc3NldEJhbGFuY2UocG9vbEFzc2V0KSAtIHBvb2xYZmVyLmFzc2V0QW1vdW50KQoJaW50IDEwMDAwMDAwMDAwCglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJZnJhbWVfZGlnIC0yIC8vIHBvb2xBc3NldDogQXNzZXRJRAoJYXNzZXRfaG9sZGluZ19nZXQgQXNzZXRCYWxhbmNlCglwb3AKCWZyYW1lX2RpZyAtMSAvLyBwb29sWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgQXNzZXRBbW91bnQKCS0KCS0KCWZyYW1lX2J1cnkgMCAvLyBpc3N1ZWQ6IHVpbnQ2NAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoxNTgKCS8vIGFBbXQgPSB0aGlzLnRva2Vuc1RvQnVybihpc3N1ZWQsIHRoaXMuYXBwLmFkZHJlc3MuYXNzZXRCYWxhbmNlKGFBc3NldCksIHBvb2xYZmVyLmFzc2V0QW1vdW50KQoJZnJhbWVfZGlnIC0xIC8vIHBvb2xYZmVyOiBBc3NldFRyYW5zZmVyVHhuCglndHhucyBBc3NldEFtb3VudAoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCWZyYW1lX2RpZyAtMyAvLyBhQXNzZXQ6IEFzc2V0SUQKCWFzc2V0X2hvbGRpbmdfZ2V0IEFzc2V0QmFsYW5jZQoJcG9wCglmcmFtZV9kaWcgMCAvLyBpc3N1ZWQ6IHVpbnQ2NAoJY2FsbHN1YiB0b2tlbnNUb0J1cm4KCWZyYW1lX2J1cnkgMSAvLyBhQW10OiB1aW50NjQKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTYwCgkvLyBiQW10ID0gdGhpcy50b2tlbnNUb0J1cm4oaXNzdWVkLCB0aGlzLmFwcC5hZGRyZXNzLmFzc2V0QmFsYW5jZShiQXNzZXQpLCBwb29sWGZlci5hc3NldEFtb3VudCkKCWZyYW1lX2RpZyAtMSAvLyBwb29sWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgQXNzZXRBbW91bnQKCWdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCglmcmFtZV9kaWcgLTQgLy8gYkFzc2V0OiBBc3NldElECglhc3NldF9ob2xkaW5nX2dldCBBc3NldEJhbGFuY2UKCXBvcAoJZnJhbWVfZGlnIDAgLy8gaXNzdWVkOiB1aW50NjQKCWNhbGxzdWIgdG9rZW5zVG9CdXJuCglmcmFtZV9idXJ5IDIgLy8gYkFtdDogdWludDY0CgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjE2MgoJLy8gdGhpcy5kb0F4ZmVyKHRoaXMudHhuLnNlbmRlciwgYUFzc2V0LCBhQW10KQoJZnJhbWVfZGlnIDEgLy8gYUFtdDogdWludDY0CglmcmFtZV9kaWcgLTMgLy8gYUFzc2V0OiBBc3NldElECgl0eG4gU2VuZGVyCgljYWxsc3ViIGRvQXhmZXIKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTYzCgkvLyB0aGlzLmRvQXhmZXIodGhpcy50eG4uc2VuZGVyLCBiQXNzZXQsIGJBbXQpCglmcmFtZV9kaWcgMiAvLyBiQW10OiB1aW50NjQKCWZyYW1lX2RpZyAtNCAvLyBiQXNzZXQ6IEFzc2V0SUQKCXR4biBTZW5kZXIKCWNhbGxzdWIgZG9BeGZlcgoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoxNjUKCS8vIHRoaXMucmF0aW8udmFsdWUgPSB0aGlzLmNvbXB1dGVSYXRpbygpCglieXRlIDB4NzIgLy8gInIiCgljYWxsc3ViIGNvbXB1dGVSYXRpbwoJYXBwX2dsb2JhbF9wdXQKCXJldHN1YgoKLy8gc3dhcChheGZlcix1aW50NjQsdWludDY0KXZvaWQKKmFiaV9yb3V0ZV9zd2FwOgoJLy8gYkFzc2V0OiB1aW50NjQKCXR4bmEgQXBwbGljYXRpb25BcmdzIDIKCWJ0b2kKCgkvLyBhQXNzZXQ6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJYnRvaQoKCS8vIHN3YXBYZmVyOiBheGZlcgoJdHhuIEdyb3VwSW5kZXgKCWludCAxCgktCglkdXAKCWd0eG5zIFR5cGVFbnVtCglwdXNoaW50IDQgLy8gYXhmZXIKCT09CgoJLy8gYXJndW1lbnQgMiAoc3dhcFhmZXIpIGZvciBzd2FwIG11c3QgYmUgYSBheGZlciB0cmFuc2FjdGlvbgoJYXNzZXJ0CgoJLy8gZXhlY3V0ZSBzd2FwKGF4ZmVyLHVpbnQ2NCx1aW50NjQpdm9pZAoJY2FsbHN1YiBzd2FwCglpbnQgMQoJcmV0dXJuCgovLyBzd2FwKHN3YXBYZmVyOiBBc3NldFRyYW5zZmVyVHhuLCBhQXNzZXQ6IEFzc2V0SUQsIGJBc3NldDogQXNzZXRJRCk6IHZvaWQKc3dhcDoKCXByb3RvIDMgMAoKCS8vIFB1c2ggZW1wdHkgYnl0ZXMgYWZ0ZXIgdGhlIGZyYW1lIHBvaW50ZXIgdG8gcmVzZXJ2ZSBzcGFjZSBmb3IgbG9jYWwgdmFyaWFibGVzCglieXRlIDB4CglkdXBuIDIKCgkvLyB3ZWxsIGZvcm1lZCBzd2FwCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTcwCgkvLyBhc3NlcnQoYUFzc2V0ID09PSB0aGlzLmFzc2V0QS52YWx1ZSkKCWZyYW1lX2RpZyAtMiAvLyBhQXNzZXQ6IEFzc2V0SUQKCWJ5dGUgMHg2MSAvLyAiYSIKCWFwcF9nbG9iYWxfZ2V0Cgk9PQoJYXNzZXJ0CgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjE3MQoJLy8gYXNzZXJ0KGJBc3NldCA9PT0gdGhpcy5hc3NldEIudmFsdWUpCglmcmFtZV9kaWcgLTMgLy8gYkFzc2V0OiBBc3NldElECglieXRlIDB4NjIgLy8gImIiCglhcHBfZ2xvYmFsX2dldAoJPT0KCWFzc2VydAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoxNzMKCS8vIHZlcmlmeUFzc2V0VHJhbnNmZXJUeG4oc3dhcFhmZXIsIHsKCS8vICAgICAgIGFzc2V0QW1vdW50OiB7IGdyZWF0ZXJUaGFuOiAwIH0sCgkvLyAgICAgICBhc3NldFJlY2VpdmVyOiB0aGlzLmFwcC5hZGRyZXNzLAoJLy8gICAgICAgc2VuZGVyOiB0aGlzLnR4bi5zZW5kZXIsCgkvLyAgICAgICB4ZmVyQXNzZXQ6IHsgaW5jbHVkZWRJbjogW2FBc3NldCwgYkFzc2V0XSB9LAoJLy8gICAgIH0pCgkvLyB2ZXJpZnkgYXNzZXRBbW91bnQKCWZyYW1lX2RpZyAtMSAvLyBzd2FwWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgQXNzZXRBbW91bnQKCWludCAwCgk+CgoJLy8gdHJhbnNhY3Rpb24gdmVyaWZpY2F0aW9uIGZhaWxlZDogeyJ0eG4iOiJzd2FwWGZlciIsImZpZWxkIjoiYXNzZXRBbW91bnQiLCJjb25kaXRpb24iOiJncmVhdGVyVGhhbiIsImV4cGVjdGVkIjoiPjAifQoJYXNzZXJ0CgoJLy8gdmVyaWZ5IGFzc2V0UmVjZWl2ZXIKCWZyYW1lX2RpZyAtMSAvLyBzd2FwWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgQXNzZXRSZWNlaXZlcgoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCT09CgoJLy8gdHJhbnNhY3Rpb24gdmVyaWZpY2F0aW9uIGZhaWxlZDogeyJ0eG4iOiJzd2FwWGZlciIsImZpZWxkIjoiYXNzZXRSZWNlaXZlciIsImV4cGVjdGVkIjoidGhpcy5hcHAuYWRkcmVzcyJ9Cglhc3NlcnQKCgkvLyB2ZXJpZnkgc2VuZGVyCglmcmFtZV9kaWcgLTEgLy8gc3dhcFhmZXI6IEFzc2V0VHJhbnNmZXJUeG4KCWd0eG5zIFNlbmRlcgoJdHhuIFNlbmRlcgoJPT0KCgkvLyB0cmFuc2FjdGlvbiB2ZXJpZmljYXRpb24gZmFpbGVkOiB7InR4biI6InN3YXBYZmVyIiwiZmllbGQiOiJzZW5kZXIiLCJleHBlY3RlZCI6InRoaXMudHhuLnNlbmRlciJ9Cglhc3NlcnQKCgkvLyB2ZXJpZnkgeGZlckFzc2V0CglmcmFtZV9kaWcgLTEgLy8gc3dhcFhmZXI6IEFzc2V0VHJhbnNmZXJUeG4KCWd0eG5zIFhmZXJBc3NldAoJZnJhbWVfZGlnIC0yIC8vIGFBc3NldDogQXNzZXRJRAoJPT0KCWZyYW1lX2RpZyAtMSAvLyBzd2FwWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgWGZlckFzc2V0CglmcmFtZV9kaWcgLTMgLy8gYkFzc2V0OiBBc3NldElECgk9PQoJfHwKCgkvLyB0cmFuc2FjdGlvbiB2ZXJpZmljYXRpb24gZmFpbGVkOiB7InR4biI6eyJ0eG5UZXh0Ijoic3dhcFhmZXIifSwiZmllbGQiOiJ4ZmVyQXNzZXQiLCJjb25kaXRpb24iOiJpbmNsdWRlZEluIiwiZXhwZWN0ZWQiOiJbYUFzc2V0LCBiQXNzZXRdIn0KCWFzc2VydAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoxODAKCS8vIG91dElkID0gc3dhcFhmZXIueGZlckFzc2V0ID09PSBhQXNzZXQgPyBhQXNzZXQgOiBiQXNzZXQKCWZyYW1lX2RpZyAtMSAvLyBzd2FwWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgWGZlckFzc2V0CglmcmFtZV9kaWcgLTIgLy8gYUFzc2V0OiBBc3NldElECgk9PQoJYnogKnRlcm5hcnkxX2ZhbHNlCglmcmFtZV9kaWcgLTIgLy8gYUFzc2V0OiBBc3NldElECgliICp0ZXJuYXJ5MV9lbmQKCip0ZXJuYXJ5MV9mYWxzZToKCWZyYW1lX2RpZyAtMyAvLyBiQXNzZXQ6IEFzc2V0SUQKCip0ZXJuYXJ5MV9lbmQ6CglmcmFtZV9idXJ5IDAgLy8gb3V0SWQ6IHVpbnQ2NAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoxODIKCS8vIGluSWQgPSBzd2FwWGZlci54ZmVyQXNzZXQKCWZyYW1lX2RpZyAtMSAvLyBzd2FwWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgWGZlckFzc2V0CglmcmFtZV9idXJ5IDEgLy8gaW5JZDogdWludDY0CgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjE4NAoJLy8gdG9Td2FwID0gdGhpcy50b2tlbnNUb1N3YXAoCgkvLyAgICAgICBzd2FwWGZlci5hc3NldEFtb3VudCwKCS8vICAgICAgIHRoaXMuYXBwLmFkZHJlc3MuYXNzZXRCYWxhbmNlKGluSWQpIC0gc3dhcFhmZXIuYXNzZXRBbW91bnQsCgkvLyAgICAgICB0aGlzLmFwcC5hZGRyZXNzLmFzc2V0QmFsYW5jZShvdXRJZCkKCS8vICAgICApCglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJZnJhbWVfZGlnIDAgLy8gb3V0SWQ6IHVpbnQ2NAoJYXNzZXRfaG9sZGluZ19nZXQgQXNzZXRCYWxhbmNlCglwb3AKCWdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCglmcmFtZV9kaWcgMSAvLyBpbklkOiB1aW50NjQKCWFzc2V0X2hvbGRpbmdfZ2V0IEFzc2V0QmFsYW5jZQoJcG9wCglmcmFtZV9kaWcgLTEgLy8gc3dhcFhmZXI6IEFzc2V0VHJhbnNmZXJUeG4KCWd0eG5zIEFzc2V0QW1vdW50CgktCglmcmFtZV9kaWcgLTEgLy8gc3dhcFhmZXI6IEFzc2V0VHJhbnNmZXJUeG4KCWd0eG5zIEFzc2V0QW1vdW50CgljYWxsc3ViIHRva2Vuc1RvU3dhcAoJZnJhbWVfYnVyeSAyIC8vIHRvU3dhcDogdWludDY0CgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjE5MAoJLy8gYXNzZXJ0KHRvU3dhcCA+IDApCglmcmFtZV9kaWcgMiAvLyB0b1N3YXA6IHVpbnQ2NAoJaW50IDAKCT4KCWFzc2VydAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoxOTIKCS8vIHRoaXMuZG9BeGZlcih0aGlzLnR4bi5zZW5kZXIsIG91dElkLCB0b1N3YXApCglmcmFtZV9kaWcgMiAvLyB0b1N3YXA6IHVpbnQ2NAoJZnJhbWVfZGlnIDAgLy8gb3V0SWQ6IHVpbnQ2NAoJdHhuIFNlbmRlcgoJY2FsbHN1YiBkb0F4ZmVyCgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjE5NAoJLy8gdGhpcy5yYXRpby52YWx1ZSA9IHRoaXMuY29tcHV0ZVJhdGlvKCkKCWJ5dGUgMHg3MiAvLyAiciIKCWNhbGxzdWIgY29tcHV0ZVJhdGlvCglhcHBfZ2xvYmFsX3B1dAoJcmV0c3ViCgoqY3JlYXRlX05vT3A6CglwdXNoYnl0ZXMgMHhiODQ0N2IzNiAvLyBtZXRob2QgImNyZWF0ZUFwcGxpY2F0aW9uKCl2b2lkIgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggKmFiaV9yb3V0ZV9jcmVhdGVBcHBsaWNhdGlvbgoKCS8vIHRoaXMgY29udHJhY3QgZG9lcyBub3QgaW1wbGVtZW50IHRoZSBnaXZlbiBBQkkgbWV0aG9kIGZvciBjcmVhdGUgTm9PcAoJZXJyCgoqY2FsbF9Ob09wOgoJcHVzaGJ5dGVzIDB4ZGRjNGNiNGEgLy8gbWV0aG9kICJzZXRfZ292ZXJub3IoYWRkcmVzcyl2b2lkIgoJcHVzaGJ5dGVzIDB4MjVlNmMzNzYgLy8gbWV0aG9kICJib290c3RyYXAocGF5LHVpbnQ2NCx1aW50NjQpdWludDY0IgoJcHVzaGJ5dGVzIDB4MTAwNDVjNzkgLy8gbWV0aG9kICJtaW50KGF4ZmVyLGF4ZmVyLHVpbnQ2NCx1aW50NjQsdWludDY0KXZvaWQiCglwdXNoYnl0ZXMgMHgwMjhlMzdjMSAvLyBtZXRob2QgImJ1cm4oYXhmZXIsdWludDY0LHVpbnQ2NCx1aW50NjQpdm9pZCIKCXB1c2hieXRlcyAweDYzMmFhZWQ4IC8vIG1ldGhvZCAic3dhcChheGZlcix1aW50NjQsdWludDY0KXZvaWQiCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAwCgltYXRjaCAqYWJpX3JvdXRlX3NldF9nb3Zlcm5vciAqYWJpX3JvdXRlX2Jvb3RzdHJhcCAqYWJpX3JvdXRlX21pbnQgKmFiaV9yb3V0ZV9idXJuICphYmlfcm91dGVfc3dhcAoKCS8vIHRoaXMgY29udHJhY3QgZG9lcyBub3QgaW1wbGVtZW50IHRoZSBnaXZlbiBBQkkgbWV0aG9kIGZvciBjYWxsIE5vT3AKCWVycg==",
+    "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCmludGNibG9jayAwIDEwMDAwMDAwMDAwIDEgMTAwMApieXRlY2Jsb2NrIDB4IDB4NjEgMHg2MiAweDY3IDB4NzAgMHg3MgoKLy8gVGhpcyBURUFMIHdhcyBnZW5lcmF0ZWQgYnkgVEVBTFNjcmlwdCB2MC4xMDUuMAovLyBodHRwczovL2dpdGh1Yi5jb20vYWxnb3JhbmRmb3VuZGF0aW9uL1RFQUxTY3JpcHQKCi8vIFRoaXMgY29udHJhY3QgaXMgY29tcGxpYW50IHdpdGggYW5kL29yIGltcGxlbWVudHMgdGhlIGZvbGxvd2luZyBBUkNzOiBbIEFSQzQgXQoKLy8gVGhlIGZvbGxvd2luZyB0ZW4gbGluZXMgb2YgVEVBTCBoYW5kbGUgaW5pdGlhbCBwcm9ncmFtIGZsb3cKLy8gVGhpcyBwYXR0ZXJuIGlzIHVzZWQgdG8gbWFrZSBpdCBlYXN5IGZvciBhbnlvbmUgdG8gcGFyc2UgdGhlIHN0YXJ0IG9mIHRoZSBwcm9ncmFtIGFuZCBkZXRlcm1pbmUgaWYgYSBzcGVjaWZpYyBhY3Rpb24gaXMgYWxsb3dlZAovLyBIZXJlLCBhY3Rpb24gcmVmZXJzIHRvIHRoZSBPbkNvbXBsZXRlIGluIGNvbWJpbmF0aW9uIHdpdGggd2hldGhlciB0aGUgYXBwIGlzIGJlaW5nIGNyZWF0ZWQgb3IgY2FsbGVkCi8vIEV2ZXJ5IHBvc3NpYmxlIGFjdGlvbiBmb3IgdGhpcyBjb250cmFjdCBpcyByZXByZXNlbnRlZCBpbiB0aGUgc3dpdGNoIHN0YXRlbWVudAovLyBJZiB0aGUgYWN0aW9uIGlzIG5vdCBpbXBsZW1lbnRlZCBpbiB0aGUgY29udHJhY3QsIGl0cyByZXNwZWN0aXZlIGJyYW5jaCB3aWxsIGJlICIqTk9UX0lNUExFTUVOVEVEIiB3aGljaCBqdXN0IGNvbnRhaW5zICJlcnIiCnR4biBBcHBsaWNhdGlvbklECiEKcHVzaGludCA2CioKdHhuIE9uQ29tcGxldGlvbgorCnN3aXRjaCAqY2FsbF9Ob09wICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqY3JlYXRlX05vT3AgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVECgoqTk9UX0lNUExFTUVOVEVEOgoJLy8gVGhlIHJlcXVlc3RlZCBhY3Rpb24gaXMgbm90IGltcGxlbWVudGVkIGluIHRoaXMgY29udHJhY3QuIEFyZSB5b3UgdXNpbmcgdGhlIGNvcnJlY3QgT25Db21wbGV0ZT8gRGlkIHlvdSBzZXQgeW91ciBhcHAgSUQ/CgllcnIKCi8vIGNyZWF0ZUFwcGxpY2F0aW9uKCl2b2lkCiphYmlfcm91dGVfY3JlYXRlQXBwbGljYXRpb246CgkvLyBleGVjdXRlIGNyZWF0ZUFwcGxpY2F0aW9uKCl2b2lkCgljYWxsc3ViIGNyZWF0ZUFwcGxpY2F0aW9uCglpbnQgMQoJcmV0dXJuCgovLyBjcmVhdGVBcHBsaWNhdGlvbigpOiB2b2lkCmNyZWF0ZUFwcGxpY2F0aW9uOgoJcHJvdG8gMCAwCgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjIwCgkvLyB0aGlzLmdvdmVybm9yLnZhbHVlID0gdGhpcy50eG4uc2VuZGVyCglieXRlIDB4NjcgLy8gImciCgl0eG4gU2VuZGVyCglhcHBfZ2xvYmFsX3B1dAoJcmV0c3ViCgovLyBkb0NyZWF0ZVBvb2xUb2tlbihhQXNzZXQ6IEFzc2V0SUQsIGJBc3NldDogQXNzZXRJRCk6IEFzc2V0SUQKZG9DcmVhdGVQb29sVG9rZW46Cglwcm90byAyIDEKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MjYKCS8vIHJldHVybiBzZW5kQXNzZXRDcmVhdGlvbih7CgkvLyAgICAgICBjb25maWdBc3NldE5hbWU6ICdEUFQtJyArIGFBc3NldC51bml0TmFtZSArICctJyArIGJBc3NldC51bml0TmFtZSwKCS8vICAgICAgIGNvbmZpZ0Fzc2V0VW5pdE5hbWU6ICdkcHQnLAoJLy8gICAgICAgY29uZmlnQXNzZXRUb3RhbDogVE9UQUxfU1VQUExZLAoJLy8gICAgICAgY29uZmlnQXNzZXREZWNpbWFsczogMywKCS8vICAgICAgIGNvbmZpZ0Fzc2V0TWFuYWdlcjogdGhpcy5hcHAuYWRkcmVzcywKCS8vICAgICAgIGNvbmZpZ0Fzc2V0UmVzZXJ2ZTogdGhpcy5hcHAuYWRkcmVzcywKCS8vICAgICB9KTsKCWl0eG5fYmVnaW4KCXB1c2hpbnQgMyAvLyBhY2ZnCglpdHhuX2ZpZWxkIFR5cGVFbnVtCgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjI3CgkvLyBjb25maWdBc3NldE5hbWU6ICdEUFQtJyArIGFBc3NldC51bml0TmFtZSArICctJyArIGJBc3NldC51bml0TmFtZQoJcHVzaGJ5dGVzIDB4NDQ1MDU0MmQgLy8gIkRQVC0iCglmcmFtZV9kaWcgLTEgLy8gYUFzc2V0OiBBc3NldElECglhc3NldF9wYXJhbXNfZ2V0IEFzc2V0VW5pdE5hbWUKCXBvcAoJY29uY2F0CglwdXNoYnl0ZXMgMHgyZCAvLyAiLSIKCWNvbmNhdAoJZnJhbWVfZGlnIC0yIC8vIGJBc3NldDogQXNzZXRJRAoJYXNzZXRfcGFyYW1zX2dldCBBc3NldFVuaXROYW1lCglwb3AKCWNvbmNhdAoJaXR4bl9maWVsZCBDb25maWdBc3NldE5hbWUKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MjgKCS8vIGNvbmZpZ0Fzc2V0VW5pdE5hbWU6ICdkcHQnCglwdXNoYnl0ZXMgMHg2NDcwNzQgLy8gImRwdCIKCWl0eG5fZmllbGQgQ29uZmlnQXNzZXRVbml0TmFtZQoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoyOQoJLy8gY29uZmlnQXNzZXRUb3RhbDogVE9UQUxfU1VQUExZCglpbnQgMTAwMDAwMDAwMDAKCWl0eG5fZmllbGQgQ29uZmlnQXNzZXRUb3RhbAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czozMAoJLy8gY29uZmlnQXNzZXREZWNpbWFsczogMwoJcHVzaGludCAzCglpdHhuX2ZpZWxkIENvbmZpZ0Fzc2V0RGVjaW1hbHMKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MzEKCS8vIGNvbmZpZ0Fzc2V0TWFuYWdlcjogdGhpcy5hcHAuYWRkcmVzcwoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCWl0eG5fZmllbGQgQ29uZmlnQXNzZXRNYW5hZ2VyCgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjMyCgkvLyBjb25maWdBc3NldFJlc2VydmU6IHRoaXMuYXBwLmFkZHJlc3MKCWdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCglpdHhuX2ZpZWxkIENvbmZpZ0Fzc2V0UmVzZXJ2ZQoKCS8vIEZlZSBmaWVsZCBub3Qgc2V0LCBkZWZhdWx0aW5nIHRvIDAKCWludCAwCglpdHhuX2ZpZWxkIEZlZQoKCS8vIFN1Ym1pdCBpbm5lciB0cmFuc2FjdGlvbgoJaXR4bl9zdWJtaXQKCWl0eG4gQ3JlYXRlZEFzc2V0SUQKCXJldHN1YgoKLy8gZG9BeGZlcihyZWNlaXZlcjogQWRkcmVzcywgYXNzZXQ6IEFzc2V0SUQsIGFtb3VudDogdWludDY0KTogdm9pZApkb0F4ZmVyOgoJcHJvdG8gMyAwCgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjM3CgkvLyBzZW5kQXNzZXRUcmFuc2Zlcih7CgkvLyAgICAgICBhc3NldFJlY2VpdmVyOiByZWNlaXZlciwKCS8vICAgICAgIHhmZXJBc3NldDogYXNzZXQsCgkvLyAgICAgICBhc3NldEFtb3VudDogYW1vdW50LAoJLy8gICAgIH0pCglpdHhuX2JlZ2luCglwdXNoaW50IDQgLy8gYXhmZXIKCWl0eG5fZmllbGQgVHlwZUVudW0KCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MzgKCS8vIGFzc2V0UmVjZWl2ZXI6IHJlY2VpdmVyCglmcmFtZV9kaWcgLTEgLy8gcmVjZWl2ZXI6IEFkZHJlc3MKCWl0eG5fZmllbGQgQXNzZXRSZWNlaXZlcgoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czozOQoJLy8geGZlckFzc2V0OiBhc3NldAoJZnJhbWVfZGlnIC0yIC8vIGFzc2V0OiBBc3NldElECglpdHhuX2ZpZWxkIFhmZXJBc3NldAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czo0MAoJLy8gYXNzZXRBbW91bnQ6IGFtb3VudAoJZnJhbWVfZGlnIC0zIC8vIGFtb3VudDogdWludDY0CglpdHhuX2ZpZWxkIEFzc2V0QW1vdW50CgoJLy8gRmVlIGZpZWxkIG5vdCBzZXQsIGRlZmF1bHRpbmcgdG8gMAoJaW50IDAKCWl0eG5fZmllbGQgRmVlCgoJLy8gU3VibWl0IGlubmVyIHRyYW5zYWN0aW9uCglpdHhuX3N1Ym1pdAoJcmV0c3ViCgovLyBkb09wdEluKGFzc2V0OiBBc3NldElEKTogdm9pZApkb09wdEluOgoJcHJvdG8gMSAwCgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjQ1CgkvLyB0aGlzLmRvQXhmZXIodGhpcy5hcHAuYWRkcmVzcywgYXNzZXQsIDApCglpbnQgMAoJZnJhbWVfZGlnIC0xIC8vIGFzc2V0OiBBc3NldElECglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJY2FsbHN1YiBkb0F4ZmVyCglyZXRzdWIKCi8vIHRva2Vuc1RvTWludEludGlhbChhQW1vdW50OiB1aW50NjQsIGJBbW91bnQ6IHVpbnQ2NCk6IHVpbnQ2NAp0b2tlbnNUb01pbnRJbnRpYWw6Cglwcm90byAyIDEKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6NDkKCS8vIHJldHVybiBzcXJ0KGFBbW91bnQgKiBiQW1vdW50KTsKCWZyYW1lX2RpZyAtMSAvLyBhQW1vdW50OiB1aW50NjQKCWZyYW1lX2RpZyAtMiAvLyBiQW1vdW50OiB1aW50NjQKCSoKCXNxcnQKCXJldHN1YgoKLy8gdG9rZW5zVG9NaW50KGlzc3VlZDogdWludDY0LCBhU3VwcGx5OiB1aW50NjQsIGJTdXBwbHk6IHVpbnQ2NCwgYUFtb3VudDogdWludDY0LCBiQW1vdW50OiB1aW50NjQpOiB1aW50NjQKdG9rZW5zVG9NaW50OgoJcHJvdG8gNSAxCgoJLy8gUHVzaCBlbXB0eSBieXRlcyBhZnRlciB0aGUgZnJhbWUgcG9pbnRlciB0byByZXNlcnZlIHNwYWNlIGZvciBsb2NhbCB2YXJpYWJsZXMKCWJ5dGUgMHgKCWR1cG4gMgoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czo1MwoJLy8gYVJhdGlvID0gd2lkZVJhdGlvKFthQW1vdW50LCBTQ0FMRV0sIFthU3VwcGx5XSkKCWZyYW1lX2RpZyAtNCAvLyBhQW1vdW50OiB1aW50NjQKCWludCAxMDAwCgltdWx3CglpbnQgMAoJZnJhbWVfZGlnIC0yIC8vIGFTdXBwbHk6IHVpbnQ2NAoJZGl2bW9kdwoJcG9wCglwb3AKCXN3YXAKCSEKCgkvLyB3aWRlUmF0aW8gZmFpbGVkCglhc3NlcnQKCWZyYW1lX2J1cnkgMCAvLyBhUmF0aW86IHVpbnQ2NAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czo1NAoJLy8gYlJhdGlvID0gd2lkZVJhdGlvKFtiQW1vdW50LCBTQ0FMRV0sIFtiU3VwcGx5XSkKCWZyYW1lX2RpZyAtNSAvLyBiQW1vdW50OiB1aW50NjQKCWludCAxMDAwCgltdWx3CglpbnQgMAoJZnJhbWVfZGlnIC0zIC8vIGJTdXBwbHk6IHVpbnQ2NAoJZGl2bW9kdwoJcG9wCglwb3AKCXN3YXAKCSEKCgkvLyB3aWRlUmF0aW8gZmFpbGVkCglhc3NlcnQKCWZyYW1lX2J1cnkgMSAvLyBiUmF0aW86IHVpbnQ2NAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czo1NgoJLy8gcmF0aW8gPSBhUmF0aW8gPCBiUmF0aW8gPyBhUmF0aW8gOiBiUmF0aW8KCWZyYW1lX2RpZyAwIC8vIGFSYXRpbzogdWludDY0CglmcmFtZV9kaWcgMSAvLyBiUmF0aW86IHVpbnQ2NAoJPAoJYnogKnRlcm5hcnkwX2ZhbHNlCglmcmFtZV9kaWcgMCAvLyBhUmF0aW86IHVpbnQ2NAoJYiAqdGVybmFyeTBfZW5kCgoqdGVybmFyeTBfZmFsc2U6CglmcmFtZV9kaWcgMSAvLyBiUmF0aW86IHVpbnQ2NAoKKnRlcm5hcnkwX2VuZDoKCWZyYW1lX2J1cnkgMiAvLyByYXRpbzogdWludDY0CgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjU4CgkvLyByZXR1cm4gd2lkZVJhdGlvKFtyYXRpbywgaXNzdWVkXSwgW1NDQUxFXSk7CglmcmFtZV9kaWcgMiAvLyByYXRpbzogdWludDY0CglmcmFtZV9kaWcgLTEgLy8gaXNzdWVkOiB1aW50NjQKCW11bHcKCWludCAwCglpbnQgMTAwMAoJZGl2bW9kdwoJcG9wCglwb3AKCXN3YXAKCSEKCgkvLyB3aWRlUmF0aW8gZmFpbGVkCglhc3NlcnQKCgkvLyBzZXQgdGhlIHN1YnJvdXRpbmUgcmV0dXJuIHZhbHVlCglmcmFtZV9idXJ5IDAKCgkvLyBwb3AgYWxsIGxvY2FsIHZhcmlhYmxlcyBmcm9tIHRoZSBzdGFjawoJcG9wbiAyCglyZXRzdWIKCi8vIGNvbXB1dGVSYXRpbygpOiB1aW50NjQKY29tcHV0ZVJhdGlvOgoJcHJvdG8gMCAxCgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjYyCgkvLyByZXR1cm4gd2lkZVJhdGlvKAoJLy8gICAgICAgW3RoaXMuYXBwLmFkZHJlc3MuYXNzZXRCYWxhbmNlKHRoaXMuYXNzZXRBLnZhbHVlKSwgU0NBTEVdLAoJLy8gICAgICAgW3RoaXMuYXBwLmFkZHJlc3MuYXNzZXRCYWxhbmNlKHRoaXMuYXNzZXRCLnZhbHVlKV0KCS8vICAgICApOwoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCWJ5dGUgMHg2MSAvLyAiYSIKCWFwcF9nbG9iYWxfZ2V0Cglhc3NldF9ob2xkaW5nX2dldCBBc3NldEJhbGFuY2UKCXBvcAoJaW50IDEwMDAKCW11bHcKCWludCAwCglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJYnl0ZSAweDYyIC8vICJiIgoJYXBwX2dsb2JhbF9nZXQKCWFzc2V0X2hvbGRpbmdfZ2V0IEFzc2V0QmFsYW5jZQoJcG9wCglkaXZtb2R3Cglwb3AKCXBvcAoJc3dhcAoJIQoKCS8vIHdpZGVSYXRpbyBmYWlsZWQKCWFzc2VydAoJcmV0c3ViCgovLyB0b2tlbnNUb0J1cm4oaXNzdWVkOiB1aW50NjQsIHN1cHBseTogdWludDY0LCBhbW91bnQ6IHVpbnQ2NCk6IHVpbnQ2NAp0b2tlbnNUb0J1cm46Cglwcm90byAzIDEKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6NjkKCS8vIHJldHVybiB3aWRlUmF0aW8oW3N1cHBseSwgYW1vdW50XSwgW2lzc3VlZF0pOwoJZnJhbWVfZGlnIC0yIC8vIHN1cHBseTogdWludDY0CglmcmFtZV9kaWcgLTMgLy8gYW1vdW50OiB1aW50NjQKCW11bHcKCWludCAwCglmcmFtZV9kaWcgLTEgLy8gaXNzdWVkOiB1aW50NjQKCWRpdm1vZHcKCXBvcAoJcG9wCglzd2FwCgkhCgoJLy8gd2lkZVJhdGlvIGZhaWxlZAoJYXNzZXJ0CglyZXRzdWIKCi8vIHRva2Vuc1RvU3dhcChpbkFtb3VudDogdWludDY0LCBpblN1cHBseTogdWludDY0LCBvdXRTdXBwbHk6IHVpbnQ2NCk6IHVpbnQ2NAp0b2tlbnNUb1N3YXA6Cglwcm90byAzIDEKCgkvLyBQdXNoIGVtcHR5IGJ5dGVzIGFmdGVyIHRoZSBmcmFtZSBwb2ludGVyIHRvIHJlc2VydmUgc3BhY2UgZm9yIGxvY2FsIHZhcmlhYmxlcwoJYnl0ZSAweAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czo3MwoJLy8gZmFjdG9yID0gU0NBTEUgLSBGRUUKCXB1c2hpbnQgOTk1CglmcmFtZV9idXJ5IDAgLy8gZmFjdG9yOiB1aW50NjQKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6NzQKCS8vIHJldHVybiB3aWRlUmF0aW8oW2luQW1vdW50LCBmYWN0b3IsIG91dFN1cHBseV0sIFtpblN1cHBseSAqIFNDQUxFICsgaW5BbW91bnQgKiBmYWN0b3JdKTsKCWZyYW1lX2RpZyAtMSAvLyBpbkFtb3VudDogdWludDY0CglmcmFtZV9kaWcgMCAvLyBmYWN0b3I6IHVpbnQ2NAoJbXVsdwoJZnJhbWVfZGlnIC0zIC8vIG91dFN1cHBseTogdWludDY0Cgl1bmNvdmVyIDIKCWRpZyAxCgkqCgljb3ZlciAyCgltdWx3Cgljb3ZlciAyCgkrCglzd2FwCglpbnQgMAoJZnJhbWVfZGlnIC0yIC8vIGluU3VwcGx5OiB1aW50NjQKCWludCAxMDAwCgkqCglmcmFtZV9kaWcgLTEgLy8gaW5BbW91bnQ6IHVpbnQ2NAoJZnJhbWVfZGlnIDAgLy8gZmFjdG9yOiB1aW50NjQKCSoKCSsKCWRpdm1vZHcKCXBvcAoJcG9wCglzd2FwCgkhCgoJLy8gd2lkZVJhdGlvIGZhaWxlZAoJYXNzZXJ0CgoJLy8gc2V0IHRoZSBzdWJyb3V0aW5lIHJldHVybiB2YWx1ZQoJZnJhbWVfYnVyeSAwCglyZXRzdWIKCi8vIHNldF9nb3Zlcm5vcihhZGRyZXNzKXZvaWQKKmFiaV9yb3V0ZV9zZXRfZ292ZXJub3I6CgkvLyBnb3Zlcm5vcjogYWRkcmVzcwoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJZHVwCglsZW4KCXB1c2hpbnQgMzIKCT09CgoJLy8gYXJndW1lbnQgMCAoZ292ZXJub3IpIGZvciBzZXRfZ292ZXJub3IgbXVzdCBiZSBhIGFkZHJlc3MKCWFzc2VydAoKCS8vIGV4ZWN1dGUgc2V0X2dvdmVybm9yKGFkZHJlc3Mpdm9pZAoJY2FsbHN1YiBzZXRfZ292ZXJub3IKCWludCAxCglyZXR1cm4KCi8vIHNldF9nb3Zlcm5vcihnb3Zlcm5vcjogQWRkcmVzcyk6IHZvaWQKc2V0X2dvdmVybm9yOgoJcHJvdG8gMSAwCgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjc4CgkvLyB2ZXJpZnlBcHBDYWxsVHhuKHRoaXMudHhuLCB7IHNlbmRlcjogdGhpcy5nb3Zlcm5vci52YWx1ZSB9KQoJLy8gdmVyaWZ5IHNlbmRlcgoJdHhuIFNlbmRlcgoJYnl0ZSAweDY3IC8vICJnIgoJYXBwX2dsb2JhbF9nZXQKCT09CgoJLy8gdHJhbnNhY3Rpb24gdmVyaWZpY2F0aW9uIGZhaWxlZDogeyJ0eG4iOiJ0aGlzLnR4biIsImZpZWxkIjoic2VuZGVyIiwiZXhwZWN0ZWQiOiJ0aGlzLmdvdmVybm9yLnZhbHVlIn0KCWFzc2VydAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czo3OQoJLy8gdGhpcy5nb3Zlcm5vci52YWx1ZSA9IGdvdmVybm9yCglieXRlIDB4NjcgLy8gImciCglmcmFtZV9kaWcgLTEgLy8gZ292ZXJub3I6IEFkZHJlc3MKCWFwcF9nbG9iYWxfcHV0CglyZXRzdWIKCi8vIGJvb3RzdHJhcChwYXksdWludDY0LHVpbnQ2NCl1aW50NjQKKmFiaV9yb3V0ZV9ib290c3RyYXA6CgkvLyBUaGUgQUJJIHJldHVybiBwcmVmaXgKCXB1c2hieXRlcyAweDE1MWY3Yzc1CgoJLy8gYkFzc2V0OiB1aW50NjQKCXR4bmEgQXBwbGljYXRpb25BcmdzIDIKCWJ0b2kKCgkvLyBhQXNzZXQ6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJYnRvaQoKCS8vIHNlZWQ6IHBheQoJdHhuIEdyb3VwSW5kZXgKCWludCAxCgktCglkdXAKCWd0eG5zIFR5cGVFbnVtCglpbnQgMSAvLyBwYXkKCT09CgoJLy8gYXJndW1lbnQgMiAoc2VlZCkgZm9yIGJvb3RzdHJhcCBtdXN0IGJlIGEgcGF5IHRyYW5zYWN0aW9uCglhc3NlcnQKCgkvLyBleGVjdXRlIGJvb3RzdHJhcChwYXksdWludDY0LHVpbnQ2NCl1aW50NjQKCWNhbGxzdWIgYm9vdHN0cmFwCglpdG9iCgljb25jYXQKCWxvZwoJaW50IDEKCXJldHVybgoKLy8gYm9vdHN0cmFwKHNlZWQ6IFBheVR4biwgYUFzc2V0OiBBc3NldElELCBiQXNzZXQ6IEFzc2V0SUQpOiBBc3NldElECmJvb3RzdHJhcDoKCXByb3RvIDMgMQoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czo4MwoJLy8gdmVyaWZ5QXBwQ2FsbFR4bih0aGlzLnR4biwgeyBzZW5kZXI6IHRoaXMuZ292ZXJub3IudmFsdWUgfSkKCS8vIHZlcmlmeSBzZW5kZXIKCXR4biBTZW5kZXIKCWJ5dGUgMHg2NyAvLyAiZyIKCWFwcF9nbG9iYWxfZ2V0Cgk9PQoKCS8vIHRyYW5zYWN0aW9uIHZlcmlmaWNhdGlvbiBmYWlsZWQ6IHsidHhuIjoidGhpcy50eG4iLCJmaWVsZCI6InNlbmRlciIsImV4cGVjdGVkIjoidGhpcy5nb3Zlcm5vci52YWx1ZSJ9Cglhc3NlcnQKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6ODUKCS8vIGFzc2VydChnbG9iYWxzLmdyb3VwU2l6ZSA9PT0gMikKCWdsb2JhbCBHcm91cFNpemUKCXB1c2hpbnQgMgoJPT0KCWFzc2VydAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czo4NwoJLy8gdmVyaWZ5UGF5VHhuKHNlZWQsIHsgcmVjZWl2ZXI6IHRoaXMuYXBwLmFkZHJlc3MsIGFtb3VudDogeyBncmVhdGVyVGhhbkVxdWFsVG86IDMwMF8wMDAgfSB9KQoJLy8gdmVyaWZ5IHJlY2VpdmVyCglmcmFtZV9kaWcgLTEgLy8gc2VlZDogUGF5VHhuCglndHhucyBSZWNlaXZlcgoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCT09CgoJLy8gdHJhbnNhY3Rpb24gdmVyaWZpY2F0aW9uIGZhaWxlZDogeyJ0eG4iOiJzZWVkIiwiZmllbGQiOiJyZWNlaXZlciIsImV4cGVjdGVkIjoidGhpcy5hcHAuYWRkcmVzcyJ9Cglhc3NlcnQKCgkvLyB2ZXJpZnkgYW1vdW50CglmcmFtZV9kaWcgLTEgLy8gc2VlZDogUGF5VHhuCglndHhucyBBbW91bnQKCXB1c2hpbnQgMzAwXzAwMAoJPj0KCgkvLyB0cmFuc2FjdGlvbiB2ZXJpZmljYXRpb24gZmFpbGVkOiB7InR4biI6InNlZWQiLCJmaWVsZCI6ImFtb3VudCIsImNvbmRpdGlvbiI6ImdyZWF0ZXJUaGFuRXF1YWxUbyIsImV4cGVjdGVkIjoiPj0zMDBfMDAwIn0KCWFzc2VydAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czo4OAoJLy8gYXNzZXJ0KGFBc3NldCA8IGJBc3NldCkKCWZyYW1lX2RpZyAtMiAvLyBhQXNzZXQ6IEFzc2V0SUQKCWZyYW1lX2RpZyAtMyAvLyBiQXNzZXQ6IEFzc2V0SUQKCTwKCWFzc2VydAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czo5MAoJLy8gdGhpcy5hc3NldEEudmFsdWUgPSBhQXNzZXQKCWJ5dGUgMHg2MSAvLyAiYSIKCWZyYW1lX2RpZyAtMiAvLyBhQXNzZXQ6IEFzc2V0SUQKCWFwcF9nbG9iYWxfcHV0CgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjkxCgkvLyB0aGlzLmFzc2V0Qi52YWx1ZSA9IGJBc3NldAoJYnl0ZSAweDYyIC8vICJiIgoJZnJhbWVfZGlnIC0zIC8vIGJBc3NldDogQXNzZXRJRAoJYXBwX2dsb2JhbF9wdXQKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6OTIKCS8vIHRoaXMucG9vbFRva2VuLnZhbHVlID0gdGhpcy5kb0NyZWF0ZVBvb2xUb2tlbihhQXNzZXQsIGJBc3NldCkKCWJ5dGUgMHg3MCAvLyAicCIKCWZyYW1lX2RpZyAtMyAvLyBiQXNzZXQ6IEFzc2V0SUQKCWZyYW1lX2RpZyAtMiAvLyBhQXNzZXQ6IEFzc2V0SUQKCWNhbGxzdWIgZG9DcmVhdGVQb29sVG9rZW4KCWFwcF9nbG9iYWxfcHV0CgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjk0CgkvLyB0aGlzLmRvT3B0SW4oYUFzc2V0KQoJZnJhbWVfZGlnIC0yIC8vIGFBc3NldDogQXNzZXRJRAoJY2FsbHN1YiBkb09wdEluCgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjk1CgkvLyB0aGlzLmRvT3B0SW4oYkFzc2V0KQoJZnJhbWVfZGlnIC0zIC8vIGJBc3NldDogQXNzZXRJRAoJY2FsbHN1YiBkb09wdEluCgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjk3CgkvLyByZXR1cm4gdGhpcy5wb29sVG9rZW4udmFsdWU7CglieXRlIDB4NzAgLy8gInAiCglhcHBfZ2xvYmFsX2dldAoJcmV0c3ViCgovLyBtaW50KGF4ZmVyLGF4ZmVyLHVpbnQ2NCx1aW50NjQsdWludDY0KXZvaWQKKmFiaV9yb3V0ZV9taW50OgoJLy8gYkFzc2V0OiB1aW50NjQKCXR4bmEgQXBwbGljYXRpb25BcmdzIDMKCWJ0b2kKCgkvLyBhQXNzZXQ6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgoJYnRvaQoKCS8vIHBvb2xBc3NldDogdWludDY0Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglidG9pCgoJLy8gYlhmZXI6IGF4ZmVyCgl0eG4gR3JvdXBJbmRleAoJaW50IDEKCS0KCWR1cAoJZ3R4bnMgVHlwZUVudW0KCXB1c2hpbnQgNCAvLyBheGZlcgoJPT0KCgkvLyBhcmd1bWVudCAzIChiWGZlcikgZm9yIG1pbnQgbXVzdCBiZSBhIGF4ZmVyIHRyYW5zYWN0aW9uCglhc3NlcnQKCgkvLyBhWGZlcjogYXhmZXIKCXR4biBHcm91cEluZGV4CglwdXNoaW50IDIKCS0KCWR1cAoJZ3R4bnMgVHlwZUVudW0KCXB1c2hpbnQgNCAvLyBheGZlcgoJPT0KCgkvLyBhcmd1bWVudCA0IChhWGZlcikgZm9yIG1pbnQgbXVzdCBiZSBhIGF4ZmVyIHRyYW5zYWN0aW9uCglhc3NlcnQKCgkvLyBleGVjdXRlIG1pbnQoYXhmZXIsYXhmZXIsdWludDY0LHVpbnQ2NCx1aW50NjQpdm9pZAoJY2FsbHN1YiBtaW50CglpbnQgMQoJcmV0dXJuCgovLyBtaW50KGFYZmVyOiBBc3NldFRyYW5zZmVyVHhuLCBiWGZlcjogQXNzZXRUcmFuc2ZlclR4biwgcG9vbEFzc2V0OiBBc3NldElELCBhQXNzZXQ6IEFzc2V0SUQsIGJBc3NldDogQXNzZXRJRCk6IHZvaWQKbWludDoKCXByb3RvIDUgMAoKCS8vIFB1c2ggZW1wdHkgYnl0ZXMgYWZ0ZXIgdGhlIGZyYW1lIHBvaW50ZXIgdG8gcmVzZXJ2ZSBzcGFjZSBmb3IgbG9jYWwgdmFyaWFibGVzCglieXRlIDB4CgoJLy8gd2VsbCBmb3JtZWQgbWludAoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjEwMgoJLy8gYXNzZXJ0KGFBc3NldCA9PT0gdGhpcy5hc3NldEEudmFsdWUpCglmcmFtZV9kaWcgLTQgLy8gYUFzc2V0OiBBc3NldElECglieXRlIDB4NjEgLy8gImEiCglhcHBfZ2xvYmFsX2dldAoJPT0KCWFzc2VydAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoxMDMKCS8vIGFzc2VydChiQXNzZXQgPT09IHRoaXMuYXNzZXRCLnZhbHVlKQoJZnJhbWVfZGlnIC01IC8vIGJBc3NldDogQXNzZXRJRAoJYnl0ZSAweDYyIC8vICJiIgoJYXBwX2dsb2JhbF9nZXQKCT09Cglhc3NlcnQKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTA0CgkvLyBhc3NlcnQocG9vbEFzc2V0ID09PSB0aGlzLnBvb2xUb2tlbi52YWx1ZSkKCWZyYW1lX2RpZyAtMyAvLyBwb29sQXNzZXQ6IEFzc2V0SUQKCWJ5dGUgMHg3MCAvLyAicCIKCWFwcF9nbG9iYWxfZ2V0Cgk9PQoJYXNzZXJ0CgoJLy8gdmFsaWQgYXNzZXQgQSBheGZlcgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjEwNwoJLy8gdmVyaWZ5QXNzZXRUcmFuc2ZlclR4bihhWGZlciwgewoJLy8gICAgICAgc2VuZGVyOiB0aGlzLnR4bi5zZW5kZXIsCgkvLyAgICAgICBhc3NldEFtb3VudDogeyBncmVhdGVyVGhhbjogMCB9LAoJLy8gICAgICAgYXNzZXRSZWNlaXZlcjogdGhpcy5hcHAuYWRkcmVzcywKCS8vICAgICAgIHhmZXJBc3NldDogYUFzc2V0LAoJLy8gICAgIH0pCgkvLyB2ZXJpZnkgc2VuZGVyCglmcmFtZV9kaWcgLTEgLy8gYVhmZXI6IEFzc2V0VHJhbnNmZXJUeG4KCWd0eG5zIFNlbmRlcgoJdHhuIFNlbmRlcgoJPT0KCgkvLyB0cmFuc2FjdGlvbiB2ZXJpZmljYXRpb24gZmFpbGVkOiB7InR4biI6ImFYZmVyIiwiZmllbGQiOiJzZW5kZXIiLCJleHBlY3RlZCI6InRoaXMudHhuLnNlbmRlciJ9Cglhc3NlcnQKCgkvLyB2ZXJpZnkgYXNzZXRBbW91bnQKCWZyYW1lX2RpZyAtMSAvLyBhWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgQXNzZXRBbW91bnQKCWludCAwCgk+CgoJLy8gdHJhbnNhY3Rpb24gdmVyaWZpY2F0aW9uIGZhaWxlZDogeyJ0eG4iOiJhWGZlciIsImZpZWxkIjoiYXNzZXRBbW91bnQiLCJjb25kaXRpb24iOiJncmVhdGVyVGhhbiIsImV4cGVjdGVkIjoiPjAifQoJYXNzZXJ0CgoJLy8gdmVyaWZ5IGFzc2V0UmVjZWl2ZXIKCWZyYW1lX2RpZyAtMSAvLyBhWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgQXNzZXRSZWNlaXZlcgoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCT09CgoJLy8gdHJhbnNhY3Rpb24gdmVyaWZpY2F0aW9uIGZhaWxlZDogeyJ0eG4iOiJhWGZlciIsImZpZWxkIjoiYXNzZXRSZWNlaXZlciIsImV4cGVjdGVkIjoidGhpcy5hcHAuYWRkcmVzcyJ9Cglhc3NlcnQKCgkvLyB2ZXJpZnkgeGZlckFzc2V0CglmcmFtZV9kaWcgLTEgLy8gYVhmZXI6IEFzc2V0VHJhbnNmZXJUeG4KCWd0eG5zIFhmZXJBc3NldAoJZnJhbWVfZGlnIC00IC8vIGFBc3NldDogQXNzZXRJRAoJPT0KCgkvLyB0cmFuc2FjdGlvbiB2ZXJpZmljYXRpb24gZmFpbGVkOiB7InR4biI6ImFYZmVyIiwiZmllbGQiOiJ4ZmVyQXNzZXQiLCJleHBlY3RlZCI6ImFBc3NldCJ9Cglhc3NlcnQKCgkvLyB2YWxpZCBhc3NldCBCIGF4ZmVyCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTE1CgkvLyB2ZXJpZnlBc3NldFRyYW5zZmVyVHhuKGJYZmVyLCB7CgkvLyAgICAgICBzZW5kZXI6IHRoaXMudHhuLnNlbmRlciwKCS8vICAgICAgIGFzc2V0QW1vdW50OiB7IGdyZWF0ZXJUaGFuOiAwIH0sCgkvLyAgICAgICBhc3NldFJlY2VpdmVyOiB0aGlzLmFwcC5hZGRyZXNzLAoJLy8gICAgICAgeGZlckFzc2V0OiBiQXNzZXQsCgkvLyAgICAgfSkKCS8vIHZlcmlmeSBzZW5kZXIKCWZyYW1lX2RpZyAtMiAvLyBiWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgU2VuZGVyCgl0eG4gU2VuZGVyCgk9PQoKCS8vIHRyYW5zYWN0aW9uIHZlcmlmaWNhdGlvbiBmYWlsZWQ6IHsidHhuIjoiYlhmZXIiLCJmaWVsZCI6InNlbmRlciIsImV4cGVjdGVkIjoidGhpcy50eG4uc2VuZGVyIn0KCWFzc2VydAoKCS8vIHZlcmlmeSBhc3NldEFtb3VudAoJZnJhbWVfZGlnIC0yIC8vIGJYZmVyOiBBc3NldFRyYW5zZmVyVHhuCglndHhucyBBc3NldEFtb3VudAoJaW50IDAKCT4KCgkvLyB0cmFuc2FjdGlvbiB2ZXJpZmljYXRpb24gZmFpbGVkOiB7InR4biI6ImJYZmVyIiwiZmllbGQiOiJhc3NldEFtb3VudCIsImNvbmRpdGlvbiI6ImdyZWF0ZXJUaGFuIiwiZXhwZWN0ZWQiOiI+MCJ9Cglhc3NlcnQKCgkvLyB2ZXJpZnkgYXNzZXRSZWNlaXZlcgoJZnJhbWVfZGlnIC0yIC8vIGJYZmVyOiBBc3NldFRyYW5zZmVyVHhuCglndHhucyBBc3NldFJlY2VpdmVyCglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJPT0KCgkvLyB0cmFuc2FjdGlvbiB2ZXJpZmljYXRpb24gZmFpbGVkOiB7InR4biI6ImJYZmVyIiwiZmllbGQiOiJhc3NldFJlY2VpdmVyIiwiZXhwZWN0ZWQiOiJ0aGlzLmFwcC5hZGRyZXNzIn0KCWFzc2VydAoKCS8vIHZlcmlmeSB4ZmVyQXNzZXQKCWZyYW1lX2RpZyAtMiAvLyBiWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgWGZlckFzc2V0CglmcmFtZV9kaWcgLTUgLy8gYkFzc2V0OiBBc3NldElECgk9PQoKCS8vIHRyYW5zYWN0aW9uIHZlcmlmaWNhdGlvbiBmYWlsZWQ6IHsidHhuIjoiYlhmZXIiLCJmaWVsZCI6InhmZXJBc3NldCIsImV4cGVjdGVkIjoiYkFzc2V0In0KCWFzc2VydAoKCS8vICppZjBfY29uZGl0aW9uCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTIzCgkvLyB0aGlzLmFwcC5hZGRyZXNzLmFzc2V0QmFsYW5jZShhQXNzZXQpID09PSBhWGZlci5hc3NldEFtb3VudCAmJgoJLy8gICAgICAgdGhpcy5hcHAuYWRkcmVzcy5hc3NldEJhbGFuY2UoYkFzc2V0KSA9PT0gYlhmZXIuYXNzZXRBbW91bnQKCWdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCglmcmFtZV9kaWcgLTQgLy8gYUFzc2V0OiBBc3NldElECglhc3NldF9ob2xkaW5nX2dldCBBc3NldEJhbGFuY2UKCXBvcAoJZnJhbWVfZGlnIC0xIC8vIGFYZmVyOiBBc3NldFRyYW5zZmVyVHhuCglndHhucyBBc3NldEFtb3VudAoJPT0KCWR1cAoJYnogKnNraXBfYW5kMAoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCWZyYW1lX2RpZyAtNSAvLyBiQXNzZXQ6IEFzc2V0SUQKCWFzc2V0X2hvbGRpbmdfZ2V0IEFzc2V0QmFsYW5jZQoJcG9wCglmcmFtZV9kaWcgLTIgLy8gYlhmZXI6IEFzc2V0VHJhbnNmZXJUeG4KCWd0eG5zIEFzc2V0QW1vdW50Cgk9PQoJJiYKCipza2lwX2FuZDA6CglieiAqaWYwX2Vsc2UKCgkvLyAqaWYwX2NvbnNlcXVlbnQKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoxMjYKCS8vIHRoaXMudG9rZW5zVG9NaW50SW50aWFsKGFYZmVyLmFzc2V0QW1vdW50LCBiWGZlci5hc3NldEFtb3VudCkKCWZyYW1lX2RpZyAtMiAvLyBiWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgQXNzZXRBbW91bnQKCWZyYW1lX2RpZyAtMSAvLyBhWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgQXNzZXRBbW91bnQKCWNhbGxzdWIgdG9rZW5zVG9NaW50SW50aWFsCgliICppZjBfZW5kCgoqaWYwX2Vsc2U6CgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTI4CgkvLyB0b01pbnQgPSB0aGlzLnRva2Vuc1RvTWludCgKCS8vICAgICAgICAgVE9UQUxfU1VQUExZIC0gdGhpcy5hcHAuYWRkcmVzcy5hc3NldEJhbGFuY2UocG9vbEFzc2V0KSwKCS8vICAgICAgICAgdGhpcy5hcHAuYWRkcmVzcy5hc3NldEJhbGFuY2UoYUFzc2V0KSAtIGFYZmVyLmFzc2V0QW1vdW50LAoJLy8gICAgICAgICB0aGlzLmFwcC5hZGRyZXNzLmFzc2V0QmFsYW5jZShiQXNzZXQpIC0gYlhmZXIuYXNzZXRBbW91bnQsCgkvLyAgICAgICAgIGFYZmVyLmFzc2V0QW1vdW50LAoJLy8gICAgICAgICBiWGZlci5hc3NldEFtb3VudAoJLy8gICAgICAgKQoJZnJhbWVfZGlnIC0yIC8vIGJYZmVyOiBBc3NldFRyYW5zZmVyVHhuCglndHhucyBBc3NldEFtb3VudAoJZnJhbWVfZGlnIC0xIC8vIGFYZmVyOiBBc3NldFRyYW5zZmVyVHhuCglndHhucyBBc3NldEFtb3VudAoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCWZyYW1lX2RpZyAtNSAvLyBiQXNzZXQ6IEFzc2V0SUQKCWFzc2V0X2hvbGRpbmdfZ2V0IEFzc2V0QmFsYW5jZQoJcG9wCglmcmFtZV9kaWcgLTIgLy8gYlhmZXI6IEFzc2V0VHJhbnNmZXJUeG4KCWd0eG5zIEFzc2V0QW1vdW50CgktCglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJZnJhbWVfZGlnIC00IC8vIGFBc3NldDogQXNzZXRJRAoJYXNzZXRfaG9sZGluZ19nZXQgQXNzZXRCYWxhbmNlCglwb3AKCWZyYW1lX2RpZyAtMSAvLyBhWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgQXNzZXRBbW91bnQKCS0KCWludCAxMDAwMDAwMDAwMAoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCWZyYW1lX2RpZyAtMyAvLyBwb29sQXNzZXQ6IEFzc2V0SUQKCWFzc2V0X2hvbGRpbmdfZ2V0IEFzc2V0QmFsYW5jZQoJcG9wCgktCgljYWxsc3ViIHRva2Vuc1RvTWludAoJZnJhbWVfYnVyeSAwIC8vIHRvTWludDogdWludDY0CgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjEzNgoJLy8gYXNzZXJ0KHRvTWludCA+IDApCglmcmFtZV9kaWcgMCAvLyB0b01pbnQ6IHVpbnQ2NAoJaW50IDAKCT4KCWFzc2VydAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoxMzgKCS8vIHRoaXMuZG9BeGZlcih0aGlzLnR4bi5zZW5kZXIsIHBvb2xBc3NldCwgdG9NaW50KQoJZnJhbWVfZGlnIDAgLy8gdG9NaW50OiB1aW50NjQKCWZyYW1lX2RpZyAtMyAvLyBwb29sQXNzZXQ6IEFzc2V0SUQKCXR4biBTZW5kZXIKCWNhbGxzdWIgZG9BeGZlcgoKKmlmMF9lbmQ6CglyZXRzdWIKCi8vIGJ1cm4oYXhmZXIsdWludDY0LHVpbnQ2NCx1aW50NjQpdm9pZAoqYWJpX3JvdXRlX2J1cm46CgkvLyBiQXNzZXQ6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMwoJYnRvaQoKCS8vIGFBc3NldDogdWludDY0Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAyCglidG9pCgoJLy8gcG9vbEFzc2V0OiB1aW50NjQKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWJ0b2kKCgkvLyBwb29sWGZlcjogYXhmZXIKCXR4biBHcm91cEluZGV4CglpbnQgMQoJLQoJZHVwCglndHhucyBUeXBlRW51bQoJcHVzaGludCA0IC8vIGF4ZmVyCgk9PQoKCS8vIGFyZ3VtZW50IDMgKHBvb2xYZmVyKSBmb3IgYnVybiBtdXN0IGJlIGEgYXhmZXIgdHJhbnNhY3Rpb24KCWFzc2VydAoKCS8vIGV4ZWN1dGUgYnVybihheGZlcix1aW50NjQsdWludDY0LHVpbnQ2NCl2b2lkCgljYWxsc3ViIGJ1cm4KCWludCAxCglyZXR1cm4KCi8vIGJ1cm4ocG9vbFhmZXI6IEFzc2V0VHJhbnNmZXJUeG4sIHBvb2xBc3NldDogQXNzZXRJRCwgYUFzc2V0OiBBc3NldElELCBiQXNzZXQ6IEFzc2V0SUQpOiB2b2lkCmJ1cm46Cglwcm90byA0IDAKCgkvLyBQdXNoIGVtcHR5IGJ5dGVzIGFmdGVyIHRoZSBmcmFtZSBwb2ludGVyIHRvIHJlc2VydmUgc3BhY2UgZm9yIGxvY2FsIHZhcmlhYmxlcwoJYnl0ZSAweAoJZHVwbiAyCgoJLy8gd2VsbCBmb3JtZWQgYnVybgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjE0NAoJLy8gYXNzZXJ0KHBvb2xBc3NldCA9PT0gdGhpcy5wb29sVG9rZW4udmFsdWUpCglmcmFtZV9kaWcgLTIgLy8gcG9vbEFzc2V0OiBBc3NldElECglieXRlIDB4NzAgLy8gInAiCglhcHBfZ2xvYmFsX2dldAoJPT0KCWFzc2VydAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoxNDUKCS8vIGFzc2VydChhQXNzZXQgPT09IHRoaXMuYXNzZXRBLnZhbHVlKQoJZnJhbWVfZGlnIC0zIC8vIGFBc3NldDogQXNzZXRJRAoJYnl0ZSAweDYxIC8vICJhIgoJYXBwX2dsb2JhbF9nZXQKCT09Cglhc3NlcnQKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTQ2CgkvLyBhc3NlcnQoYkFzc2V0ID09PSB0aGlzLmFzc2V0Qi52YWx1ZSkKCWZyYW1lX2RpZyAtNCAvLyBiQXNzZXQ6IEFzc2V0SUQKCWJ5dGUgMHg2MiAvLyAiYiIKCWFwcF9nbG9iYWxfZ2V0Cgk9PQoJYXNzZXJ0CgoJLy8gdmFsaWQgcG9vbCBheGZlcgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjE0OQoJLy8gdmVyaWZ5QXNzZXRUcmFuc2ZlclR4bihwb29sWGZlciwgewoJLy8gICAgICAgc2VuZGVyOiB0aGlzLnR4bi5zZW5kZXIsCgkvLyAgICAgICBhc3NldEFtb3VudDogeyBncmVhdGVyVGhhbjogMCB9LAoJLy8gICAgICAgYXNzZXRSZWNlaXZlcjogdGhpcy5hcHAuYWRkcmVzcywKCS8vICAgICAgIHhmZXJBc3NldDogcG9vbEFzc2V0LAoJLy8gICAgIH0pCgkvLyB2ZXJpZnkgc2VuZGVyCglmcmFtZV9kaWcgLTEgLy8gcG9vbFhmZXI6IEFzc2V0VHJhbnNmZXJUeG4KCWd0eG5zIFNlbmRlcgoJdHhuIFNlbmRlcgoJPT0KCgkvLyB0cmFuc2FjdGlvbiB2ZXJpZmljYXRpb24gZmFpbGVkOiB7InR4biI6InBvb2xYZmVyIiwiZmllbGQiOiJzZW5kZXIiLCJleHBlY3RlZCI6InRoaXMudHhuLnNlbmRlciJ9Cglhc3NlcnQKCgkvLyB2ZXJpZnkgYXNzZXRBbW91bnQKCWZyYW1lX2RpZyAtMSAvLyBwb29sWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgQXNzZXRBbW91bnQKCWludCAwCgk+CgoJLy8gdHJhbnNhY3Rpb24gdmVyaWZpY2F0aW9uIGZhaWxlZDogeyJ0eG4iOiJwb29sWGZlciIsImZpZWxkIjoiYXNzZXRBbW91bnQiLCJjb25kaXRpb24iOiJncmVhdGVyVGhhbiIsImV4cGVjdGVkIjoiPjAifQoJYXNzZXJ0CgoJLy8gdmVyaWZ5IGFzc2V0UmVjZWl2ZXIKCWZyYW1lX2RpZyAtMSAvLyBwb29sWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgQXNzZXRSZWNlaXZlcgoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCT09CgoJLy8gdHJhbnNhY3Rpb24gdmVyaWZpY2F0aW9uIGZhaWxlZDogeyJ0eG4iOiJwb29sWGZlciIsImZpZWxkIjoiYXNzZXRSZWNlaXZlciIsImV4cGVjdGVkIjoidGhpcy5hcHAuYWRkcmVzcyJ9Cglhc3NlcnQKCgkvLyB2ZXJpZnkgeGZlckFzc2V0CglmcmFtZV9kaWcgLTEgLy8gcG9vbFhmZXI6IEFzc2V0VHJhbnNmZXJUeG4KCWd0eG5zIFhmZXJBc3NldAoJZnJhbWVfZGlnIC0yIC8vIHBvb2xBc3NldDogQXNzZXRJRAoJPT0KCgkvLyB0cmFuc2FjdGlvbiB2ZXJpZmljYXRpb24gZmFpbGVkOiB7InR4biI6InBvb2xYZmVyIiwiZmllbGQiOiJ4ZmVyQXNzZXQiLCJleHBlY3RlZCI6InBvb2xBc3NldCJ9Cglhc3NlcnQKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTU2CgkvLyBpc3N1ZWQgPSBUT1RBTF9TVVBQTFkgLSAodGhpcy5hcHAuYWRkcmVzcy5hc3NldEJhbGFuY2UocG9vbEFzc2V0KSAtIHBvb2xYZmVyLmFzc2V0QW1vdW50KQoJaW50IDEwMDAwMDAwMDAwCglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJZnJhbWVfZGlnIC0yIC8vIHBvb2xBc3NldDogQXNzZXRJRAoJYXNzZXRfaG9sZGluZ19nZXQgQXNzZXRCYWxhbmNlCglwb3AKCWZyYW1lX2RpZyAtMSAvLyBwb29sWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgQXNzZXRBbW91bnQKCS0KCS0KCWZyYW1lX2J1cnkgMCAvLyBpc3N1ZWQ6IHVpbnQ2NAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoxNTgKCS8vIGFBbXQgPSB0aGlzLnRva2Vuc1RvQnVybihpc3N1ZWQsIHRoaXMuYXBwLmFkZHJlc3MuYXNzZXRCYWxhbmNlKGFBc3NldCksIHBvb2xYZmVyLmFzc2V0QW1vdW50KQoJZnJhbWVfZGlnIC0xIC8vIHBvb2xYZmVyOiBBc3NldFRyYW5zZmVyVHhuCglndHhucyBBc3NldEFtb3VudAoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCWZyYW1lX2RpZyAtMyAvLyBhQXNzZXQ6IEFzc2V0SUQKCWFzc2V0X2hvbGRpbmdfZ2V0IEFzc2V0QmFsYW5jZQoJcG9wCglmcmFtZV9kaWcgMCAvLyBpc3N1ZWQ6IHVpbnQ2NAoJY2FsbHN1YiB0b2tlbnNUb0J1cm4KCWZyYW1lX2J1cnkgMSAvLyBhQW10OiB1aW50NjQKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTYwCgkvLyBiQW10ID0gdGhpcy50b2tlbnNUb0J1cm4oaXNzdWVkLCB0aGlzLmFwcC5hZGRyZXNzLmFzc2V0QmFsYW5jZShiQXNzZXQpLCBwb29sWGZlci5hc3NldEFtb3VudCkKCWZyYW1lX2RpZyAtMSAvLyBwb29sWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgQXNzZXRBbW91bnQKCWdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCglmcmFtZV9kaWcgLTQgLy8gYkFzc2V0OiBBc3NldElECglhc3NldF9ob2xkaW5nX2dldCBBc3NldEJhbGFuY2UKCXBvcAoJZnJhbWVfZGlnIDAgLy8gaXNzdWVkOiB1aW50NjQKCWNhbGxzdWIgdG9rZW5zVG9CdXJuCglmcmFtZV9idXJ5IDIgLy8gYkFtdDogdWludDY0CgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjE2MgoJLy8gdGhpcy5kb0F4ZmVyKHRoaXMudHhuLnNlbmRlciwgYUFzc2V0LCBhQW10KQoJZnJhbWVfZGlnIDEgLy8gYUFtdDogdWludDY0CglmcmFtZV9kaWcgLTMgLy8gYUFzc2V0OiBBc3NldElECgl0eG4gU2VuZGVyCgljYWxsc3ViIGRvQXhmZXIKCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTYzCgkvLyB0aGlzLmRvQXhmZXIodGhpcy50eG4uc2VuZGVyLCBiQXNzZXQsIGJBbXQpCglmcmFtZV9kaWcgMiAvLyBiQW10OiB1aW50NjQKCWZyYW1lX2RpZyAtNCAvLyBiQXNzZXQ6IEFzc2V0SUQKCXR4biBTZW5kZXIKCWNhbGxzdWIgZG9BeGZlcgoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoxNjUKCS8vIHRoaXMucmF0aW8udmFsdWUgPSB0aGlzLmNvbXB1dGVSYXRpbygpCglieXRlIDB4NzIgLy8gInIiCgljYWxsc3ViIGNvbXB1dGVSYXRpbwoJYXBwX2dsb2JhbF9wdXQKCXJldHN1YgoKLy8gc3dhcChheGZlcix1aW50NjQsdWludDY0KXZvaWQKKmFiaV9yb3V0ZV9zd2FwOgoJLy8gYkFzc2V0OiB1aW50NjQKCXR4bmEgQXBwbGljYXRpb25BcmdzIDIKCWJ0b2kKCgkvLyBhQXNzZXQ6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJYnRvaQoKCS8vIHN3YXBYZmVyOiBheGZlcgoJdHhuIEdyb3VwSW5kZXgKCWludCAxCgktCglkdXAKCWd0eG5zIFR5cGVFbnVtCglwdXNoaW50IDQgLy8gYXhmZXIKCT09CgoJLy8gYXJndW1lbnQgMiAoc3dhcFhmZXIpIGZvciBzd2FwIG11c3QgYmUgYSBheGZlciB0cmFuc2FjdGlvbgoJYXNzZXJ0CgoJLy8gZXhlY3V0ZSBzd2FwKGF4ZmVyLHVpbnQ2NCx1aW50NjQpdm9pZAoJY2FsbHN1YiBzd2FwCglpbnQgMQoJcmV0dXJuCgovLyBzd2FwKHN3YXBYZmVyOiBBc3NldFRyYW5zZmVyVHhuLCBhQXNzZXQ6IEFzc2V0SUQsIGJBc3NldDogQXNzZXRJRCk6IHZvaWQKc3dhcDoKCXByb3RvIDMgMAoKCS8vIFB1c2ggZW1wdHkgYnl0ZXMgYWZ0ZXIgdGhlIGZyYW1lIHBvaW50ZXIgdG8gcmVzZXJ2ZSBzcGFjZSBmb3IgbG9jYWwgdmFyaWFibGVzCglieXRlIDB4CglkdXBuIDIKCgkvLyB3ZWxsIGZvcm1lZCBzd2FwCgkvLyBleGFtcGxlcy9hbW0vYW1tLmFsZ28udHM6MTcwCgkvLyBhc3NlcnQoYUFzc2V0ID09PSB0aGlzLmFzc2V0QS52YWx1ZSkKCWZyYW1lX2RpZyAtMiAvLyBhQXNzZXQ6IEFzc2V0SUQKCWJ5dGUgMHg2MSAvLyAiYSIKCWFwcF9nbG9iYWxfZ2V0Cgk9PQoJYXNzZXJ0CgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjE3MQoJLy8gYXNzZXJ0KGJBc3NldCA9PT0gdGhpcy5hc3NldEIudmFsdWUpCglmcmFtZV9kaWcgLTMgLy8gYkFzc2V0OiBBc3NldElECglieXRlIDB4NjIgLy8gImIiCglhcHBfZ2xvYmFsX2dldAoJPT0KCWFzc2VydAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoxNzMKCS8vIHZlcmlmeUFzc2V0VHJhbnNmZXJUeG4oc3dhcFhmZXIsIHsKCS8vICAgICAgIGFzc2V0QW1vdW50OiB7IGdyZWF0ZXJUaGFuOiAwIH0sCgkvLyAgICAgICBhc3NldFJlY2VpdmVyOiB0aGlzLmFwcC5hZGRyZXNzLAoJLy8gICAgICAgc2VuZGVyOiB0aGlzLnR4bi5zZW5kZXIsCgkvLyAgICAgICB4ZmVyQXNzZXQ6IHsgaW5jbHVkZWRJbjogW2FBc3NldCwgYkFzc2V0XSB9LAoJLy8gICAgIH0pCgkvLyB2ZXJpZnkgYXNzZXRBbW91bnQKCWZyYW1lX2RpZyAtMSAvLyBzd2FwWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgQXNzZXRBbW91bnQKCWludCAwCgk+CgoJLy8gdHJhbnNhY3Rpb24gdmVyaWZpY2F0aW9uIGZhaWxlZDogeyJ0eG4iOiJzd2FwWGZlciIsImZpZWxkIjoiYXNzZXRBbW91bnQiLCJjb25kaXRpb24iOiJncmVhdGVyVGhhbiIsImV4cGVjdGVkIjoiPjAifQoJYXNzZXJ0CgoJLy8gdmVyaWZ5IGFzc2V0UmVjZWl2ZXIKCWZyYW1lX2RpZyAtMSAvLyBzd2FwWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgQXNzZXRSZWNlaXZlcgoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCT09CgoJLy8gdHJhbnNhY3Rpb24gdmVyaWZpY2F0aW9uIGZhaWxlZDogeyJ0eG4iOiJzd2FwWGZlciIsImZpZWxkIjoiYXNzZXRSZWNlaXZlciIsImV4cGVjdGVkIjoidGhpcy5hcHAuYWRkcmVzcyJ9Cglhc3NlcnQKCgkvLyB2ZXJpZnkgc2VuZGVyCglmcmFtZV9kaWcgLTEgLy8gc3dhcFhmZXI6IEFzc2V0VHJhbnNmZXJUeG4KCWd0eG5zIFNlbmRlcgoJdHhuIFNlbmRlcgoJPT0KCgkvLyB0cmFuc2FjdGlvbiB2ZXJpZmljYXRpb24gZmFpbGVkOiB7InR4biI6InN3YXBYZmVyIiwiZmllbGQiOiJzZW5kZXIiLCJleHBlY3RlZCI6InRoaXMudHhuLnNlbmRlciJ9Cglhc3NlcnQKCgkvLyB2ZXJpZnkgeGZlckFzc2V0CglmcmFtZV9kaWcgLTEgLy8gc3dhcFhmZXI6IEFzc2V0VHJhbnNmZXJUeG4KCWd0eG5zIFhmZXJBc3NldAoJZnJhbWVfZGlnIC0yIC8vIGFBc3NldDogQXNzZXRJRAoJPT0KCWZyYW1lX2RpZyAtMSAvLyBzd2FwWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgWGZlckFzc2V0CglmcmFtZV9kaWcgLTMgLy8gYkFzc2V0OiBBc3NldElECgk9PQoJfHwKCgkvLyB0cmFuc2FjdGlvbiB2ZXJpZmljYXRpb24gZmFpbGVkOiB7InR4biI6eyJ0eG5UZXh0Ijoic3dhcFhmZXIifSwiZmllbGQiOiJ4ZmVyQXNzZXQiLCJjb25kaXRpb24iOiJpbmNsdWRlZEluIiwiZXhwZWN0ZWQiOiJbYUFzc2V0LCBiQXNzZXRdIn0KCWFzc2VydAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoxODAKCS8vIG91dElkID0gc3dhcFhmZXIueGZlckFzc2V0ID09PSBhQXNzZXQgPyBhQXNzZXQgOiBiQXNzZXQKCWZyYW1lX2RpZyAtMSAvLyBzd2FwWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgWGZlckFzc2V0CglmcmFtZV9kaWcgLTIgLy8gYUFzc2V0OiBBc3NldElECgk9PQoJYnogKnRlcm5hcnkxX2ZhbHNlCglmcmFtZV9kaWcgLTIgLy8gYUFzc2V0OiBBc3NldElECgliICp0ZXJuYXJ5MV9lbmQKCip0ZXJuYXJ5MV9mYWxzZToKCWZyYW1lX2RpZyAtMyAvLyBiQXNzZXQ6IEFzc2V0SUQKCip0ZXJuYXJ5MV9lbmQ6CglmcmFtZV9idXJ5IDAgLy8gb3V0SWQ6IHVpbnQ2NAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoxODIKCS8vIGluSWQgPSBzd2FwWGZlci54ZmVyQXNzZXQKCWZyYW1lX2RpZyAtMSAvLyBzd2FwWGZlcjogQXNzZXRUcmFuc2ZlclR4bgoJZ3R4bnMgWGZlckFzc2V0CglmcmFtZV9idXJ5IDEgLy8gaW5JZDogdWludDY0CgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjE4NAoJLy8gdG9Td2FwID0gdGhpcy50b2tlbnNUb1N3YXAoCgkvLyAgICAgICBzd2FwWGZlci5hc3NldEFtb3VudCwKCS8vICAgICAgIHRoaXMuYXBwLmFkZHJlc3MuYXNzZXRCYWxhbmNlKGluSWQpIC0gc3dhcFhmZXIuYXNzZXRBbW91bnQsCgkvLyAgICAgICB0aGlzLmFwcC5hZGRyZXNzLmFzc2V0QmFsYW5jZShvdXRJZCkKCS8vICAgICApCglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJZnJhbWVfZGlnIDAgLy8gb3V0SWQ6IHVpbnQ2NAoJYXNzZXRfaG9sZGluZ19nZXQgQXNzZXRCYWxhbmNlCglwb3AKCWdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCglmcmFtZV9kaWcgMSAvLyBpbklkOiB1aW50NjQKCWFzc2V0X2hvbGRpbmdfZ2V0IEFzc2V0QmFsYW5jZQoJcG9wCglmcmFtZV9kaWcgLTEgLy8gc3dhcFhmZXI6IEFzc2V0VHJhbnNmZXJUeG4KCWd0eG5zIEFzc2V0QW1vdW50CgktCglmcmFtZV9kaWcgLTEgLy8gc3dhcFhmZXI6IEFzc2V0VHJhbnNmZXJUeG4KCWd0eG5zIEFzc2V0QW1vdW50CgljYWxsc3ViIHRva2Vuc1RvU3dhcAoJZnJhbWVfYnVyeSAyIC8vIHRvU3dhcDogdWludDY0CgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjE5MAoJLy8gYXNzZXJ0KHRvU3dhcCA+IDApCglmcmFtZV9kaWcgMiAvLyB0b1N3YXA6IHVpbnQ2NAoJaW50IDAKCT4KCWFzc2VydAoKCS8vIGV4YW1wbGVzL2FtbS9hbW0uYWxnby50czoxOTIKCS8vIHRoaXMuZG9BeGZlcih0aGlzLnR4bi5zZW5kZXIsIG91dElkLCB0b1N3YXApCglmcmFtZV9kaWcgMiAvLyB0b1N3YXA6IHVpbnQ2NAoJZnJhbWVfZGlnIDAgLy8gb3V0SWQ6IHVpbnQ2NAoJdHhuIFNlbmRlcgoJY2FsbHN1YiBkb0F4ZmVyCgoJLy8gZXhhbXBsZXMvYW1tL2FtbS5hbGdvLnRzOjE5NAoJLy8gdGhpcy5yYXRpby52YWx1ZSA9IHRoaXMuY29tcHV0ZVJhdGlvKCkKCWJ5dGUgMHg3MiAvLyAiciIKCWNhbGxzdWIgY29tcHV0ZVJhdGlvCglhcHBfZ2xvYmFsX3B1dAoJcmV0c3ViCgoqY3JlYXRlX05vT3A6CglwdXNoYnl0ZXMgMHhiODQ0N2IzNiAvLyBtZXRob2QgImNyZWF0ZUFwcGxpY2F0aW9uKCl2b2lkIgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggKmFiaV9yb3V0ZV9jcmVhdGVBcHBsaWNhdGlvbgoKCS8vIHRoaXMgY29udHJhY3QgZG9lcyBub3QgaW1wbGVtZW50IHRoZSBnaXZlbiBBQkkgbWV0aG9kIGZvciBjcmVhdGUgTm9PcAoJZXJyCgoqY2FsbF9Ob09wOgoJcHVzaGJ5dGVzIDB4ZGRjNGNiNGEgLy8gbWV0aG9kICJzZXRfZ292ZXJub3IoYWRkcmVzcyl2b2lkIgoJcHVzaGJ5dGVzIDB4MjVlNmMzNzYgLy8gbWV0aG9kICJib290c3RyYXAocGF5LHVpbnQ2NCx1aW50NjQpdWludDY0IgoJcHVzaGJ5dGVzIDB4MTAwNDVjNzkgLy8gbWV0aG9kICJtaW50KGF4ZmVyLGF4ZmVyLHVpbnQ2NCx1aW50NjQsdWludDY0KXZvaWQiCglwdXNoYnl0ZXMgMHgwMjhlMzdjMSAvLyBtZXRob2QgImJ1cm4oYXhmZXIsdWludDY0LHVpbnQ2NCx1aW50NjQpdm9pZCIKCXB1c2hieXRlcyAweDYzMmFhZWQ4IC8vIG1ldGhvZCAic3dhcChheGZlcix1aW50NjQsdWludDY0KXZvaWQiCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAwCgltYXRjaCAqYWJpX3JvdXRlX3NldF9nb3Zlcm5vciAqYWJpX3JvdXRlX2Jvb3RzdHJhcCAqYWJpX3JvdXRlX21pbnQgKmFiaV9yb3V0ZV9idXJuICphYmlfcm91dGVfc3dhcAoKCS8vIHRoaXMgY29udHJhY3QgZG9lcyBub3QgaW1wbGVtZW50IHRoZSBnaXZlbiBBQkkgbWV0aG9kIGZvciBjYWxsIE5vT3AKCWVycg==",
     "clear": "I3ByYWdtYSB2ZXJzaW9uIDEw"
   },
   "byteCode": {
