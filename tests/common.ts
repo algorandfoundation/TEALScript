@@ -44,7 +44,7 @@ export function artifactsTest(
   artifactsPath: string,
   className: string,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  options: { lsig?: boolean; templateVars?: Record<string, any> } = {}
+  options: { lsig?: boolean } = {}
 ) {
   const project = sourcePath.startsWith('examples/') ? EXAMPLES_PROJECT : TESTS_PROJECT;
   const compiler = new Compiler({
@@ -70,22 +70,7 @@ export function artifactsTest(
     });
 
     test('Maintains program size', async function () {
-      // eslint-disable-next-line no-use-before-define
-      let teal = compiler.teal[target]
-        .map((t) => t.teal)
-        .map((l) => l.trim())
-        .filter((l) => !l.startsWith('//'))
-        .join('\n');
-
-      if (options.templateVars) {
-        Object.entries(options.templateVars).forEach(([key, value]) => {
-          teal = teal.replace(`TMPL_${key}`, value);
-        });
-      }
-      const compiled = await algodClient.compile(teal).do();
-      const compiledBytes = Buffer.from(compiled.result, 'base64');
-
-      expect(compiledBytes.byteLength).toMatchSnapshot();
+      expect(compiler.estimatedProgramSize[target]).toMatchSnapshot();
     });
 
     if (!options.lsig) {
