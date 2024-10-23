@@ -7623,13 +7623,8 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
         if (sm.teal - 1 <= lastCblockLine) return;
         const pcs = this.lineToPc[sm.teal - 1];
 
-        if (pcs === undefined) {
-          throw new Error(
-            `Internal Compiler Error: PC values not found when trying to calculate cblock offsets for TEAL line ${
-              sm.teal
-            } (${this.teal[program][sm.teal - 1].teal}). Last cblock line was ${lastCblockLine}.`
-          );
-        }
+        // PCs will be undefined if the line is blank or a comment
+        if (pcs === undefined) return;
 
         // eslint-disable-next-line no-param-reassign
         sm.pc = this.lineToPc[sm.teal - 1].map((pc) => pc - lastCblockPc);
