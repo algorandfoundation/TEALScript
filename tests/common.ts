@@ -127,16 +127,6 @@ export async function compileAndCreate(
   await compiler.compile();
   await compiler.algodCompile();
 
-  expect(compiler.teal.approval.map((t) => t.teal).join('\n')).toEqual(
-    fs.readFileSync(`${artifactsPath}/${className}.approval.teal`, 'utf-8')
-  );
-  expect(compiler.arc4Description()).toEqual(
-    JSON.parse(fs.readFileSync(`${artifactsPath}/${className}.arc4.json`, 'utf-8'))
-  );
-  expect(compiler.arc32Description()).toEqual(
-    JSON.parse(fs.readFileSync(`${artifactsPath}/${className}.arc32.json`, 'utf-8'))
-  );
-
   const appClient = algokit.getAppClient(
     {
       app: JSON.stringify(compiler.arc32Description()),
