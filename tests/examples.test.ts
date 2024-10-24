@@ -30,6 +30,9 @@ describe('Examples', function () {
 
   artifactsTest('examples/non_abi/non_abi.algo.ts', 'NonABIExample');
 
+  artifactsTest('examples/reti/validatorRegistry.algo.ts', 'ValidatorRegistry');
+  artifactsTest('examples/reti/stakingPool.algo.ts', 'StakingPool');
+
   artifactsTest('examples/simple/simple.algo.ts', 'Simple');
 
   artifactsTest('examples/tuple_in_box/app.algo.ts', 'ContactsApp');
