@@ -9,8 +9,6 @@ import algosdk from 'algosdk';
 import { getMethodTeal, artifactsTest, algodClient, kmdClient, compileAndCreate, TESTS_PROJECT } from './common';
 import Compiler from '../src/lib/compiler';
 
-const ARTIFACTS_DIR = 'tests/contracts/artifacts/';
-
 async function getTeal(methodName: string) {
   return getMethodTeal('tests/contracts/storage.algo.ts', 'StorageTest', methodName);
 }
@@ -39,7 +37,7 @@ const ops: { [type: string]: { [method: string]: string } } = {
 };
 
 describe('Storage', function () {
-  artifactsTest('tests/contracts/storage.algo.ts', 'tests/contracts/artifacts/', 'StorageTest');
+  artifactsTest('tests/contracts/storage.algo.ts', 'StorageTest');
 
   ['global', 'local', 'box'].forEach((storageType) => {
     ['Key', 'Map'].forEach((storageClass) => {
@@ -280,7 +278,7 @@ describe('Storage', function () {
         await compileAndCreate(
           algosdk.generateAccount(),
           'tests/contracts/storage_compile_errors.algo.ts',
-          ARTIFACTS_DIR,
+
           'MapSizeCollision'
         );
         msg = 'No error';
@@ -298,7 +296,7 @@ describe('Storage', function () {
         await compileAndCreate(
           algosdk.generateAccount(),
           'tests/contracts/storage_compile_errors.algo.ts',
-          ARTIFACTS_DIR,
+
           'KeyCollisionWithMap'
         );
         msg = 'No error';
@@ -318,7 +316,7 @@ describe('Storage', function () {
         await compileAndCreate(
           algosdk.generateAccount(),
           'tests/contracts/storage_compile_errors.algo.ts',
-          ARTIFACTS_DIR,
+
           'MapCollisionWithKey'
         );
         msg = 'No error';

@@ -9,12 +9,11 @@ import { artifactsTest, algodClient, kmdClient, compileAndCreate } from './commo
 let appClient: ApplicationClient;
 
 describe('Loops', function () {
-  artifactsTest('tests/contracts/loops.algo.ts', 'tests/contracts/artifacts/', 'LoopsTest');
+  artifactsTest('tests/contracts/loops.algo.ts', 'LoopsTest');
 
   beforeAll(async function () {
     const sender = await algokit.getLocalNetDispenserAccount(algodClient, kmdClient);
-    const cc = await compileAndCreate(sender, 'tests/contracts/loops.algo.ts', '', 'LoopsTest');
-    appClient = cc.appClient;
+    appClient = (await compileAndCreate(sender, 'tests/contracts/loops.algo.ts', 'LoopsTest')).appClient;
   });
 
   test('whileLoop', async function () {

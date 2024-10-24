@@ -1,6 +1,4 @@
 /* eslint-disable func-names */
-
-import fs from 'fs';
 import algosdk from 'algosdk';
 import { expect, describe, test, beforeAll } from '@jest/globals';
 import * as algokit from '@algorandfoundation/algokit-utils';
@@ -64,7 +62,6 @@ function getTealWithoutVersion(inputTeal: TEALInfo[]) {
 
 export function artifactsTest(
   sourcePath: string,
-  artifactsPath: string,
   className: string,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   options: { lsig?: boolean } = {}
@@ -118,7 +115,6 @@ export function artifactsTest(
 export async function compileAndCreate(
   sender: algosdk.Account,
   sourcePath: string,
-  artifactsPath: string,
   className: string,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   deployTimeParams?: Record<string, any>

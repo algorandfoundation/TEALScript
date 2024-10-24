@@ -5,21 +5,21 @@ import { describe } from '@jest/globals';
 import { artifactsTest } from '../tests/common';
 
 describe('Examples', function () {
-  artifactsTest('examples/amm/amm.algo.ts', 'examples/amm/tealscript_artifacts/', 'ConstantProductAMM');
+  artifactsTest('examples/amm/amm.algo.ts', 'ConstantProductAMM');
 
-  artifactsTest('examples/arc75/arc75.algo.ts', 'examples/arc75/artifacts/', 'ARC75');
+  artifactsTest('examples/arc75/arc75.algo.ts', 'ARC75');
 
-  artifactsTest('examples/auction/auction.algo.ts', 'examples/auction/tealscript_artifacts/', 'Auction');
+  artifactsTest('examples/auction/auction.algo.ts', 'Auction');
 
   ['FactoryCaller', 'NFTFactory'].forEach((className) => {
-    artifactsTest('examples/itxns/itxns.algo.ts', 'examples/itxns/artifacts/', className);
+    artifactsTest('examples/itxns/itxns.algo.ts', className);
   });
 
-  artifactsTest('examples/simple/simple.algo.ts', 'examples/simple/artifacts/', 'Simple');
+  artifactsTest('examples/simple/simple.algo.ts', 'Simple');
 
-  artifactsTest('examples/tuple_in_box/app.algo.ts', 'examples/tuple_in_box/tealscript_artifacts/', 'ContactsApp');
+  artifactsTest('examples/tuple_in_box/app.algo.ts', 'ContactsApp');
 
-  artifactsTest('examples/calculator/calculator.algo.ts', 'examples/calculator/artifacts/', 'Calculator');
+  artifactsTest('examples/calculator/calculator.algo.ts', 'Calculator');
 
-  artifactsTest('examples/merkle/merkle.algo.ts', 'examples/merkle/artifacts/', 'MerkleTree');
+  artifactsTest('examples/merkle/merkle.algo.ts', 'MerkleTree');
 });

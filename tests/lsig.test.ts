@@ -5,12 +5,11 @@ import algosdk from 'algosdk';
 import { artifactsTest, compileAndCreate } from './common';
 
 const PATH = 'tests/contracts/lsig.algo.ts';
-const ARTIFACTS_DIR = 'tests/contracts/artifacts/';
 
 describe('Logic Signatures', function () {
-  artifactsTest(PATH, ARTIFACTS_DIR, 'BasicLsig', { lsig: true });
-  artifactsTest(PATH, ARTIFACTS_DIR, 'LsigWithArgs', { lsig: true });
-  artifactsTest(PATH, ARTIFACTS_DIR, 'LsigWithPrivateMethod', { lsig: true });
+  artifactsTest(PATH, 'BasicLsig', { lsig: true });
+  artifactsTest(PATH, 'LsigWithArgs', { lsig: true });
+  artifactsTest(PATH, 'LsigWithPrivateMethod', { lsig: true });
 
   describe('Compile Errors', function () {
     const errorMessages = {
@@ -27,7 +26,7 @@ describe('Logic Signatures', function () {
           await compileAndCreate(
             algosdk.generateAccount(),
             'tests/contracts/lsig_compile_errors.algo.ts',
-            ARTIFACTS_DIR,
+
             contractName
           );
           msg = 'No error';

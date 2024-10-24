@@ -10,7 +10,6 @@ import { artifactsTest, compileAndCreate, runMethod, algodClient, kmdClient } fr
 
 const NAME = 'Templates';
 const PATH = 'tests/contracts/general.algo.ts';
-const ARTIFACTS_DIR = 'tests/contracts/artifacts/';
 
 const BYTE_CBLOCK = 38;
 const INT_CBLOCK = 32;
@@ -51,13 +50,13 @@ function getConstantBlockOffsets(bytes: number[]) {
 }
 
 describe('Template Variables', function () {
-  artifactsTest(PATH, ARTIFACTS_DIR, NAME);
+  artifactsTest(PATH, NAME);
 
   describe('E2E', function () {
     const sender = algokit.getLocalNetDispenserAccount(algodClient, kmdClient);
 
     test('error source mapping', async function () {
-      const { appClient, appId, compiler } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME, {
+      const { appClient, appId, compiler } = await compileAndCreate(await sender, PATH, NAME, {
         bytes64TmplVar: '0'.repeat(64),
         uint64TmplVar: 123,
         bytes32TmplVar: '0'.repeat(32),
