@@ -1,5 +1,5 @@
 module.exports = {
-  ignorePatterns: ['*_client.ts'],
+  ignorePatterns: ['*_client.ts', 'examples/reti/**'],
   env: {
     browser: true,
     es2021: true,
