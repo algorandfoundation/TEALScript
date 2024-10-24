@@ -7,12 +7,6 @@ bytecblock TMPL_bytesTmplVar TMPL_bytes64TmplVar TMPL_bytes32TmplVar
 
 // This contract is compliant with and/or implements the following ARCs: [ ARC4 ]
 
-// The following lines of TEAL are used to initialize template variables in scratch slots
-bytec 1 // TMPL_bytes64TmplVar
-bytec 2 // TMPL_bytes32TmplVar
-intc 1 // TMPL_uint64TmplVar
-bytec 0 // TMPL_bytesTmplVar
-
 // The following ten lines of TEAL handle initial program flow
 // This pattern is used to make it easy for anyone to parse the start of the program and determine if a specific action is allowed
 // Here, action refers to the OnComplete in combination with whether the app is being created or called
