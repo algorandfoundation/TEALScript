@@ -10,6 +10,17 @@ import * as ts from 'ts-morph';
 import path from 'path';
 import Compiler, { TEALInfo } from '../src/lib/compiler';
 
+// Disable algokit logging
+algokit.Config.configure({
+  logger: {
+    error: () => {},
+    warn: () => {},
+    info: () => {},
+    verbose: () => {},
+    debug: () => {},
+  },
+});
+
 export const indexerClient = new algosdk.Indexer('a'.repeat(64), 'http://localhost', 8980);
 export const algodClient = new algosdk.Algodv2('a'.repeat(64), 'http://localhost', 4001);
 export const kmdClient = new algosdk.Kmd('a'.repeat(64), 'http://localhost', 4002);
