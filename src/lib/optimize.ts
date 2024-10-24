@@ -452,39 +452,24 @@ export function rmUnusedLabels(inputTeal: TEALInfo[]) {
 }
 
 function constantBlocks(inputTeal: TEALInfo[]): TEALInfo[] {
-  let newTeal: TEALInfo[] = [];
-  const oldTeal: TEALInfo[] = inputTeal.slice();
+  let newTeal: TEALInfo[] = inputTeal.slice();
 
-  const bytecblock = new Set<string>();
-  const intcblock = new Set<string>();
+  let bytecblock = new Set<string>();
+  let intcblock = new Set<string>();
 
-  // first find TMPL_ and add them to constant blocks
-  oldTeal.forEach((t) => {
+  // first find TMPL variables and add them to constant blocks because they MUST be in the constant block
+  inputTeal.forEach((t) => {
     const { teal } = t;
 
     if (teal.startsWith('byte ')) {
       const value = teal.split(' ')[1];
-      if (value.startsWith('TMPL_')) {
-        bytecblock.add(value);
-        // index of value in bytecblock
-        const index = Array.from(bytecblock).indexOf(value);
-        newTeal.push({ teal: `bytec ${index} // ${value}`, node: t.node });
-        return;
-      }
+      if (value.startsWith('TMPL_')) bytecblock.add(value);
     }
 
     if (teal.startsWith('int ')) {
       const value = teal.split(' ')[1];
-      if (value.startsWith('TMPL_')) {
-        intcblock.add(value);
-        // index of value in intcblock
-        const index = Array.from(intcblock).indexOf(value);
-        newTeal.push({ teal: `intc ${index} // ${value}`, node: t.node });
-        return;
-      }
+      if (value.startsWith('TMPL_')) intcblock.add(value);
     }
-
-    newTeal.push(t);
   });
 
   const intEnums: Record<string, string> = {
@@ -545,7 +530,13 @@ function constantBlocks(inputTeal: TEALInfo[]): TEALInfo[] {
     if (t.teal.startsWith('int ')) {
       const value = t.teal.split(' ')[1];
       if (intValues[value]) intValues[value].count += 1;
-      else intValues[value] = { count: 1, size: numberOfBytes(BigInt(value.replace(/_/g, ''))) };
+      else {
+        intValues[value] = {
+          count: 1,
+          // Size doesn't matter for TMPL values because they are already guranteed to be in the constant block
+          size: value.startsWith('TMPL_') ? 8 : numberOfBytes(BigInt(value.replace(/_/g, ''))),
+        };
+      }
     }
   });
 
@@ -567,20 +558,17 @@ function constantBlocks(inputTeal: TEALInfo[]): TEALInfo[] {
     .sort((a, b) => b[1].size * b[1].count - a[1].size * a[1].count)
     .map(([value]) => value);
 
-  // Now get the top 255 values and sort by count so intc_n and bytec_n usage is optimal
-  sortedByteValues
-    .slice(0, 255)
-    .sort((a, b) => byteValues[b].count - byteValues[a].count)
-    .forEach((value) => {
-      bytecblock.add(value);
-    });
+  while (bytecblock.size < 255 && sortedByteValues.length > 0) {
+    bytecblock.add(sortedByteValues.shift()!);
+  }
 
-  sortedIntValues
-    .slice(0, 255)
-    .sort((a, b) => intValues[b].count - intValues[a].count)
-    .forEach((value) => {
-      intcblock.add(value);
-    });
+  while (intcblock.size < 255 && sortedIntValues.length > 0) {
+    intcblock.add(sortedIntValues.shift()!);
+  }
+
+  // Then sort by count, so the most used values comes first and can leverage intc_n and bytec_n opcodes
+  bytecblock = new Set(Array.from(bytecblock).sort((a, b) => byteValues[b].count - byteValues[a].count));
+  intcblock = new Set(Array.from(intcblock).sort((a, b) => intValues[b].count - intValues[a].count));
 
   newTeal = newTeal.map((t) => {
     if (t.teal.startsWith('byte ')) {
