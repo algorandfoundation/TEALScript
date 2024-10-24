@@ -2948,34 +2948,6 @@ export default class Compiler {
       }
     });
 
-    const templateVarIndex = 6;
-
-    Object.keys(this.templateVars).forEach((propName, i) => {
-      const { name, type } = this.templateVars[propName];
-
-      let op = 'byte';
-
-      if (isNumeric(type)) {
-        op = 'int';
-      }
-
-      this.teal[this.currentProgram].splice(templateVarIndex, 0, {
-        teal: `${op} TMPL_${name}`,
-        node: this.lastNode,
-      });
-    });
-
-    if (Object.keys(this.templateVars).length > 0) {
-      this.teal[this.currentProgram].splice(templateVarIndex, 0, {
-        teal: `// The following lines of TEAL are used to initialize template variables in scratch slots`,
-        node: this.lastNode,
-      });
-      this.teal[this.currentProgram].splice(templateVarIndex, 0, {
-        teal: ``,
-        node: this.lastNode,
-      });
-    }
-
     while (this.pendingSubroutines.length > 0) {
       this.processSubroutine(this.pendingSubroutines.pop()!);
     }

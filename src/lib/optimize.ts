@@ -513,8 +513,8 @@ function constantBlocks(inputTeal: TEALInfo[]): TEALInfo[] {
     return t;
   });
 
-  const byteValues: Record<string, { count: number; size: number }> = {};
-  const intValues: Record<string, { count: number; size: number }> = {};
+  const byteValues: Record<string, { count: number; size: number; isTmpl: boolean }> = {};
+  const intValues: Record<string, { count: number; size: number; isTmpl: boolean }> = {};
 
   const numberOfBytes = (n: bigint) => {
     return Math.ceil(n.toString(2).length / 8) || 1;
@@ -524,7 +524,7 @@ function constantBlocks(inputTeal: TEALInfo[]): TEALInfo[] {
     if (t.teal.startsWith('byte ')) {
       const value = t.teal.split(' ')[1];
       if (byteValues[value]) byteValues[value].count += 1;
-      else byteValues[value] = { count: 1, size: value.length };
+      else byteValues[value] = { count: 1, size: value.length, isTmpl: value.startsWith('TMPL_') };
     }
 
     if (t.teal.startsWith('int ')) {
@@ -535,18 +535,19 @@ function constantBlocks(inputTeal: TEALInfo[]): TEALInfo[] {
           count: 1,
           // Size doesn't matter for TMPL values because they are already guranteed to be in the constant block
           size: value.startsWith('TMPL_') ? 8 : numberOfBytes(BigInt(value.replace(/_/g, ''))),
+          isTmpl: value.startsWith('TMPL_'),
         };
       }
     }
   });
 
   // Delete values that only occur once
-  Object.entries(byteValues).forEach(([value, sizeAndCount]) => {
-    if (sizeAndCount.count === 1) delete byteValues[value];
+  Object.entries(byteValues).forEach(([value, info]) => {
+    if (info.count === 1 && !info.isTmpl) delete byteValues[value];
   });
 
-  Object.entries(intValues).forEach(([value, sizeAndCount]) => {
-    if (sizeAndCount.count === 1) delete intValues[value];
+  Object.entries(intValues).forEach(([value, info]) => {
+    if (info.count === 1 && !info.isTmpl) delete intValues[value];
   });
 
   // First sort by size * count to determine the 255 values that should go in the block
