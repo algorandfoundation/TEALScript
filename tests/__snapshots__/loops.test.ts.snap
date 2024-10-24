@@ -1,3 +1,983 @@
 // Bun Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Loops LoopsTest Artifacts Generates TEAL 1`] = `
+"#pragma version 10
+intcblock 1 0 10 5 1337
+bytecblock 0x 0x151f7c75
+
+// https://github.com/algorandfoundation/TEALScript
+
+// This contract is compliant with and/or implements the following ARCs: [ ARC4 ]
+
+// The following ten lines of TEAL handle initial program flow
+// This pattern is used to make it easy for anyone to parse the start of the program and determine if a specific action is allowed
+// Here, action refers to the OnComplete in combination with whether the app is being created or called
+// Every possible action for this contract is represented in the switch statement
+// If the action is not implemented in the contract, its respective branch will be "*NOT_IMPLEMENTED" which just contains "err"
+txn ApplicationID
+!
+pushint 6
+*
+txn OnCompletion
++
+switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *create_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED
+
+*NOT_IMPLEMENTED:
+	// The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?
+	err
+
+// whileLoop()uint64
+*abi_route_whileLoop:
+	// The ABI return prefix
+	bytec 1 // 0x151f7c75
+
+	// execute whileLoop()uint64
+	callsub whileLoop
+	itob
+	concat
+	log
+	intc 0 // 1
+	return
+
+// whileLoop(): uint64
+whileLoop:
+	proto 0 1
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	bytec 0 // 0x
+
+	// tests/contracts/loops.algo.ts:7
+	// i = 0
+	intc 1 // 0
+	frame_bury 0 // i: uint64
+
+*while_0:
+
+*while_0_continue:
+	// tests/contracts/loops.algo.ts:9
+	// i < 10
+	frame_dig 0 // i: uint64
+	intc 2 // 10
+	<
+	bz *while_0_end
+
+	// tests/contracts/loops.algo.ts:10
+	// i = i + 1
+	frame_dig 0 // i: uint64
+	intc 0 // 1
+	+
+	frame_bury 0 // i: uint64
+	b *while_0
+
+*while_0_end:
+	// tests/contracts/loops.algo.ts:13
+	// return i;
+	frame_dig 0 // i: uint64
+
+	// set the subroutine return value
+	frame_bury 0
+	retsub
+
+// forLoop()uint64
+*abi_route_forLoop:
+	// The ABI return prefix
+	bytec 1 // 0x151f7c75
+
+	// execute forLoop()uint64
+	callsub forLoop
+	itob
+	concat
+	log
+	intc 0 // 1
+	return
+
+// forLoop(): uint64
+forLoop:
+	proto 0 1
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	bytec 0 // 0x
+	dup
+
+	// tests/contracts/loops.algo.ts:17
+	// i = 0
+	intc 1 // 0
+	frame_bury 0 // i: uint64
+
+	// tests/contracts/loops.algo.ts:19
+	// for (let j = 0; j < 10; j = j + 1)
+	intc 1 // 0
+	frame_bury 1 // j: uint64
+
+*for_0:
+	// tests/contracts/loops.algo.ts:19
+	// j < 10
+	frame_dig 1 // j: uint64
+	intc 2 // 10
+	<
+	bz *for_0_end
+
+	// tests/contracts/loops.algo.ts:20
+	// i = i + 1
+	frame_dig 0 // i: uint64
+	intc 0 // 1
+	+
+	frame_bury 0 // i: uint64
+
+*for_0_continue:
+	// tests/contracts/loops.algo.ts:19
+	// j = j + 1
+	frame_dig 1 // j: uint64
+	intc 0 // 1
+	+
+	frame_bury 1 // j: uint64
+	b *for_0
+
+*for_0_end:
+	// tests/contracts/loops.algo.ts:23
+	// return i;
+	frame_dig 0 // i: uint64
+
+	// set the subroutine return value
+	frame_bury 0
+
+	// pop all local variables from the stack
+	popn 1
+	retsub
+
+// doWhileLoop()uint64
+*abi_route_doWhileLoop:
+	// The ABI return prefix
+	bytec 1 // 0x151f7c75
+
+	// execute doWhileLoop()uint64
+	callsub doWhileLoop
+	itob
+	concat
+	log
+	intc 0 // 1
+	return
+
+// doWhileLoop(): uint64
+doWhileLoop:
+	proto 0 1
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	bytec 0 // 0x
+
+	// tests/contracts/loops.algo.ts:27
+	// i = 0
+	intc 1 // 0
+	frame_bury 0 // i: uint64
+
+*do_while_0_statement:
+	// tests/contracts/loops.algo.ts:30
+	// i = i + 1
+	frame_dig 0 // i: uint64
+	intc 0 // 1
+	+
+	frame_bury 0 // i: uint64
+
+*do_while_0:
+
+*do_while_0_continue:
+	// tests/contracts/loops.algo.ts:31
+	// i < 10
+	frame_dig 0 // i: uint64
+	intc 2 // 10
+	<
+	bnz *do_while_0_statement
+
+*do_while_0_end:
+	// tests/contracts/loops.algo.ts:33
+	// return i;
+	frame_dig 0 // i: uint64
+
+	// set the subroutine return value
+	frame_bury 0
+	retsub
+
+// breakWhileLoop()uint64
+*abi_route_breakWhileLoop:
+	// The ABI return prefix
+	bytec 1 // 0x151f7c75
+
+	// execute breakWhileLoop()uint64
+	callsub breakWhileLoop
+	itob
+	concat
+	log
+	intc 0 // 1
+	return
+
+// breakWhileLoop(): uint64
+breakWhileLoop:
+	proto 0 1
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	bytec 0 // 0x
+
+	// tests/contracts/loops.algo.ts:37
+	// i = 0
+	intc 1 // 0
+	frame_bury 0 // i: uint64
+
+*while_1:
+
+*while_1_continue:
+	// tests/contracts/loops.algo.ts:39
+	// i < 10
+	frame_dig 0 // i: uint64
+	intc 2 // 10
+	<
+	bz *while_1_end
+
+	// tests/contracts/loops.algo.ts:40
+	// i = i + 1
+	frame_dig 0 // i: uint64
+	intc 0 // 1
+	+
+	frame_bury 0 // i: uint64
+
+	// *if0_condition
+	// tests/contracts/loops.algo.ts:41
+	// i === 5
+	frame_dig 0 // i: uint64
+	intc 3 // 5
+	==
+	bz *if0_end
+
+	// *if0_consequent
+	b *while_1_end
+
+*if0_end:
+	b *while_1
+
+*while_1_end:
+	// tests/contracts/loops.algo.ts:44
+	// return i;
+	frame_dig 0 // i: uint64
+
+	// set the subroutine return value
+	frame_bury 0
+	retsub
+
+// continueWhileLoop()uint64
+*abi_route_continueWhileLoop:
+	// The ABI return prefix
+	bytec 1 // 0x151f7c75
+
+	// execute continueWhileLoop()uint64
+	callsub continueWhileLoop
+	itob
+	concat
+	log
+	intc 0 // 1
+	return
+
+// continueWhileLoop(): uint64
+continueWhileLoop:
+	proto 0 1
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	bytec 0 // 0x
+
+	// tests/contracts/loops.algo.ts:48
+	// i = 0
+	intc 1 // 0
+	frame_bury 0 // i: uint64
+
+*while_2:
+
+*while_2_continue:
+	// tests/contracts/loops.algo.ts:50
+	// i < 10
+	frame_dig 0 // i: uint64
+	intc 2 // 10
+	<
+	bz *while_2_end
+
+	// *if1_condition
+	// tests/contracts/loops.algo.ts:51
+	// i === 5
+	frame_dig 0 // i: uint64
+	intc 3 // 5
+	==
+	bz *if1_end
+
+	// *if1_consequent
+	// tests/contracts/loops.algo.ts:52
+	// i = 1337
+	intc 4 // 1337
+	frame_bury 0 // i: uint64
+	b *while_2_continue
+
+*if1_end:
+	// tests/contracts/loops.algo.ts:55
+	// i = i + 1
+	frame_dig 0 // i: uint64
+	intc 0 // 1
+	+
+	frame_bury 0 // i: uint64
+	b *while_2
+
+*while_2_end:
+	// tests/contracts/loops.algo.ts:58
+	// return i;
+	frame_dig 0 // i: uint64
+
+	// set the subroutine return value
+	frame_bury 0
+	retsub
+
+// breakForLoop()uint64
+*abi_route_breakForLoop:
+	// The ABI return prefix
+	bytec 1 // 0x151f7c75
+
+	// execute breakForLoop()uint64
+	callsub breakForLoop
+	itob
+	concat
+	log
+	intc 0 // 1
+	return
+
+// breakForLoop(): uint64
+breakForLoop:
+	proto 0 1
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	bytec 0 // 0x
+	dup
+
+	// tests/contracts/loops.algo.ts:62
+	// i = 0
+	intc 1 // 0
+	frame_bury 0 // i: uint64
+
+	// tests/contracts/loops.algo.ts:64
+	// for (let j = 0; j < 10; j = j + 1)
+	intc 1 // 0
+	frame_bury 1 // j: uint64
+
+*for_1:
+	// tests/contracts/loops.algo.ts:64
+	// j < 10
+	frame_dig 1 // j: uint64
+	intc 2 // 10
+	<
+	bz *for_1_end
+
+	// tests/contracts/loops.algo.ts:65
+	// i = i + 1
+	frame_dig 0 // i: uint64
+	intc 0 // 1
+	+
+	frame_bury 0 // i: uint64
+
+	// *if2_condition
+	// tests/contracts/loops.algo.ts:66
+	// i === 5
+	frame_dig 0 // i: uint64
+	intc 3 // 5
+	==
+	bz *if2_end
+
+	// *if2_consequent
+	b *for_1_end
+
+*if2_end:
+
+*for_1_continue:
+	// tests/contracts/loops.algo.ts:64
+	// j = j + 1
+	frame_dig 1 // j: uint64
+	intc 0 // 1
+	+
+	frame_bury 1 // j: uint64
+	b *for_1
+
+*for_1_end:
+	// tests/contracts/loops.algo.ts:69
+	// return i;
+	frame_dig 0 // i: uint64
+
+	// set the subroutine return value
+	frame_bury 0
+
+	// pop all local variables from the stack
+	popn 1
+	retsub
+
+// continueForLoop()uint64
+*abi_route_continueForLoop:
+	// The ABI return prefix
+	bytec 1 // 0x151f7c75
+
+	// execute continueForLoop()uint64
+	callsub continueForLoop
+	itob
+	concat
+	log
+	intc 0 // 1
+	return
+
+// continueForLoop(): uint64
+continueForLoop:
+	proto 0 1
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	bytec 0 // 0x
+	dup
+
+	// tests/contracts/loops.algo.ts:73
+	// i = 0
+	intc 1 // 0
+	frame_bury 0 // i: uint64
+
+	// tests/contracts/loops.algo.ts:75
+	// for (let j = 0; j < 10; j = j + 1)
+	intc 1 // 0
+	frame_bury 1 // j: uint64
+
+*for_2:
+	// tests/contracts/loops.algo.ts:75
+	// j < 10
+	frame_dig 1 // j: uint64
+	intc 2 // 10
+	<
+	bz *for_2_end
+
+	// *if3_condition
+	// tests/contracts/loops.algo.ts:76
+	// i === 5
+	frame_dig 0 // i: uint64
+	intc 3 // 5
+	==
+	bz *if3_end
+
+	// *if3_consequent
+	// tests/contracts/loops.algo.ts:77
+	// i = 1337
+	intc 4 // 1337
+	frame_bury 0 // i: uint64
+	b *for_2_continue
+
+*if3_end:
+	// tests/contracts/loops.algo.ts:80
+	// i = i + 1
+	frame_dig 0 // i: uint64
+	intc 0 // 1
+	+
+	frame_bury 0 // i: uint64
+
+*for_2_continue:
+	// tests/contracts/loops.algo.ts:75
+	// j = j + 1
+	frame_dig 1 // j: uint64
+	intc 0 // 1
+	+
+	frame_bury 1 // j: uint64
+	b *for_2
+
+*for_2_end:
+	// tests/contracts/loops.algo.ts:83
+	// return i;
+	frame_dig 0 // i: uint64
+
+	// set the subroutine return value
+	frame_bury 0
+
+	// pop all local variables from the stack
+	popn 1
+	retsub
+
+// breakDoWhileLoop()uint64
+*abi_route_breakDoWhileLoop:
+	// The ABI return prefix
+	bytec 1 // 0x151f7c75
+
+	// execute breakDoWhileLoop()uint64
+	callsub breakDoWhileLoop
+	itob
+	concat
+	log
+	intc 0 // 1
+	return
+
+// breakDoWhileLoop(): uint64
+breakDoWhileLoop:
+	proto 0 1
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	bytec 0 // 0x
+
+	// tests/contracts/loops.algo.ts:87
+	// i = 0
+	intc 1 // 0
+	frame_bury 0 // i: uint64
+
+*do_while_1_statement:
+	// tests/contracts/loops.algo.ts:90
+	// i = i + 1
+	frame_dig 0 // i: uint64
+	intc 0 // 1
+	+
+	frame_bury 0 // i: uint64
+
+	// *if4_condition
+	// tests/contracts/loops.algo.ts:91
+	// i === 5
+	frame_dig 0 // i: uint64
+	intc 3 // 5
+	==
+	bz *if4_end
+
+	// *if4_consequent
+	b *do_while_1_end
+
+*if4_end:
+
+*do_while_1:
+
+*do_while_1_continue:
+	// tests/contracts/loops.algo.ts:92
+	// i < 10
+	frame_dig 0 // i: uint64
+	intc 2 // 10
+	<
+	bnz *do_while_1_statement
+
+*do_while_1_end:
+	// tests/contracts/loops.algo.ts:94
+	// return i;
+	frame_dig 0 // i: uint64
+
+	// set the subroutine return value
+	frame_bury 0
+	retsub
+
+// continueDoWhileLoop()uint64
+*abi_route_continueDoWhileLoop:
+	// The ABI return prefix
+	bytec 1 // 0x151f7c75
+
+	// execute continueDoWhileLoop()uint64
+	callsub continueDoWhileLoop
+	itob
+	concat
+	log
+	intc 0 // 1
+	return
+
+// continueDoWhileLoop(): uint64
+continueDoWhileLoop:
+	proto 0 1
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	bytec 0 // 0x
+
+	// tests/contracts/loops.algo.ts:98
+	// i = 0
+	intc 1 // 0
+	frame_bury 0 // i: uint64
+
+*do_while_2_statement:
+	// *if5_condition
+	// tests/contracts/loops.algo.ts:101
+	// i === 5
+	frame_dig 0 // i: uint64
+	intc 3 // 5
+	==
+	bz *if5_end
+
+	// *if5_consequent
+	// tests/contracts/loops.algo.ts:102
+	// i = 1337
+	intc 4 // 1337
+	frame_bury 0 // i: uint64
+	b *do_while_2_continue
+
+*if5_end:
+	// tests/contracts/loops.algo.ts:105
+	// i = i + 1
+	frame_dig 0 // i: uint64
+	intc 0 // 1
+	+
+	frame_bury 0 // i: uint64
+
+*do_while_2:
+
+*do_while_2_continue:
+	// tests/contracts/loops.algo.ts:106
+	// i < 10
+	frame_dig 0 // i: uint64
+	intc 2 // 10
+	<
+	bnz *do_while_2_statement
+
+*do_while_2_end:
+	// tests/contracts/loops.algo.ts:108
+	// return i;
+	frame_dig 0 // i: uint64
+
+	// set the subroutine return value
+	frame_bury 0
+	retsub
+
+*abi_route_createApplication:
+	intc 0 // 1
+	return
+
+*create_NoOp:
+	pushbytes 0xb8447b36 // method "createApplication()void"
+	txna ApplicationArgs 0
+	match *abi_route_createApplication
+
+	// this contract does not implement the given ABI method for create NoOp
+	err
+
+*call_NoOp:
+	pushbytes 0xe164bbd9 // method "whileLoop()uint64"
+	pushbytes 0x5b3ed9f6 // method "forLoop()uint64"
+	pushbytes 0x1d861a3d // method "doWhileLoop()uint64"
+	pushbytes 0x821fe829 // method "breakWhileLoop()uint64"
+	pushbytes 0x8d15280a // method "continueWhileLoop()uint64"
+	pushbytes 0x6897cf5e // method "breakForLoop()uint64"
+	pushbytes 0x99cbacab // method "continueForLoop()uint64"
+	pushbytes 0x86d5edd3 // method "breakDoWhileLoop()uint64"
+	pushbytes 0xe01d9d42 // method "continueDoWhileLoop()uint64"
+	txna ApplicationArgs 0
+	match *abi_route_whileLoop *abi_route_forLoop *abi_route_doWhileLoop *abi_route_breakWhileLoop *abi_route_continueWhileLoop *abi_route_breakForLoop *abi_route_continueForLoop *abi_route_breakDoWhileLoop *abi_route_continueDoWhileLoop
+
+	// this contract does not implement the given ABI method for call NoOp
+	err"
+`;
+
 exports[`Loops LoopsTest Artifacts Maintains program size 1`] = `579`;
+
+exports[`Loops LoopsTest Artifacts Generates ABI JSON 1`] = `
+{
+  "desc": "",
+  "events": undefined,
+  "methods": [
+    {
+      "args": [],
+      "desc": undefined,
+      "events": undefined,
+      "name": "whileLoop",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint64",
+      },
+    },
+    {
+      "args": [],
+      "desc": undefined,
+      "events": undefined,
+      "name": "forLoop",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint64",
+      },
+    },
+    {
+      "args": [],
+      "desc": undefined,
+      "events": undefined,
+      "name": "doWhileLoop",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint64",
+      },
+    },
+    {
+      "args": [],
+      "desc": undefined,
+      "events": undefined,
+      "name": "breakWhileLoop",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint64",
+      },
+    },
+    {
+      "args": [],
+      "desc": undefined,
+      "events": undefined,
+      "name": "continueWhileLoop",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint64",
+      },
+    },
+    {
+      "args": [],
+      "desc": undefined,
+      "events": undefined,
+      "name": "breakForLoop",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint64",
+      },
+    },
+    {
+      "args": [],
+      "desc": undefined,
+      "events": undefined,
+      "name": "continueForLoop",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint64",
+      },
+    },
+    {
+      "args": [],
+      "desc": undefined,
+      "events": undefined,
+      "name": "breakDoWhileLoop",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint64",
+      },
+    },
+    {
+      "args": [],
+      "desc": undefined,
+      "events": undefined,
+      "name": "continueDoWhileLoop",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint64",
+      },
+    },
+    {
+      "args": [],
+      "desc": undefined,
+      "events": undefined,
+      "name": "createApplication",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "void",
+      },
+    },
+  ],
+  "name": "LoopsTest",
+}
+`;
+
+exports[`Loops LoopsTest Artifacts Generates ARC32 1`] = `
+{
+  "bare_call_config": {
+    "close_out": "NEVER",
+    "delete_application": "NEVER",
+    "no_op": "NEVER",
+    "opt_in": "NEVER",
+    "update_application": "NEVER",
+  },
+  "contract": {
+    "desc": "",
+    "events": undefined,
+    "methods": [
+      {
+        "args": [],
+        "desc": undefined,
+        "events": undefined,
+        "name": "whileLoop",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint64",
+        },
+      },
+      {
+        "args": [],
+        "desc": undefined,
+        "events": undefined,
+        "name": "forLoop",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint64",
+        },
+      },
+      {
+        "args": [],
+        "desc": undefined,
+        "events": undefined,
+        "name": "doWhileLoop",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint64",
+        },
+      },
+      {
+        "args": [],
+        "desc": undefined,
+        "events": undefined,
+        "name": "breakWhileLoop",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint64",
+        },
+      },
+      {
+        "args": [],
+        "desc": undefined,
+        "events": undefined,
+        "name": "continueWhileLoop",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint64",
+        },
+      },
+      {
+        "args": [],
+        "desc": undefined,
+        "events": undefined,
+        "name": "breakForLoop",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint64",
+        },
+      },
+      {
+        "args": [],
+        "desc": undefined,
+        "events": undefined,
+        "name": "continueForLoop",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint64",
+        },
+      },
+      {
+        "args": [],
+        "desc": undefined,
+        "events": undefined,
+        "name": "breakDoWhileLoop",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint64",
+        },
+      },
+      {
+        "args": [],
+        "desc": undefined,
+        "events": undefined,
+        "name": "continueDoWhileLoop",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint64",
+        },
+      },
+      {
+        "args": [],
+        "desc": undefined,
+        "events": undefined,
+        "name": "createApplication",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "void",
+        },
+      },
+    ],
+    "name": "LoopsTest",
+  },
+  "hints": {
+    "breakDoWhileLoop()uint64": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "breakForLoop()uint64": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "breakWhileLoop()uint64": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "continueDoWhileLoop()uint64": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "continueForLoop()uint64": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "continueWhileLoop()uint64": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "createApplication()void": {
+      "call_config": {
+        "no_op": "CREATE",
+      },
+    },
+    "doWhileLoop()uint64": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "forLoop()uint64": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "whileLoop()uint64": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+  },
+  "schema": {
+    "global": {
+      "declared": {},
+      "reserved": {},
+    },
+    "local": {
+      "declared": {},
+      "reserved": {},
+    },
+  },
+  "source": {
+    "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCmludGNibG9jayAxIDAgMTAgNSAxMzM3CmJ5dGVjYmxvY2sgMHggMHgxNTFmN2M3NQoKLy8gaHR0cHM6Ly9naXRodWIuY29tL2FsZ29yYW5kZm91bmRhdGlvbi9URUFMU2NyaXB0CgovLyBUaGlzIGNvbnRyYWN0IGlzIGNvbXBsaWFudCB3aXRoIGFuZC9vciBpbXBsZW1lbnRzIHRoZSBmb2xsb3dpbmcgQVJDczogWyBBUkM0IF0KCi8vIFRoZSBmb2xsb3dpbmcgdGVuIGxpbmVzIG9mIFRFQUwgaGFuZGxlIGluaXRpYWwgcHJvZ3JhbSBmbG93Ci8vIFRoaXMgcGF0dGVybiBpcyB1c2VkIHRvIG1ha2UgaXQgZWFzeSBmb3IgYW55b25lIHRvIHBhcnNlIHRoZSBzdGFydCBvZiB0aGUgcHJvZ3JhbSBhbmQgZGV0ZXJtaW5lIGlmIGEgc3BlY2lmaWMgYWN0aW9uIGlzIGFsbG93ZWQKLy8gSGVyZSwgYWN0aW9uIHJlZmVycyB0byB0aGUgT25Db21wbGV0ZSBpbiBjb21iaW5hdGlvbiB3aXRoIHdoZXRoZXIgdGhlIGFwcCBpcyBiZWluZyBjcmVhdGVkIG9yIGNhbGxlZAovLyBFdmVyeSBwb3NzaWJsZSBhY3Rpb24gZm9yIHRoaXMgY29udHJhY3QgaXMgcmVwcmVzZW50ZWQgaW4gdGhlIHN3aXRjaCBzdGF0ZW1lbnQKLy8gSWYgdGhlIGFjdGlvbiBpcyBub3QgaW1wbGVtZW50ZWQgaW4gdGhlIGNvbnRyYWN0LCBpdHMgcmVzcGVjdGl2ZSBicmFuY2ggd2lsbCBiZSAiKk5PVF9JTVBMRU1FTlRFRCIgd2hpY2gganVzdCBjb250YWlucyAiZXJyIgp0eG4gQXBwbGljYXRpb25JRAohCnB1c2hpbnQgNgoqCnR4biBPbkNvbXBsZXRpb24KKwpzd2l0Y2ggKmNhbGxfTm9PcCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKmNyZWF0ZV9Ob09wICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRAoKKk5PVF9JTVBMRU1FTlRFRDoKCS8vIFRoZSByZXF1ZXN0ZWQgYWN0aW9uIGlzIG5vdCBpbXBsZW1lbnRlZCBpbiB0aGlzIGNvbnRyYWN0LiBBcmUgeW91IHVzaW5nIHRoZSBjb3JyZWN0IE9uQ29tcGxldGU/IERpZCB5b3Ugc2V0IHlvdXIgYXBwIElEPwoJZXJyCgovLyB3aGlsZUxvb3AoKXVpbnQ2NAoqYWJpX3JvdXRlX3doaWxlTG9vcDoKCS8vIFRoZSBBQkkgcmV0dXJuIHByZWZpeAoJYnl0ZWMgMSAvLyAweDE1MWY3Yzc1CgoJLy8gZXhlY3V0ZSB3aGlsZUxvb3AoKXVpbnQ2NAoJY2FsbHN1YiB3aGlsZUxvb3AKCWl0b2IKCWNvbmNhdAoJbG9nCglpbnRjIDAgLy8gMQoJcmV0dXJuCgovLyB3aGlsZUxvb3AoKTogdWludDY0CndoaWxlTG9vcDoKCXByb3RvIDAgMQoKCS8vIFB1c2ggZW1wdHkgYnl0ZXMgYWZ0ZXIgdGhlIGZyYW1lIHBvaW50ZXIgdG8gcmVzZXJ2ZSBzcGFjZSBmb3IgbG9jYWwgdmFyaWFibGVzCglieXRlYyAwIC8vIDB4CgoJLy8gdGVzdHMvY29udHJhY3RzL2xvb3BzLmFsZ28udHM6NwoJLy8gaSA9IDAKCWludGMgMSAvLyAwCglmcmFtZV9idXJ5IDAgLy8gaTogdWludDY0Cgoqd2hpbGVfMDoKCip3aGlsZV8wX2NvbnRpbnVlOgoJLy8gdGVzdHMvY29udHJhY3RzL2xvb3BzLmFsZ28udHM6OQoJLy8gaSA8IDEwCglmcmFtZV9kaWcgMCAvLyBpOiB1aW50NjQKCWludGMgMiAvLyAxMAoJPAoJYnogKndoaWxlXzBfZW5kCgoJLy8gdGVzdHMvY29udHJhY3RzL2xvb3BzLmFsZ28udHM6MTAKCS8vIGkgPSBpICsgMQoJZnJhbWVfZGlnIDAgLy8gaTogdWludDY0CglpbnRjIDAgLy8gMQoJKwoJZnJhbWVfYnVyeSAwIC8vIGk6IHVpbnQ2NAoJYiAqd2hpbGVfMAoKKndoaWxlXzBfZW5kOgoJLy8gdGVzdHMvY29udHJhY3RzL2xvb3BzLmFsZ28udHM6MTMKCS8vIHJldHVybiBpOwoJZnJhbWVfZGlnIDAgLy8gaTogdWludDY0CgoJLy8gc2V0IHRoZSBzdWJyb3V0aW5lIHJldHVybiB2YWx1ZQoJZnJhbWVfYnVyeSAwCglyZXRzdWIKCi8vIGZvckxvb3AoKXVpbnQ2NAoqYWJpX3JvdXRlX2Zvckxvb3A6CgkvLyBUaGUgQUJJIHJldHVybiBwcmVmaXgKCWJ5dGVjIDEgLy8gMHgxNTFmN2M3NQoKCS8vIGV4ZWN1dGUgZm9yTG9vcCgpdWludDY0CgljYWxsc3ViIGZvckxvb3AKCWl0b2IKCWNvbmNhdAoJbG9nCglpbnRjIDAgLy8gMQoJcmV0dXJuCgovLyBmb3JMb29wKCk6IHVpbnQ2NApmb3JMb29wOgoJcHJvdG8gMCAxCgoJLy8gUHVzaCBlbXB0eSBieXRlcyBhZnRlciB0aGUgZnJhbWUgcG9pbnRlciB0byByZXNlcnZlIHNwYWNlIGZvciBsb2NhbCB2YXJpYWJsZXMKCWJ5dGVjIDAgLy8gMHgKCWR1cAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9sb29wcy5hbGdvLnRzOjE3CgkvLyBpID0gMAoJaW50YyAxIC8vIDAKCWZyYW1lX2J1cnkgMCAvLyBpOiB1aW50NjQKCgkvLyB0ZXN0cy9jb250cmFjdHMvbG9vcHMuYWxnby50czoxOQoJLy8gZm9yIChsZXQgaiA9IDA7IGogPCAxMDsgaiA9IGogKyAxKQoJaW50YyAxIC8vIDAKCWZyYW1lX2J1cnkgMSAvLyBqOiB1aW50NjQKCipmb3JfMDoKCS8vIHRlc3RzL2NvbnRyYWN0cy9sb29wcy5hbGdvLnRzOjE5CgkvLyBqIDwgMTAKCWZyYW1lX2RpZyAxIC8vIGo6IHVpbnQ2NAoJaW50YyAyIC8vIDEwCgk8CglieiAqZm9yXzBfZW5kCgoJLy8gdGVzdHMvY29udHJhY3RzL2xvb3BzLmFsZ28udHM6MjAKCS8vIGkgPSBpICsgMQoJZnJhbWVfZGlnIDAgLy8gaTogdWludDY0CglpbnRjIDAgLy8gMQoJKwoJZnJhbWVfYnVyeSAwIC8vIGk6IHVpbnQ2NAoKKmZvcl8wX2NvbnRpbnVlOgoJLy8gdGVzdHMvY29udHJhY3RzL2xvb3BzLmFsZ28udHM6MTkKCS8vIGogPSBqICsgMQoJZnJhbWVfZGlnIDEgLy8gajogdWludDY0CglpbnRjIDAgLy8gMQoJKwoJZnJhbWVfYnVyeSAxIC8vIGo6IHVpbnQ2NAoJYiAqZm9yXzAKCipmb3JfMF9lbmQ6CgkvLyB0ZXN0cy9jb250cmFjdHMvbG9vcHMuYWxnby50czoyMwoJLy8gcmV0dXJuIGk7CglmcmFtZV9kaWcgMCAvLyBpOiB1aW50NjQKCgkvLyBzZXQgdGhlIHN1YnJvdXRpbmUgcmV0dXJuIHZhbHVlCglmcmFtZV9idXJ5IDAKCgkvLyBwb3AgYWxsIGxvY2FsIHZhcmlhYmxlcyBmcm9tIHRoZSBzdGFjawoJcG9wbiAxCglyZXRzdWIKCi8vIGRvV2hpbGVMb29wKCl1aW50NjQKKmFiaV9yb3V0ZV9kb1doaWxlTG9vcDoKCS8vIFRoZSBBQkkgcmV0dXJuIHByZWZpeAoJYnl0ZWMgMSAvLyAweDE1MWY3Yzc1CgoJLy8gZXhlY3V0ZSBkb1doaWxlTG9vcCgpdWludDY0CgljYWxsc3ViIGRvV2hpbGVMb29wCglpdG9iCgljb25jYXQKCWxvZwoJaW50YyAwIC8vIDEKCXJldHVybgoKLy8gZG9XaGlsZUxvb3AoKTogdWludDY0CmRvV2hpbGVMb29wOgoJcHJvdG8gMCAxCgoJLy8gUHVzaCBlbXB0eSBieXRlcyBhZnRlciB0aGUgZnJhbWUgcG9pbnRlciB0byByZXNlcnZlIHNwYWNlIGZvciBsb2NhbCB2YXJpYWJsZXMKCWJ5dGVjIDAgLy8gMHgKCgkvLyB0ZXN0cy9jb250cmFjdHMvbG9vcHMuYWxnby50czoyNwoJLy8gaSA9IDAKCWludGMgMSAvLyAwCglmcmFtZV9idXJ5IDAgLy8gaTogdWludDY0CgoqZG9fd2hpbGVfMF9zdGF0ZW1lbnQ6CgkvLyB0ZXN0cy9jb250cmFjdHMvbG9vcHMuYWxnby50czozMAoJLy8gaSA9IGkgKyAxCglmcmFtZV9kaWcgMCAvLyBpOiB1aW50NjQKCWludGMgMCAvLyAxCgkrCglmcmFtZV9idXJ5IDAgLy8gaTogdWludDY0CgoqZG9fd2hpbGVfMDoKCipkb193aGlsZV8wX2NvbnRpbnVlOgoJLy8gdGVzdHMvY29udHJhY3RzL2xvb3BzLmFsZ28udHM6MzEKCS8vIGkgPCAxMAoJZnJhbWVfZGlnIDAgLy8gaTogdWludDY0CglpbnRjIDIgLy8gMTAKCTwKCWJueiAqZG9fd2hpbGVfMF9zdGF0ZW1lbnQKCipkb193aGlsZV8wX2VuZDoKCS8vIHRlc3RzL2NvbnRyYWN0cy9sb29wcy5hbGdvLnRzOjMzCgkvLyByZXR1cm4gaTsKCWZyYW1lX2RpZyAwIC8vIGk6IHVpbnQ2NAoKCS8vIHNldCB0aGUgc3Vicm91dGluZSByZXR1cm4gdmFsdWUKCWZyYW1lX2J1cnkgMAoJcmV0c3ViCgovLyBicmVha1doaWxlTG9vcCgpdWludDY0CiphYmlfcm91dGVfYnJlYWtXaGlsZUxvb3A6CgkvLyBUaGUgQUJJIHJldHVybiBwcmVmaXgKCWJ5dGVjIDEgLy8gMHgxNTFmN2M3NQoKCS8vIGV4ZWN1dGUgYnJlYWtXaGlsZUxvb3AoKXVpbnQ2NAoJY2FsbHN1YiBicmVha1doaWxlTG9vcAoJaXRvYgoJY29uY2F0Cglsb2cKCWludGMgMCAvLyAxCglyZXR1cm4KCi8vIGJyZWFrV2hpbGVMb29wKCk6IHVpbnQ2NApicmVha1doaWxlTG9vcDoKCXByb3RvIDAgMQoKCS8vIFB1c2ggZW1wdHkgYnl0ZXMgYWZ0ZXIgdGhlIGZyYW1lIHBvaW50ZXIgdG8gcmVzZXJ2ZSBzcGFjZSBmb3IgbG9jYWwgdmFyaWFibGVzCglieXRlYyAwIC8vIDB4CgoJLy8gdGVzdHMvY29udHJhY3RzL2xvb3BzLmFsZ28udHM6MzcKCS8vIGkgPSAwCglpbnRjIDEgLy8gMAoJZnJhbWVfYnVyeSAwIC8vIGk6IHVpbnQ2NAoKKndoaWxlXzE6Cgoqd2hpbGVfMV9jb250aW51ZToKCS8vIHRlc3RzL2NvbnRyYWN0cy9sb29wcy5hbGdvLnRzOjM5CgkvLyBpIDwgMTAKCWZyYW1lX2RpZyAwIC8vIGk6IHVpbnQ2NAoJaW50YyAyIC8vIDEwCgk8CglieiAqd2hpbGVfMV9lbmQKCgkvLyB0ZXN0cy9jb250cmFjdHMvbG9vcHMuYWxnby50czo0MAoJLy8gaSA9IGkgKyAxCglmcmFtZV9kaWcgMCAvLyBpOiB1aW50NjQKCWludGMgMCAvLyAxCgkrCglmcmFtZV9idXJ5IDAgLy8gaTogdWludDY0CgoJLy8gKmlmMF9jb25kaXRpb24KCS8vIHRlc3RzL2NvbnRyYWN0cy9sb29wcy5hbGdvLnRzOjQxCgkvLyBpID09PSA1CglmcmFtZV9kaWcgMCAvLyBpOiB1aW50NjQKCWludGMgMyAvLyA1Cgk9PQoJYnogKmlmMF9lbmQKCgkvLyAqaWYwX2NvbnNlcXVlbnQKCWIgKndoaWxlXzFfZW5kCgoqaWYwX2VuZDoKCWIgKndoaWxlXzEKCip3aGlsZV8xX2VuZDoKCS8vIHRlc3RzL2NvbnRyYWN0cy9sb29wcy5hbGdvLnRzOjQ0CgkvLyByZXR1cm4gaTsKCWZyYW1lX2RpZyAwIC8vIGk6IHVpbnQ2NAoKCS8vIHNldCB0aGUgc3Vicm91dGluZSByZXR1cm4gdmFsdWUKCWZyYW1lX2J1cnkgMAoJcmV0c3ViCgovLyBjb250aW51ZVdoaWxlTG9vcCgpdWludDY0CiphYmlfcm91dGVfY29udGludWVXaGlsZUxvb3A6CgkvLyBUaGUgQUJJIHJldHVybiBwcmVmaXgKCWJ5dGVjIDEgLy8gMHgxNTFmN2M3NQoKCS8vIGV4ZWN1dGUgY29udGludWVXaGlsZUxvb3AoKXVpbnQ2NAoJY2FsbHN1YiBjb250aW51ZVdoaWxlTG9vcAoJaXRvYgoJY29uY2F0Cglsb2cKCWludGMgMCAvLyAxCglyZXR1cm4KCi8vIGNvbnRpbnVlV2hpbGVMb29wKCk6IHVpbnQ2NApjb250aW51ZVdoaWxlTG9vcDoKCXByb3RvIDAgMQoKCS8vIFB1c2ggZW1wdHkgYnl0ZXMgYWZ0ZXIgdGhlIGZyYW1lIHBvaW50ZXIgdG8gcmVzZXJ2ZSBzcGFjZSBmb3IgbG9jYWwgdmFyaWFibGVzCglieXRlYyAwIC8vIDB4CgoJLy8gdGVzdHMvY29udHJhY3RzL2xvb3BzLmFsZ28udHM6NDgKCS8vIGkgPSAwCglpbnRjIDEgLy8gMAoJZnJhbWVfYnVyeSAwIC8vIGk6IHVpbnQ2NAoKKndoaWxlXzI6Cgoqd2hpbGVfMl9jb250aW51ZToKCS8vIHRlc3RzL2NvbnRyYWN0cy9sb29wcy5hbGdvLnRzOjUwCgkvLyBpIDwgMTAKCWZyYW1lX2RpZyAwIC8vIGk6IHVpbnQ2NAoJaW50YyAyIC8vIDEwCgk8CglieiAqd2hpbGVfMl9lbmQKCgkvLyAqaWYxX2NvbmRpdGlvbgoJLy8gdGVzdHMvY29udHJhY3RzL2xvb3BzLmFsZ28udHM6NTEKCS8vIGkgPT09IDUKCWZyYW1lX2RpZyAwIC8vIGk6IHVpbnQ2NAoJaW50YyAzIC8vIDUKCT09CglieiAqaWYxX2VuZAoKCS8vICppZjFfY29uc2VxdWVudAoJLy8gdGVzdHMvY29udHJhY3RzL2xvb3BzLmFsZ28udHM6NTIKCS8vIGkgPSAxMzM3CglpbnRjIDQgLy8gMTMzNwoJZnJhbWVfYnVyeSAwIC8vIGk6IHVpbnQ2NAoJYiAqd2hpbGVfMl9jb250aW51ZQoKKmlmMV9lbmQ6CgkvLyB0ZXN0cy9jb250cmFjdHMvbG9vcHMuYWxnby50czo1NQoJLy8gaSA9IGkgKyAxCglmcmFtZV9kaWcgMCAvLyBpOiB1aW50NjQKCWludGMgMCAvLyAxCgkrCglmcmFtZV9idXJ5IDAgLy8gaTogdWludDY0CgliICp3aGlsZV8yCgoqd2hpbGVfMl9lbmQ6CgkvLyB0ZXN0cy9jb250cmFjdHMvbG9vcHMuYWxnby50czo1OAoJLy8gcmV0dXJuIGk7CglmcmFtZV9kaWcgMCAvLyBpOiB1aW50NjQKCgkvLyBzZXQgdGhlIHN1YnJvdXRpbmUgcmV0dXJuIHZhbHVlCglmcmFtZV9idXJ5IDAKCXJldHN1YgoKLy8gYnJlYWtGb3JMb29wKCl1aW50NjQKKmFiaV9yb3V0ZV9icmVha0Zvckxvb3A6CgkvLyBUaGUgQUJJIHJldHVybiBwcmVmaXgKCWJ5dGVjIDEgLy8gMHgxNTFmN2M3NQoKCS8vIGV4ZWN1dGUgYnJlYWtGb3JMb29wKCl1aW50NjQKCWNhbGxzdWIgYnJlYWtGb3JMb29wCglpdG9iCgljb25jYXQKCWxvZwoJaW50YyAwIC8vIDEKCXJldHVybgoKLy8gYnJlYWtGb3JMb29wKCk6IHVpbnQ2NApicmVha0Zvckxvb3A6Cglwcm90byAwIDEKCgkvLyBQdXNoIGVtcHR5IGJ5dGVzIGFmdGVyIHRoZSBmcmFtZSBwb2ludGVyIHRvIHJlc2VydmUgc3BhY2UgZm9yIGxvY2FsIHZhcmlhYmxlcwoJYnl0ZWMgMCAvLyAweAoJZHVwCgoJLy8gdGVzdHMvY29udHJhY3RzL2xvb3BzLmFsZ28udHM6NjIKCS8vIGkgPSAwCglpbnRjIDEgLy8gMAoJZnJhbWVfYnVyeSAwIC8vIGk6IHVpbnQ2NAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9sb29wcy5hbGdvLnRzOjY0CgkvLyBmb3IgKGxldCBqID0gMDsgaiA8IDEwOyBqID0gaiArIDEpCglpbnRjIDEgLy8gMAoJZnJhbWVfYnVyeSAxIC8vIGo6IHVpbnQ2NAoKKmZvcl8xOgoJLy8gdGVzdHMvY29udHJhY3RzL2xvb3BzLmFsZ28udHM6NjQKCS8vIGogPCAxMAoJZnJhbWVfZGlnIDEgLy8gajogdWludDY0CglpbnRjIDIgLy8gMTAKCTwKCWJ6ICpmb3JfMV9lbmQKCgkvLyB0ZXN0cy9jb250cmFjdHMvbG9vcHMuYWxnby50czo2NQoJLy8gaSA9IGkgKyAxCglmcmFtZV9kaWcgMCAvLyBpOiB1aW50NjQKCWludGMgMCAvLyAxCgkrCglmcmFtZV9idXJ5IDAgLy8gaTogdWludDY0CgoJLy8gKmlmMl9jb25kaXRpb24KCS8vIHRlc3RzL2NvbnRyYWN0cy9sb29wcy5hbGdvLnRzOjY2CgkvLyBpID09PSA1CglmcmFtZV9kaWcgMCAvLyBpOiB1aW50NjQKCWludGMgMyAvLyA1Cgk9PQoJYnogKmlmMl9lbmQKCgkvLyAqaWYyX2NvbnNlcXVlbnQKCWIgKmZvcl8xX2VuZAoKKmlmMl9lbmQ6CgoqZm9yXzFfY29udGludWU6CgkvLyB0ZXN0cy9jb250cmFjdHMvbG9vcHMuYWxnby50czo2NAoJLy8gaiA9IGogKyAxCglmcmFtZV9kaWcgMSAvLyBqOiB1aW50NjQKCWludGMgMCAvLyAxCgkrCglmcmFtZV9idXJ5IDEgLy8gajogdWludDY0CgliICpmb3JfMQoKKmZvcl8xX2VuZDoKCS8vIHRlc3RzL2NvbnRyYWN0cy9sb29wcy5hbGdvLnRzOjY5CgkvLyByZXR1cm4gaTsKCWZyYW1lX2RpZyAwIC8vIGk6IHVpbnQ2NAoKCS8vIHNldCB0aGUgc3Vicm91dGluZSByZXR1cm4gdmFsdWUKCWZyYW1lX2J1cnkgMAoKCS8vIHBvcCBhbGwgbG9jYWwgdmFyaWFibGVzIGZyb20gdGhlIHN0YWNrCglwb3BuIDEKCXJldHN1YgoKLy8gY29udGludWVGb3JMb29wKCl1aW50NjQKKmFiaV9yb3V0ZV9jb250aW51ZUZvckxvb3A6CgkvLyBUaGUgQUJJIHJldHVybiBwcmVmaXgKCWJ5dGVjIDEgLy8gMHgxNTFmN2M3NQoKCS8vIGV4ZWN1dGUgY29udGludWVGb3JMb29wKCl1aW50NjQKCWNhbGxzdWIgY29udGludWVGb3JMb29wCglpdG9iCgljb25jYXQKCWxvZwoJaW50YyAwIC8vIDEKCXJldHVybgoKLy8gY29udGludWVGb3JMb29wKCk6IHVpbnQ2NApjb250aW51ZUZvckxvb3A6Cglwcm90byAwIDEKCgkvLyBQdXNoIGVtcHR5IGJ5dGVzIGFmdGVyIHRoZSBmcmFtZSBwb2ludGVyIHRvIHJlc2VydmUgc3BhY2UgZm9yIGxvY2FsIHZhcmlhYmxlcwoJYnl0ZWMgMCAvLyAweAoJZHVwCgoJLy8gdGVzdHMvY29udHJhY3RzL2xvb3BzLmFsZ28udHM6NzMKCS8vIGkgPSAwCglpbnRjIDEgLy8gMAoJZnJhbWVfYnVyeSAwIC8vIGk6IHVpbnQ2NAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9sb29wcy5hbGdvLnRzOjc1CgkvLyBmb3IgKGxldCBqID0gMDsgaiA8IDEwOyBqID0gaiArIDEpCglpbnRjIDEgLy8gMAoJZnJhbWVfYnVyeSAxIC8vIGo6IHVpbnQ2NAoKKmZvcl8yOgoJLy8gdGVzdHMvY29udHJhY3RzL2xvb3BzLmFsZ28udHM6NzUKCS8vIGogPCAxMAoJZnJhbWVfZGlnIDEgLy8gajogdWludDY0CglpbnRjIDIgLy8gMTAKCTwKCWJ6ICpmb3JfMl9lbmQKCgkvLyAqaWYzX2NvbmRpdGlvbgoJLy8gdGVzdHMvY29udHJhY3RzL2xvb3BzLmFsZ28udHM6NzYKCS8vIGkgPT09IDUKCWZyYW1lX2RpZyAwIC8vIGk6IHVpbnQ2NAoJaW50YyAzIC8vIDUKCT09CglieiAqaWYzX2VuZAoKCS8vICppZjNfY29uc2VxdWVudAoJLy8gdGVzdHMvY29udHJhY3RzL2xvb3BzLmFsZ28udHM6NzcKCS8vIGkgPSAxMzM3CglpbnRjIDQgLy8gMTMzNwoJZnJhbWVfYnVyeSAwIC8vIGk6IHVpbnQ2NAoJYiAqZm9yXzJfY29udGludWUKCippZjNfZW5kOgoJLy8gdGVzdHMvY29udHJhY3RzL2xvb3BzLmFsZ28udHM6ODAKCS8vIGkgPSBpICsgMQoJZnJhbWVfZGlnIDAgLy8gaTogdWludDY0CglpbnRjIDAgLy8gMQoJKwoJZnJhbWVfYnVyeSAwIC8vIGk6IHVpbnQ2NAoKKmZvcl8yX2NvbnRpbnVlOgoJLy8gdGVzdHMvY29udHJhY3RzL2xvb3BzLmFsZ28udHM6NzUKCS8vIGogPSBqICsgMQoJZnJhbWVfZGlnIDEgLy8gajogdWludDY0CglpbnRjIDAgLy8gMQoJKwoJZnJhbWVfYnVyeSAxIC8vIGo6IHVpbnQ2NAoJYiAqZm9yXzIKCipmb3JfMl9lbmQ6CgkvLyB0ZXN0cy9jb250cmFjdHMvbG9vcHMuYWxnby50czo4MwoJLy8gcmV0dXJuIGk7CglmcmFtZV9kaWcgMCAvLyBpOiB1aW50NjQKCgkvLyBzZXQgdGhlIHN1YnJvdXRpbmUgcmV0dXJuIHZhbHVlCglmcmFtZV9idXJ5IDAKCgkvLyBwb3AgYWxsIGxvY2FsIHZhcmlhYmxlcyBmcm9tIHRoZSBzdGFjawoJcG9wbiAxCglyZXRzdWIKCi8vIGJyZWFrRG9XaGlsZUxvb3AoKXVpbnQ2NAoqYWJpX3JvdXRlX2JyZWFrRG9XaGlsZUxvb3A6CgkvLyBUaGUgQUJJIHJldHVybiBwcmVmaXgKCWJ5dGVjIDEgLy8gMHgxNTFmN2M3NQoKCS8vIGV4ZWN1dGUgYnJlYWtEb1doaWxlTG9vcCgpdWludDY0CgljYWxsc3ViIGJyZWFrRG9XaGlsZUxvb3AKCWl0b2IKCWNvbmNhdAoJbG9nCglpbnRjIDAgLy8gMQoJcmV0dXJuCgovLyBicmVha0RvV2hpbGVMb29wKCk6IHVpbnQ2NApicmVha0RvV2hpbGVMb29wOgoJcHJvdG8gMCAxCgoJLy8gUHVzaCBlbXB0eSBieXRlcyBhZnRlciB0aGUgZnJhbWUgcG9pbnRlciB0byByZXNlcnZlIHNwYWNlIGZvciBsb2NhbCB2YXJpYWJsZXMKCWJ5dGVjIDAgLy8gMHgKCgkvLyB0ZXN0cy9jb250cmFjdHMvbG9vcHMuYWxnby50czo4NwoJLy8gaSA9IDAKCWludGMgMSAvLyAwCglmcmFtZV9idXJ5IDAgLy8gaTogdWludDY0CgoqZG9fd2hpbGVfMV9zdGF0ZW1lbnQ6CgkvLyB0ZXN0cy9jb250cmFjdHMvbG9vcHMuYWxnby50czo5MAoJLy8gaSA9IGkgKyAxCglmcmFtZV9kaWcgMCAvLyBpOiB1aW50NjQKCWludGMgMCAvLyAxCgkrCglmcmFtZV9idXJ5IDAgLy8gaTogdWludDY0CgoJLy8gKmlmNF9jb25kaXRpb24KCS8vIHRlc3RzL2NvbnRyYWN0cy9sb29wcy5hbGdvLnRzOjkxCgkvLyBpID09PSA1CglmcmFtZV9kaWcgMCAvLyBpOiB1aW50NjQKCWludGMgMyAvLyA1Cgk9PQoJYnogKmlmNF9lbmQKCgkvLyAqaWY0X2NvbnNlcXVlbnQKCWIgKmRvX3doaWxlXzFfZW5kCgoqaWY0X2VuZDoKCipkb193aGlsZV8xOgoKKmRvX3doaWxlXzFfY29udGludWU6CgkvLyB0ZXN0cy9jb250cmFjdHMvbG9vcHMuYWxnby50czo5MgoJLy8gaSA8IDEwCglmcmFtZV9kaWcgMCAvLyBpOiB1aW50NjQKCWludGMgMiAvLyAxMAoJPAoJYm56ICpkb193aGlsZV8xX3N0YXRlbWVudAoKKmRvX3doaWxlXzFfZW5kOgoJLy8gdGVzdHMvY29udHJhY3RzL2xvb3BzLmFsZ28udHM6OTQKCS8vIHJldHVybiBpOwoJZnJhbWVfZGlnIDAgLy8gaTogdWludDY0CgoJLy8gc2V0IHRoZSBzdWJyb3V0aW5lIHJldHVybiB2YWx1ZQoJZnJhbWVfYnVyeSAwCglyZXRzdWIKCi8vIGNvbnRpbnVlRG9XaGlsZUxvb3AoKXVpbnQ2NAoqYWJpX3JvdXRlX2NvbnRpbnVlRG9XaGlsZUxvb3A6CgkvLyBUaGUgQUJJIHJldHVybiBwcmVmaXgKCWJ5dGVjIDEgLy8gMHgxNTFmN2M3NQoKCS8vIGV4ZWN1dGUgY29udGludWVEb1doaWxlTG9vcCgpdWludDY0CgljYWxsc3ViIGNvbnRpbnVlRG9XaGlsZUxvb3AKCWl0b2IKCWNvbmNhdAoJbG9nCglpbnRjIDAgLy8gMQoJcmV0dXJuCgovLyBjb250aW51ZURvV2hpbGVMb29wKCk6IHVpbnQ2NApjb250aW51ZURvV2hpbGVMb29wOgoJcHJvdG8gMCAxCgoJLy8gUHVzaCBlbXB0eSBieXRlcyBhZnRlciB0aGUgZnJhbWUgcG9pbnRlciB0byByZXNlcnZlIHNwYWNlIGZvciBsb2NhbCB2YXJpYWJsZXMKCWJ5dGVjIDAgLy8gMHgKCgkvLyB0ZXN0cy9jb250cmFjdHMvbG9vcHMuYWxnby50czo5OAoJLy8gaSA9IDAKCWludGMgMSAvLyAwCglmcmFtZV9idXJ5IDAgLy8gaTogdWludDY0CgoqZG9fd2hpbGVfMl9zdGF0ZW1lbnQ6CgkvLyAqaWY1X2NvbmRpdGlvbgoJLy8gdGVzdHMvY29udHJhY3RzL2xvb3BzLmFsZ28udHM6MTAxCgkvLyBpID09PSA1CglmcmFtZV9kaWcgMCAvLyBpOiB1aW50NjQKCWludGMgMyAvLyA1Cgk9PQoJYnogKmlmNV9lbmQKCgkvLyAqaWY1X2NvbnNlcXVlbnQKCS8vIHRlc3RzL2NvbnRyYWN0cy9sb29wcy5hbGdvLnRzOjEwMgoJLy8gaSA9IDEzMzcKCWludGMgNCAvLyAxMzM3CglmcmFtZV9idXJ5IDAgLy8gaTogdWludDY0CgliICpkb193aGlsZV8yX2NvbnRpbnVlCgoqaWY1X2VuZDoKCS8vIHRlc3RzL2NvbnRyYWN0cy9sb29wcy5hbGdvLnRzOjEwNQoJLy8gaSA9IGkgKyAxCglmcmFtZV9kaWcgMCAvLyBpOiB1aW50NjQKCWludGMgMCAvLyAxCgkrCglmcmFtZV9idXJ5IDAgLy8gaTogdWludDY0CgoqZG9fd2hpbGVfMjoKCipkb193aGlsZV8yX2NvbnRpbnVlOgoJLy8gdGVzdHMvY29udHJhY3RzL2xvb3BzLmFsZ28udHM6MTA2CgkvLyBpIDwgMTAKCWZyYW1lX2RpZyAwIC8vIGk6IHVpbnQ2NAoJaW50YyAyIC8vIDEwCgk8CglibnogKmRvX3doaWxlXzJfc3RhdGVtZW50CgoqZG9fd2hpbGVfMl9lbmQ6CgkvLyB0ZXN0cy9jb250cmFjdHMvbG9vcHMuYWxnby50czoxMDgKCS8vIHJldHVybiBpOwoJZnJhbWVfZGlnIDAgLy8gaTogdWludDY0CgoJLy8gc2V0IHRoZSBzdWJyb3V0aW5lIHJldHVybiB2YWx1ZQoJZnJhbWVfYnVyeSAwCglyZXRzdWIKCiphYmlfcm91dGVfY3JlYXRlQXBwbGljYXRpb246CglpbnRjIDAgLy8gMQoJcmV0dXJuCgoqY3JlYXRlX05vT3A6CglwdXNoYnl0ZXMgMHhiODQ0N2IzNiAvLyBtZXRob2QgImNyZWF0ZUFwcGxpY2F0aW9uKCl2b2lkIgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggKmFiaV9yb3V0ZV9jcmVhdGVBcHBsaWNhdGlvbgoKCS8vIHRoaXMgY29udHJhY3QgZG9lcyBub3QgaW1wbGVtZW50IHRoZSBnaXZlbiBBQkkgbWV0aG9kIGZvciBjcmVhdGUgTm9PcAoJZXJyCgoqY2FsbF9Ob09wOgoJcHVzaGJ5dGVzIDB4ZTE2NGJiZDkgLy8gbWV0aG9kICJ3aGlsZUxvb3AoKXVpbnQ2NCIKCXB1c2hieXRlcyAweDViM2VkOWY2IC8vIG1ldGhvZCAiZm9yTG9vcCgpdWludDY0IgoJcHVzaGJ5dGVzIDB4MWQ4NjFhM2QgLy8gbWV0aG9kICJkb1doaWxlTG9vcCgpdWludDY0IgoJcHVzaGJ5dGVzIDB4ODIxZmU4MjkgLy8gbWV0aG9kICJicmVha1doaWxlTG9vcCgpdWludDY0IgoJcHVzaGJ5dGVzIDB4OGQxNTI4MGEgLy8gbWV0aG9kICJjb250aW51ZVdoaWxlTG9vcCgpdWludDY0IgoJcHVzaGJ5dGVzIDB4Njg5N2NmNWUgLy8gbWV0aG9kICJicmVha0Zvckxvb3AoKXVpbnQ2NCIKCXB1c2hieXRlcyAweDk5Y2JhY2FiIC8vIG1ldGhvZCAiY29udGludWVGb3JMb29wKCl1aW50NjQiCglwdXNoYnl0ZXMgMHg4NmQ1ZWRkMyAvLyBtZXRob2QgImJyZWFrRG9XaGlsZUxvb3AoKXVpbnQ2NCIKCXB1c2hieXRlcyAweGUwMWQ5ZDQyIC8vIG1ldGhvZCAiY29udGludWVEb1doaWxlTG9vcCgpdWludDY0IgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggKmFiaV9yb3V0ZV93aGlsZUxvb3AgKmFiaV9yb3V0ZV9mb3JMb29wICphYmlfcm91dGVfZG9XaGlsZUxvb3AgKmFiaV9yb3V0ZV9icmVha1doaWxlTG9vcCAqYWJpX3JvdXRlX2NvbnRpbnVlV2hpbGVMb29wICphYmlfcm91dGVfYnJlYWtGb3JMb29wICphYmlfcm91dGVfY29udGludWVGb3JMb29wICphYmlfcm91dGVfYnJlYWtEb1doaWxlTG9vcCAqYWJpX3JvdXRlX2NvbnRpbnVlRG9XaGlsZUxvb3AKCgkvLyB0aGlzIGNvbnRyYWN0IGRvZXMgbm90IGltcGxlbWVudCB0aGUgZ2l2ZW4gQUJJIG1ldGhvZCBmb3IgY2FsbCBOb09wCgllcnI=",
+    "clear": "I3ByYWdtYSB2ZXJzaW9uIDEw",
+  },
+  "state": {
+    "global": {
+      "num_byte_slices": 0,
+      "num_uints": 0,
+    },
+    "local": {
+      "num_byte_slices": 0,
+      "num_uints": 0,
+    },
+  },
+}
+`;

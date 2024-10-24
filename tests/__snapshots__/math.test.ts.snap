@@ -1,3 +1,4149 @@
 // Bun Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Math MathTest Artifacts Generates TEAL 1`] = `
+"#pragma version 10
+intcblock 1 32 256 8 0 16 18446744073709551615 2 3 4 5 64 128
+bytecblock 0x151f7c75 0x 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF 0x626f784b6579 0x674b6579 0x0000000000000000000000000000000000000000000000000000000000000001 0x00000000000000000000000000000000000000000000000000000000000003e8 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF 0xFFFFFFFFFFFFFFFF
+
+// https://github.com/algorandfoundation/TEALScript
+
+// This contract is compliant with and/or implements the following ARCs: [ ARC4 ]
+
+// The following ten lines of TEAL handle initial program flow
+// This pattern is used to make it easy for anyone to parse the start of the program and determine if a specific action is allowed
+// Here, action refers to the OnComplete in combination with whether the app is being created or called
+// Every possible action for this contract is represented in the switch statement
+// If the action is not implemented in the contract, its respective branch will be "*NOT_IMPLEMENTED" which just contains "err"
+txn ApplicationID
+!
+pushint 6
+*
+txn OnCompletion
++
+switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *create_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED
+
+*NOT_IMPLEMENTED:
+	// The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?
+	err
+
+// u64plus(uint64,uint64)uint64
+*abi_route_u64plus:
+	// The ABI return prefix
+	bytec 0 // 0x151f7c75
+
+	// b: uint64
+	txna ApplicationArgs 2
+	btoi
+
+	// a: uint64
+	txna ApplicationArgs 1
+	btoi
+
+	// execute u64plus(uint64,uint64)uint64
+	callsub u64plus
+	itob
+	concat
+	log
+	intc 0 // 1
+	return
+
+// u64plus(a: uint64, b: uint64): uint64
+u64plus:
+	proto 2 1
+
+	// tests/contracts/math.algo.ts:8
+	// return a + b;
+	frame_dig -1 // a: uint64
+	frame_dig -2 // b: uint64
+	+
+	retsub
+
+// u64minus(uint64,uint64)uint64
+*abi_route_u64minus:
+	// The ABI return prefix
+	bytec 0 // 0x151f7c75
+
+	// b: uint64
+	txna ApplicationArgs 2
+	btoi
+
+	// a: uint64
+	txna ApplicationArgs 1
+	btoi
+
+	// execute u64minus(uint64,uint64)uint64
+	callsub u64minus
+	itob
+	concat
+	log
+	intc 0 // 1
+	return
+
+// u64minus(a: uint64, b: uint64): uint64
+u64minus:
+	proto 2 1
+
+	// tests/contracts/math.algo.ts:12
+	// return a - b;
+	frame_dig -1 // a: uint64
+	frame_dig -2 // b: uint64
+	-
+	retsub
+
+// u64mul(uint64,uint64)uint64
+*abi_route_u64mul:
+	// The ABI return prefix
+	bytec 0 // 0x151f7c75
+
+	// b: uint64
+	txna ApplicationArgs 2
+	btoi
+
+	// a: uint64
+	txna ApplicationArgs 1
+	btoi
+
+	// execute u64mul(uint64,uint64)uint64
+	callsub u64mul
+	itob
+	concat
+	log
+	intc 0 // 1
+	return
+
+// u64mul(a: uint64, b: uint64): uint64
+u64mul:
+	proto 2 1
+
+	// tests/contracts/math.algo.ts:16
+	// return a * b;
+	frame_dig -1 // a: uint64
+	frame_dig -2 // b: uint64
+	*
+	retsub
+
+// u64div(uint64,uint64)uint64
+*abi_route_u64div:
+	// The ABI return prefix
+	bytec 0 // 0x151f7c75
+
+	// b: uint64
+	txna ApplicationArgs 2
+	btoi
+
+	// a: uint64
+	txna ApplicationArgs 1
+	btoi
+
+	// execute u64div(uint64,uint64)uint64
+	callsub u64div
+	itob
+	concat
+	log
+	intc 0 // 1
+	return
+
+// u64div(a: uint64, b: uint64): uint64
+u64div:
+	proto 2 1
+
+	// tests/contracts/math.algo.ts:20
+	// return a / b;
+	frame_dig -1 // a: uint64
+	frame_dig -2 // b: uint64
+	/
+	retsub
+
+// u256plus(uint256,uint256)uint256
+*abi_route_u256plus:
+	// The ABI return prefix
+	bytec 0 // 0x151f7c75
+
+	// b: uint256
+	txna ApplicationArgs 2
+	dup
+	len
+	intc 1 // 32
+	==
+
+	// argument 0 (b) for u256plus must be a uint256
+	assert
+
+	// a: uint256
+	txna ApplicationArgs 1
+	dup
+	len
+	intc 1 // 32
+	==
+
+	// argument 1 (a) for u256plus must be a uint256
+	assert
+
+	// execute u256plus(uint256,uint256)uint256
+	callsub u256plus
+	dup
+	bitlen
+	intc 2 // 256
+	<=
+
+	// u256plus return value overflowed 256 bits
+	assert
+	bytec 2 // 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	b&
+	dup
+	len
+	dup
+	intc 1 // 32
+	-
+	swap
+	substring3
+	concat
+	log
+	intc 0 // 1
+	return
+
+// u256plus(a: uint256, b: uint256): uint256
+u256plus:
+	proto 2 1
+
+	// tests/contracts/math.algo.ts:24
+	// return <uint256>(a + b);
+	frame_dig -1 // a: uint256
+	frame_dig -2 // b: uint256
+	b+
+	retsub
+
+// u256minus(uint256,uint256)uint256
+*abi_route_u256minus:
+	// The ABI return prefix
+	bytec 0 // 0x151f7c75
+
+	// b: uint256
+	txna ApplicationArgs 2
+	dup
+	len
+	intc 1 // 32
+	==
+
+	// argument 0 (b) for u256minus must be a uint256
+	assert
+
+	// a: uint256
+	txna ApplicationArgs 1
+	dup
+	len
+	intc 1 // 32
+	==
+
+	// argument 1 (a) for u256minus must be a uint256
+	assert
+
+	// execute u256minus(uint256,uint256)uint256
+	callsub u256minus
+	dup
+	bitlen
+	intc 2 // 256
+	<=
+
+	// u256minus return value overflowed 256 bits
+	assert
+	bytec 2 // 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	b&
+	dup
+	len
+	dup
+	intc 1 // 32
+	-
+	swap
+	substring3
+	concat
+	log
+	intc 0 // 1
+	return
+
+// u256minus(a: uint256, b: uint256): uint256
+u256minus:
+	proto 2 1
+
+	// tests/contracts/math.algo.ts:28
+	// return <uint256>(a - b);
+	frame_dig -1 // a: uint256
+	frame_dig -2 // b: uint256
+	b-
+	retsub
+
+// u256mul(uint256,uint256)uint256
+*abi_route_u256mul:
+	// The ABI return prefix
+	bytec 0 // 0x151f7c75
+
+	// b: uint256
+	txna ApplicationArgs 2
+	dup
+	len
+	intc 1 // 32
+	==
+
+	// argument 0 (b) for u256mul must be a uint256
+	assert
+
+	// a: uint256
+	txna ApplicationArgs 1
+	dup
+	len
+	intc 1 // 32
+	==
+
+	// argument 1 (a) for u256mul must be a uint256
+	assert
+
+	// execute u256mul(uint256,uint256)uint256
+	callsub u256mul
+	dup
+	bitlen
+	intc 2 // 256
+	<=
+
+	// u256mul return value overflowed 256 bits
+	assert
+	bytec 2 // 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	b&
+	dup
+	len
+	dup
+	intc 1 // 32
+	-
+	swap
+	substring3
+	concat
+	log
+	intc 0 // 1
+	return
+
+// u256mul(a: uint256, b: uint256): uint256
+u256mul:
+	proto 2 1
+
+	// tests/contracts/math.algo.ts:32
+	// return <uint256>(a * b);
+	frame_dig -1 // a: uint256
+	frame_dig -2 // b: uint256
+	b*
+	retsub
+
+// u256div(uint256,uint256)uint256
+*abi_route_u256div:
+	// The ABI return prefix
+	bytec 0 // 0x151f7c75
+
+	// b: uint256
+	txna ApplicationArgs 2
+	dup
+	len
+	intc 1 // 32
+	==
+
+	// argument 0 (b) for u256div must be a uint256
+	assert
+
+	// a: uint256
+	txna ApplicationArgs 1
+	dup
+	len
+	intc 1 // 32
+	==
+
+	// argument 1 (a) for u256div must be a uint256
+	assert
+
+	// execute u256div(uint256,uint256)uint256
+	callsub u256div
+	dup
+	bitlen
+	intc 2 // 256
+	<=
+
+	// u256div return value overflowed 256 bits
+	assert
+	bytec 2 // 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	b&
+	dup
+	len
+	dup
+	intc 1 // 32
+	-
+	swap
+	substring3
+	concat
+	log
+	intc 0 // 1
+	return
+
+// u256div(a: uint256, b: uint256): uint256
+u256div:
+	proto 2 1
+
+	// tests/contracts/math.algo.ts:36
+	// return <uint256>(a / b);
+	frame_dig -1 // a: uint256
+	frame_dig -2 // b: uint256
+	b/
+	retsub
+
+// u64Return256(uint64,uint64)uint256
+*abi_route_u64Return256:
+	// The ABI return prefix
+	bytec 0 // 0x151f7c75
+
+	// b: uint64
+	txna ApplicationArgs 2
+	btoi
+
+	// a: uint64
+	txna ApplicationArgs 1
+	btoi
+
+	// execute u64Return256(uint64,uint64)uint256
+	callsub u64Return256
+	dup
+	bitlen
+	intc 2 // 256
+	<=
+
+	// u64Return256 return value overflowed 256 bits
+	assert
+	bytec 2 // 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	b&
+	dup
+	len
+	dup
+	intc 1 // 32
+	-
+	swap
+	substring3
+	concat
+	log
+	intc 0 // 1
+	return
+
+// u64Return256(a: uint64, b: uint64): uint256
+u64Return256:
+	proto 2 1
+
+	// tests/contracts/math.algo.ts:40
+	// return <uint256>(a + b);
+	frame_dig -1 // a: uint64
+	frame_dig -2 // b: uint64
+	+
+	itob
+	retsub
+
+// maxU64()uint64
+*abi_route_maxU64:
+	// The ABI return prefix
+	bytec 0 // 0x151f7c75
+
+	// execute maxU64()uint64
+	callsub maxU64
+	itob
+	concat
+	log
+	intc 0 // 1
+	return
+
+// maxU64(): uint64
+maxU64:
+	proto 0 1
+
+	// tests/contracts/math.algo.ts:44
+	// return Uint<64>('18446744073709551615');
+	intc 6 // 18446744073709551615
+	retsub
+
+// exponent(uint64,uint64)uint64
+*abi_route_exponent:
+	// The ABI return prefix
+	bytec 0 // 0x151f7c75
+
+	// b: uint64
+	txna ApplicationArgs 2
+	btoi
+
+	// a: uint64
+	txna ApplicationArgs 1
+	btoi
+
+	// execute exponent(uint64,uint64)uint64
+	callsub exponent
+	itob
+	concat
+	log
+	intc 0 // 1
+	return
+
+// exponent(a: uint64, b: uint64): uint64
+exponent:
+	proto 2 1
+
+	// tests/contracts/math.algo.ts:48
+	// return a ** b;
+	frame_dig -1 // a: uint64
+	frame_dig -2 // b: uint64
+	exp
+	retsub
+
+// variableTypeHint(uint8,uint8)uint16
+*abi_route_variableTypeHint:
+	// The ABI return prefix
+	bytec 0 // 0x151f7c75
+
+	// y: uint8
+	txna ApplicationArgs 2
+	dup
+	len
+	intc 0 // 1
+	==
+
+	// argument 0 (y) for variableTypeHint must be a uint8
+	assert
+	btoi
+
+	// x: uint8
+	txna ApplicationArgs 1
+	dup
+	len
+	intc 0 // 1
+	==
+
+	// argument 1 (x) for variableTypeHint must be a uint8
+	assert
+	btoi
+
+	// execute variableTypeHint(uint8,uint8)uint16
+	callsub variableTypeHint
+	itob
+	dup
+	bitlen
+	intc 5 // 16
+	<=
+
+	// variableTypeHint return value overflowed 16 bits
+	assert
+	extract 6 2
+	concat
+	log
+	intc 0 // 1
+	return
+
+// variableTypeHint(x: uint<8>, y: uint<8>): uint16
+variableTypeHint:
+	proto 2 1
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	bytec 1 // 0x
+
+	// tests/contracts/math.algo.ts:52
+	// z = <uint16>(x + y)
+	frame_dig -1 // x: uint<8>
+	frame_dig -2 // y: uint<8>
+	+
+	frame_bury 0 // z: unsafe uint16
+
+	// tests/contracts/math.algo.ts:54
+	// return z;
+	frame_dig 0 // z: unsafe uint16
+
+	// set the subroutine return value
+	frame_bury 0
+	retsub
+
+// uint8plus(uint8,uint8)uint8
+*abi_route_uint8plus:
+	// The ABI return prefix
+	bytec 0 // 0x151f7c75
+
+	// b: uint8
+	txna ApplicationArgs 2
+	dup
+	len
+	intc 0 // 1
+	==
+
+	// argument 0 (b) for uint8plus must be a uint8
+	assert
+	btoi
+
+	// a: uint8
+	txna ApplicationArgs 1
+	dup
+	len
+	intc 0 // 1
+	==
+
+	// argument 1 (a) for uint8plus must be a uint8
+	assert
+	btoi
+
+	// execute uint8plus(uint8,uint8)uint8
+	callsub uint8plus
+	itob
+	dup
+	bitlen
+	intc 3 // 8
+	<=
+
+	// uint8plus return value overflowed 8 bits
+	assert
+	extract 7 1
+	concat
+	log
+	intc 0 // 1
+	return
+
+// uint8plus(a: uint<8>, b: uint<8>): uint<8>
+uint8plus:
+	proto 2 1
+
+	// tests/contracts/math.algo.ts:58
+	// return a + b;
+	frame_dig -1 // a: uint<8>
+	frame_dig -2 // b: uint<8>
+	+
+	retsub
+
+// uint8exp(uint8,uint8)uint8
+*abi_route_uint8exp:
+	// The ABI return prefix
+	bytec 0 // 0x151f7c75
+
+	// b: uint8
+	txna ApplicationArgs 2
+	dup
+	len
+	intc 0 // 1
+	==
+
+	// argument 0 (b) for uint8exp must be a uint8
+	assert
+	btoi
+
+	// a: uint8
+	txna ApplicationArgs 1
+	dup
+	len
+	intc 0 // 1
+	==
+
+	// argument 1 (a) for uint8exp must be a uint8
+	assert
+	btoi
+
+	// execute uint8exp(uint8,uint8)uint8
+	callsub uint8exp
+	itob
+	dup
+	bitlen
+	intc 3 // 8
+	<=
+
+	// uint8exp return value overflowed 8 bits
+	assert
+	extract 7 1
+	concat
+	log
+	intc 0 // 1
+	return
+
+// uint8exp(a: uint<8>, b: uint<8>): uint<8>
+uint8exp:
+	proto 2 1
+
+	// tests/contracts/math.algo.ts:62
+	// return a ** b;
+	frame_dig -1 // a: uint<8>
+	frame_dig -2 // b: uint<8>
+	exp
+	retsub
+
+// plusEquals(uint64,uint64)uint64
+*abi_route_plusEquals:
+	// The ABI return prefix
+	bytec 0 // 0x151f7c75
+
+	// b: uint64
+	txna ApplicationArgs 2
+	btoi
+
+	// a: uint64
+	txna ApplicationArgs 1
+	btoi
+
+	// execute plusEquals(uint64,uint64)uint64
+	callsub plusEquals
+	itob
+	concat
+	log
+	intc 0 // 1
+	return
+
+// plusEquals(a: uint64, b: uint64): uint64
+plusEquals:
+	proto 2 1
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	bytec 1 // 0x
+
+	// tests/contracts/math.algo.ts:66
+	// x = a
+	frame_dig -1 // a: uint64
+	frame_bury 0 // x: uint64
+
+	// tests/contracts/math.algo.ts:68
+	// x += b
+	frame_dig 0 // x: uint64
+	frame_dig -2 // b: uint64
+	+
+	frame_bury 0 // x: uint64
+
+	// tests/contracts/math.algo.ts:70
+	// return x;
+	frame_dig 0 // x: uint64
+
+	// set the subroutine return value
+	frame_bury 0
+	retsub
+
+// plusEqualsFromGlobal(uint64,uint64)uint64
+*abi_route_plusEqualsFromGlobal:
+	// The ABI return prefix
+	bytec 0 // 0x151f7c75
+
+	// b: uint64
+	txna ApplicationArgs 2
+	btoi
+
+	// a: uint64
+	txna ApplicationArgs 1
+	btoi
+
+	// execute plusEqualsFromGlobal(uint64,uint64)uint64
+	callsub plusEqualsFromGlobal
+	itob
+	concat
+	log
+	intc 0 // 1
+	return
+
+// plusEqualsFromGlobal(a: uint64, b: uint64): uint64
+plusEqualsFromGlobal:
+	proto 2 1
+
+	// tests/contracts/math.algo.ts:74
+	// this.gKey.value = a
+	bytec 4 //  "gKey"
+	frame_dig -1 // a: uint64
+	app_global_put
+
+	// tests/contracts/math.algo.ts:76
+	// this.gKey.value += b
+	bytec 4 //  "gKey"
+	app_global_get
+	frame_dig -2 // b: uint64
+	+
+	bytec 4 //  "gKey"
+	swap
+	app_global_put
+
+	// tests/contracts/math.algo.ts:78
+	// return this.gKey.value;
+	bytec 4 //  "gKey"
+	app_global_get
+	retsub
+
+// boxTest()uint256
+*abi_route_boxTest:
+	// The ABI return prefix
+	bytec 0 // 0x151f7c75
+
+	// execute boxTest()uint256
+	callsub boxTest
+	dup
+	bitlen
+	intc 2 // 256
+	<=
+
+	// boxTest return value overflowed 256 bits
+	assert
+	bytec 2 // 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	b&
+	dup
+	len
+	dup
+	intc 1 // 32
+	-
+	swap
+	substring3
+	concat
+	log
+	intc 0 // 1
+	return
+
+// boxTest(): uint256
+boxTest:
+	proto 0 1
+
+	// tests/contracts/math.algo.ts:84
+	// this.boxKey.value = <uint256>1
+	bytec 3 //  "boxKey"
+	bytec 5 // 0x0000000000000000000000000000000000000000000000000000000000000001
+	box_put
+
+	// tests/contracts/math.algo.ts:85
+	// this.boxKey.value += 1
+	bytec 3 //  "boxKey"
+	box_get
+
+	// box value does not exist: this.boxKey.value
+	assert
+	bytec 5 // 0x0000000000000000000000000000000000000000000000000000000000000001
+	b+
+	bytec 3 //  "boxKey"
+	dup
+	bitlen
+	intc 2 // 256
+	<=
+
+	// this.boxKey.value overflowed 256 bits
+	assert
+	bytec 2 // 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	b&
+	dup
+	len
+	dup
+	intc 1 // 32
+	-
+	swap
+	substring3
+	swap
+	box_put
+
+	// tests/contracts/math.algo.ts:87
+	// return this.boxKey.value;
+	bytec 3 //  "boxKey"
+	box_get
+
+	// box value does not exist: this.boxKey.value
+	assert
+	retsub
+
+// foo(x: uint256): uint256
+foo:
+	proto 1 1
+
+	// tests/contracts/math.algo.ts:91
+	// return x;
+	frame_dig -1 // x: uint256
+	retsub
+
+// unsafeMethodArgs(uint256,uint256)uint256
+*abi_route_unsafeMethodArgs:
+	// The ABI return prefix
+	bytec 0 // 0x151f7c75
+
+	// b: uint256
+	txna ApplicationArgs 2
+	dup
+	len
+	intc 1 // 32
+	==
+
+	// argument 0 (b) for unsafeMethodArgs must be a uint256
+	assert
+
+	// a: uint256
+	txna ApplicationArgs 1
+	dup
+	len
+	intc 1 // 32
+	==
+
+	// argument 1 (a) for unsafeMethodArgs must be a uint256
+	assert
+
+	// execute unsafeMethodArgs(uint256,uint256)uint256
+	callsub unsafeMethodArgs
+	dup
+	bitlen
+	intc 2 // 256
+	<=
+
+	// unsafeMethodArgs return value overflowed 256 bits
+	assert
+	bytec 2 // 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	b&
+	dup
+	len
+	dup
+	intc 1 // 32
+	-
+	swap
+	substring3
+	concat
+	log
+	intc 0 // 1
+	return
+
+// unsafeMethodArgs(a: uint256, b: uint256): uint256
+unsafeMethodArgs:
+	proto 2 1
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	bytec 1 // 0x
+
+	// tests/contracts/math.algo.ts:95
+	// c = a + b
+	frame_dig -1 // a: uint256
+	frame_dig -2 // b: uint256
+	b+
+	frame_bury 0 // c: unsafe uint256
+
+	// tests/contracts/math.algo.ts:97
+	// return this.foo(c);
+	frame_dig 0 // c: unsafe uint256
+	dup
+	bitlen
+	intc 2 // 256
+	<=
+
+	// c overflowed 256 bits
+	assert
+	bytec 2 // 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	b&
+	dup
+	len
+	dup
+	intc 1 // 32
+	-
+	swap
+	substring3
+	callsub foo
+
+	// set the subroutine return value
+	frame_bury 0
+	retsub
+
+// uint256ComparisonType(uint256,uint256)void
+*abi_route_uint256ComparisonType:
+	// b: uint256
+	txna ApplicationArgs 2
+	dup
+	len
+	intc 1 // 32
+	==
+
+	// argument 0 (b) for uint256ComparisonType must be a uint256
+	assert
+
+	// a: uint256
+	txna ApplicationArgs 1
+	dup
+	len
+	intc 1 // 32
+	==
+
+	// argument 1 (a) for uint256ComparisonType must be a uint256
+	assert
+
+	// execute uint256ComparisonType(uint256,uint256)void
+	callsub uint256ComparisonType
+	intc 0 // 1
+	return
+
+// uint256ComparisonType(a: uint256, b: uint256): void
+uint256ComparisonType:
+	proto 2 0
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	bytec 1 // 0x
+
+	// tests/contracts/math.algo.ts:101
+	// senderBalanceAfter = a - b
+	frame_dig -1 // a: uint256
+	frame_dig -2 // b: uint256
+	b-
+	frame_bury 0 // senderBalanceAfter: unsafe uint256
+
+	// *if0_condition
+	// tests/contracts/math.algo.ts:102
+	// senderBalanceAfter > <uint256>0
+	frame_dig 0 // senderBalanceAfter: unsafe uint256
+	pushbytes 0x0000000000000000000000000000000000000000000000000000000000000000
+	b>
+	bz *if0_else
+
+	// *if0_consequent
+	// tests/contracts/math.algo.ts:103
+	// log('nonZero')
+	pushbytes 0x6e6f6e5a65726f // "nonZero"
+	log
+	b *if0_end
+
+*if0_else:
+	// tests/contracts/math.algo.ts:105
+	// log('zero')
+	pushbytes 0x7a65726f // "zero"
+	log
+
+*if0_end:
+	retsub
+
+// squareRoot256(uint256,uint256)uint256
+*abi_route_squareRoot256:
+	// The ABI return prefix
+	bytec 0 // 0x151f7c75
+
+	// b: uint256
+	txna ApplicationArgs 2
+	dup
+	len
+	intc 1 // 32
+	==
+
+	// argument 0 (b) for squareRoot256 must be a uint256
+	assert
+
+	// a: uint256
+	txna ApplicationArgs 1
+	dup
+	len
+	intc 1 // 32
+	==
+
+	// argument 1 (a) for squareRoot256 must be a uint256
+	assert
+
+	// execute squareRoot256(uint256,uint256)uint256
+	callsub squareRoot256
+	dup
+	bitlen
+	intc 2 // 256
+	<=
+
+	// squareRoot256 return value overflowed 256 bits
+	assert
+	bytec 2 // 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	b&
+	dup
+	len
+	dup
+	intc 1 // 32
+	-
+	swap
+	substring3
+	concat
+	log
+	intc 0 // 1
+	return
+
+// squareRoot256(a: uint256, b: uint256): uint256
+squareRoot256:
+	proto 2 1
+
+	// tests/contracts/math.algo.ts:110
+	// return sqrt(a * b);
+	frame_dig -1 // a: uint256
+	frame_dig -2 // b: uint256
+	b*
+	bsqrt
+	retsub
+
+// squareRoot64(uint64,uint64)uint64
+*abi_route_squareRoot64:
+	// The ABI return prefix
+	bytec 0 // 0x151f7c75
+
+	// b: uint64
+	txna ApplicationArgs 2
+	btoi
+
+	// a: uint64
+	txna ApplicationArgs 1
+	btoi
+
+	// execute squareRoot64(uint64,uint64)uint64
+	callsub squareRoot64
+	itob
+	concat
+	log
+	intc 0 // 1
+	return
+
+// squareRoot64(a: uint64, b: uint64): uint64
+squareRoot64:
+	proto 2 1
+
+	// tests/contracts/math.algo.ts:114
+	// return sqrt(a * b);
+	frame_dig -1 // a: uint64
+	frame_dig -2 // b: uint64
+	*
+	sqrt
+	retsub
+
+// addressToBigInt(address)bool
+*abi_route_addressToBigInt:
+	// The ABI return prefix
+	bytec 0 // 0x151f7c75
+
+	// addr: address
+	txna ApplicationArgs 1
+	dup
+	len
+	intc 1 // 32
+	==
+
+	// argument 0 (addr) for addressToBigInt must be a address
+	assert
+
+	// execute addressToBigInt(address)bool
+	callsub addressToBigInt
+	pushbytes 0x00
+	intc 4 // 0
+	uncover 2
+	setbit
+	concat
+	log
+	intc 0 // 1
+	return
+
+// addressToBigInt(addr: Address): boolean
+addressToBigInt:
+	proto 1 1
+
+	// tests/contracts/math.algo.ts:118
+	// return btobigint(addr) > btobigint(this.txn.sender);
+	frame_dig -1 // addr: Address
+	txn Sender
+	b>
+	retsub
+
+// u8Tou64()uint64
+*abi_route_u8Tou64:
+	// The ABI return prefix
+	bytec 0 // 0x151f7c75
+
+	// execute u8Tou64()uint64
+	callsub u8Tou64
+	itob
+	concat
+	log
+	intc 0 // 1
+	return
+
+// u8Tou64(): uint64
+u8Tou64:
+	proto 0 1
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	bytec 1 // 0x
+
+	// tests/contracts/math.algo.ts:122
+	// x: uint8 = 7
+	pushint 7
+	frame_bury 0 // x: uint8
+
+	// tests/contracts/math.algo.ts:123
+	// return <uint64>x;
+	frame_dig 0 // x: uint8
+
+	// set the subroutine return value
+	frame_bury 0
+	retsub
+
+// privateFuncName(x: uint8, y: uint64): void
+privateFuncName:
+	proto 2 0
+
+	// tests/contracts/math.algo.ts:127
+	// assert(<uint8>y > x)
+	frame_dig -2 // y: uint64
+	frame_dig -1 // x: uint8
+	>
+	assert
+	retsub
+
+// funcName(uint256)void
+*abi_route_funcName:
+	// x: uint256
+	txna ApplicationArgs 1
+	dup
+	len
+	intc 1 // 32
+	==
+
+	// argument 0 (x) for funcName must be a uint256
+	assert
+
+	// execute funcName(uint256)void
+	callsub funcName
+	intc 0 // 1
+	return
+
+// funcName(x: uint256): void
+funcName:
+	proto 1 0
+
+	// tests/contracts/math.algo.ts:131
+	// this.privateFuncName(<uint8>x, 1337)
+	pushint 1337
+	frame_dig -1 // x: uint256
+	dup
+	bitlen
+	intc 3 // 8
+	<=
+
+	// <uint8>x overflowed 8 bits
+	assert
+	extract 31 1
+	btoi
+	callsub privateFuncName
+	retsub
+
+// bigintPlus(uint64,uint64)uint64
+*abi_route_bigintPlus:
+	// The ABI return prefix
+	bytec 0 // 0x151f7c75
+
+	// b: uint64
+	txna ApplicationArgs 2
+	btoi
+
+	// a: uint64
+	txna ApplicationArgs 1
+	btoi
+
+	// execute bigintPlus(uint64,uint64)uint64
+	callsub bigintPlus
+	itob
+	concat
+	log
+	intc 0 // 1
+	return
+
+// bigintPlus(a: uint64, b: uint64): uint64
+bigintPlus:
+	proto 2 1
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	bytec 1 // 0x
+	dup
+
+	// tests/contracts/math.algo.ts:135
+	// x = itob(a)
+	frame_dig -1 // a: uint64
+	itob
+	frame_bury 0 // x: byte[]
+
+	// tests/contracts/math.algo.ts:136
+	// y = itob(b)
+	frame_dig -2 // b: uint64
+	itob
+	frame_bury 1 // y: byte[]
+
+	// tests/contracts/math.algo.ts:137
+	// return (btobigint(x) + btobigint(y)) as uint64;
+	frame_dig 0 // x: byte[]
+	frame_dig 1 // y: byte[]
+	b+
+	dup
+	bitlen
+	intc 11 // 64
+	<=
+
+	// (btobigint(x) + btobigint(y)) as uint64 overflowed 64 bits
+	assert
+	bytec 8 // 0xFFFFFFFFFFFFFFFF
+	b&
+	dup
+	len
+	dup
+	intc 3 // 8
+	-
+	swap
+	substring3
+	btoi
+
+	// set the subroutine return value
+	frame_bury 0
+
+	// pop all local variables from the stack
+	popn 1
+	retsub
+
+// bitwiseOr(uint64,uint64)uint64
+*abi_route_bitwiseOr:
+	// The ABI return prefix
+	bytec 0 // 0x151f7c75
+
+	// b: uint64
+	txna ApplicationArgs 2
+	btoi
+
+	// a: uint64
+	txna ApplicationArgs 1
+	btoi
+
+	// execute bitwiseOr(uint64,uint64)uint64
+	callsub bitwiseOr
+	itob
+	concat
+	log
+	intc 0 // 1
+	return
+
+// bitwiseOr(a: uint64, b: uint64): uint64
+bitwiseOr:
+	proto 2 1
+
+	// tests/contracts/math.algo.ts:141
+	// return a | b;
+	frame_dig -1 // a: uint64
+	frame_dig -2 // b: uint64
+	|
+	retsub
+
+// bitwiseAnd(uint64,uint64)uint64
+*abi_route_bitwiseAnd:
+	// The ABI return prefix
+	bytec 0 // 0x151f7c75
+
+	// b: uint64
+	txna ApplicationArgs 2
+	btoi
+
+	// a: uint64
+	txna ApplicationArgs 1
+	btoi
+
+	// execute bitwiseAnd(uint64,uint64)uint64
+	callsub bitwiseAnd
+	itob
+	concat
+	log
+	intc 0 // 1
+	return
+
+// bitwiseAnd(a: uint64, b: uint64): uint64
+bitwiseAnd:
+	proto 2 1
+
+	// tests/contracts/math.algo.ts:145
+	// return a & b;
+	frame_dig -1 // a: uint64
+	frame_dig -2 // b: uint64
+	&
+	retsub
+
+// bitwiseXor(uint64,uint64)uint64
+*abi_route_bitwiseXor:
+	// The ABI return prefix
+	bytec 0 // 0x151f7c75
+
+	// b: uint64
+	txna ApplicationArgs 2
+	btoi
+
+	// a: uint64
+	txna ApplicationArgs 1
+	btoi
+
+	// execute bitwiseXor(uint64,uint64)uint64
+	callsub bitwiseXor
+	itob
+	concat
+	log
+	intc 0 // 1
+	return
+
+// bitwiseXor(a: uint64, b: uint64): uint64
+bitwiseXor:
+	proto 2 1
+
+	// tests/contracts/math.algo.ts:149
+	// return a ^ b;
+	frame_dig -1 // a: uint64
+	frame_dig -2 // b: uint64
+	^
+	retsub
+
+// bitwiseOrU256(uint256,uint256)uint256
+*abi_route_bitwiseOrU256:
+	// The ABI return prefix
+	bytec 0 // 0x151f7c75
+
+	// b: uint256
+	txna ApplicationArgs 2
+	dup
+	len
+	intc 1 // 32
+	==
+
+	// argument 0 (b) for bitwiseOrU256 must be a uint256
+	assert
+
+	// a: uint256
+	txna ApplicationArgs 1
+	dup
+	len
+	intc 1 // 32
+	==
+
+	// argument 1 (a) for bitwiseOrU256 must be a uint256
+	assert
+
+	// execute bitwiseOrU256(uint256,uint256)uint256
+	callsub bitwiseOrU256
+	dup
+	bitlen
+	intc 2 // 256
+	<=
+
+	// bitwiseOrU256 return value overflowed 256 bits
+	assert
+	bytec 2 // 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	b&
+	dup
+	len
+	dup
+	intc 1 // 32
+	-
+	swap
+	substring3
+	concat
+	log
+	intc 0 // 1
+	return
+
+// bitwiseOrU256(a: uint256, b: uint256): uint256
+bitwiseOrU256:
+	proto 2 1
+
+	// tests/contracts/math.algo.ts:153
+	// return a | b;
+	frame_dig -1 // a: uint256
+	frame_dig -2 // b: uint256
+	b|
+	retsub
+
+// bitwiseAndU256(uint256,uint256)uint256
+*abi_route_bitwiseAndU256:
+	// The ABI return prefix
+	bytec 0 // 0x151f7c75
+
+	// b: uint256
+	txna ApplicationArgs 2
+	dup
+	len
+	intc 1 // 32
+	==
+
+	// argument 0 (b) for bitwiseAndU256 must be a uint256
+	assert
+
+	// a: uint256
+	txna ApplicationArgs 1
+	dup
+	len
+	intc 1 // 32
+	==
+
+	// argument 1 (a) for bitwiseAndU256 must be a uint256
+	assert
+
+	// execute bitwiseAndU256(uint256,uint256)uint256
+	callsub bitwiseAndU256
+	dup
+	bitlen
+	intc 2 // 256
+	<=
+
+	// bitwiseAndU256 return value overflowed 256 bits
+	assert
+	bytec 2 // 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	b&
+	dup
+	len
+	dup
+	intc 1 // 32
+	-
+	swap
+	substring3
+	concat
+	log
+	intc 0 // 1
+	return
+
+// bitwiseAndU256(a: uint256, b: uint256): uint256
+bitwiseAndU256:
+	proto 2 1
+
+	// tests/contracts/math.algo.ts:157
+	// return a & b;
+	frame_dig -1 // a: uint256
+	frame_dig -2 // b: uint256
+	b&
+	retsub
+
+// bitwiseXorU256(uint256,uint256)uint256
+*abi_route_bitwiseXorU256:
+	// The ABI return prefix
+	bytec 0 // 0x151f7c75
+
+	// b: uint256
+	txna ApplicationArgs 2
+	dup
+	len
+	intc 1 // 32
+	==
+
+	// argument 0 (b) for bitwiseXorU256 must be a uint256
+	assert
+
+	// a: uint256
+	txna ApplicationArgs 1
+	dup
+	len
+	intc 1 // 32
+	==
+
+	// argument 1 (a) for bitwiseXorU256 must be a uint256
+	assert
+
+	// execute bitwiseXorU256(uint256,uint256)uint256
+	callsub bitwiseXorU256
+	dup
+	bitlen
+	intc 2 // 256
+	<=
+
+	// bitwiseXorU256 return value overflowed 256 bits
+	assert
+	bytec 2 // 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	b&
+	dup
+	len
+	dup
+	intc 1 // 32
+	-
+	swap
+	substring3
+	concat
+	log
+	intc 0 // 1
+	return
+
+// bitwiseXorU256(a: uint256, b: uint256): uint256
+bitwiseXorU256:
+	proto 2 1
+
+	// tests/contracts/math.algo.ts:161
+	// return a ^ b;
+	frame_dig -1 // a: uint256
+	frame_dig -2 // b: uint256
+	b^
+	retsub
+
+// bitwiseNot(uint64)uint64
+*abi_route_bitwiseNot:
+	// The ABI return prefix
+	bytec 0 // 0x151f7c75
+
+	// a: uint64
+	txna ApplicationArgs 1
+	btoi
+
+	// execute bitwiseNot(uint64)uint64
+	callsub bitwiseNot
+	itob
+	concat
+	log
+	intc 0 // 1
+	return
+
+// bitwiseNot(a: uint64): uint64
+bitwiseNot:
+	proto 1 1
+
+	// tests/contracts/math.algo.ts:165
+	// return ~a;
+	frame_dig -1 // a: uint64
+	~
+	retsub
+
+// bitwiseNotU256(uint256)uint256
+*abi_route_bitwiseNotU256:
+	// The ABI return prefix
+	bytec 0 // 0x151f7c75
+
+	// a: uint256
+	txna ApplicationArgs 1
+	dup
+	len
+	intc 1 // 32
+	==
+
+	// argument 0 (a) for bitwiseNotU256 must be a uint256
+	assert
+
+	// execute bitwiseNotU256(uint256)uint256
+	callsub bitwiseNotU256
+	dup
+	bitlen
+	intc 2 // 256
+	<=
+
+	// bitwiseNotU256 return value overflowed 256 bits
+	assert
+	bytec 2 // 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	b&
+	dup
+	len
+	dup
+	intc 1 // 32
+	-
+	swap
+	substring3
+	concat
+	log
+	intc 0 // 1
+	return
+
+// bitwiseNotU256(a: uint256): uint256
+bitwiseNotU256:
+	proto 1 1
+
+	// tests/contracts/math.algo.ts:169
+	// return ~a;
+	frame_dig -1 // a: uint256
+	b~
+	retsub
+
+// mulw(uint64,uint64)uint64
+*abi_route_mulw:
+	// The ABI return prefix
+	bytec 0 // 0x151f7c75
+
+	// b: uint64
+	txna ApplicationArgs 2
+	btoi
+
+	// a: uint64
+	txna ApplicationArgs 1
+	btoi
+
+	// execute mulw(uint64,uint64)uint64
+	callsub mulw
+	itob
+	concat
+	log
+	intc 0 // 1
+	return
+
+// mulw(a: uint64, b: uint64): uint64
+mulw:
+	proto 2 1
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	bytec 1 // 0x
+	dup
+
+	// tests/contracts/math.algo.ts:173
+	// p = mulw(a, b)
+	frame_dig -1 // a: uint64
+	frame_dig -2 // b: uint64
+	mulw
+	frame_bury 0 // p low: uint64
+	frame_bury 1 // p high: uint64
+
+	// tests/contracts/math.algo.ts:177
+	// return p2.low;
+	frame_dig 0 // p low: uint64
+
+	// set the subroutine return value
+	frame_bury 0
+
+	// pop all local variables from the stack
+	popn 1
+	retsub
+
+// addw(uint64,uint64)uint64
+*abi_route_addw:
+	// The ABI return prefix
+	bytec 0 // 0x151f7c75
+
+	// b: uint64
+	txna ApplicationArgs 2
+	btoi
+
+	// a: uint64
+	txna ApplicationArgs 1
+	btoi
+
+	// execute addw(uint64,uint64)uint64
+	callsub addw
+	itob
+	concat
+	log
+	intc 0 // 1
+	return
+
+// addw(a: uint64, b: uint64): uint64
+addw:
+	proto 2 1
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	bytec 1 // 0x
+	dup
+
+	// tests/contracts/math.algo.ts:181
+	// p = addw(a, b)
+	frame_dig -1 // a: uint64
+	frame_dig -2 // b: uint64
+	addw
+	frame_bury 0 // p low: uint64
+	frame_bury 1 // p high: uint64
+
+	// tests/contracts/math.algo.ts:185
+	// return p2.low;
+	frame_dig 0 // p low: uint64
+
+	// set the subroutine return value
+	frame_bury 0
+
+	// pop all local variables from the stack
+	popn 1
+	retsub
+
+// expw(uint64,uint64)uint64
+*abi_route_expw:
+	// The ABI return prefix
+	bytec 0 // 0x151f7c75
+
+	// b: uint64
+	txna ApplicationArgs 2
+	btoi
+
+	// a: uint64
+	txna ApplicationArgs 1
+	btoi
+
+	// execute expw(uint64,uint64)uint64
+	callsub expw
+	itob
+	concat
+	log
+	intc 0 // 1
+	return
+
+// expw(a: uint64, b: uint64): uint64
+expw:
+	proto 2 1
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	bytec 1 // 0x
+	dup
+
+	// tests/contracts/math.algo.ts:189
+	// p = expw(a, b)
+	frame_dig -1 // a: uint64
+	frame_dig -2 // b: uint64
+	expw
+	frame_bury 0 // p low: uint64
+	frame_bury 1 // p high: uint64
+
+	// tests/contracts/math.algo.ts:193
+	// return p2.low;
+	frame_dig 0 // p low: uint64
+
+	// set the subroutine return value
+	frame_bury 0
+
+	// pop all local variables from the stack
+	popn 1
+	retsub
+
+// divw(uint64,uint64)uint64
+*abi_route_divw:
+	// The ABI return prefix
+	bytec 0 // 0x151f7c75
+
+	// b: uint64
+	txna ApplicationArgs 2
+	btoi
+
+	// a: uint64
+	txna ApplicationArgs 1
+	btoi
+
+	// execute divw(uint64,uint64)uint64
+	callsub divw
+	itob
+	concat
+	log
+	intc 0 // 1
+	return
+
+// divw(a: uint64, b: uint64): uint64
+divw:
+	proto 2 1
+
+	// tests/contracts/math.algo.ts:197
+	// return divw(0, a, b);
+	intc 4 // 0
+	frame_dig -1 // a: uint64
+	frame_dig -2 // b: uint64
+	divw
+	retsub
+
+// divmodw(uint64,uint64)uint64
+*abi_route_divmodw:
+	// The ABI return prefix
+	bytec 0 // 0x151f7c75
+
+	// b: uint64
+	txna ApplicationArgs 2
+	btoi
+
+	// a: uint64
+	txna ApplicationArgs 1
+	btoi
+
+	// execute divmodw(uint64,uint64)uint64
+	callsub divmodw
+	itob
+	concat
+	log
+	intc 0 // 1
+	return
+
+// divmodw(a: uint64, b: uint64): uint64
+divmodw:
+	proto 2 1
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	bytec 1 // 0x
+	dupn 3
+
+	// tests/contracts/math.algo.ts:201
+	// p = divmodw(0, a, 0, b)
+	intc 4 // 0
+	frame_dig -1 // a: uint64
+	intc 4 // 0
+	frame_dig -2 // b: uint64
+	divmodw
+	frame_bury 0 // p remainderLow: uint64
+	frame_bury 1 // p remainderHigh: uint64
+	frame_bury 2 // p quotientLow: uint64
+	frame_bury 3 // p quotientHigh: uint64
+
+	// tests/contracts/math.algo.ts:205
+	// return p2.quotientLow;
+	frame_dig 2 // p quotientLow: uint64
+
+	// set the subroutine return value
+	frame_bury 0
+
+	// pop all local variables from the stack
+	popn 3
+	retsub
+
+// unsafeVariables()uint64
+*abi_route_unsafeVariables:
+	// The ABI return prefix
+	bytec 0 // 0x151f7c75
+
+	// execute unsafeVariables()uint64
+	callsub unsafeVariables
+	itob
+	concat
+	log
+	intc 0 // 1
+	return
+
+// unsafeVariables(): uint64
+unsafeVariables:
+	proto 0 1
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	bytec 1 // 0x
+	dupn 2
+
+	// tests/contracts/math.algo.ts:209
+	// A = <uint256>250000000
+	pushbytes 0x000000000000000000000000000000000000000000000000000000000ee6b280
+	frame_bury 0 // A: unsafe uint256
+
+	// tests/contracts/math.algo.ts:210
+	// B = <uint256>1000
+	bytec 6 // 0x00000000000000000000000000000000000000000000000000000000000003e8
+	frame_bury 1 // B: uint256
+
+	// tests/contracts/math.algo.ts:212
+	// A = A / B
+	frame_dig 0 // A: unsafe uint256
+	bytec 6 //  B: uint256
+	b/
+	frame_bury 0 // A: unsafe uint256
+
+	// tests/contracts/math.algo.ts:214
+	// c = A as uint64
+	frame_dig 0 // A: unsafe uint256
+	dup
+	bitlen
+	intc 11 // 64
+	<=
+
+	// A as uint64 overflowed 64 bits
+	assert
+	bytec 8 // 0xFFFFFFFFFFFFFFFF
+	b&
+	dup
+	len
+	dup
+	intc 3 // 8
+	-
+	swap
+	substring3
+	btoi
+	frame_bury 2 // c: uint64
+
+	// tests/contracts/math.algo.ts:216
+	// return c;
+	frame_dig 2 // c: uint64
+
+	// set the subroutine return value
+	frame_bury 0
+
+	// pop all local variables from the stack
+	popn 2
+	retsub
+
+// foobar(uint128)uint128
+*abi_route_foobar:
+	// The ABI return prefix
+	bytec 0 // 0x151f7c75
+
+	// x: uint128
+	txna ApplicationArgs 1
+	dup
+	len
+	intc 5 // 16
+	==
+
+	// argument 0 (x) for foobar must be a uint128
+	assert
+
+	// execute foobar(uint128)uint128
+	callsub foobar
+	dup
+	bitlen
+	intc 12 // 128
+	<=
+
+	// foobar return value overflowed 128 bits
+	assert
+	bytec 7 // 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	b&
+	dup
+	len
+	dup
+	intc 5 // 16
+	-
+	swap
+	substring3
+	concat
+	log
+	intc 0 // 1
+	return
+
+// foobar(x: uint128): uint128
+foobar:
+	proto 1 1
+
+	// Push empty bytes after the frame pointer to reserve space for local variables
+	bytec 1 // 0x
+
+	// tests/contracts/math.algo.ts:220
+	// avgStake: uint128 = x / (30000 as uint128)
+	frame_dig -1 // x: uint128
+	pushbytes 0x00000000000000000000000000007530
+	b/
+	dup
+	bitlen
+	intc 12 // 128
+	<=
+
+	// x / (30000 as uint128) overflowed 128 bits
+	assert
+	bytec 7 // 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	b&
+	dup
+	len
+	dup
+	intc 5 // 16
+	-
+	swap
+	substring3
+	frame_bury 0 // avgStake: uint128
+
+	// tests/contracts/math.algo.ts:222
+	// return avgStake;
+	frame_dig 0 // avgStake: uint128
+
+	// set the subroutine return value
+	frame_bury 0
+	retsub
+
+// uintFromHex()uint256
+*abi_route_uintFromHex:
+	// The ABI return prefix
+	bytec 0 // 0x151f7c75
+
+	// execute uintFromHex()uint256
+	callsub uintFromHex
+	dup
+	bitlen
+	intc 2 // 256
+	<=
+
+	// uintFromHex return value overflowed 256 bits
+	assert
+	bytec 2 // 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+	b&
+	dup
+	len
+	dup
+	intc 1 // 32
+	-
+	swap
+	substring3
+	concat
+	log
+	intc 0 // 1
+	return
+
+// uintFromHex(): uint256
+uintFromHex:
+	proto 0 1
+
+	// tests/contracts/math.algo.ts:226
+	// return Uint<256>('0xFF');
+	pushbytes 0x00000000000000000000000000000000000000000000000000000000000000ff
+	retsub
+
+// wideRatioTest()uint64
+*abi_route_wideRatioTest:
+	// The ABI return prefix
+	bytec 0 // 0x151f7c75
+
+	// execute wideRatioTest()uint64
+	callsub wideRatioTest
+	itob
+	concat
+	log
+	intc 0 // 1
+	return
+
+// wideRatioTest(): uint64
+wideRatioTest:
+	proto 0 1
+
+	// tests/contracts/math.algo.ts:230
+	// return wideRatio([Uint<64>('18446744073709551615'), 2, 3, 4, 5], [2, 3, 4, 5]);
+	intc 6 // 18446744073709551615
+	intc 7 // 2
+	mulw
+	intc 8 // 3
+	uncover 2
+	dig 1
+	*
+	cover 2
+	mulw
+	cover 2
+	+
+	swap
+	intc 9 // 4
+	uncover 2
+	dig 1
+	*
+	cover 2
+	mulw
+	cover 2
+	+
+	swap
+	intc 10 // 5
+	uncover 2
+	dig 1
+	*
+	cover 2
+	mulw
+	cover 2
+	+
+	swap
+	intc 7 // 2
+	intc 8 // 3
+	mulw
+	intc 9 // 4
+	uncover 2
+	dig 1
+	*
+	cover 2
+	mulw
+	cover 2
+	+
+	swap
+	intc 10 // 5
+	uncover 2
+	dig 1
+	*
+	cover 2
+	mulw
+	cover 2
+	+
+	swap
+	divmodw
+	pop
+	pop
+	swap
+	!
+
+	// wideRatio failed
+	assert
+	retsub
+
+*abi_route_createApplication:
+	intc 0 // 1
+	return
+
+*create_NoOp:
+	pushbytes 0xb8447b36 // method "createApplication()void"
+	txna ApplicationArgs 0
+	match *abi_route_createApplication
+
+	// this contract does not implement the given ABI method for create NoOp
+	err
+
+*call_NoOp:
+	pushbytes 0x3ce6f1af // method "u64plus(uint64,uint64)uint64"
+	pushbytes 0x0031a186 // method "u64minus(uint64,uint64)uint64"
+	pushbytes 0xe52e4394 // method "u64mul(uint64,uint64)uint64"
+	pushbytes 0x950d4789 // method "u64div(uint64,uint64)uint64"
+	pushbytes 0x65bdda6e // method "u256plus(uint256,uint256)uint256"
+	pushbytes 0x0a6ad284 // method "u256minus(uint256,uint256)uint256"
+	pushbytes 0xf044bf24 // method "u256mul(uint256,uint256)uint256"
+	pushbytes 0xc48f8c05 // method "u256div(uint256,uint256)uint256"
+	pushbytes 0xf2e1d632 // method "u64Return256(uint64,uint64)uint256"
+	pushbytes 0x38b1a39e // method "maxU64()uint64"
+	pushbytes 0x6c136f1d // method "exponent(uint64,uint64)uint64"
+	pushbytes 0x22da2502 // method "variableTypeHint(uint8,uint8)uint16"
+	pushbytes 0xa2fead6c // method "uint8plus(uint8,uint8)uint8"
+	pushbytes 0xd2256f7a // method "uint8exp(uint8,uint8)uint8"
+	pushbytes 0xc17d624e // method "plusEquals(uint64,uint64)uint64"
+	pushbytes 0x5cab0438 // method "plusEqualsFromGlobal(uint64,uint64)uint64"
+	pushbytes 0x58989ccd // method "boxTest()uint256"
+	pushbytes 0x4830b4de // method "unsafeMethodArgs(uint256,uint256)uint256"
+	pushbytes 0xe1c55ce5 // method "uint256ComparisonType(uint256,uint256)void"
+	pushbytes 0x7d1d426e // method "squareRoot256(uint256,uint256)uint256"
+	pushbytes 0x1c2981f1 // method "squareRoot64(uint64,uint64)uint64"
+	pushbytes 0xb7ca04b9 // method "addressToBigInt(address)bool"
+	pushbytes 0xbb952338 // method "u8Tou64()uint64"
+	pushbytes 0x0128e27b // method "funcName(uint256)void"
+	pushbytes 0xf916cdb3 // method "bigintPlus(uint64,uint64)uint64"
+	pushbytes 0x52737545 // method "bitwiseOr(uint64,uint64)uint64"
+	pushbytes 0x79c1adc0 // method "bitwiseAnd(uint64,uint64)uint64"
+	pushbytes 0x22474abc // method "bitwiseXor(uint64,uint64)uint64"
+	pushbytes 0x0593fdf8 // method "bitwiseOrU256(uint256,uint256)uint256"
+	pushbytes 0x06fb9337 // method "bitwiseAndU256(uint256,uint256)uint256"
+	pushbytes 0x26493d78 // method "bitwiseXorU256(uint256,uint256)uint256"
+	pushbytes 0xe9c22eea // method "bitwiseNot(uint64)uint64"
+	pushbytes 0xede3e9bc // method "bitwiseNotU256(uint256)uint256"
+	pushbytes 0x2e4a2164 // method "mulw(uint64,uint64)uint64"
+	pushbytes 0x50134b5a // method "addw(uint64,uint64)uint64"
+	pushbytes 0xf53aff9b // method "expw(uint64,uint64)uint64"
+	pushbytes 0xcaf7110d // method "divw(uint64,uint64)uint64"
+	pushbytes 0xbed0e386 // method "divmodw(uint64,uint64)uint64"
+	pushbytes 0x274d7705 // method "unsafeVariables()uint64"
+	pushbytes 0x92465d08 // method "foobar(uint128)uint128"
+	pushbytes 0xf01facce // method "uintFromHex()uint256"
+	pushbytes 0x5ac8a0a0 // method "wideRatioTest()uint64"
+	txna ApplicationArgs 0
+	match *abi_route_u64plus *abi_route_u64minus *abi_route_u64mul *abi_route_u64div *abi_route_u256plus *abi_route_u256minus *abi_route_u256mul *abi_route_u256div *abi_route_u64Return256 *abi_route_maxU64 *abi_route_exponent *abi_route_variableTypeHint *abi_route_uint8plus *abi_route_uint8exp *abi_route_plusEquals *abi_route_plusEqualsFromGlobal *abi_route_boxTest *abi_route_unsafeMethodArgs *abi_route_uint256ComparisonType *abi_route_squareRoot256 *abi_route_squareRoot64 *abi_route_addressToBigInt *abi_route_u8Tou64 *abi_route_funcName *abi_route_bigintPlus *abi_route_bitwiseOr *abi_route_bitwiseAnd *abi_route_bitwiseXor *abi_route_bitwiseOrU256 *abi_route_bitwiseAndU256 *abi_route_bitwiseXorU256 *abi_route_bitwiseNot *abi_route_bitwiseNotU256 *abi_route_mulw *abi_route_addw *abi_route_expw *abi_route_divw *abi_route_divmodw *abi_route_unsafeVariables *abi_route_foobar *abi_route_uintFromHex *abi_route_wideRatioTest
+
+	// this contract does not implement the given ABI method for call NoOp
+	err"
+`;
+
 exports[`Math MathTest Artifacts Maintains program size 1`] = `2411`;
+
+exports[`Math MathTest Artifacts Generates ABI JSON 1`] = `
+{
+  "desc": "",
+  "events": undefined,
+  "methods": [
+    {
+      "args": [
+        {
+          "desc": undefined,
+          "name": "a",
+          "type": "uint64",
+        },
+        {
+          "desc": undefined,
+          "name": "b",
+          "type": "uint64",
+        },
+      ],
+      "desc": undefined,
+      "events": undefined,
+      "name": "u64plus",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint64",
+      },
+    },
+    {
+      "args": [
+        {
+          "desc": undefined,
+          "name": "a",
+          "type": "uint64",
+        },
+        {
+          "desc": undefined,
+          "name": "b",
+          "type": "uint64",
+        },
+      ],
+      "desc": undefined,
+      "events": undefined,
+      "name": "u64minus",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint64",
+      },
+    },
+    {
+      "args": [
+        {
+          "desc": undefined,
+          "name": "a",
+          "type": "uint64",
+        },
+        {
+          "desc": undefined,
+          "name": "b",
+          "type": "uint64",
+        },
+      ],
+      "desc": undefined,
+      "events": undefined,
+      "name": "u64mul",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint64",
+      },
+    },
+    {
+      "args": [
+        {
+          "desc": undefined,
+          "name": "a",
+          "type": "uint64",
+        },
+        {
+          "desc": undefined,
+          "name": "b",
+          "type": "uint64",
+        },
+      ],
+      "desc": undefined,
+      "events": undefined,
+      "name": "u64div",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint64",
+      },
+    },
+    {
+      "args": [
+        {
+          "desc": undefined,
+          "name": "a",
+          "type": "uint256",
+        },
+        {
+          "desc": undefined,
+          "name": "b",
+          "type": "uint256",
+        },
+      ],
+      "desc": undefined,
+      "events": undefined,
+      "name": "u256plus",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint256",
+      },
+    },
+    {
+      "args": [
+        {
+          "desc": undefined,
+          "name": "a",
+          "type": "uint256",
+        },
+        {
+          "desc": undefined,
+          "name": "b",
+          "type": "uint256",
+        },
+      ],
+      "desc": undefined,
+      "events": undefined,
+      "name": "u256minus",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint256",
+      },
+    },
+    {
+      "args": [
+        {
+          "desc": undefined,
+          "name": "a",
+          "type": "uint256",
+        },
+        {
+          "desc": undefined,
+          "name": "b",
+          "type": "uint256",
+        },
+      ],
+      "desc": undefined,
+      "events": undefined,
+      "name": "u256mul",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint256",
+      },
+    },
+    {
+      "args": [
+        {
+          "desc": undefined,
+          "name": "a",
+          "type": "uint256",
+        },
+        {
+          "desc": undefined,
+          "name": "b",
+          "type": "uint256",
+        },
+      ],
+      "desc": undefined,
+      "events": undefined,
+      "name": "u256div",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint256",
+      },
+    },
+    {
+      "args": [
+        {
+          "desc": undefined,
+          "name": "a",
+          "type": "uint64",
+        },
+        {
+          "desc": undefined,
+          "name": "b",
+          "type": "uint64",
+        },
+      ],
+      "desc": undefined,
+      "events": undefined,
+      "name": "u64Return256",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint256",
+      },
+    },
+    {
+      "args": [],
+      "desc": undefined,
+      "events": undefined,
+      "name": "maxU64",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint64",
+      },
+    },
+    {
+      "args": [
+        {
+          "desc": undefined,
+          "name": "a",
+          "type": "uint64",
+        },
+        {
+          "desc": undefined,
+          "name": "b",
+          "type": "uint64",
+        },
+      ],
+      "desc": undefined,
+      "events": undefined,
+      "name": "exponent",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint64",
+      },
+    },
+    {
+      "args": [
+        {
+          "desc": undefined,
+          "name": "x",
+          "type": "uint8",
+        },
+        {
+          "desc": undefined,
+          "name": "y",
+          "type": "uint8",
+        },
+      ],
+      "desc": undefined,
+      "events": undefined,
+      "name": "variableTypeHint",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint16",
+      },
+    },
+    {
+      "args": [
+        {
+          "desc": undefined,
+          "name": "a",
+          "type": "uint8",
+        },
+        {
+          "desc": undefined,
+          "name": "b",
+          "type": "uint8",
+        },
+      ],
+      "desc": undefined,
+      "events": undefined,
+      "name": "uint8plus",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint8",
+      },
+    },
+    {
+      "args": [
+        {
+          "desc": undefined,
+          "name": "a",
+          "type": "uint8",
+        },
+        {
+          "desc": undefined,
+          "name": "b",
+          "type": "uint8",
+        },
+      ],
+      "desc": undefined,
+      "events": undefined,
+      "name": "uint8exp",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint8",
+      },
+    },
+    {
+      "args": [
+        {
+          "desc": undefined,
+          "name": "a",
+          "type": "uint64",
+        },
+        {
+          "desc": undefined,
+          "name": "b",
+          "type": "uint64",
+        },
+      ],
+      "desc": undefined,
+      "events": undefined,
+      "name": "plusEquals",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint64",
+      },
+    },
+    {
+      "args": [
+        {
+          "desc": undefined,
+          "name": "a",
+          "type": "uint64",
+        },
+        {
+          "desc": undefined,
+          "name": "b",
+          "type": "uint64",
+        },
+      ],
+      "desc": undefined,
+      "events": undefined,
+      "name": "plusEqualsFromGlobal",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint64",
+      },
+    },
+    {
+      "args": [],
+      "desc": undefined,
+      "events": undefined,
+      "name": "boxTest",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint256",
+      },
+    },
+    {
+      "args": [
+        {
+          "desc": undefined,
+          "name": "a",
+          "type": "uint256",
+        },
+        {
+          "desc": undefined,
+          "name": "b",
+          "type": "uint256",
+        },
+      ],
+      "desc": undefined,
+      "events": undefined,
+      "name": "unsafeMethodArgs",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint256",
+      },
+    },
+    {
+      "args": [
+        {
+          "desc": undefined,
+          "name": "a",
+          "type": "uint256",
+        },
+        {
+          "desc": undefined,
+          "name": "b",
+          "type": "uint256",
+        },
+      ],
+      "desc": undefined,
+      "events": undefined,
+      "name": "uint256ComparisonType",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "void",
+      },
+    },
+    {
+      "args": [
+        {
+          "desc": undefined,
+          "name": "a",
+          "type": "uint256",
+        },
+        {
+          "desc": undefined,
+          "name": "b",
+          "type": "uint256",
+        },
+      ],
+      "desc": undefined,
+      "events": undefined,
+      "name": "squareRoot256",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint256",
+      },
+    },
+    {
+      "args": [
+        {
+          "desc": undefined,
+          "name": "a",
+          "type": "uint64",
+        },
+        {
+          "desc": undefined,
+          "name": "b",
+          "type": "uint64",
+        },
+      ],
+      "desc": undefined,
+      "events": undefined,
+      "name": "squareRoot64",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint64",
+      },
+    },
+    {
+      "args": [
+        {
+          "desc": undefined,
+          "name": "addr",
+          "type": "address",
+        },
+      ],
+      "desc": undefined,
+      "events": undefined,
+      "name": "addressToBigInt",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "bool",
+      },
+    },
+    {
+      "args": [],
+      "desc": undefined,
+      "events": undefined,
+      "name": "u8Tou64",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint64",
+      },
+    },
+    {
+      "args": [
+        {
+          "desc": undefined,
+          "name": "x",
+          "type": "uint256",
+        },
+      ],
+      "desc": undefined,
+      "events": undefined,
+      "name": "funcName",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "void",
+      },
+    },
+    {
+      "args": [
+        {
+          "desc": undefined,
+          "name": "a",
+          "type": "uint64",
+        },
+        {
+          "desc": undefined,
+          "name": "b",
+          "type": "uint64",
+        },
+      ],
+      "desc": undefined,
+      "events": undefined,
+      "name": "bigintPlus",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint64",
+      },
+    },
+    {
+      "args": [
+        {
+          "desc": undefined,
+          "name": "a",
+          "type": "uint64",
+        },
+        {
+          "desc": undefined,
+          "name": "b",
+          "type": "uint64",
+        },
+      ],
+      "desc": undefined,
+      "events": undefined,
+      "name": "bitwiseOr",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint64",
+      },
+    },
+    {
+      "args": [
+        {
+          "desc": undefined,
+          "name": "a",
+          "type": "uint64",
+        },
+        {
+          "desc": undefined,
+          "name": "b",
+          "type": "uint64",
+        },
+      ],
+      "desc": undefined,
+      "events": undefined,
+      "name": "bitwiseAnd",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint64",
+      },
+    },
+    {
+      "args": [
+        {
+          "desc": undefined,
+          "name": "a",
+          "type": "uint64",
+        },
+        {
+          "desc": undefined,
+          "name": "b",
+          "type": "uint64",
+        },
+      ],
+      "desc": undefined,
+      "events": undefined,
+      "name": "bitwiseXor",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint64",
+      },
+    },
+    {
+      "args": [
+        {
+          "desc": undefined,
+          "name": "a",
+          "type": "uint256",
+        },
+        {
+          "desc": undefined,
+          "name": "b",
+          "type": "uint256",
+        },
+      ],
+      "desc": undefined,
+      "events": undefined,
+      "name": "bitwiseOrU256",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint256",
+      },
+    },
+    {
+      "args": [
+        {
+          "desc": undefined,
+          "name": "a",
+          "type": "uint256",
+        },
+        {
+          "desc": undefined,
+          "name": "b",
+          "type": "uint256",
+        },
+      ],
+      "desc": undefined,
+      "events": undefined,
+      "name": "bitwiseAndU256",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint256",
+      },
+    },
+    {
+      "args": [
+        {
+          "desc": undefined,
+          "name": "a",
+          "type": "uint256",
+        },
+        {
+          "desc": undefined,
+          "name": "b",
+          "type": "uint256",
+        },
+      ],
+      "desc": undefined,
+      "events": undefined,
+      "name": "bitwiseXorU256",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint256",
+      },
+    },
+    {
+      "args": [
+        {
+          "desc": undefined,
+          "name": "a",
+          "type": "uint64",
+        },
+      ],
+      "desc": undefined,
+      "events": undefined,
+      "name": "bitwiseNot",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint64",
+      },
+    },
+    {
+      "args": [
+        {
+          "desc": undefined,
+          "name": "a",
+          "type": "uint256",
+        },
+      ],
+      "desc": undefined,
+      "events": undefined,
+      "name": "bitwiseNotU256",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint256",
+      },
+    },
+    {
+      "args": [
+        {
+          "desc": undefined,
+          "name": "a",
+          "type": "uint64",
+        },
+        {
+          "desc": undefined,
+          "name": "b",
+          "type": "uint64",
+        },
+      ],
+      "desc": undefined,
+      "events": undefined,
+      "name": "mulw",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint64",
+      },
+    },
+    {
+      "args": [
+        {
+          "desc": undefined,
+          "name": "a",
+          "type": "uint64",
+        },
+        {
+          "desc": undefined,
+          "name": "b",
+          "type": "uint64",
+        },
+      ],
+      "desc": undefined,
+      "events": undefined,
+      "name": "addw",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint64",
+      },
+    },
+    {
+      "args": [
+        {
+          "desc": undefined,
+          "name": "a",
+          "type": "uint64",
+        },
+        {
+          "desc": undefined,
+          "name": "b",
+          "type": "uint64",
+        },
+      ],
+      "desc": undefined,
+      "events": undefined,
+      "name": "expw",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint64",
+      },
+    },
+    {
+      "args": [
+        {
+          "desc": undefined,
+          "name": "a",
+          "type": "uint64",
+        },
+        {
+          "desc": undefined,
+          "name": "b",
+          "type": "uint64",
+        },
+      ],
+      "desc": undefined,
+      "events": undefined,
+      "name": "divw",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint64",
+      },
+    },
+    {
+      "args": [
+        {
+          "desc": undefined,
+          "name": "a",
+          "type": "uint64",
+        },
+        {
+          "desc": undefined,
+          "name": "b",
+          "type": "uint64",
+        },
+      ],
+      "desc": undefined,
+      "events": undefined,
+      "name": "divmodw",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint64",
+      },
+    },
+    {
+      "args": [],
+      "desc": undefined,
+      "events": undefined,
+      "name": "unsafeVariables",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint64",
+      },
+    },
+    {
+      "args": [
+        {
+          "desc": undefined,
+          "name": "x",
+          "type": "uint128",
+        },
+      ],
+      "desc": undefined,
+      "events": undefined,
+      "name": "foobar",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint128",
+      },
+    },
+    {
+      "args": [],
+      "desc": undefined,
+      "events": undefined,
+      "name": "uintFromHex",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint256",
+      },
+    },
+    {
+      "args": [],
+      "desc": undefined,
+      "events": undefined,
+      "name": "wideRatioTest",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint64",
+      },
+    },
+    {
+      "args": [],
+      "desc": undefined,
+      "events": undefined,
+      "name": "createApplication",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "void",
+      },
+    },
+  ],
+  "name": "MathTest",
+}
+`;
+
+exports[`Math MathTest Artifacts Generates ARC32 1`] = `
+{
+  "bare_call_config": {
+    "close_out": "NEVER",
+    "delete_application": "NEVER",
+    "no_op": "NEVER",
+    "opt_in": "NEVER",
+    "update_application": "NEVER",
+  },
+  "contract": {
+    "desc": "",
+    "events": undefined,
+    "methods": [
+      {
+        "args": [
+          {
+            "desc": undefined,
+            "name": "a",
+            "type": "uint64",
+          },
+          {
+            "desc": undefined,
+            "name": "b",
+            "type": "uint64",
+          },
+        ],
+        "desc": undefined,
+        "events": undefined,
+        "name": "u64plus",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint64",
+        },
+      },
+      {
+        "args": [
+          {
+            "desc": undefined,
+            "name": "a",
+            "type": "uint64",
+          },
+          {
+            "desc": undefined,
+            "name": "b",
+            "type": "uint64",
+          },
+        ],
+        "desc": undefined,
+        "events": undefined,
+        "name": "u64minus",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint64",
+        },
+      },
+      {
+        "args": [
+          {
+            "desc": undefined,
+            "name": "a",
+            "type": "uint64",
+          },
+          {
+            "desc": undefined,
+            "name": "b",
+            "type": "uint64",
+          },
+        ],
+        "desc": undefined,
+        "events": undefined,
+        "name": "u64mul",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint64",
+        },
+      },
+      {
+        "args": [
+          {
+            "desc": undefined,
+            "name": "a",
+            "type": "uint64",
+          },
+          {
+            "desc": undefined,
+            "name": "b",
+            "type": "uint64",
+          },
+        ],
+        "desc": undefined,
+        "events": undefined,
+        "name": "u64div",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint64",
+        },
+      },
+      {
+        "args": [
+          {
+            "desc": undefined,
+            "name": "a",
+            "type": "uint256",
+          },
+          {
+            "desc": undefined,
+            "name": "b",
+            "type": "uint256",
+          },
+        ],
+        "desc": undefined,
+        "events": undefined,
+        "name": "u256plus",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint256",
+        },
+      },
+      {
+        "args": [
+          {
+            "desc": undefined,
+            "name": "a",
+            "type": "uint256",
+          },
+          {
+            "desc": undefined,
+            "name": "b",
+            "type": "uint256",
+          },
+        ],
+        "desc": undefined,
+        "events": undefined,
+        "name": "u256minus",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint256",
+        },
+      },
+      {
+        "args": [
+          {
+            "desc": undefined,
+            "name": "a",
+            "type": "uint256",
+          },
+          {
+            "desc": undefined,
+            "name": "b",
+            "type": "uint256",
+          },
+        ],
+        "desc": undefined,
+        "events": undefined,
+        "name": "u256mul",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint256",
+        },
+      },
+      {
+        "args": [
+          {
+            "desc": undefined,
+            "name": "a",
+            "type": "uint256",
+          },
+          {
+            "desc": undefined,
+            "name": "b",
+            "type": "uint256",
+          },
+        ],
+        "desc": undefined,
+        "events": undefined,
+        "name": "u256div",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint256",
+        },
+      },
+      {
+        "args": [
+          {
+            "desc": undefined,
+            "name": "a",
+            "type": "uint64",
+          },
+          {
+            "desc": undefined,
+            "name": "b",
+            "type": "uint64",
+          },
+        ],
+        "desc": undefined,
+        "events": undefined,
+        "name": "u64Return256",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint256",
+        },
+      },
+      {
+        "args": [],
+        "desc": undefined,
+        "events": undefined,
+        "name": "maxU64",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint64",
+        },
+      },
+      {
+        "args": [
+          {
+            "desc": undefined,
+            "name": "a",
+            "type": "uint64",
+          },
+          {
+            "desc": undefined,
+            "name": "b",
+            "type": "uint64",
+          },
+        ],
+        "desc": undefined,
+        "events": undefined,
+        "name": "exponent",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint64",
+        },
+      },
+      {
+        "args": [
+          {
+            "desc": undefined,
+            "name": "x",
+            "type": "uint8",
+          },
+          {
+            "desc": undefined,
+            "name": "y",
+            "type": "uint8",
+          },
+        ],
+        "desc": undefined,
+        "events": undefined,
+        "name": "variableTypeHint",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint16",
+        },
+      },
+      {
+        "args": [
+          {
+            "desc": undefined,
+            "name": "a",
+            "type": "uint8",
+          },
+          {
+            "desc": undefined,
+            "name": "b",
+            "type": "uint8",
+          },
+        ],
+        "desc": undefined,
+        "events": undefined,
+        "name": "uint8plus",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint8",
+        },
+      },
+      {
+        "args": [
+          {
+            "desc": undefined,
+            "name": "a",
+            "type": "uint8",
+          },
+          {
+            "desc": undefined,
+            "name": "b",
+            "type": "uint8",
+          },
+        ],
+        "desc": undefined,
+        "events": undefined,
+        "name": "uint8exp",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint8",
+        },
+      },
+      {
+        "args": [
+          {
+            "desc": undefined,
+            "name": "a",
+            "type": "uint64",
+          },
+          {
+            "desc": undefined,
+            "name": "b",
+            "type": "uint64",
+          },
+        ],
+        "desc": undefined,
+        "events": undefined,
+        "name": "plusEquals",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint64",
+        },
+      },
+      {
+        "args": [
+          {
+            "desc": undefined,
+            "name": "a",
+            "type": "uint64",
+          },
+          {
+            "desc": undefined,
+            "name": "b",
+            "type": "uint64",
+          },
+        ],
+        "desc": undefined,
+        "events": undefined,
+        "name": "plusEqualsFromGlobal",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint64",
+        },
+      },
+      {
+        "args": [],
+        "desc": undefined,
+        "events": undefined,
+        "name": "boxTest",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint256",
+        },
+      },
+      {
+        "args": [
+          {
+            "desc": undefined,
+            "name": "a",
+            "type": "uint256",
+          },
+          {
+            "desc": undefined,
+            "name": "b",
+            "type": "uint256",
+          },
+        ],
+        "desc": undefined,
+        "events": undefined,
+        "name": "unsafeMethodArgs",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint256",
+        },
+      },
+      {
+        "args": [
+          {
+            "desc": undefined,
+            "name": "a",
+            "type": "uint256",
+          },
+          {
+            "desc": undefined,
+            "name": "b",
+            "type": "uint256",
+          },
+        ],
+        "desc": undefined,
+        "events": undefined,
+        "name": "uint256ComparisonType",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "void",
+        },
+      },
+      {
+        "args": [
+          {
+            "desc": undefined,
+            "name": "a",
+            "type": "uint256",
+          },
+          {
+            "desc": undefined,
+            "name": "b",
+            "type": "uint256",
+          },
+        ],
+        "desc": undefined,
+        "events": undefined,
+        "name": "squareRoot256",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint256",
+        },
+      },
+      {
+        "args": [
+          {
+            "desc": undefined,
+            "name": "a",
+            "type": "uint64",
+          },
+          {
+            "desc": undefined,
+            "name": "b",
+            "type": "uint64",
+          },
+        ],
+        "desc": undefined,
+        "events": undefined,
+        "name": "squareRoot64",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint64",
+        },
+      },
+      {
+        "args": [
+          {
+            "desc": undefined,
+            "name": "addr",
+            "type": "address",
+          },
+        ],
+        "desc": undefined,
+        "events": undefined,
+        "name": "addressToBigInt",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "bool",
+        },
+      },
+      {
+        "args": [],
+        "desc": undefined,
+        "events": undefined,
+        "name": "u8Tou64",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint64",
+        },
+      },
+      {
+        "args": [
+          {
+            "desc": undefined,
+            "name": "x",
+            "type": "uint256",
+          },
+        ],
+        "desc": undefined,
+        "events": undefined,
+        "name": "funcName",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "void",
+        },
+      },
+      {
+        "args": [
+          {
+            "desc": undefined,
+            "name": "a",
+            "type": "uint64",
+          },
+          {
+            "desc": undefined,
+            "name": "b",
+            "type": "uint64",
+          },
+        ],
+        "desc": undefined,
+        "events": undefined,
+        "name": "bigintPlus",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint64",
+        },
+      },
+      {
+        "args": [
+          {
+            "desc": undefined,
+            "name": "a",
+            "type": "uint64",
+          },
+          {
+            "desc": undefined,
+            "name": "b",
+            "type": "uint64",
+          },
+        ],
+        "desc": undefined,
+        "events": undefined,
+        "name": "bitwiseOr",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint64",
+        },
+      },
+      {
+        "args": [
+          {
+            "desc": undefined,
+            "name": "a",
+            "type": "uint64",
+          },
+          {
+            "desc": undefined,
+            "name": "b",
+            "type": "uint64",
+          },
+        ],
+        "desc": undefined,
+        "events": undefined,
+        "name": "bitwiseAnd",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint64",
+        },
+      },
+      {
+        "args": [
+          {
+            "desc": undefined,
+            "name": "a",
+            "type": "uint64",
+          },
+          {
+            "desc": undefined,
+            "name": "b",
+            "type": "uint64",
+          },
+        ],
+        "desc": undefined,
+        "events": undefined,
+        "name": "bitwiseXor",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint64",
+        },
+      },
+      {
+        "args": [
+          {
+            "desc": undefined,
+            "name": "a",
+            "type": "uint256",
+          },
+          {
+            "desc": undefined,
+            "name": "b",
+            "type": "uint256",
+          },
+        ],
+        "desc": undefined,
+        "events": undefined,
+        "name": "bitwiseOrU256",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint256",
+        },
+      },
+      {
+        "args": [
+          {
+            "desc": undefined,
+            "name": "a",
+            "type": "uint256",
+          },
+          {
+            "desc": undefined,
+            "name": "b",
+            "type": "uint256",
+          },
+        ],
+        "desc": undefined,
+        "events": undefined,
+        "name": "bitwiseAndU256",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint256",
+        },
+      },
+      {
+        "args": [
+          {
+            "desc": undefined,
+            "name": "a",
+            "type": "uint256",
+          },
+          {
+            "desc": undefined,
+            "name": "b",
+            "type": "uint256",
+          },
+        ],
+        "desc": undefined,
+        "events": undefined,
+        "name": "bitwiseXorU256",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint256",
+        },
+      },
+      {
+        "args": [
+          {
+            "desc": undefined,
+            "name": "a",
+            "type": "uint64",
+          },
+        ],
+        "desc": undefined,
+        "events": undefined,
+        "name": "bitwiseNot",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint64",
+        },
+      },
+      {
+        "args": [
+          {
+            "desc": undefined,
+            "name": "a",
+            "type": "uint256",
+          },
+        ],
+        "desc": undefined,
+        "events": undefined,
+        "name": "bitwiseNotU256",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint256",
+        },
+      },
+      {
+        "args": [
+          {
+            "desc": undefined,
+            "name": "a",
+            "type": "uint64",
+          },
+          {
+            "desc": undefined,
+            "name": "b",
+            "type": "uint64",
+          },
+        ],
+        "desc": undefined,
+        "events": undefined,
+        "name": "mulw",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint64",
+        },
+      },
+      {
+        "args": [
+          {
+            "desc": undefined,
+            "name": "a",
+            "type": "uint64",
+          },
+          {
+            "desc": undefined,
+            "name": "b",
+            "type": "uint64",
+          },
+        ],
+        "desc": undefined,
+        "events": undefined,
+        "name": "addw",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint64",
+        },
+      },
+      {
+        "args": [
+          {
+            "desc": undefined,
+            "name": "a",
+            "type": "uint64",
+          },
+          {
+            "desc": undefined,
+            "name": "b",
+            "type": "uint64",
+          },
+        ],
+        "desc": undefined,
+        "events": undefined,
+        "name": "expw",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint64",
+        },
+      },
+      {
+        "args": [
+          {
+            "desc": undefined,
+            "name": "a",
+            "type": "uint64",
+          },
+          {
+            "desc": undefined,
+            "name": "b",
+            "type": "uint64",
+          },
+        ],
+        "desc": undefined,
+        "events": undefined,
+        "name": "divw",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint64",
+        },
+      },
+      {
+        "args": [
+          {
+            "desc": undefined,
+            "name": "a",
+            "type": "uint64",
+          },
+          {
+            "desc": undefined,
+            "name": "b",
+            "type": "uint64",
+          },
+        ],
+        "desc": undefined,
+        "events": undefined,
+        "name": "divmodw",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint64",
+        },
+      },
+      {
+        "args": [],
+        "desc": undefined,
+        "events": undefined,
+        "name": "unsafeVariables",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint64",
+        },
+      },
+      {
+        "args": [
+          {
+            "desc": undefined,
+            "name": "x",
+            "type": "uint128",
+          },
+        ],
+        "desc": undefined,
+        "events": undefined,
+        "name": "foobar",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint128",
+        },
+      },
+      {
+        "args": [],
+        "desc": undefined,
+        "events": undefined,
+        "name": "uintFromHex",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint256",
+        },
+      },
+      {
+        "args": [],
+        "desc": undefined,
+        "events": undefined,
+        "name": "wideRatioTest",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint64",
+        },
+      },
+      {
+        "args": [],
+        "desc": undefined,
+        "events": undefined,
+        "name": "createApplication",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "void",
+        },
+      },
+    ],
+    "name": "MathTest",
+  },
+  "hints": {
+    "addressToBigInt(address)bool": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "addw(uint64,uint64)uint64": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "bigintPlus(uint64,uint64)uint64": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "bitwiseAnd(uint64,uint64)uint64": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "bitwiseAndU256(uint256,uint256)uint256": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "bitwiseNot(uint64)uint64": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "bitwiseNotU256(uint256)uint256": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "bitwiseOr(uint64,uint64)uint64": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "bitwiseOrU256(uint256,uint256)uint256": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "bitwiseXor(uint64,uint64)uint64": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "bitwiseXorU256(uint256,uint256)uint256": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "boxTest()uint256": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "createApplication()void": {
+      "call_config": {
+        "no_op": "CREATE",
+      },
+    },
+    "divmodw(uint64,uint64)uint64": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "divw(uint64,uint64)uint64": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "exponent(uint64,uint64)uint64": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "expw(uint64,uint64)uint64": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "foobar(uint128)uint128": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "funcName(uint256)void": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "maxU64()uint64": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "mulw(uint64,uint64)uint64": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "plusEquals(uint64,uint64)uint64": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "plusEqualsFromGlobal(uint64,uint64)uint64": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "squareRoot256(uint256,uint256)uint256": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "squareRoot64(uint64,uint64)uint64": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "u256div(uint256,uint256)uint256": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "u256minus(uint256,uint256)uint256": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "u256mul(uint256,uint256)uint256": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "u256plus(uint256,uint256)uint256": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "u64Return256(uint64,uint64)uint256": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "u64div(uint64,uint64)uint64": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "u64minus(uint64,uint64)uint64": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "u64mul(uint64,uint64)uint64": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "u64plus(uint64,uint64)uint64": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "u8Tou64()uint64": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "uint256ComparisonType(uint256,uint256)void": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "uint8exp(uint8,uint8)uint8": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "uint8plus(uint8,uint8)uint8": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "uintFromHex()uint256": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "unsafeMethodArgs(uint256,uint256)uint256": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "unsafeVariables()uint64": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "variableTypeHint(uint8,uint8)uint16": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "wideRatioTest()uint64": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+  },
+  "schema": {
+    "global": {
+      "declared": {
+        "gKey": {
+          "key": "gKey",
+          "type": "uint64",
+        },
+      },
+      "reserved": {},
+    },
+    "local": {
+      "declared": {},
+      "reserved": {},
+    },
+  },
+  "source": {
+    "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCmludGNibG9jayAxIDMyIDI1NiA4IDAgMTYgMTg0NDY3NDQwNzM3MDk1NTE2MTUgMiAzIDQgNSA2NCAxMjgKYnl0ZWNibG9jayAweDE1MWY3Yzc1IDB4IDB4RkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRiAweDYyNmY3ODRiNjU3OSAweDY3NGI2NTc5IDB4MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMSAweDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAzZTggMHhGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRiAweEZGRkZGRkZGRkZGRkZGRkYKCi8vIGh0dHBzOi8vZ2l0aHViLmNvbS9hbGdvcmFuZGZvdW5kYXRpb24vVEVBTFNjcmlwdAoKLy8gVGhpcyBjb250cmFjdCBpcyBjb21wbGlhbnQgd2l0aCBhbmQvb3IgaW1wbGVtZW50cyB0aGUgZm9sbG93aW5nIEFSQ3M6IFsgQVJDNCBdCgovLyBUaGUgZm9sbG93aW5nIHRlbiBsaW5lcyBvZiBURUFMIGhhbmRsZSBpbml0aWFsIHByb2dyYW0gZmxvdwovLyBUaGlzIHBhdHRlcm4gaXMgdXNlZCB0byBtYWtlIGl0IGVhc3kgZm9yIGFueW9uZSB0byBwYXJzZSB0aGUgc3RhcnQgb2YgdGhlIHByb2dyYW0gYW5kIGRldGVybWluZSBpZiBhIHNwZWNpZmljIGFjdGlvbiBpcyBhbGxvd2VkCi8vIEhlcmUsIGFjdGlvbiByZWZlcnMgdG8gdGhlIE9uQ29tcGxldGUgaW4gY29tYmluYXRpb24gd2l0aCB3aGV0aGVyIHRoZSBhcHAgaXMgYmVpbmcgY3JlYXRlZCBvciBjYWxsZWQKLy8gRXZlcnkgcG9zc2libGUgYWN0aW9uIGZvciB0aGlzIGNvbnRyYWN0IGlzIHJlcHJlc2VudGVkIGluIHRoZSBzd2l0Y2ggc3RhdGVtZW50Ci8vIElmIHRoZSBhY3Rpb24gaXMgbm90IGltcGxlbWVudGVkIGluIHRoZSBjb250cmFjdCwgaXRzIHJlc3BlY3RpdmUgYnJhbmNoIHdpbGwgYmUgIipOT1RfSU1QTEVNRU5URUQiIHdoaWNoIGp1c3QgY29udGFpbnMgImVyciIKdHhuIEFwcGxpY2F0aW9uSUQKIQpwdXNoaW50IDYKKgp0eG4gT25Db21wbGV0aW9uCisKc3dpdGNoICpjYWxsX05vT3AgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpjcmVhdGVfTm9PcCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQKCipOT1RfSU1QTEVNRU5URUQ6CgkvLyBUaGUgcmVxdWVzdGVkIGFjdGlvbiBpcyBub3QgaW1wbGVtZW50ZWQgaW4gdGhpcyBjb250cmFjdC4gQXJlIHlvdSB1c2luZyB0aGUgY29ycmVjdCBPbkNvbXBsZXRlPyBEaWQgeW91IHNldCB5b3VyIGFwcCBJRD8KCWVycgoKLy8gdTY0cGx1cyh1aW50NjQsdWludDY0KXVpbnQ2NAoqYWJpX3JvdXRlX3U2NHBsdXM6CgkvLyBUaGUgQUJJIHJldHVybiBwcmVmaXgKCWJ5dGVjIDAgLy8gMHgxNTFmN2M3NQoKCS8vIGI6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgoJYnRvaQoKCS8vIGE6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJYnRvaQoKCS8vIGV4ZWN1dGUgdTY0cGx1cyh1aW50NjQsdWludDY0KXVpbnQ2NAoJY2FsbHN1YiB1NjRwbHVzCglpdG9iCgljb25jYXQKCWxvZwoJaW50YyAwIC8vIDEKCXJldHVybgoKLy8gdTY0cGx1cyhhOiB1aW50NjQsIGI6IHVpbnQ2NCk6IHVpbnQ2NAp1NjRwbHVzOgoJcHJvdG8gMiAxCgoJLy8gdGVzdHMvY29udHJhY3RzL21hdGguYWxnby50czo4CgkvLyByZXR1cm4gYSArIGI7CglmcmFtZV9kaWcgLTEgLy8gYTogdWludDY0CglmcmFtZV9kaWcgLTIgLy8gYjogdWludDY0CgkrCglyZXRzdWIKCi8vIHU2NG1pbnVzKHVpbnQ2NCx1aW50NjQpdWludDY0CiphYmlfcm91dGVfdTY0bWludXM6CgkvLyBUaGUgQUJJIHJldHVybiBwcmVmaXgKCWJ5dGVjIDAgLy8gMHgxNTFmN2M3NQoKCS8vIGI6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgoJYnRvaQoKCS8vIGE6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJYnRvaQoKCS8vIGV4ZWN1dGUgdTY0bWludXModWludDY0LHVpbnQ2NCl1aW50NjQKCWNhbGxzdWIgdTY0bWludXMKCWl0b2IKCWNvbmNhdAoJbG9nCglpbnRjIDAgLy8gMQoJcmV0dXJuCgovLyB1NjRtaW51cyhhOiB1aW50NjQsIGI6IHVpbnQ2NCk6IHVpbnQ2NAp1NjRtaW51czoKCXByb3RvIDIgMQoKCS8vIHRlc3RzL2NvbnRyYWN0cy9tYXRoLmFsZ28udHM6MTIKCS8vIHJldHVybiBhIC0gYjsKCWZyYW1lX2RpZyAtMSAvLyBhOiB1aW50NjQKCWZyYW1lX2RpZyAtMiAvLyBiOiB1aW50NjQKCS0KCXJldHN1YgoKLy8gdTY0bXVsKHVpbnQ2NCx1aW50NjQpdWludDY0CiphYmlfcm91dGVfdTY0bXVsOgoJLy8gVGhlIEFCSSByZXR1cm4gcHJlZml4CglieXRlYyAwIC8vIDB4MTUxZjdjNzUKCgkvLyBiOiB1aW50NjQKCXR4bmEgQXBwbGljYXRpb25BcmdzIDIKCWJ0b2kKCgkvLyBhOiB1aW50NjQKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWJ0b2kKCgkvLyBleGVjdXRlIHU2NG11bCh1aW50NjQsdWludDY0KXVpbnQ2NAoJY2FsbHN1YiB1NjRtdWwKCWl0b2IKCWNvbmNhdAoJbG9nCglpbnRjIDAgLy8gMQoJcmV0dXJuCgovLyB1NjRtdWwoYTogdWludDY0LCBiOiB1aW50NjQpOiB1aW50NjQKdTY0bXVsOgoJcHJvdG8gMiAxCgoJLy8gdGVzdHMvY29udHJhY3RzL21hdGguYWxnby50czoxNgoJLy8gcmV0dXJuIGEgKiBiOwoJZnJhbWVfZGlnIC0xIC8vIGE6IHVpbnQ2NAoJZnJhbWVfZGlnIC0yIC8vIGI6IHVpbnQ2NAoJKgoJcmV0c3ViCgovLyB1NjRkaXYodWludDY0LHVpbnQ2NCl1aW50NjQKKmFiaV9yb3V0ZV91NjRkaXY6CgkvLyBUaGUgQUJJIHJldHVybiBwcmVmaXgKCWJ5dGVjIDAgLy8gMHgxNTFmN2M3NQoKCS8vIGI6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgoJYnRvaQoKCS8vIGE6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJYnRvaQoKCS8vIGV4ZWN1dGUgdTY0ZGl2KHVpbnQ2NCx1aW50NjQpdWludDY0CgljYWxsc3ViIHU2NGRpdgoJaXRvYgoJY29uY2F0Cglsb2cKCWludGMgMCAvLyAxCglyZXR1cm4KCi8vIHU2NGRpdihhOiB1aW50NjQsIGI6IHVpbnQ2NCk6IHVpbnQ2NAp1NjRkaXY6Cglwcm90byAyIDEKCgkvLyB0ZXN0cy9jb250cmFjdHMvbWF0aC5hbGdvLnRzOjIwCgkvLyByZXR1cm4gYSAvIGI7CglmcmFtZV9kaWcgLTEgLy8gYTogdWludDY0CglmcmFtZV9kaWcgLTIgLy8gYjogdWludDY0CgkvCglyZXRzdWIKCi8vIHUyNTZwbHVzKHVpbnQyNTYsdWludDI1Nil1aW50MjU2CiphYmlfcm91dGVfdTI1NnBsdXM6CgkvLyBUaGUgQUJJIHJldHVybiBwcmVmaXgKCWJ5dGVjIDAgLy8gMHgxNTFmN2M3NQoKCS8vIGI6IHVpbnQyNTYKCXR4bmEgQXBwbGljYXRpb25BcmdzIDIKCWR1cAoJbGVuCglpbnRjIDEgLy8gMzIKCT09CgoJLy8gYXJndW1lbnQgMCAoYikgZm9yIHUyNTZwbHVzIG11c3QgYmUgYSB1aW50MjU2Cglhc3NlcnQKCgkvLyBhOiB1aW50MjU2Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglkdXAKCWxlbgoJaW50YyAxIC8vIDMyCgk9PQoKCS8vIGFyZ3VtZW50IDEgKGEpIGZvciB1MjU2cGx1cyBtdXN0IGJlIGEgdWludDI1NgoJYXNzZXJ0CgoJLy8gZXhlY3V0ZSB1MjU2cGx1cyh1aW50MjU2LHVpbnQyNTYpdWludDI1NgoJY2FsbHN1YiB1MjU2cGx1cwoJZHVwCgliaXRsZW4KCWludGMgMiAvLyAyNTYKCTw9CgoJLy8gdTI1NnBsdXMgcmV0dXJuIHZhbHVlIG92ZXJmbG93ZWQgMjU2IGJpdHMKCWFzc2VydAoJYnl0ZWMgMiAvLyAweEZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkYKCWImCglkdXAKCWxlbgoJZHVwCglpbnRjIDEgLy8gMzIKCS0KCXN3YXAKCXN1YnN0cmluZzMKCWNvbmNhdAoJbG9nCglpbnRjIDAgLy8gMQoJcmV0dXJuCgovLyB1MjU2cGx1cyhhOiB1aW50MjU2LCBiOiB1aW50MjU2KTogdWludDI1Ngp1MjU2cGx1czoKCXByb3RvIDIgMQoKCS8vIHRlc3RzL2NvbnRyYWN0cy9tYXRoLmFsZ28udHM6MjQKCS8vIHJldHVybiA8dWludDI1Nj4oYSArIGIpOwoJZnJhbWVfZGlnIC0xIC8vIGE6IHVpbnQyNTYKCWZyYW1lX2RpZyAtMiAvLyBiOiB1aW50MjU2CgliKwoJcmV0c3ViCgovLyB1MjU2bWludXModWludDI1Nix1aW50MjU2KXVpbnQyNTYKKmFiaV9yb3V0ZV91MjU2bWludXM6CgkvLyBUaGUgQUJJIHJldHVybiBwcmVmaXgKCWJ5dGVjIDAgLy8gMHgxNTFmN2M3NQoKCS8vIGI6IHVpbnQyNTYKCXR4bmEgQXBwbGljYXRpb25BcmdzIDIKCWR1cAoJbGVuCglpbnRjIDEgLy8gMzIKCT09CgoJLy8gYXJndW1lbnQgMCAoYikgZm9yIHUyNTZtaW51cyBtdXN0IGJlIGEgdWludDI1NgoJYXNzZXJ0CgoJLy8gYTogdWludDI1NgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJZHVwCglsZW4KCWludGMgMSAvLyAzMgoJPT0KCgkvLyBhcmd1bWVudCAxIChhKSBmb3IgdTI1Nm1pbnVzIG11c3QgYmUgYSB1aW50MjU2Cglhc3NlcnQKCgkvLyBleGVjdXRlIHUyNTZtaW51cyh1aW50MjU2LHVpbnQyNTYpdWludDI1NgoJY2FsbHN1YiB1MjU2bWludXMKCWR1cAoJYml0bGVuCglpbnRjIDIgLy8gMjU2Cgk8PQoKCS8vIHUyNTZtaW51cyByZXR1cm4gdmFsdWUgb3ZlcmZsb3dlZCAyNTYgYml0cwoJYXNzZXJ0CglieXRlYyAyIC8vIDB4RkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRgoJYiYKCWR1cAoJbGVuCglkdXAKCWludGMgMSAvLyAzMgoJLQoJc3dhcAoJc3Vic3RyaW5nMwoJY29uY2F0Cglsb2cKCWludGMgMCAvLyAxCglyZXR1cm4KCi8vIHUyNTZtaW51cyhhOiB1aW50MjU2LCBiOiB1aW50MjU2KTogdWludDI1Ngp1MjU2bWludXM6Cglwcm90byAyIDEKCgkvLyB0ZXN0cy9jb250cmFjdHMvbWF0aC5hbGdvLnRzOjI4CgkvLyByZXR1cm4gPHVpbnQyNTY+KGEgLSBiKTsKCWZyYW1lX2RpZyAtMSAvLyBhOiB1aW50MjU2CglmcmFtZV9kaWcgLTIgLy8gYjogdWludDI1NgoJYi0KCXJldHN1YgoKLy8gdTI1Nm11bCh1aW50MjU2LHVpbnQyNTYpdWludDI1NgoqYWJpX3JvdXRlX3UyNTZtdWw6CgkvLyBUaGUgQUJJIHJldHVybiBwcmVmaXgKCWJ5dGVjIDAgLy8gMHgxNTFmN2M3NQoKCS8vIGI6IHVpbnQyNTYKCXR4bmEgQXBwbGljYXRpb25BcmdzIDIKCWR1cAoJbGVuCglpbnRjIDEgLy8gMzIKCT09CgoJLy8gYXJndW1lbnQgMCAoYikgZm9yIHUyNTZtdWwgbXVzdCBiZSBhIHVpbnQyNTYKCWFzc2VydAoKCS8vIGE6IHVpbnQyNTYKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWR1cAoJbGVuCglpbnRjIDEgLy8gMzIKCT09CgoJLy8gYXJndW1lbnQgMSAoYSkgZm9yIHUyNTZtdWwgbXVzdCBiZSBhIHVpbnQyNTYKCWFzc2VydAoKCS8vIGV4ZWN1dGUgdTI1Nm11bCh1aW50MjU2LHVpbnQyNTYpdWludDI1NgoJY2FsbHN1YiB1MjU2bXVsCglkdXAKCWJpdGxlbgoJaW50YyAyIC8vIDI1NgoJPD0KCgkvLyB1MjU2bXVsIHJldHVybiB2YWx1ZSBvdmVyZmxvd2VkIDI1NiBiaXRzCglhc3NlcnQKCWJ5dGVjIDIgLy8gMHhGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGCgliJgoJZHVwCglsZW4KCWR1cAoJaW50YyAxIC8vIDMyCgktCglzd2FwCglzdWJzdHJpbmczCgljb25jYXQKCWxvZwoJaW50YyAwIC8vIDEKCXJldHVybgoKLy8gdTI1Nm11bChhOiB1aW50MjU2LCBiOiB1aW50MjU2KTogdWludDI1Ngp1MjU2bXVsOgoJcHJvdG8gMiAxCgoJLy8gdGVzdHMvY29udHJhY3RzL21hdGguYWxnby50czozMgoJLy8gcmV0dXJuIDx1aW50MjU2PihhICogYik7CglmcmFtZV9kaWcgLTEgLy8gYTogdWludDI1NgoJZnJhbWVfZGlnIC0yIC8vIGI6IHVpbnQyNTYKCWIqCglyZXRzdWIKCi8vIHUyNTZkaXYodWludDI1Nix1aW50MjU2KXVpbnQyNTYKKmFiaV9yb3V0ZV91MjU2ZGl2OgoJLy8gVGhlIEFCSSByZXR1cm4gcHJlZml4CglieXRlYyAwIC8vIDB4MTUxZjdjNzUKCgkvLyBiOiB1aW50MjU2Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAyCglkdXAKCWxlbgoJaW50YyAxIC8vIDMyCgk9PQoKCS8vIGFyZ3VtZW50IDAgKGIpIGZvciB1MjU2ZGl2IG11c3QgYmUgYSB1aW50MjU2Cglhc3NlcnQKCgkvLyBhOiB1aW50MjU2Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglkdXAKCWxlbgoJaW50YyAxIC8vIDMyCgk9PQoKCS8vIGFyZ3VtZW50IDEgKGEpIGZvciB1MjU2ZGl2IG11c3QgYmUgYSB1aW50MjU2Cglhc3NlcnQKCgkvLyBleGVjdXRlIHUyNTZkaXYodWludDI1Nix1aW50MjU2KXVpbnQyNTYKCWNhbGxzdWIgdTI1NmRpdgoJZHVwCgliaXRsZW4KCWludGMgMiAvLyAyNTYKCTw9CgoJLy8gdTI1NmRpdiByZXR1cm4gdmFsdWUgb3ZlcmZsb3dlZCAyNTYgYml0cwoJYXNzZXJ0CglieXRlYyAyIC8vIDB4RkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRgoJYiYKCWR1cAoJbGVuCglkdXAKCWludGMgMSAvLyAzMgoJLQoJc3dhcAoJc3Vic3RyaW5nMwoJY29uY2F0Cglsb2cKCWludGMgMCAvLyAxCglyZXR1cm4KCi8vIHUyNTZkaXYoYTogdWludDI1NiwgYjogdWludDI1Nik6IHVpbnQyNTYKdTI1NmRpdjoKCXByb3RvIDIgMQoKCS8vIHRlc3RzL2NvbnRyYWN0cy9tYXRoLmFsZ28udHM6MzYKCS8vIHJldHVybiA8dWludDI1Nj4oYSAvIGIpOwoJZnJhbWVfZGlnIC0xIC8vIGE6IHVpbnQyNTYKCWZyYW1lX2RpZyAtMiAvLyBiOiB1aW50MjU2CgliLwoJcmV0c3ViCgovLyB1NjRSZXR1cm4yNTYodWludDY0LHVpbnQ2NCl1aW50MjU2CiphYmlfcm91dGVfdTY0UmV0dXJuMjU2OgoJLy8gVGhlIEFCSSByZXR1cm4gcHJlZml4CglieXRlYyAwIC8vIDB4MTUxZjdjNzUKCgkvLyBiOiB1aW50NjQKCXR4bmEgQXBwbGljYXRpb25BcmdzIDIKCWJ0b2kKCgkvLyBhOiB1aW50NjQKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWJ0b2kKCgkvLyBleGVjdXRlIHU2NFJldHVybjI1Nih1aW50NjQsdWludDY0KXVpbnQyNTYKCWNhbGxzdWIgdTY0UmV0dXJuMjU2CglkdXAKCWJpdGxlbgoJaW50YyAyIC8vIDI1NgoJPD0KCgkvLyB1NjRSZXR1cm4yNTYgcmV0dXJuIHZhbHVlIG92ZXJmbG93ZWQgMjU2IGJpdHMKCWFzc2VydAoJYnl0ZWMgMiAvLyAweEZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkYKCWImCglkdXAKCWxlbgoJZHVwCglpbnRjIDEgLy8gMzIKCS0KCXN3YXAKCXN1YnN0cmluZzMKCWNvbmNhdAoJbG9nCglpbnRjIDAgLy8gMQoJcmV0dXJuCgovLyB1NjRSZXR1cm4yNTYoYTogdWludDY0LCBiOiB1aW50NjQpOiB1aW50MjU2CnU2NFJldHVybjI1NjoKCXByb3RvIDIgMQoKCS8vIHRlc3RzL2NvbnRyYWN0cy9tYXRoLmFsZ28udHM6NDAKCS8vIHJldHVybiA8dWludDI1Nj4oYSArIGIpOwoJZnJhbWVfZGlnIC0xIC8vIGE6IHVpbnQ2NAoJZnJhbWVfZGlnIC0yIC8vIGI6IHVpbnQ2NAoJKwoJaXRvYgoJcmV0c3ViCgovLyBtYXhVNjQoKXVpbnQ2NAoqYWJpX3JvdXRlX21heFU2NDoKCS8vIFRoZSBBQkkgcmV0dXJuIHByZWZpeAoJYnl0ZWMgMCAvLyAweDE1MWY3Yzc1CgoJLy8gZXhlY3V0ZSBtYXhVNjQoKXVpbnQ2NAoJY2FsbHN1YiBtYXhVNjQKCWl0b2IKCWNvbmNhdAoJbG9nCglpbnRjIDAgLy8gMQoJcmV0dXJuCgovLyBtYXhVNjQoKTogdWludDY0Cm1heFU2NDoKCXByb3RvIDAgMQoKCS8vIHRlc3RzL2NvbnRyYWN0cy9tYXRoLmFsZ28udHM6NDQKCS8vIHJldHVybiBVaW50PDY0PignMTg0NDY3NDQwNzM3MDk1NTE2MTUnKTsKCWludGMgNiAvLyAxODQ0Njc0NDA3MzcwOTU1MTYxNQoJcmV0c3ViCgovLyBleHBvbmVudCh1aW50NjQsdWludDY0KXVpbnQ2NAoqYWJpX3JvdXRlX2V4cG9uZW50OgoJLy8gVGhlIEFCSSByZXR1cm4gcHJlZml4CglieXRlYyAwIC8vIDB4MTUxZjdjNzUKCgkvLyBiOiB1aW50NjQKCXR4bmEgQXBwbGljYXRpb25BcmdzIDIKCWJ0b2kKCgkvLyBhOiB1aW50NjQKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWJ0b2kKCgkvLyBleGVjdXRlIGV4cG9uZW50KHVpbnQ2NCx1aW50NjQpdWludDY0CgljYWxsc3ViIGV4cG9uZW50CglpdG9iCgljb25jYXQKCWxvZwoJaW50YyAwIC8vIDEKCXJldHVybgoKLy8gZXhwb25lbnQoYTogdWludDY0LCBiOiB1aW50NjQpOiB1aW50NjQKZXhwb25lbnQ6Cglwcm90byAyIDEKCgkvLyB0ZXN0cy9jb250cmFjdHMvbWF0aC5hbGdvLnRzOjQ4CgkvLyByZXR1cm4gYSAqKiBiOwoJZnJhbWVfZGlnIC0xIC8vIGE6IHVpbnQ2NAoJZnJhbWVfZGlnIC0yIC8vIGI6IHVpbnQ2NAoJZXhwCglyZXRzdWIKCi8vIHZhcmlhYmxlVHlwZUhpbnQodWludDgsdWludDgpdWludDE2CiphYmlfcm91dGVfdmFyaWFibGVUeXBlSGludDoKCS8vIFRoZSBBQkkgcmV0dXJuIHByZWZpeAoJYnl0ZWMgMCAvLyAweDE1MWY3Yzc1CgoJLy8geTogdWludDgKCXR4bmEgQXBwbGljYXRpb25BcmdzIDIKCWR1cAoJbGVuCglpbnRjIDAgLy8gMQoJPT0KCgkvLyBhcmd1bWVudCAwICh5KSBmb3IgdmFyaWFibGVUeXBlSGludCBtdXN0IGJlIGEgdWludDgKCWFzc2VydAoJYnRvaQoKCS8vIHg6IHVpbnQ4Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglkdXAKCWxlbgoJaW50YyAwIC8vIDEKCT09CgoJLy8gYXJndW1lbnQgMSAoeCkgZm9yIHZhcmlhYmxlVHlwZUhpbnQgbXVzdCBiZSBhIHVpbnQ4Cglhc3NlcnQKCWJ0b2kKCgkvLyBleGVjdXRlIHZhcmlhYmxlVHlwZUhpbnQodWludDgsdWludDgpdWludDE2CgljYWxsc3ViIHZhcmlhYmxlVHlwZUhpbnQKCWl0b2IKCWR1cAoJYml0bGVuCglpbnRjIDUgLy8gMTYKCTw9CgoJLy8gdmFyaWFibGVUeXBlSGludCByZXR1cm4gdmFsdWUgb3ZlcmZsb3dlZCAxNiBiaXRzCglhc3NlcnQKCWV4dHJhY3QgNiAyCgljb25jYXQKCWxvZwoJaW50YyAwIC8vIDEKCXJldHVybgoKLy8gdmFyaWFibGVUeXBlSGludCh4OiB1aW50PDg+LCB5OiB1aW50PDg+KTogdWludDE2CnZhcmlhYmxlVHlwZUhpbnQ6Cglwcm90byAyIDEKCgkvLyBQdXNoIGVtcHR5IGJ5dGVzIGFmdGVyIHRoZSBmcmFtZSBwb2ludGVyIHRvIHJlc2VydmUgc3BhY2UgZm9yIGxvY2FsIHZhcmlhYmxlcwoJYnl0ZWMgMSAvLyAweAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9tYXRoLmFsZ28udHM6NTIKCS8vIHogPSA8dWludDE2Pih4ICsgeSkKCWZyYW1lX2RpZyAtMSAvLyB4OiB1aW50PDg+CglmcmFtZV9kaWcgLTIgLy8geTogdWludDw4PgoJKwoJZnJhbWVfYnVyeSAwIC8vIHo6IHVuc2FmZSB1aW50MTYKCgkvLyB0ZXN0cy9jb250cmFjdHMvbWF0aC5hbGdvLnRzOjU0CgkvLyByZXR1cm4gejsKCWZyYW1lX2RpZyAwIC8vIHo6IHVuc2FmZSB1aW50MTYKCgkvLyBzZXQgdGhlIHN1YnJvdXRpbmUgcmV0dXJuIHZhbHVlCglmcmFtZV9idXJ5IDAKCXJldHN1YgoKLy8gdWludDhwbHVzKHVpbnQ4LHVpbnQ4KXVpbnQ4CiphYmlfcm91dGVfdWludDhwbHVzOgoJLy8gVGhlIEFCSSByZXR1cm4gcHJlZml4CglieXRlYyAwIC8vIDB4MTUxZjdjNzUKCgkvLyBiOiB1aW50OAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgoJZHVwCglsZW4KCWludGMgMCAvLyAxCgk9PQoKCS8vIGFyZ3VtZW50IDAgKGIpIGZvciB1aW50OHBsdXMgbXVzdCBiZSBhIHVpbnQ4Cglhc3NlcnQKCWJ0b2kKCgkvLyBhOiB1aW50OAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJZHVwCglsZW4KCWludGMgMCAvLyAxCgk9PQoKCS8vIGFyZ3VtZW50IDEgKGEpIGZvciB1aW50OHBsdXMgbXVzdCBiZSBhIHVpbnQ4Cglhc3NlcnQKCWJ0b2kKCgkvLyBleGVjdXRlIHVpbnQ4cGx1cyh1aW50OCx1aW50OCl1aW50OAoJY2FsbHN1YiB1aW50OHBsdXMKCWl0b2IKCWR1cAoJYml0bGVuCglpbnRjIDMgLy8gOAoJPD0KCgkvLyB1aW50OHBsdXMgcmV0dXJuIHZhbHVlIG92ZXJmbG93ZWQgOCBiaXRzCglhc3NlcnQKCWV4dHJhY3QgNyAxCgljb25jYXQKCWxvZwoJaW50YyAwIC8vIDEKCXJldHVybgoKLy8gdWludDhwbHVzKGE6IHVpbnQ8OD4sIGI6IHVpbnQ8OD4pOiB1aW50PDg+CnVpbnQ4cGx1czoKCXByb3RvIDIgMQoKCS8vIHRlc3RzL2NvbnRyYWN0cy9tYXRoLmFsZ28udHM6NTgKCS8vIHJldHVybiBhICsgYjsKCWZyYW1lX2RpZyAtMSAvLyBhOiB1aW50PDg+CglmcmFtZV9kaWcgLTIgLy8gYjogdWludDw4PgoJKwoJcmV0c3ViCgovLyB1aW50OGV4cCh1aW50OCx1aW50OCl1aW50OAoqYWJpX3JvdXRlX3VpbnQ4ZXhwOgoJLy8gVGhlIEFCSSByZXR1cm4gcHJlZml4CglieXRlYyAwIC8vIDB4MTUxZjdjNzUKCgkvLyBiOiB1aW50OAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgoJZHVwCglsZW4KCWludGMgMCAvLyAxCgk9PQoKCS8vIGFyZ3VtZW50IDAgKGIpIGZvciB1aW50OGV4cCBtdXN0IGJlIGEgdWludDgKCWFzc2VydAoJYnRvaQoKCS8vIGE6IHVpbnQ4Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglkdXAKCWxlbgoJaW50YyAwIC8vIDEKCT09CgoJLy8gYXJndW1lbnQgMSAoYSkgZm9yIHVpbnQ4ZXhwIG11c3QgYmUgYSB1aW50OAoJYXNzZXJ0CglidG9pCgoJLy8gZXhlY3V0ZSB1aW50OGV4cCh1aW50OCx1aW50OCl1aW50OAoJY2FsbHN1YiB1aW50OGV4cAoJaXRvYgoJZHVwCgliaXRsZW4KCWludGMgMyAvLyA4Cgk8PQoKCS8vIHVpbnQ4ZXhwIHJldHVybiB2YWx1ZSBvdmVyZmxvd2VkIDggYml0cwoJYXNzZXJ0CglleHRyYWN0IDcgMQoJY29uY2F0Cglsb2cKCWludGMgMCAvLyAxCglyZXR1cm4KCi8vIHVpbnQ4ZXhwKGE6IHVpbnQ8OD4sIGI6IHVpbnQ8OD4pOiB1aW50PDg+CnVpbnQ4ZXhwOgoJcHJvdG8gMiAxCgoJLy8gdGVzdHMvY29udHJhY3RzL21hdGguYWxnby50czo2MgoJLy8gcmV0dXJuIGEgKiogYjsKCWZyYW1lX2RpZyAtMSAvLyBhOiB1aW50PDg+CglmcmFtZV9kaWcgLTIgLy8gYjogdWludDw4PgoJZXhwCglyZXRzdWIKCi8vIHBsdXNFcXVhbHModWludDY0LHVpbnQ2NCl1aW50NjQKKmFiaV9yb3V0ZV9wbHVzRXF1YWxzOgoJLy8gVGhlIEFCSSByZXR1cm4gcHJlZml4CglieXRlYyAwIC8vIDB4MTUxZjdjNzUKCgkvLyBiOiB1aW50NjQKCXR4bmEgQXBwbGljYXRpb25BcmdzIDIKCWJ0b2kKCgkvLyBhOiB1aW50NjQKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWJ0b2kKCgkvLyBleGVjdXRlIHBsdXNFcXVhbHModWludDY0LHVpbnQ2NCl1aW50NjQKCWNhbGxzdWIgcGx1c0VxdWFscwoJaXRvYgoJY29uY2F0Cglsb2cKCWludGMgMCAvLyAxCglyZXR1cm4KCi8vIHBsdXNFcXVhbHMoYTogdWludDY0LCBiOiB1aW50NjQpOiB1aW50NjQKcGx1c0VxdWFsczoKCXByb3RvIDIgMQoKCS8vIFB1c2ggZW1wdHkgYnl0ZXMgYWZ0ZXIgdGhlIGZyYW1lIHBvaW50ZXIgdG8gcmVzZXJ2ZSBzcGFjZSBmb3IgbG9jYWwgdmFyaWFibGVzCglieXRlYyAxIC8vIDB4CgoJLy8gdGVzdHMvY29udHJhY3RzL21hdGguYWxnby50czo2NgoJLy8geCA9IGEKCWZyYW1lX2RpZyAtMSAvLyBhOiB1aW50NjQKCWZyYW1lX2J1cnkgMCAvLyB4OiB1aW50NjQKCgkvLyB0ZXN0cy9jb250cmFjdHMvbWF0aC5hbGdvLnRzOjY4CgkvLyB4ICs9IGIKCWZyYW1lX2RpZyAwIC8vIHg6IHVpbnQ2NAoJZnJhbWVfZGlnIC0yIC8vIGI6IHVpbnQ2NAoJKwoJZnJhbWVfYnVyeSAwIC8vIHg6IHVpbnQ2NAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9tYXRoLmFsZ28udHM6NzAKCS8vIHJldHVybiB4OwoJZnJhbWVfZGlnIDAgLy8geDogdWludDY0CgoJLy8gc2V0IHRoZSBzdWJyb3V0aW5lIHJldHVybiB2YWx1ZQoJZnJhbWVfYnVyeSAwCglyZXRzdWIKCi8vIHBsdXNFcXVhbHNGcm9tR2xvYmFsKHVpbnQ2NCx1aW50NjQpdWludDY0CiphYmlfcm91dGVfcGx1c0VxdWFsc0Zyb21HbG9iYWw6CgkvLyBUaGUgQUJJIHJldHVybiBwcmVmaXgKCWJ5dGVjIDAgLy8gMHgxNTFmN2M3NQoKCS8vIGI6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgoJYnRvaQoKCS8vIGE6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJYnRvaQoKCS8vIGV4ZWN1dGUgcGx1c0VxdWFsc0Zyb21HbG9iYWwodWludDY0LHVpbnQ2NCl1aW50NjQKCWNhbGxzdWIgcGx1c0VxdWFsc0Zyb21HbG9iYWwKCWl0b2IKCWNvbmNhdAoJbG9nCglpbnRjIDAgLy8gMQoJcmV0dXJuCgovLyBwbHVzRXF1YWxzRnJvbUdsb2JhbChhOiB1aW50NjQsIGI6IHVpbnQ2NCk6IHVpbnQ2NApwbHVzRXF1YWxzRnJvbUdsb2JhbDoKCXByb3RvIDIgMQoKCS8vIHRlc3RzL2NvbnRyYWN0cy9tYXRoLmFsZ28udHM6NzQKCS8vIHRoaXMuZ0tleS52YWx1ZSA9IGEKCWJ5dGVjIDQgLy8gICJnS2V5IgoJZnJhbWVfZGlnIC0xIC8vIGE6IHVpbnQ2NAoJYXBwX2dsb2JhbF9wdXQKCgkvLyB0ZXN0cy9jb250cmFjdHMvbWF0aC5hbGdvLnRzOjc2CgkvLyB0aGlzLmdLZXkudmFsdWUgKz0gYgoJYnl0ZWMgNCAvLyAgImdLZXkiCglhcHBfZ2xvYmFsX2dldAoJZnJhbWVfZGlnIC0yIC8vIGI6IHVpbnQ2NAoJKwoJYnl0ZWMgNCAvLyAgImdLZXkiCglzd2FwCglhcHBfZ2xvYmFsX3B1dAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9tYXRoLmFsZ28udHM6NzgKCS8vIHJldHVybiB0aGlzLmdLZXkudmFsdWU7CglieXRlYyA0IC8vICAiZ0tleSIKCWFwcF9nbG9iYWxfZ2V0CglyZXRzdWIKCi8vIGJveFRlc3QoKXVpbnQyNTYKKmFiaV9yb3V0ZV9ib3hUZXN0OgoJLy8gVGhlIEFCSSByZXR1cm4gcHJlZml4CglieXRlYyAwIC8vIDB4MTUxZjdjNzUKCgkvLyBleGVjdXRlIGJveFRlc3QoKXVpbnQyNTYKCWNhbGxzdWIgYm94VGVzdAoJZHVwCgliaXRsZW4KCWludGMgMiAvLyAyNTYKCTw9CgoJLy8gYm94VGVzdCByZXR1cm4gdmFsdWUgb3ZlcmZsb3dlZCAyNTYgYml0cwoJYXNzZXJ0CglieXRlYyAyIC8vIDB4RkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRgoJYiYKCWR1cAoJbGVuCglkdXAKCWludGMgMSAvLyAzMgoJLQoJc3dhcAoJc3Vic3RyaW5nMwoJY29uY2F0Cglsb2cKCWludGMgMCAvLyAxCglyZXR1cm4KCi8vIGJveFRlc3QoKTogdWludDI1Ngpib3hUZXN0OgoJcHJvdG8gMCAxCgoJLy8gdGVzdHMvY29udHJhY3RzL21hdGguYWxnby50czo4NAoJLy8gdGhpcy5ib3hLZXkudmFsdWUgPSA8dWludDI1Nj4xCglieXRlYyAzIC8vICAiYm94S2V5IgoJYnl0ZWMgNSAvLyAweDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDEKCWJveF9wdXQKCgkvLyB0ZXN0cy9jb250cmFjdHMvbWF0aC5hbGdvLnRzOjg1CgkvLyB0aGlzLmJveEtleS52YWx1ZSArPSAxCglieXRlYyAzIC8vICAiYm94S2V5IgoJYm94X2dldAoKCS8vIGJveCB2YWx1ZSBkb2VzIG5vdCBleGlzdDogdGhpcy5ib3hLZXkudmFsdWUKCWFzc2VydAoJYnl0ZWMgNSAvLyAweDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDEKCWIrCglieXRlYyAzIC8vICAiYm94S2V5IgoJZHVwCgliaXRsZW4KCWludGMgMiAvLyAyNTYKCTw9CgoJLy8gdGhpcy5ib3hLZXkudmFsdWUgb3ZlcmZsb3dlZCAyNTYgYml0cwoJYXNzZXJ0CglieXRlYyAyIC8vIDB4RkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRgoJYiYKCWR1cAoJbGVuCglkdXAKCWludGMgMSAvLyAzMgoJLQoJc3dhcAoJc3Vic3RyaW5nMwoJc3dhcAoJYm94X3B1dAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9tYXRoLmFsZ28udHM6ODcKCS8vIHJldHVybiB0aGlzLmJveEtleS52YWx1ZTsKCWJ5dGVjIDMgLy8gICJib3hLZXkiCglib3hfZ2V0CgoJLy8gYm94IHZhbHVlIGRvZXMgbm90IGV4aXN0OiB0aGlzLmJveEtleS52YWx1ZQoJYXNzZXJ0CglyZXRzdWIKCi8vIGZvbyh4OiB1aW50MjU2KTogdWludDI1Ngpmb286Cglwcm90byAxIDEKCgkvLyB0ZXN0cy9jb250cmFjdHMvbWF0aC5hbGdvLnRzOjkxCgkvLyByZXR1cm4geDsKCWZyYW1lX2RpZyAtMSAvLyB4OiB1aW50MjU2CglyZXRzdWIKCi8vIHVuc2FmZU1ldGhvZEFyZ3ModWludDI1Nix1aW50MjU2KXVpbnQyNTYKKmFiaV9yb3V0ZV91bnNhZmVNZXRob2RBcmdzOgoJLy8gVGhlIEFCSSByZXR1cm4gcHJlZml4CglieXRlYyAwIC8vIDB4MTUxZjdjNzUKCgkvLyBiOiB1aW50MjU2Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAyCglkdXAKCWxlbgoJaW50YyAxIC8vIDMyCgk9PQoKCS8vIGFyZ3VtZW50IDAgKGIpIGZvciB1bnNhZmVNZXRob2RBcmdzIG11c3QgYmUgYSB1aW50MjU2Cglhc3NlcnQKCgkvLyBhOiB1aW50MjU2Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglkdXAKCWxlbgoJaW50YyAxIC8vIDMyCgk9PQoKCS8vIGFyZ3VtZW50IDEgKGEpIGZvciB1bnNhZmVNZXRob2RBcmdzIG11c3QgYmUgYSB1aW50MjU2Cglhc3NlcnQKCgkvLyBleGVjdXRlIHVuc2FmZU1ldGhvZEFyZ3ModWludDI1Nix1aW50MjU2KXVpbnQyNTYKCWNhbGxzdWIgdW5zYWZlTWV0aG9kQXJncwoJZHVwCgliaXRsZW4KCWludGMgMiAvLyAyNTYKCTw9CgoJLy8gdW5zYWZlTWV0aG9kQXJncyByZXR1cm4gdmFsdWUgb3ZlcmZsb3dlZCAyNTYgYml0cwoJYXNzZXJ0CglieXRlYyAyIC8vIDB4RkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRgoJYiYKCWR1cAoJbGVuCglkdXAKCWludGMgMSAvLyAzMgoJLQoJc3dhcAoJc3Vic3RyaW5nMwoJY29uY2F0Cglsb2cKCWludGMgMCAvLyAxCglyZXR1cm4KCi8vIHVuc2FmZU1ldGhvZEFyZ3MoYTogdWludDI1NiwgYjogdWludDI1Nik6IHVpbnQyNTYKdW5zYWZlTWV0aG9kQXJnczoKCXByb3RvIDIgMQoKCS8vIFB1c2ggZW1wdHkgYnl0ZXMgYWZ0ZXIgdGhlIGZyYW1lIHBvaW50ZXIgdG8gcmVzZXJ2ZSBzcGFjZSBmb3IgbG9jYWwgdmFyaWFibGVzCglieXRlYyAxIC8vIDB4CgoJLy8gdGVzdHMvY29udHJhY3RzL21hdGguYWxnby50czo5NQoJLy8gYyA9IGEgKyBiCglmcmFtZV9kaWcgLTEgLy8gYTogdWludDI1NgoJZnJhbWVfZGlnIC0yIC8vIGI6IHVpbnQyNTYKCWIrCglmcmFtZV9idXJ5IDAgLy8gYzogdW5zYWZlIHVpbnQyNTYKCgkvLyB0ZXN0cy9jb250cmFjdHMvbWF0aC5hbGdvLnRzOjk3CgkvLyByZXR1cm4gdGhpcy5mb28oYyk7CglmcmFtZV9kaWcgMCAvLyBjOiB1bnNhZmUgdWludDI1NgoJZHVwCgliaXRsZW4KCWludGMgMiAvLyAyNTYKCTw9CgoJLy8gYyBvdmVyZmxvd2VkIDI1NiBiaXRzCglhc3NlcnQKCWJ5dGVjIDIgLy8gMHhGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGCgliJgoJZHVwCglsZW4KCWR1cAoJaW50YyAxIC8vIDMyCgktCglzd2FwCglzdWJzdHJpbmczCgljYWxsc3ViIGZvbwoKCS8vIHNldCB0aGUgc3Vicm91dGluZSByZXR1cm4gdmFsdWUKCWZyYW1lX2J1cnkgMAoJcmV0c3ViCgovLyB1aW50MjU2Q29tcGFyaXNvblR5cGUodWludDI1Nix1aW50MjU2KXZvaWQKKmFiaV9yb3V0ZV91aW50MjU2Q29tcGFyaXNvblR5cGU6CgkvLyBiOiB1aW50MjU2Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAyCglkdXAKCWxlbgoJaW50YyAxIC8vIDMyCgk9PQoKCS8vIGFyZ3VtZW50IDAgKGIpIGZvciB1aW50MjU2Q29tcGFyaXNvblR5cGUgbXVzdCBiZSBhIHVpbnQyNTYKCWFzc2VydAoKCS8vIGE6IHVpbnQyNTYKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWR1cAoJbGVuCglpbnRjIDEgLy8gMzIKCT09CgoJLy8gYXJndW1lbnQgMSAoYSkgZm9yIHVpbnQyNTZDb21wYXJpc29uVHlwZSBtdXN0IGJlIGEgdWludDI1NgoJYXNzZXJ0CgoJLy8gZXhlY3V0ZSB1aW50MjU2Q29tcGFyaXNvblR5cGUodWludDI1Nix1aW50MjU2KXZvaWQKCWNhbGxzdWIgdWludDI1NkNvbXBhcmlzb25UeXBlCglpbnRjIDAgLy8gMQoJcmV0dXJuCgovLyB1aW50MjU2Q29tcGFyaXNvblR5cGUoYTogdWludDI1NiwgYjogdWludDI1Nik6IHZvaWQKdWludDI1NkNvbXBhcmlzb25UeXBlOgoJcHJvdG8gMiAwCgoJLy8gUHVzaCBlbXB0eSBieXRlcyBhZnRlciB0aGUgZnJhbWUgcG9pbnRlciB0byByZXNlcnZlIHNwYWNlIGZvciBsb2NhbCB2YXJpYWJsZXMKCWJ5dGVjIDEgLy8gMHgKCgkvLyB0ZXN0cy9jb250cmFjdHMvbWF0aC5hbGdvLnRzOjEwMQoJLy8gc2VuZGVyQmFsYW5jZUFmdGVyID0gYSAtIGIKCWZyYW1lX2RpZyAtMSAvLyBhOiB1aW50MjU2CglmcmFtZV9kaWcgLTIgLy8gYjogdWludDI1NgoJYi0KCWZyYW1lX2J1cnkgMCAvLyBzZW5kZXJCYWxhbmNlQWZ0ZXI6IHVuc2FmZSB1aW50MjU2CgoJLy8gKmlmMF9jb25kaXRpb24KCS8vIHRlc3RzL2NvbnRyYWN0cy9tYXRoLmFsZ28udHM6MTAyCgkvLyBzZW5kZXJCYWxhbmNlQWZ0ZXIgPiA8dWludDI1Nj4wCglmcmFtZV9kaWcgMCAvLyBzZW5kZXJCYWxhbmNlQWZ0ZXI6IHVuc2FmZSB1aW50MjU2CglwdXNoYnl0ZXMgMHgwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwCgliPgoJYnogKmlmMF9lbHNlCgoJLy8gKmlmMF9jb25zZXF1ZW50CgkvLyB0ZXN0cy9jb250cmFjdHMvbWF0aC5hbGdvLnRzOjEwMwoJLy8gbG9nKCdub25aZXJvJykKCXB1c2hieXRlcyAweDZlNmY2ZTVhNjU3MjZmIC8vICJub25aZXJvIgoJbG9nCgliICppZjBfZW5kCgoqaWYwX2Vsc2U6CgkvLyB0ZXN0cy9jb250cmFjdHMvbWF0aC5hbGdvLnRzOjEwNQoJLy8gbG9nKCd6ZXJvJykKCXB1c2hieXRlcyAweDdhNjU3MjZmIC8vICJ6ZXJvIgoJbG9nCgoqaWYwX2VuZDoKCXJldHN1YgoKLy8gc3F1YXJlUm9vdDI1Nih1aW50MjU2LHVpbnQyNTYpdWludDI1NgoqYWJpX3JvdXRlX3NxdWFyZVJvb3QyNTY6CgkvLyBUaGUgQUJJIHJldHVybiBwcmVmaXgKCWJ5dGVjIDAgLy8gMHgxNTFmN2M3NQoKCS8vIGI6IHVpbnQyNTYKCXR4bmEgQXBwbGljYXRpb25BcmdzIDIKCWR1cAoJbGVuCglpbnRjIDEgLy8gMzIKCT09CgoJLy8gYXJndW1lbnQgMCAoYikgZm9yIHNxdWFyZVJvb3QyNTYgbXVzdCBiZSBhIHVpbnQyNTYKCWFzc2VydAoKCS8vIGE6IHVpbnQyNTYKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWR1cAoJbGVuCglpbnRjIDEgLy8gMzIKCT09CgoJLy8gYXJndW1lbnQgMSAoYSkgZm9yIHNxdWFyZVJvb3QyNTYgbXVzdCBiZSBhIHVpbnQyNTYKCWFzc2VydAoKCS8vIGV4ZWN1dGUgc3F1YXJlUm9vdDI1Nih1aW50MjU2LHVpbnQyNTYpdWludDI1NgoJY2FsbHN1YiBzcXVhcmVSb290MjU2CglkdXAKCWJpdGxlbgoJaW50YyAyIC8vIDI1NgoJPD0KCgkvLyBzcXVhcmVSb290MjU2IHJldHVybiB2YWx1ZSBvdmVyZmxvd2VkIDI1NiBiaXRzCglhc3NlcnQKCWJ5dGVjIDIgLy8gMHhGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGCgliJgoJZHVwCglsZW4KCWR1cAoJaW50YyAxIC8vIDMyCgktCglzd2FwCglzdWJzdHJpbmczCgljb25jYXQKCWxvZwoJaW50YyAwIC8vIDEKCXJldHVybgoKLy8gc3F1YXJlUm9vdDI1NihhOiB1aW50MjU2LCBiOiB1aW50MjU2KTogdWludDI1NgpzcXVhcmVSb290MjU2OgoJcHJvdG8gMiAxCgoJLy8gdGVzdHMvY29udHJhY3RzL21hdGguYWxnby50czoxMTAKCS8vIHJldHVybiBzcXJ0KGEgKiBiKTsKCWZyYW1lX2RpZyAtMSAvLyBhOiB1aW50MjU2CglmcmFtZV9kaWcgLTIgLy8gYjogdWludDI1NgoJYioKCWJzcXJ0CglyZXRzdWIKCi8vIHNxdWFyZVJvb3Q2NCh1aW50NjQsdWludDY0KXVpbnQ2NAoqYWJpX3JvdXRlX3NxdWFyZVJvb3Q2NDoKCS8vIFRoZSBBQkkgcmV0dXJuIHByZWZpeAoJYnl0ZWMgMCAvLyAweDE1MWY3Yzc1CgoJLy8gYjogdWludDY0Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAyCglidG9pCgoJLy8gYTogdWludDY0Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglidG9pCgoJLy8gZXhlY3V0ZSBzcXVhcmVSb290NjQodWludDY0LHVpbnQ2NCl1aW50NjQKCWNhbGxzdWIgc3F1YXJlUm9vdDY0CglpdG9iCgljb25jYXQKCWxvZwoJaW50YyAwIC8vIDEKCXJldHVybgoKLy8gc3F1YXJlUm9vdDY0KGE6IHVpbnQ2NCwgYjogdWludDY0KTogdWludDY0CnNxdWFyZVJvb3Q2NDoKCXByb3RvIDIgMQoKCS8vIHRlc3RzL2NvbnRyYWN0cy9tYXRoLmFsZ28udHM6MTE0CgkvLyByZXR1cm4gc3FydChhICogYik7CglmcmFtZV9kaWcgLTEgLy8gYTogdWludDY0CglmcmFtZV9kaWcgLTIgLy8gYjogdWludDY0CgkqCglzcXJ0CglyZXRzdWIKCi8vIGFkZHJlc3NUb0JpZ0ludChhZGRyZXNzKWJvb2wKKmFiaV9yb3V0ZV9hZGRyZXNzVG9CaWdJbnQ6CgkvLyBUaGUgQUJJIHJldHVybiBwcmVmaXgKCWJ5dGVjIDAgLy8gMHgxNTFmN2M3NQoKCS8vIGFkZHI6IGFkZHJlc3MKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWR1cAoJbGVuCglpbnRjIDEgLy8gMzIKCT09CgoJLy8gYXJndW1lbnQgMCAoYWRkcikgZm9yIGFkZHJlc3NUb0JpZ0ludCBtdXN0IGJlIGEgYWRkcmVzcwoJYXNzZXJ0CgoJLy8gZXhlY3V0ZSBhZGRyZXNzVG9CaWdJbnQoYWRkcmVzcylib29sCgljYWxsc3ViIGFkZHJlc3NUb0JpZ0ludAoJcHVzaGJ5dGVzIDB4MDAKCWludGMgNCAvLyAwCgl1bmNvdmVyIDIKCXNldGJpdAoJY29uY2F0Cglsb2cKCWludGMgMCAvLyAxCglyZXR1cm4KCi8vIGFkZHJlc3NUb0JpZ0ludChhZGRyOiBBZGRyZXNzKTogYm9vbGVhbgphZGRyZXNzVG9CaWdJbnQ6Cglwcm90byAxIDEKCgkvLyB0ZXN0cy9jb250cmFjdHMvbWF0aC5hbGdvLnRzOjExOAoJLy8gcmV0dXJuIGJ0b2JpZ2ludChhZGRyKSA+IGJ0b2JpZ2ludCh0aGlzLnR4bi5zZW5kZXIpOwoJZnJhbWVfZGlnIC0xIC8vIGFkZHI6IEFkZHJlc3MKCXR4biBTZW5kZXIKCWI+CglyZXRzdWIKCi8vIHU4VG91NjQoKXVpbnQ2NAoqYWJpX3JvdXRlX3U4VG91NjQ6CgkvLyBUaGUgQUJJIHJldHVybiBwcmVmaXgKCWJ5dGVjIDAgLy8gMHgxNTFmN2M3NQoKCS8vIGV4ZWN1dGUgdThUb3U2NCgpdWludDY0CgljYWxsc3ViIHU4VG91NjQKCWl0b2IKCWNvbmNhdAoJbG9nCglpbnRjIDAgLy8gMQoJcmV0dXJuCgovLyB1OFRvdTY0KCk6IHVpbnQ2NAp1OFRvdTY0OgoJcHJvdG8gMCAxCgoJLy8gUHVzaCBlbXB0eSBieXRlcyBhZnRlciB0aGUgZnJhbWUgcG9pbnRlciB0byByZXNlcnZlIHNwYWNlIGZvciBsb2NhbCB2YXJpYWJsZXMKCWJ5dGVjIDEgLy8gMHgKCgkvLyB0ZXN0cy9jb250cmFjdHMvbWF0aC5hbGdvLnRzOjEyMgoJLy8geDogdWludDggPSA3CglwdXNoaW50IDcKCWZyYW1lX2J1cnkgMCAvLyB4OiB1aW50OAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9tYXRoLmFsZ28udHM6MTIzCgkvLyByZXR1cm4gPHVpbnQ2ND54OwoJZnJhbWVfZGlnIDAgLy8geDogdWludDgKCgkvLyBzZXQgdGhlIHN1YnJvdXRpbmUgcmV0dXJuIHZhbHVlCglmcmFtZV9idXJ5IDAKCXJldHN1YgoKLy8gcHJpdmF0ZUZ1bmNOYW1lKHg6IHVpbnQ4LCB5OiB1aW50NjQpOiB2b2lkCnByaXZhdGVGdW5jTmFtZToKCXByb3RvIDIgMAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9tYXRoLmFsZ28udHM6MTI3CgkvLyBhc3NlcnQoPHVpbnQ4PnkgPiB4KQoJZnJhbWVfZGlnIC0yIC8vIHk6IHVpbnQ2NAoJZnJhbWVfZGlnIC0xIC8vIHg6IHVpbnQ4Cgk+Cglhc3NlcnQKCXJldHN1YgoKLy8gZnVuY05hbWUodWludDI1Nil2b2lkCiphYmlfcm91dGVfZnVuY05hbWU6CgkvLyB4OiB1aW50MjU2Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglkdXAKCWxlbgoJaW50YyAxIC8vIDMyCgk9PQoKCS8vIGFyZ3VtZW50IDAgKHgpIGZvciBmdW5jTmFtZSBtdXN0IGJlIGEgdWludDI1NgoJYXNzZXJ0CgoJLy8gZXhlY3V0ZSBmdW5jTmFtZSh1aW50MjU2KXZvaWQKCWNhbGxzdWIgZnVuY05hbWUKCWludGMgMCAvLyAxCglyZXR1cm4KCi8vIGZ1bmNOYW1lKHg6IHVpbnQyNTYpOiB2b2lkCmZ1bmNOYW1lOgoJcHJvdG8gMSAwCgoJLy8gdGVzdHMvY29udHJhY3RzL21hdGguYWxnby50czoxMzEKCS8vIHRoaXMucHJpdmF0ZUZ1bmNOYW1lKDx1aW50OD54LCAxMzM3KQoJcHVzaGludCAxMzM3CglmcmFtZV9kaWcgLTEgLy8geDogdWludDI1NgoJZHVwCgliaXRsZW4KCWludGMgMyAvLyA4Cgk8PQoKCS8vIDx1aW50OD54IG92ZXJmbG93ZWQgOCBiaXRzCglhc3NlcnQKCWV4dHJhY3QgMzEgMQoJYnRvaQoJY2FsbHN1YiBwcml2YXRlRnVuY05hbWUKCXJldHN1YgoKLy8gYmlnaW50UGx1cyh1aW50NjQsdWludDY0KXVpbnQ2NAoqYWJpX3JvdXRlX2JpZ2ludFBsdXM6CgkvLyBUaGUgQUJJIHJldHVybiBwcmVmaXgKCWJ5dGVjIDAgLy8gMHgxNTFmN2M3NQoKCS8vIGI6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgoJYnRvaQoKCS8vIGE6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJYnRvaQoKCS8vIGV4ZWN1dGUgYmlnaW50UGx1cyh1aW50NjQsdWludDY0KXVpbnQ2NAoJY2FsbHN1YiBiaWdpbnRQbHVzCglpdG9iCgljb25jYXQKCWxvZwoJaW50YyAwIC8vIDEKCXJldHVybgoKLy8gYmlnaW50UGx1cyhhOiB1aW50NjQsIGI6IHVpbnQ2NCk6IHVpbnQ2NApiaWdpbnRQbHVzOgoJcHJvdG8gMiAxCgoJLy8gUHVzaCBlbXB0eSBieXRlcyBhZnRlciB0aGUgZnJhbWUgcG9pbnRlciB0byByZXNlcnZlIHNwYWNlIGZvciBsb2NhbCB2YXJpYWJsZXMKCWJ5dGVjIDEgLy8gMHgKCWR1cAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9tYXRoLmFsZ28udHM6MTM1CgkvLyB4ID0gaXRvYihhKQoJZnJhbWVfZGlnIC0xIC8vIGE6IHVpbnQ2NAoJaXRvYgoJZnJhbWVfYnVyeSAwIC8vIHg6IGJ5dGVbXQoKCS8vIHRlc3RzL2NvbnRyYWN0cy9tYXRoLmFsZ28udHM6MTM2CgkvLyB5ID0gaXRvYihiKQoJZnJhbWVfZGlnIC0yIC8vIGI6IHVpbnQ2NAoJaXRvYgoJZnJhbWVfYnVyeSAxIC8vIHk6IGJ5dGVbXQoKCS8vIHRlc3RzL2NvbnRyYWN0cy9tYXRoLmFsZ28udHM6MTM3CgkvLyByZXR1cm4gKGJ0b2JpZ2ludCh4KSArIGJ0b2JpZ2ludCh5KSkgYXMgdWludDY0OwoJZnJhbWVfZGlnIDAgLy8geDogYnl0ZVtdCglmcmFtZV9kaWcgMSAvLyB5OiBieXRlW10KCWIrCglkdXAKCWJpdGxlbgoJaW50YyAxMSAvLyA2NAoJPD0KCgkvLyAoYnRvYmlnaW50KHgpICsgYnRvYmlnaW50KHkpKSBhcyB1aW50NjQgb3ZlcmZsb3dlZCA2NCBiaXRzCglhc3NlcnQKCWJ5dGVjIDggLy8gMHhGRkZGRkZGRkZGRkZGRkZGCgliJgoJZHVwCglsZW4KCWR1cAoJaW50YyAzIC8vIDgKCS0KCXN3YXAKCXN1YnN0cmluZzMKCWJ0b2kKCgkvLyBzZXQgdGhlIHN1YnJvdXRpbmUgcmV0dXJuIHZhbHVlCglmcmFtZV9idXJ5IDAKCgkvLyBwb3AgYWxsIGxvY2FsIHZhcmlhYmxlcyBmcm9tIHRoZSBzdGFjawoJcG9wbiAxCglyZXRzdWIKCi8vIGJpdHdpc2VPcih1aW50NjQsdWludDY0KXVpbnQ2NAoqYWJpX3JvdXRlX2JpdHdpc2VPcjoKCS8vIFRoZSBBQkkgcmV0dXJuIHByZWZpeAoJYnl0ZWMgMCAvLyAweDE1MWY3Yzc1CgoJLy8gYjogdWludDY0Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAyCglidG9pCgoJLy8gYTogdWludDY0Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglidG9pCgoJLy8gZXhlY3V0ZSBiaXR3aXNlT3IodWludDY0LHVpbnQ2NCl1aW50NjQKCWNhbGxzdWIgYml0d2lzZU9yCglpdG9iCgljb25jYXQKCWxvZwoJaW50YyAwIC8vIDEKCXJldHVybgoKLy8gYml0d2lzZU9yKGE6IHVpbnQ2NCwgYjogdWludDY0KTogdWludDY0CmJpdHdpc2VPcjoKCXByb3RvIDIgMQoKCS8vIHRlc3RzL2NvbnRyYWN0cy9tYXRoLmFsZ28udHM6MTQxCgkvLyByZXR1cm4gYSB8IGI7CglmcmFtZV9kaWcgLTEgLy8gYTogdWludDY0CglmcmFtZV9kaWcgLTIgLy8gYjogdWludDY0Cgl8CglyZXRzdWIKCi8vIGJpdHdpc2VBbmQodWludDY0LHVpbnQ2NCl1aW50NjQKKmFiaV9yb3V0ZV9iaXR3aXNlQW5kOgoJLy8gVGhlIEFCSSByZXR1cm4gcHJlZml4CglieXRlYyAwIC8vIDB4MTUxZjdjNzUKCgkvLyBiOiB1aW50NjQKCXR4bmEgQXBwbGljYXRpb25BcmdzIDIKCWJ0b2kKCgkvLyBhOiB1aW50NjQKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWJ0b2kKCgkvLyBleGVjdXRlIGJpdHdpc2VBbmQodWludDY0LHVpbnQ2NCl1aW50NjQKCWNhbGxzdWIgYml0d2lzZUFuZAoJaXRvYgoJY29uY2F0Cglsb2cKCWludGMgMCAvLyAxCglyZXR1cm4KCi8vIGJpdHdpc2VBbmQoYTogdWludDY0LCBiOiB1aW50NjQpOiB1aW50NjQKYml0d2lzZUFuZDoKCXByb3RvIDIgMQoKCS8vIHRlc3RzL2NvbnRyYWN0cy9tYXRoLmFsZ28udHM6MTQ1CgkvLyByZXR1cm4gYSAmIGI7CglmcmFtZV9kaWcgLTEgLy8gYTogdWludDY0CglmcmFtZV9kaWcgLTIgLy8gYjogdWludDY0CgkmCglyZXRzdWIKCi8vIGJpdHdpc2VYb3IodWludDY0LHVpbnQ2NCl1aW50NjQKKmFiaV9yb3V0ZV9iaXR3aXNlWG9yOgoJLy8gVGhlIEFCSSByZXR1cm4gcHJlZml4CglieXRlYyAwIC8vIDB4MTUxZjdjNzUKCgkvLyBiOiB1aW50NjQKCXR4bmEgQXBwbGljYXRpb25BcmdzIDIKCWJ0b2kKCgkvLyBhOiB1aW50NjQKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWJ0b2kKCgkvLyBleGVjdXRlIGJpdHdpc2VYb3IodWludDY0LHVpbnQ2NCl1aW50NjQKCWNhbGxzdWIgYml0d2lzZVhvcgoJaXRvYgoJY29uY2F0Cglsb2cKCWludGMgMCAvLyAxCglyZXR1cm4KCi8vIGJpdHdpc2VYb3IoYTogdWludDY0LCBiOiB1aW50NjQpOiB1aW50NjQKYml0d2lzZVhvcjoKCXByb3RvIDIgMQoKCS8vIHRlc3RzL2NvbnRyYWN0cy9tYXRoLmFsZ28udHM6MTQ5CgkvLyByZXR1cm4gYSBeIGI7CglmcmFtZV9kaWcgLTEgLy8gYTogdWludDY0CglmcmFtZV9kaWcgLTIgLy8gYjogdWludDY0CgleCglyZXRzdWIKCi8vIGJpdHdpc2VPclUyNTYodWludDI1Nix1aW50MjU2KXVpbnQyNTYKKmFiaV9yb3V0ZV9iaXR3aXNlT3JVMjU2OgoJLy8gVGhlIEFCSSByZXR1cm4gcHJlZml4CglieXRlYyAwIC8vIDB4MTUxZjdjNzUKCgkvLyBiOiB1aW50MjU2Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAyCglkdXAKCWxlbgoJaW50YyAxIC8vIDMyCgk9PQoKCS8vIGFyZ3VtZW50IDAgKGIpIGZvciBiaXR3aXNlT3JVMjU2IG11c3QgYmUgYSB1aW50MjU2Cglhc3NlcnQKCgkvLyBhOiB1aW50MjU2Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglkdXAKCWxlbgoJaW50YyAxIC8vIDMyCgk9PQoKCS8vIGFyZ3VtZW50IDEgKGEpIGZvciBiaXR3aXNlT3JVMjU2IG11c3QgYmUgYSB1aW50MjU2Cglhc3NlcnQKCgkvLyBleGVjdXRlIGJpdHdpc2VPclUyNTYodWludDI1Nix1aW50MjU2KXVpbnQyNTYKCWNhbGxzdWIgYml0d2lzZU9yVTI1NgoJZHVwCgliaXRsZW4KCWludGMgMiAvLyAyNTYKCTw9CgoJLy8gYml0d2lzZU9yVTI1NiByZXR1cm4gdmFsdWUgb3ZlcmZsb3dlZCAyNTYgYml0cwoJYXNzZXJ0CglieXRlYyAyIC8vIDB4RkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRgoJYiYKCWR1cAoJbGVuCglkdXAKCWludGMgMSAvLyAzMgoJLQoJc3dhcAoJc3Vic3RyaW5nMwoJY29uY2F0Cglsb2cKCWludGMgMCAvLyAxCglyZXR1cm4KCi8vIGJpdHdpc2VPclUyNTYoYTogdWludDI1NiwgYjogdWludDI1Nik6IHVpbnQyNTYKYml0d2lzZU9yVTI1NjoKCXByb3RvIDIgMQoKCS8vIHRlc3RzL2NvbnRyYWN0cy9tYXRoLmFsZ28udHM6MTUzCgkvLyByZXR1cm4gYSB8IGI7CglmcmFtZV9kaWcgLTEgLy8gYTogdWludDI1NgoJZnJhbWVfZGlnIC0yIC8vIGI6IHVpbnQyNTYKCWJ8CglyZXRzdWIKCi8vIGJpdHdpc2VBbmRVMjU2KHVpbnQyNTYsdWludDI1Nil1aW50MjU2CiphYmlfcm91dGVfYml0d2lzZUFuZFUyNTY6CgkvLyBUaGUgQUJJIHJldHVybiBwcmVmaXgKCWJ5dGVjIDAgLy8gMHgxNTFmN2M3NQoKCS8vIGI6IHVpbnQyNTYKCXR4bmEgQXBwbGljYXRpb25BcmdzIDIKCWR1cAoJbGVuCglpbnRjIDEgLy8gMzIKCT09CgoJLy8gYXJndW1lbnQgMCAoYikgZm9yIGJpdHdpc2VBbmRVMjU2IG11c3QgYmUgYSB1aW50MjU2Cglhc3NlcnQKCgkvLyBhOiB1aW50MjU2Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglkdXAKCWxlbgoJaW50YyAxIC8vIDMyCgk9PQoKCS8vIGFyZ3VtZW50IDEgKGEpIGZvciBiaXR3aXNlQW5kVTI1NiBtdXN0IGJlIGEgdWludDI1NgoJYXNzZXJ0CgoJLy8gZXhlY3V0ZSBiaXR3aXNlQW5kVTI1Nih1aW50MjU2LHVpbnQyNTYpdWludDI1NgoJY2FsbHN1YiBiaXR3aXNlQW5kVTI1NgoJZHVwCgliaXRsZW4KCWludGMgMiAvLyAyNTYKCTw9CgoJLy8gYml0d2lzZUFuZFUyNTYgcmV0dXJuIHZhbHVlIG92ZXJmbG93ZWQgMjU2IGJpdHMKCWFzc2VydAoJYnl0ZWMgMiAvLyAweEZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkYKCWImCglkdXAKCWxlbgoJZHVwCglpbnRjIDEgLy8gMzIKCS0KCXN3YXAKCXN1YnN0cmluZzMKCWNvbmNhdAoJbG9nCglpbnRjIDAgLy8gMQoJcmV0dXJuCgovLyBiaXR3aXNlQW5kVTI1NihhOiB1aW50MjU2LCBiOiB1aW50MjU2KTogdWludDI1NgpiaXR3aXNlQW5kVTI1NjoKCXByb3RvIDIgMQoKCS8vIHRlc3RzL2NvbnRyYWN0cy9tYXRoLmFsZ28udHM6MTU3CgkvLyByZXR1cm4gYSAmIGI7CglmcmFtZV9kaWcgLTEgLy8gYTogdWludDI1NgoJZnJhbWVfZGlnIC0yIC8vIGI6IHVpbnQyNTYKCWImCglyZXRzdWIKCi8vIGJpdHdpc2VYb3JVMjU2KHVpbnQyNTYsdWludDI1Nil1aW50MjU2CiphYmlfcm91dGVfYml0d2lzZVhvclUyNTY6CgkvLyBUaGUgQUJJIHJldHVybiBwcmVmaXgKCWJ5dGVjIDAgLy8gMHgxNTFmN2M3NQoKCS8vIGI6IHVpbnQyNTYKCXR4bmEgQXBwbGljYXRpb25BcmdzIDIKCWR1cAoJbGVuCglpbnRjIDEgLy8gMzIKCT09CgoJLy8gYXJndW1lbnQgMCAoYikgZm9yIGJpdHdpc2VYb3JVMjU2IG11c3QgYmUgYSB1aW50MjU2Cglhc3NlcnQKCgkvLyBhOiB1aW50MjU2Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglkdXAKCWxlbgoJaW50YyAxIC8vIDMyCgk9PQoKCS8vIGFyZ3VtZW50IDEgKGEpIGZvciBiaXR3aXNlWG9yVTI1NiBtdXN0IGJlIGEgdWludDI1NgoJYXNzZXJ0CgoJLy8gZXhlY3V0ZSBiaXR3aXNlWG9yVTI1Nih1aW50MjU2LHVpbnQyNTYpdWludDI1NgoJY2FsbHN1YiBiaXR3aXNlWG9yVTI1NgoJZHVwCgliaXRsZW4KCWludGMgMiAvLyAyNTYKCTw9CgoJLy8gYml0d2lzZVhvclUyNTYgcmV0dXJuIHZhbHVlIG92ZXJmbG93ZWQgMjU2IGJpdHMKCWFzc2VydAoJYnl0ZWMgMiAvLyAweEZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkYKCWImCglkdXAKCWxlbgoJZHVwCglpbnRjIDEgLy8gMzIKCS0KCXN3YXAKCXN1YnN0cmluZzMKCWNvbmNhdAoJbG9nCglpbnRjIDAgLy8gMQoJcmV0dXJuCgovLyBiaXR3aXNlWG9yVTI1NihhOiB1aW50MjU2LCBiOiB1aW50MjU2KTogdWludDI1NgpiaXR3aXNlWG9yVTI1NjoKCXByb3RvIDIgMQoKCS8vIHRlc3RzL2NvbnRyYWN0cy9tYXRoLmFsZ28udHM6MTYxCgkvLyByZXR1cm4gYSBeIGI7CglmcmFtZV9kaWcgLTEgLy8gYTogdWludDI1NgoJZnJhbWVfZGlnIC0yIC8vIGI6IHVpbnQyNTYKCWJeCglyZXRzdWIKCi8vIGJpdHdpc2VOb3QodWludDY0KXVpbnQ2NAoqYWJpX3JvdXRlX2JpdHdpc2VOb3Q6CgkvLyBUaGUgQUJJIHJldHVybiBwcmVmaXgKCWJ5dGVjIDAgLy8gMHgxNTFmN2M3NQoKCS8vIGE6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJYnRvaQoKCS8vIGV4ZWN1dGUgYml0d2lzZU5vdCh1aW50NjQpdWludDY0CgljYWxsc3ViIGJpdHdpc2VOb3QKCWl0b2IKCWNvbmNhdAoJbG9nCglpbnRjIDAgLy8gMQoJcmV0dXJuCgovLyBiaXR3aXNlTm90KGE6IHVpbnQ2NCk6IHVpbnQ2NApiaXR3aXNlTm90OgoJcHJvdG8gMSAxCgoJLy8gdGVzdHMvY29udHJhY3RzL21hdGguYWxnby50czoxNjUKCS8vIHJldHVybiB+YTsKCWZyYW1lX2RpZyAtMSAvLyBhOiB1aW50NjQKCX4KCXJldHN1YgoKLy8gYml0d2lzZU5vdFUyNTYodWludDI1Nil1aW50MjU2CiphYmlfcm91dGVfYml0d2lzZU5vdFUyNTY6CgkvLyBUaGUgQUJJIHJldHVybiBwcmVmaXgKCWJ5dGVjIDAgLy8gMHgxNTFmN2M3NQoKCS8vIGE6IHVpbnQyNTYKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWR1cAoJbGVuCglpbnRjIDEgLy8gMzIKCT09CgoJLy8gYXJndW1lbnQgMCAoYSkgZm9yIGJpdHdpc2VOb3RVMjU2IG11c3QgYmUgYSB1aW50MjU2Cglhc3NlcnQKCgkvLyBleGVjdXRlIGJpdHdpc2VOb3RVMjU2KHVpbnQyNTYpdWludDI1NgoJY2FsbHN1YiBiaXR3aXNlTm90VTI1NgoJZHVwCgliaXRsZW4KCWludGMgMiAvLyAyNTYKCTw9CgoJLy8gYml0d2lzZU5vdFUyNTYgcmV0dXJuIHZhbHVlIG92ZXJmbG93ZWQgMjU2IGJpdHMKCWFzc2VydAoJYnl0ZWMgMiAvLyAweEZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkYKCWImCglkdXAKCWxlbgoJZHVwCglpbnRjIDEgLy8gMzIKCS0KCXN3YXAKCXN1YnN0cmluZzMKCWNvbmNhdAoJbG9nCglpbnRjIDAgLy8gMQoJcmV0dXJuCgovLyBiaXR3aXNlTm90VTI1NihhOiB1aW50MjU2KTogdWludDI1NgpiaXR3aXNlTm90VTI1NjoKCXByb3RvIDEgMQoKCS8vIHRlc3RzL2NvbnRyYWN0cy9tYXRoLmFsZ28udHM6MTY5CgkvLyByZXR1cm4gfmE7CglmcmFtZV9kaWcgLTEgLy8gYTogdWludDI1NgoJYn4KCXJldHN1YgoKLy8gbXVsdyh1aW50NjQsdWludDY0KXVpbnQ2NAoqYWJpX3JvdXRlX211bHc6CgkvLyBUaGUgQUJJIHJldHVybiBwcmVmaXgKCWJ5dGVjIDAgLy8gMHgxNTFmN2M3NQoKCS8vIGI6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgoJYnRvaQoKCS8vIGE6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJYnRvaQoKCS8vIGV4ZWN1dGUgbXVsdyh1aW50NjQsdWludDY0KXVpbnQ2NAoJY2FsbHN1YiBtdWx3CglpdG9iCgljb25jYXQKCWxvZwoJaW50YyAwIC8vIDEKCXJldHVybgoKLy8gbXVsdyhhOiB1aW50NjQsIGI6IHVpbnQ2NCk6IHVpbnQ2NAptdWx3OgoJcHJvdG8gMiAxCgoJLy8gUHVzaCBlbXB0eSBieXRlcyBhZnRlciB0aGUgZnJhbWUgcG9pbnRlciB0byByZXNlcnZlIHNwYWNlIGZvciBsb2NhbCB2YXJpYWJsZXMKCWJ5dGVjIDEgLy8gMHgKCWR1cAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9tYXRoLmFsZ28udHM6MTczCgkvLyBwID0gbXVsdyhhLCBiKQoJZnJhbWVfZGlnIC0xIC8vIGE6IHVpbnQ2NAoJZnJhbWVfZGlnIC0yIC8vIGI6IHVpbnQ2NAoJbXVsdwoJZnJhbWVfYnVyeSAwIC8vIHAgbG93OiB1aW50NjQKCWZyYW1lX2J1cnkgMSAvLyBwIGhpZ2g6IHVpbnQ2NAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9tYXRoLmFsZ28udHM6MTc3CgkvLyByZXR1cm4gcDIubG93OwoJZnJhbWVfZGlnIDAgLy8gcCBsb3c6IHVpbnQ2NAoKCS8vIHNldCB0aGUgc3Vicm91dGluZSByZXR1cm4gdmFsdWUKCWZyYW1lX2J1cnkgMAoKCS8vIHBvcCBhbGwgbG9jYWwgdmFyaWFibGVzIGZyb20gdGhlIHN0YWNrCglwb3BuIDEKCXJldHN1YgoKLy8gYWRkdyh1aW50NjQsdWludDY0KXVpbnQ2NAoqYWJpX3JvdXRlX2FkZHc6CgkvLyBUaGUgQUJJIHJldHVybiBwcmVmaXgKCWJ5dGVjIDAgLy8gMHgxNTFmN2M3NQoKCS8vIGI6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgoJYnRvaQoKCS8vIGE6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJYnRvaQoKCS8vIGV4ZWN1dGUgYWRkdyh1aW50NjQsdWludDY0KXVpbnQ2NAoJY2FsbHN1YiBhZGR3CglpdG9iCgljb25jYXQKCWxvZwoJaW50YyAwIC8vIDEKCXJldHVybgoKLy8gYWRkdyhhOiB1aW50NjQsIGI6IHVpbnQ2NCk6IHVpbnQ2NAphZGR3OgoJcHJvdG8gMiAxCgoJLy8gUHVzaCBlbXB0eSBieXRlcyBhZnRlciB0aGUgZnJhbWUgcG9pbnRlciB0byByZXNlcnZlIHNwYWNlIGZvciBsb2NhbCB2YXJpYWJsZXMKCWJ5dGVjIDEgLy8gMHgKCWR1cAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9tYXRoLmFsZ28udHM6MTgxCgkvLyBwID0gYWRkdyhhLCBiKQoJZnJhbWVfZGlnIC0xIC8vIGE6IHVpbnQ2NAoJZnJhbWVfZGlnIC0yIC8vIGI6IHVpbnQ2NAoJYWRkdwoJZnJhbWVfYnVyeSAwIC8vIHAgbG93OiB1aW50NjQKCWZyYW1lX2J1cnkgMSAvLyBwIGhpZ2g6IHVpbnQ2NAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9tYXRoLmFsZ28udHM6MTg1CgkvLyByZXR1cm4gcDIubG93OwoJZnJhbWVfZGlnIDAgLy8gcCBsb3c6IHVpbnQ2NAoKCS8vIHNldCB0aGUgc3Vicm91dGluZSByZXR1cm4gdmFsdWUKCWZyYW1lX2J1cnkgMAoKCS8vIHBvcCBhbGwgbG9jYWwgdmFyaWFibGVzIGZyb20gdGhlIHN0YWNrCglwb3BuIDEKCXJldHN1YgoKLy8gZXhwdyh1aW50NjQsdWludDY0KXVpbnQ2NAoqYWJpX3JvdXRlX2V4cHc6CgkvLyBUaGUgQUJJIHJldHVybiBwcmVmaXgKCWJ5dGVjIDAgLy8gMHgxNTFmN2M3NQoKCS8vIGI6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgoJYnRvaQoKCS8vIGE6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJYnRvaQoKCS8vIGV4ZWN1dGUgZXhwdyh1aW50NjQsdWludDY0KXVpbnQ2NAoJY2FsbHN1YiBleHB3CglpdG9iCgljb25jYXQKCWxvZwoJaW50YyAwIC8vIDEKCXJldHVybgoKLy8gZXhwdyhhOiB1aW50NjQsIGI6IHVpbnQ2NCk6IHVpbnQ2NApleHB3OgoJcHJvdG8gMiAxCgoJLy8gUHVzaCBlbXB0eSBieXRlcyBhZnRlciB0aGUgZnJhbWUgcG9pbnRlciB0byByZXNlcnZlIHNwYWNlIGZvciBsb2NhbCB2YXJpYWJsZXMKCWJ5dGVjIDEgLy8gMHgKCWR1cAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9tYXRoLmFsZ28udHM6MTg5CgkvLyBwID0gZXhwdyhhLCBiKQoJZnJhbWVfZGlnIC0xIC8vIGE6IHVpbnQ2NAoJZnJhbWVfZGlnIC0yIC8vIGI6IHVpbnQ2NAoJZXhwdwoJZnJhbWVfYnVyeSAwIC8vIHAgbG93OiB1aW50NjQKCWZyYW1lX2J1cnkgMSAvLyBwIGhpZ2g6IHVpbnQ2NAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9tYXRoLmFsZ28udHM6MTkzCgkvLyByZXR1cm4gcDIubG93OwoJZnJhbWVfZGlnIDAgLy8gcCBsb3c6IHVpbnQ2NAoKCS8vIHNldCB0aGUgc3Vicm91dGluZSByZXR1cm4gdmFsdWUKCWZyYW1lX2J1cnkgMAoKCS8vIHBvcCBhbGwgbG9jYWwgdmFyaWFibGVzIGZyb20gdGhlIHN0YWNrCglwb3BuIDEKCXJldHN1YgoKLy8gZGl2dyh1aW50NjQsdWludDY0KXVpbnQ2NAoqYWJpX3JvdXRlX2Rpdnc6CgkvLyBUaGUgQUJJIHJldHVybiBwcmVmaXgKCWJ5dGVjIDAgLy8gMHgxNTFmN2M3NQoKCS8vIGI6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgoJYnRvaQoKCS8vIGE6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJYnRvaQoKCS8vIGV4ZWN1dGUgZGl2dyh1aW50NjQsdWludDY0KXVpbnQ2NAoJY2FsbHN1YiBkaXZ3CglpdG9iCgljb25jYXQKCWxvZwoJaW50YyAwIC8vIDEKCXJldHVybgoKLy8gZGl2dyhhOiB1aW50NjQsIGI6IHVpbnQ2NCk6IHVpbnQ2NApkaXZ3OgoJcHJvdG8gMiAxCgoJLy8gdGVzdHMvY29udHJhY3RzL21hdGguYWxnby50czoxOTcKCS8vIHJldHVybiBkaXZ3KDAsIGEsIGIpOwoJaW50YyA0IC8vIDAKCWZyYW1lX2RpZyAtMSAvLyBhOiB1aW50NjQKCWZyYW1lX2RpZyAtMiAvLyBiOiB1aW50NjQKCWRpdncKCXJldHN1YgoKLy8gZGl2bW9kdyh1aW50NjQsdWludDY0KXVpbnQ2NAoqYWJpX3JvdXRlX2Rpdm1vZHc6CgkvLyBUaGUgQUJJIHJldHVybiBwcmVmaXgKCWJ5dGVjIDAgLy8gMHgxNTFmN2M3NQoKCS8vIGI6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgoJYnRvaQoKCS8vIGE6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJYnRvaQoKCS8vIGV4ZWN1dGUgZGl2bW9kdyh1aW50NjQsdWludDY0KXVpbnQ2NAoJY2FsbHN1YiBkaXZtb2R3CglpdG9iCgljb25jYXQKCWxvZwoJaW50YyAwIC8vIDEKCXJldHVybgoKLy8gZGl2bW9kdyhhOiB1aW50NjQsIGI6IHVpbnQ2NCk6IHVpbnQ2NApkaXZtb2R3OgoJcHJvdG8gMiAxCgoJLy8gUHVzaCBlbXB0eSBieXRlcyBhZnRlciB0aGUgZnJhbWUgcG9pbnRlciB0byByZXNlcnZlIHNwYWNlIGZvciBsb2NhbCB2YXJpYWJsZXMKCWJ5dGVjIDEgLy8gMHgKCWR1cG4gMwoKCS8vIHRlc3RzL2NvbnRyYWN0cy9tYXRoLmFsZ28udHM6MjAxCgkvLyBwID0gZGl2bW9kdygwLCBhLCAwLCBiKQoJaW50YyA0IC8vIDAKCWZyYW1lX2RpZyAtMSAvLyBhOiB1aW50NjQKCWludGMgNCAvLyAwCglmcmFtZV9kaWcgLTIgLy8gYjogdWludDY0CglkaXZtb2R3CglmcmFtZV9idXJ5IDAgLy8gcCByZW1haW5kZXJMb3c6IHVpbnQ2NAoJZnJhbWVfYnVyeSAxIC8vIHAgcmVtYWluZGVySGlnaDogdWludDY0CglmcmFtZV9idXJ5IDIgLy8gcCBxdW90aWVudExvdzogdWludDY0CglmcmFtZV9idXJ5IDMgLy8gcCBxdW90aWVudEhpZ2g6IHVpbnQ2NAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9tYXRoLmFsZ28udHM6MjA1CgkvLyByZXR1cm4gcDIucXVvdGllbnRMb3c7CglmcmFtZV9kaWcgMiAvLyBwIHF1b3RpZW50TG93OiB1aW50NjQKCgkvLyBzZXQgdGhlIHN1YnJvdXRpbmUgcmV0dXJuIHZhbHVlCglmcmFtZV9idXJ5IDAKCgkvLyBwb3AgYWxsIGxvY2FsIHZhcmlhYmxlcyBmcm9tIHRoZSBzdGFjawoJcG9wbiAzCglyZXRzdWIKCi8vIHVuc2FmZVZhcmlhYmxlcygpdWludDY0CiphYmlfcm91dGVfdW5zYWZlVmFyaWFibGVzOgoJLy8gVGhlIEFCSSByZXR1cm4gcHJlZml4CglieXRlYyAwIC8vIDB4MTUxZjdjNzUKCgkvLyBleGVjdXRlIHVuc2FmZVZhcmlhYmxlcygpdWludDY0CgljYWxsc3ViIHVuc2FmZVZhcmlhYmxlcwoJaXRvYgoJY29uY2F0Cglsb2cKCWludGMgMCAvLyAxCglyZXR1cm4KCi8vIHVuc2FmZVZhcmlhYmxlcygpOiB1aW50NjQKdW5zYWZlVmFyaWFibGVzOgoJcHJvdG8gMCAxCgoJLy8gUHVzaCBlbXB0eSBieXRlcyBhZnRlciB0aGUgZnJhbWUgcG9pbnRlciB0byByZXNlcnZlIHNwYWNlIGZvciBsb2NhbCB2YXJpYWJsZXMKCWJ5dGVjIDEgLy8gMHgKCWR1cG4gMgoKCS8vIHRlc3RzL2NvbnRyYWN0cy9tYXRoLmFsZ28udHM6MjA5CgkvLyBBID0gPHVpbnQyNTY+MjUwMDAwMDAwCglwdXNoYnl0ZXMgMHgwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDBlZTZiMjgwCglmcmFtZV9idXJ5IDAgLy8gQTogdW5zYWZlIHVpbnQyNTYKCgkvLyB0ZXN0cy9jb250cmFjdHMvbWF0aC5hbGdvLnRzOjIxMAoJLy8gQiA9IDx1aW50MjU2PjEwMDAKCWJ5dGVjIDYgLy8gMHgwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwM2U4CglmcmFtZV9idXJ5IDEgLy8gQjogdWludDI1NgoKCS8vIHRlc3RzL2NvbnRyYWN0cy9tYXRoLmFsZ28udHM6MjEyCgkvLyBBID0gQSAvIEIKCWZyYW1lX2RpZyAwIC8vIEE6IHVuc2FmZSB1aW50MjU2CglieXRlYyA2IC8vICBCOiB1aW50MjU2CgliLwoJZnJhbWVfYnVyeSAwIC8vIEE6IHVuc2FmZSB1aW50MjU2CgoJLy8gdGVzdHMvY29udHJhY3RzL21hdGguYWxnby50czoyMTQKCS8vIGMgPSBBIGFzIHVpbnQ2NAoJZnJhbWVfZGlnIDAgLy8gQTogdW5zYWZlIHVpbnQyNTYKCWR1cAoJYml0bGVuCglpbnRjIDExIC8vIDY0Cgk8PQoKCS8vIEEgYXMgdWludDY0IG92ZXJmbG93ZWQgNjQgYml0cwoJYXNzZXJ0CglieXRlYyA4IC8vIDB4RkZGRkZGRkZGRkZGRkZGRgoJYiYKCWR1cAoJbGVuCglkdXAKCWludGMgMyAvLyA4CgktCglzd2FwCglzdWJzdHJpbmczCglidG9pCglmcmFtZV9idXJ5IDIgLy8gYzogdWludDY0CgoJLy8gdGVzdHMvY29udHJhY3RzL21hdGguYWxnby50czoyMTYKCS8vIHJldHVybiBjOwoJZnJhbWVfZGlnIDIgLy8gYzogdWludDY0CgoJLy8gc2V0IHRoZSBzdWJyb3V0aW5lIHJldHVybiB2YWx1ZQoJZnJhbWVfYnVyeSAwCgoJLy8gcG9wIGFsbCBsb2NhbCB2YXJpYWJsZXMgZnJvbSB0aGUgc3RhY2sKCXBvcG4gMgoJcmV0c3ViCgovLyBmb29iYXIodWludDEyOCl1aW50MTI4CiphYmlfcm91dGVfZm9vYmFyOgoJLy8gVGhlIEFCSSByZXR1cm4gcHJlZml4CglieXRlYyAwIC8vIDB4MTUxZjdjNzUKCgkvLyB4OiB1aW50MTI4Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglkdXAKCWxlbgoJaW50YyA1IC8vIDE2Cgk9PQoKCS8vIGFyZ3VtZW50IDAgKHgpIGZvciBmb29iYXIgbXVzdCBiZSBhIHVpbnQxMjgKCWFzc2VydAoKCS8vIGV4ZWN1dGUgZm9vYmFyKHVpbnQxMjgpdWludDEyOAoJY2FsbHN1YiBmb29iYXIKCWR1cAoJYml0bGVuCglpbnRjIDEyIC8vIDEyOAoJPD0KCgkvLyBmb29iYXIgcmV0dXJuIHZhbHVlIG92ZXJmbG93ZWQgMTI4IGJpdHMKCWFzc2VydAoJYnl0ZWMgNyAvLyAweEZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGCgliJgoJZHVwCglsZW4KCWR1cAoJaW50YyA1IC8vIDE2CgktCglzd2FwCglzdWJzdHJpbmczCgljb25jYXQKCWxvZwoJaW50YyAwIC8vIDEKCXJldHVybgoKLy8gZm9vYmFyKHg6IHVpbnQxMjgpOiB1aW50MTI4CmZvb2JhcjoKCXByb3RvIDEgMQoKCS8vIFB1c2ggZW1wdHkgYnl0ZXMgYWZ0ZXIgdGhlIGZyYW1lIHBvaW50ZXIgdG8gcmVzZXJ2ZSBzcGFjZSBmb3IgbG9jYWwgdmFyaWFibGVzCglieXRlYyAxIC8vIDB4CgoJLy8gdGVzdHMvY29udHJhY3RzL21hdGguYWxnby50czoyMjAKCS8vIGF2Z1N0YWtlOiB1aW50MTI4ID0geCAvICgzMDAwMCBhcyB1aW50MTI4KQoJZnJhbWVfZGlnIC0xIC8vIHg6IHVpbnQxMjgKCXB1c2hieXRlcyAweDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDA3NTMwCgliLwoJZHVwCgliaXRsZW4KCWludGMgMTIgLy8gMTI4Cgk8PQoKCS8vIHggLyAoMzAwMDAgYXMgdWludDEyOCkgb3ZlcmZsb3dlZCAxMjggYml0cwoJYXNzZXJ0CglieXRlYyA3IC8vIDB4RkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkYKCWImCglkdXAKCWxlbgoJZHVwCglpbnRjIDUgLy8gMTYKCS0KCXN3YXAKCXN1YnN0cmluZzMKCWZyYW1lX2J1cnkgMCAvLyBhdmdTdGFrZTogdWludDEyOAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9tYXRoLmFsZ28udHM6MjIyCgkvLyByZXR1cm4gYXZnU3Rha2U7CglmcmFtZV9kaWcgMCAvLyBhdmdTdGFrZTogdWludDEyOAoKCS8vIHNldCB0aGUgc3Vicm91dGluZSByZXR1cm4gdmFsdWUKCWZyYW1lX2J1cnkgMAoJcmV0c3ViCgovLyB1aW50RnJvbUhleCgpdWludDI1NgoqYWJpX3JvdXRlX3VpbnRGcm9tSGV4OgoJLy8gVGhlIEFCSSByZXR1cm4gcHJlZml4CglieXRlYyAwIC8vIDB4MTUxZjdjNzUKCgkvLyBleGVjdXRlIHVpbnRGcm9tSGV4KCl1aW50MjU2CgljYWxsc3ViIHVpbnRGcm9tSGV4CglkdXAKCWJpdGxlbgoJaW50YyAyIC8vIDI1NgoJPD0KCgkvLyB1aW50RnJvbUhleCByZXR1cm4gdmFsdWUgb3ZlcmZsb3dlZCAyNTYgYml0cwoJYXNzZXJ0CglieXRlYyAyIC8vIDB4RkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRkZGRgoJYiYKCWR1cAoJbGVuCglkdXAKCWludGMgMSAvLyAzMgoJLQoJc3dhcAoJc3Vic3RyaW5nMwoJY29uY2F0Cglsb2cKCWludGMgMCAvLyAxCglyZXR1cm4KCi8vIHVpbnRGcm9tSGV4KCk6IHVpbnQyNTYKdWludEZyb21IZXg6Cglwcm90byAwIDEKCgkvLyB0ZXN0cy9jb250cmFjdHMvbWF0aC5hbGdvLnRzOjIyNgoJLy8gcmV0dXJuIFVpbnQ8MjU2PignMHhGRicpOwoJcHVzaGJ5dGVzIDB4MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDBmZgoJcmV0c3ViCgovLyB3aWRlUmF0aW9UZXN0KCl1aW50NjQKKmFiaV9yb3V0ZV93aWRlUmF0aW9UZXN0OgoJLy8gVGhlIEFCSSByZXR1cm4gcHJlZml4CglieXRlYyAwIC8vIDB4MTUxZjdjNzUKCgkvLyBleGVjdXRlIHdpZGVSYXRpb1Rlc3QoKXVpbnQ2NAoJY2FsbHN1YiB3aWRlUmF0aW9UZXN0CglpdG9iCgljb25jYXQKCWxvZwoJaW50YyAwIC8vIDEKCXJldHVybgoKLy8gd2lkZVJhdGlvVGVzdCgpOiB1aW50NjQKd2lkZVJhdGlvVGVzdDoKCXByb3RvIDAgMQoKCS8vIHRlc3RzL2NvbnRyYWN0cy9tYXRoLmFsZ28udHM6MjMwCgkvLyByZXR1cm4gd2lkZVJhdGlvKFtVaW50PDY0PignMTg0NDY3NDQwNzM3MDk1NTE2MTUnKSwgMiwgMywgNCwgNV0sIFsyLCAzLCA0LCA1XSk7CglpbnRjIDYgLy8gMTg0NDY3NDQwNzM3MDk1NTE2MTUKCWludGMgNyAvLyAyCgltdWx3CglpbnRjIDggLy8gMwoJdW5jb3ZlciAyCglkaWcgMQoJKgoJY292ZXIgMgoJbXVsdwoJY292ZXIgMgoJKwoJc3dhcAoJaW50YyA5IC8vIDQKCXVuY292ZXIgMgoJZGlnIDEKCSoKCWNvdmVyIDIKCW11bHcKCWNvdmVyIDIKCSsKCXN3YXAKCWludGMgMTAgLy8gNQoJdW5jb3ZlciAyCglkaWcgMQoJKgoJY292ZXIgMgoJbXVsdwoJY292ZXIgMgoJKwoJc3dhcAoJaW50YyA3IC8vIDIKCWludGMgOCAvLyAzCgltdWx3CglpbnRjIDkgLy8gNAoJdW5jb3ZlciAyCglkaWcgMQoJKgoJY292ZXIgMgoJbXVsdwoJY292ZXIgMgoJKwoJc3dhcAoJaW50YyAxMCAvLyA1Cgl1bmNvdmVyIDIKCWRpZyAxCgkqCgljb3ZlciAyCgltdWx3Cgljb3ZlciAyCgkrCglzd2FwCglkaXZtb2R3Cglwb3AKCXBvcAoJc3dhcAoJIQoKCS8vIHdpZGVSYXRpbyBmYWlsZWQKCWFzc2VydAoJcmV0c3ViCgoqYWJpX3JvdXRlX2NyZWF0ZUFwcGxpY2F0aW9uOgoJaW50YyAwIC8vIDEKCXJldHVybgoKKmNyZWF0ZV9Ob09wOgoJcHVzaGJ5dGVzIDB4Yjg0NDdiMzYgLy8gbWV0aG9kICJjcmVhdGVBcHBsaWNhdGlvbigpdm9pZCIKCXR4bmEgQXBwbGljYXRpb25BcmdzIDAKCW1hdGNoICphYmlfcm91dGVfY3JlYXRlQXBwbGljYXRpb24KCgkvLyB0aGlzIGNvbnRyYWN0IGRvZXMgbm90IGltcGxlbWVudCB0aGUgZ2l2ZW4gQUJJIG1ldGhvZCBmb3IgY3JlYXRlIE5vT3AKCWVycgoKKmNhbGxfTm9PcDoKCXB1c2hieXRlcyAweDNjZTZmMWFmIC8vIG1ldGhvZCAidTY0cGx1cyh1aW50NjQsdWludDY0KXVpbnQ2NCIKCXB1c2hieXRlcyAweDAwMzFhMTg2IC8vIG1ldGhvZCAidTY0bWludXModWludDY0LHVpbnQ2NCl1aW50NjQiCglwdXNoYnl0ZXMgMHhlNTJlNDM5NCAvLyBtZXRob2QgInU2NG11bCh1aW50NjQsdWludDY0KXVpbnQ2NCIKCXB1c2hieXRlcyAweDk1MGQ0Nzg5IC8vIG1ldGhvZCAidTY0ZGl2KHVpbnQ2NCx1aW50NjQpdWludDY0IgoJcHVzaGJ5dGVzIDB4NjViZGRhNmUgLy8gbWV0aG9kICJ1MjU2cGx1cyh1aW50MjU2LHVpbnQyNTYpdWludDI1NiIKCXB1c2hieXRlcyAweDBhNmFkMjg0IC8vIG1ldGhvZCAidTI1Nm1pbnVzKHVpbnQyNTYsdWludDI1Nil1aW50MjU2IgoJcHVzaGJ5dGVzIDB4ZjA0NGJmMjQgLy8gbWV0aG9kICJ1MjU2bXVsKHVpbnQyNTYsdWludDI1Nil1aW50MjU2IgoJcHVzaGJ5dGVzIDB4YzQ4ZjhjMDUgLy8gbWV0aG9kICJ1MjU2ZGl2KHVpbnQyNTYsdWludDI1Nil1aW50MjU2IgoJcHVzaGJ5dGVzIDB4ZjJlMWQ2MzIgLy8gbWV0aG9kICJ1NjRSZXR1cm4yNTYodWludDY0LHVpbnQ2NCl1aW50MjU2IgoJcHVzaGJ5dGVzIDB4MzhiMWEzOWUgLy8gbWV0aG9kICJtYXhVNjQoKXVpbnQ2NCIKCXB1c2hieXRlcyAweDZjMTM2ZjFkIC8vIG1ldGhvZCAiZXhwb25lbnQodWludDY0LHVpbnQ2NCl1aW50NjQiCglwdXNoYnl0ZXMgMHgyMmRhMjUwMiAvLyBtZXRob2QgInZhcmlhYmxlVHlwZUhpbnQodWludDgsdWludDgpdWludDE2IgoJcHVzaGJ5dGVzIDB4YTJmZWFkNmMgLy8gbWV0aG9kICJ1aW50OHBsdXModWludDgsdWludDgpdWludDgiCglwdXNoYnl0ZXMgMHhkMjI1NmY3YSAvLyBtZXRob2QgInVpbnQ4ZXhwKHVpbnQ4LHVpbnQ4KXVpbnQ4IgoJcHVzaGJ5dGVzIDB4YzE3ZDYyNGUgLy8gbWV0aG9kICJwbHVzRXF1YWxzKHVpbnQ2NCx1aW50NjQpdWludDY0IgoJcHVzaGJ5dGVzIDB4NWNhYjA0MzggLy8gbWV0aG9kICJwbHVzRXF1YWxzRnJvbUdsb2JhbCh1aW50NjQsdWludDY0KXVpbnQ2NCIKCXB1c2hieXRlcyAweDU4OTg5Y2NkIC8vIG1ldGhvZCAiYm94VGVzdCgpdWludDI1NiIKCXB1c2hieXRlcyAweDQ4MzBiNGRlIC8vIG1ldGhvZCAidW5zYWZlTWV0aG9kQXJncyh1aW50MjU2LHVpbnQyNTYpdWludDI1NiIKCXB1c2hieXRlcyAweGUxYzU1Y2U1IC8vIG1ldGhvZCAidWludDI1NkNvbXBhcmlzb25UeXBlKHVpbnQyNTYsdWludDI1Nil2b2lkIgoJcHVzaGJ5dGVzIDB4N2QxZDQyNmUgLy8gbWV0aG9kICJzcXVhcmVSb290MjU2KHVpbnQyNTYsdWludDI1Nil1aW50MjU2IgoJcHVzaGJ5dGVzIDB4MWMyOTgxZjEgLy8gbWV0aG9kICJzcXVhcmVSb290NjQodWludDY0LHVpbnQ2NCl1aW50NjQiCglwdXNoYnl0ZXMgMHhiN2NhMDRiOSAvLyBtZXRob2QgImFkZHJlc3NUb0JpZ0ludChhZGRyZXNzKWJvb2wiCglwdXNoYnl0ZXMgMHhiYjk1MjMzOCAvLyBtZXRob2QgInU4VG91NjQoKXVpbnQ2NCIKCXB1c2hieXRlcyAweDAxMjhlMjdiIC8vIG1ldGhvZCAiZnVuY05hbWUodWludDI1Nil2b2lkIgoJcHVzaGJ5dGVzIDB4ZjkxNmNkYjMgLy8gbWV0aG9kICJiaWdpbnRQbHVzKHVpbnQ2NCx1aW50NjQpdWludDY0IgoJcHVzaGJ5dGVzIDB4NTI3Mzc1NDUgLy8gbWV0aG9kICJiaXR3aXNlT3IodWludDY0LHVpbnQ2NCl1aW50NjQiCglwdXNoYnl0ZXMgMHg3OWMxYWRjMCAvLyBtZXRob2QgImJpdHdpc2VBbmQodWludDY0LHVpbnQ2NCl1aW50NjQiCglwdXNoYnl0ZXMgMHgyMjQ3NGFiYyAvLyBtZXRob2QgImJpdHdpc2VYb3IodWludDY0LHVpbnQ2NCl1aW50NjQiCglwdXNoYnl0ZXMgMHgwNTkzZmRmOCAvLyBtZXRob2QgImJpdHdpc2VPclUyNTYodWludDI1Nix1aW50MjU2KXVpbnQyNTYiCglwdXNoYnl0ZXMgMHgwNmZiOTMzNyAvLyBtZXRob2QgImJpdHdpc2VBbmRVMjU2KHVpbnQyNTYsdWludDI1Nil1aW50MjU2IgoJcHVzaGJ5dGVzIDB4MjY0OTNkNzggLy8gbWV0aG9kICJiaXR3aXNlWG9yVTI1Nih1aW50MjU2LHVpbnQyNTYpdWludDI1NiIKCXB1c2hieXRlcyAweGU5YzIyZWVhIC8vIG1ldGhvZCAiYml0d2lzZU5vdCh1aW50NjQpdWludDY0IgoJcHVzaGJ5dGVzIDB4ZWRlM2U5YmMgLy8gbWV0aG9kICJiaXR3aXNlTm90VTI1Nih1aW50MjU2KXVpbnQyNTYiCglwdXNoYnl0ZXMgMHgyZTRhMjE2NCAvLyBtZXRob2QgIm11bHcodWludDY0LHVpbnQ2NCl1aW50NjQiCglwdXNoYnl0ZXMgMHg1MDEzNGI1YSAvLyBtZXRob2QgImFkZHcodWludDY0LHVpbnQ2NCl1aW50NjQiCglwdXNoYnl0ZXMgMHhmNTNhZmY5YiAvLyBtZXRob2QgImV4cHcodWludDY0LHVpbnQ2NCl1aW50NjQiCglwdXNoYnl0ZXMgMHhjYWY3MTEwZCAvLyBtZXRob2QgImRpdncodWludDY0LHVpbnQ2NCl1aW50NjQiCglwdXNoYnl0ZXMgMHhiZWQwZTM4NiAvLyBtZXRob2QgImRpdm1vZHcodWludDY0LHVpbnQ2NCl1aW50NjQiCglwdXNoYnl0ZXMgMHgyNzRkNzcwNSAvLyBtZXRob2QgInVuc2FmZVZhcmlhYmxlcygpdWludDY0IgoJcHVzaGJ5dGVzIDB4OTI0NjVkMDggLy8gbWV0aG9kICJmb29iYXIodWludDEyOCl1aW50MTI4IgoJcHVzaGJ5dGVzIDB4ZjAxZmFjY2UgLy8gbWV0aG9kICJ1aW50RnJvbUhleCgpdWludDI1NiIKCXB1c2hieXRlcyAweDVhYzhhMGEwIC8vIG1ldGhvZCAid2lkZVJhdGlvVGVzdCgpdWludDY0IgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggKmFiaV9yb3V0ZV91NjRwbHVzICphYmlfcm91dGVfdTY0bWludXMgKmFiaV9yb3V0ZV91NjRtdWwgKmFiaV9yb3V0ZV91NjRkaXYgKmFiaV9yb3V0ZV91MjU2cGx1cyAqYWJpX3JvdXRlX3UyNTZtaW51cyAqYWJpX3JvdXRlX3UyNTZtdWwgKmFiaV9yb3V0ZV91MjU2ZGl2ICphYmlfcm91dGVfdTY0UmV0dXJuMjU2ICphYmlfcm91dGVfbWF4VTY0ICphYmlfcm91dGVfZXhwb25lbnQgKmFiaV9yb3V0ZV92YXJpYWJsZVR5cGVIaW50ICphYmlfcm91dGVfdWludDhwbHVzICphYmlfcm91dGVfdWludDhleHAgKmFiaV9yb3V0ZV9wbHVzRXF1YWxzICphYmlfcm91dGVfcGx1c0VxdWFsc0Zyb21HbG9iYWwgKmFiaV9yb3V0ZV9ib3hUZXN0ICphYmlfcm91dGVfdW5zYWZlTWV0aG9kQXJncyAqYWJpX3JvdXRlX3VpbnQyNTZDb21wYXJpc29uVHlwZSAqYWJpX3JvdXRlX3NxdWFyZVJvb3QyNTYgKmFiaV9yb3V0ZV9zcXVhcmVSb290NjQgKmFiaV9yb3V0ZV9hZGRyZXNzVG9CaWdJbnQgKmFiaV9yb3V0ZV91OFRvdTY0ICphYmlfcm91dGVfZnVuY05hbWUgKmFiaV9yb3V0ZV9iaWdpbnRQbHVzICphYmlfcm91dGVfYml0d2lzZU9yICphYmlfcm91dGVfYml0d2lzZUFuZCAqYWJpX3JvdXRlX2JpdHdpc2VYb3IgKmFiaV9yb3V0ZV9iaXR3aXNlT3JVMjU2ICphYmlfcm91dGVfYml0d2lzZUFuZFUyNTYgKmFiaV9yb3V0ZV9iaXR3aXNlWG9yVTI1NiAqYWJpX3JvdXRlX2JpdHdpc2VOb3QgKmFiaV9yb3V0ZV9iaXR3aXNlTm90VTI1NiAqYWJpX3JvdXRlX211bHcgKmFiaV9yb3V0ZV9hZGR3ICphYmlfcm91dGVfZXhwdyAqYWJpX3JvdXRlX2RpdncgKmFiaV9yb3V0ZV9kaXZtb2R3ICphYmlfcm91dGVfdW5zYWZlVmFyaWFibGVzICphYmlfcm91dGVfZm9vYmFyICphYmlfcm91dGVfdWludEZyb21IZXggKmFiaV9yb3V0ZV93aWRlUmF0aW9UZXN0CgoJLy8gdGhpcyBjb250cmFjdCBkb2VzIG5vdCBpbXBsZW1lbnQgdGhlIGdpdmVuIEFCSSBtZXRob2QgZm9yIGNhbGwgTm9PcAoJZXJy",
+    "clear": "I3ByYWdtYSB2ZXJzaW9uIDEw",
+  },
+  "state": {
+    "global": {
+      "num_byte_slices": 0,
+      "num_uints": 1,
+    },
+    "local": {
+      "num_byte_slices": 0,
+      "num_uints": 0,
+    },
+  },
+}
+`;

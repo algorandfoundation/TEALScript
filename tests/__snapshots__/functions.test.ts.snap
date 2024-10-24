@@ -1,3 +1,410 @@
 // Bun Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Functions FunctionsTest Artifacts Generates TEAL 1`] = `
+"#pragma version 10
+intcblock 1
+bytecblock 0x151f7c75
+
+// https://github.com/algorandfoundation/TEALScript
+
+// This contract is compliant with and/or implements the following ARCs: [ ARC4 ]
+
+// The following ten lines of TEAL handle initial program flow
+// This pattern is used to make it easy for anyone to parse the start of the program and determine if a specific action is allowed
+// Here, action refers to the OnComplete in combination with whether the app is being created or called
+// Every possible action for this contract is represented in the switch statement
+// If the action is not implemented in the contract, its respective branch will be "*NOT_IMPLEMENTED" which just contains "err"
+txn ApplicationID
+!
+pushint 6
+*
+txn OnCompletion
++
+switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *create_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED
+
+*NOT_IMPLEMENTED:
+	// The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?
+	err
+
+// callNonClassFunction(uint64,uint64)uint64
+*abi_route_callNonClassFunction:
+	// The ABI return prefix
+	bytec 0 // 0x151f7c75
+
+	// b: uint64
+	txna ApplicationArgs 2
+	btoi
+
+	// a: uint64
+	txna ApplicationArgs 1
+	btoi
+
+	// execute callNonClassFunction(uint64,uint64)uint64
+	callsub callNonClassFunction
+	itob
+	concat
+	log
+	intc 0 // 1
+	return
+
+// callNonClassFunction(a: uint64, b: uint64): uint64
+callNonClassFunction:
+	proto 2 1
+
+	// tests/contracts/functions.algo.ts:12
+	// return nonClassFunction(a, b);
+	frame_dig -2 // b: uint64
+	frame_dig -1 // a: uint64
+	callsub nonClassFunction
+	retsub
+
+// callExternalFunction(uint64,uint64)uint64
+*abi_route_callExternalFunction:
+	// The ABI return prefix
+	bytec 0 // 0x151f7c75
+
+	// b: uint64
+	txna ApplicationArgs 2
+	btoi
+
+	// a: uint64
+	txna ApplicationArgs 1
+	btoi
+
+	// execute callExternalFunction(uint64,uint64)uint64
+	callsub callExternalFunction
+	itob
+	concat
+	log
+	intc 0 // 1
+	return
+
+// callExternalFunction(a: uint64, b: uint64): uint64
+callExternalFunction:
+	proto 2 1
+
+	// tests/contracts/functions.algo.ts:16
+	// return externalFunction(a, b);
+	frame_dig -2 // b: uint64
+	frame_dig -1 // a: uint64
+	callsub externalFunction
+	retsub
+
+// callPackageFunction(uint64,uint64)uint64
+*abi_route_callPackageFunction:
+	// The ABI return prefix
+	bytec 0 // 0x151f7c75
+
+	// b: uint64
+	txna ApplicationArgs 2
+	btoi
+
+	// a: uint64
+	txna ApplicationArgs 1
+	btoi
+
+	// execute callPackageFunction(uint64,uint64)uint64
+	callsub callPackageFunction
+	itob
+	concat
+	log
+	intc 0 // 1
+	return
+
+// callPackageFunction(a: uint64, b: uint64): uint64
+callPackageFunction:
+	proto 2 1
+
+	// tests/contracts/functions.algo.ts:20
+	// return packageFunction(a, b);
+	frame_dig -2 // b: uint64
+	frame_dig -1 // a: uint64
+	callsub packageFunction
+	retsub
+
+*abi_route_createApplication:
+	intc 0 // 1
+	return
+
+*create_NoOp:
+	pushbytes 0xb8447b36 // method "createApplication()void"
+	txna ApplicationArgs 0
+	match *abi_route_createApplication
+
+	// this contract does not implement the given ABI method for create NoOp
+	err
+
+*call_NoOp:
+	pushbytes 0x8fd23b48 // method "callNonClassFunction(uint64,uint64)uint64"
+	pushbytes 0xf5db3b41 // method "callExternalFunction(uint64,uint64)uint64"
+	pushbytes 0x8b789196 // method "callPackageFunction(uint64,uint64)uint64"
+	txna ApplicationArgs 0
+	match *abi_route_callNonClassFunction *abi_route_callExternalFunction *abi_route_callPackageFunction
+
+	// this contract does not implement the given ABI method for call NoOp
+	err
+
+// packageFunction(a: uint64, b: uint64): uint64
+packageFunction:
+	proto 2 1
+
+	// node_modules/tealscript_test_package/index.ts:4
+	// return a + b;
+	frame_dig -1 // a: uint64
+	frame_dig -2 // b: uint64
+	+
+	retsub
+
+// externalFunction(a: uint64, b: uint64): uint64
+externalFunction:
+	proto 2 1
+
+	// tests/contracts/functions-external.algo.ts:2
+	// return a + b;
+	frame_dig -1 // a: uint64
+	frame_dig -2 // b: uint64
+	+
+	retsub
+
+// nonClassFunction(a: uint64, b: uint64): uint64
+nonClassFunction:
+	proto 2 1
+
+	// tests/contracts/functions.algo.ts:7
+	// return a + b;
+	frame_dig -1 // a: uint64
+	frame_dig -2 // b: uint64
+	+
+	retsub"
+`;
+
 exports[`Functions FunctionsTest Artifacts Maintains program size 1`] = `204`;
+
+exports[`Functions FunctionsTest Artifacts Generates ABI JSON 1`] = `
+{
+  "desc": "",
+  "events": undefined,
+  "methods": [
+    {
+      "args": [
+        {
+          "desc": undefined,
+          "name": "a",
+          "type": "uint64",
+        },
+        {
+          "desc": undefined,
+          "name": "b",
+          "type": "uint64",
+        },
+      ],
+      "desc": undefined,
+      "events": undefined,
+      "name": "callNonClassFunction",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint64",
+      },
+    },
+    {
+      "args": [
+        {
+          "desc": undefined,
+          "name": "a",
+          "type": "uint64",
+        },
+        {
+          "desc": undefined,
+          "name": "b",
+          "type": "uint64",
+        },
+      ],
+      "desc": undefined,
+      "events": undefined,
+      "name": "callExternalFunction",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint64",
+      },
+    },
+    {
+      "args": [
+        {
+          "desc": undefined,
+          "name": "a",
+          "type": "uint64",
+        },
+        {
+          "desc": undefined,
+          "name": "b",
+          "type": "uint64",
+        },
+      ],
+      "desc": undefined,
+      "events": undefined,
+      "name": "callPackageFunction",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint64",
+      },
+    },
+    {
+      "args": [],
+      "desc": undefined,
+      "events": undefined,
+      "name": "createApplication",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "void",
+      },
+    },
+  ],
+  "name": "FunctionsTest",
+}
+`;
+
+exports[`Functions FunctionsTest Artifacts Generates ARC32 1`] = `
+{
+  "bare_call_config": {
+    "close_out": "NEVER",
+    "delete_application": "NEVER",
+    "no_op": "NEVER",
+    "opt_in": "NEVER",
+    "update_application": "NEVER",
+  },
+  "contract": {
+    "desc": "",
+    "events": undefined,
+    "methods": [
+      {
+        "args": [
+          {
+            "desc": undefined,
+            "name": "a",
+            "type": "uint64",
+          },
+          {
+            "desc": undefined,
+            "name": "b",
+            "type": "uint64",
+          },
+        ],
+        "desc": undefined,
+        "events": undefined,
+        "name": "callNonClassFunction",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint64",
+        },
+      },
+      {
+        "args": [
+          {
+            "desc": undefined,
+            "name": "a",
+            "type": "uint64",
+          },
+          {
+            "desc": undefined,
+            "name": "b",
+            "type": "uint64",
+          },
+        ],
+        "desc": undefined,
+        "events": undefined,
+        "name": "callExternalFunction",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint64",
+        },
+      },
+      {
+        "args": [
+          {
+            "desc": undefined,
+            "name": "a",
+            "type": "uint64",
+          },
+          {
+            "desc": undefined,
+            "name": "b",
+            "type": "uint64",
+          },
+        ],
+        "desc": undefined,
+        "events": undefined,
+        "name": "callPackageFunction",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint64",
+        },
+      },
+      {
+        "args": [],
+        "desc": undefined,
+        "events": undefined,
+        "name": "createApplication",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "void",
+        },
+      },
+    ],
+    "name": "FunctionsTest",
+  },
+  "hints": {
+    "callExternalFunction(uint64,uint64)uint64": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "callNonClassFunction(uint64,uint64)uint64": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "callPackageFunction(uint64,uint64)uint64": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "createApplication()void": {
+      "call_config": {
+        "no_op": "CREATE",
+      },
+    },
+  },
+  "schema": {
+    "global": {
+      "declared": {},
+      "reserved": {},
+    },
+    "local": {
+      "declared": {},
+      "reserved": {},
+    },
+  },
+  "source": {
+    "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCmludGNibG9jayAxCmJ5dGVjYmxvY2sgMHgxNTFmN2M3NQoKLy8gaHR0cHM6Ly9naXRodWIuY29tL2FsZ29yYW5kZm91bmRhdGlvbi9URUFMU2NyaXB0CgovLyBUaGlzIGNvbnRyYWN0IGlzIGNvbXBsaWFudCB3aXRoIGFuZC9vciBpbXBsZW1lbnRzIHRoZSBmb2xsb3dpbmcgQVJDczogWyBBUkM0IF0KCi8vIFRoZSBmb2xsb3dpbmcgdGVuIGxpbmVzIG9mIFRFQUwgaGFuZGxlIGluaXRpYWwgcHJvZ3JhbSBmbG93Ci8vIFRoaXMgcGF0dGVybiBpcyB1c2VkIHRvIG1ha2UgaXQgZWFzeSBmb3IgYW55b25lIHRvIHBhcnNlIHRoZSBzdGFydCBvZiB0aGUgcHJvZ3JhbSBhbmQgZGV0ZXJtaW5lIGlmIGEgc3BlY2lmaWMgYWN0aW9uIGlzIGFsbG93ZWQKLy8gSGVyZSwgYWN0aW9uIHJlZmVycyB0byB0aGUgT25Db21wbGV0ZSBpbiBjb21iaW5hdGlvbiB3aXRoIHdoZXRoZXIgdGhlIGFwcCBpcyBiZWluZyBjcmVhdGVkIG9yIGNhbGxlZAovLyBFdmVyeSBwb3NzaWJsZSBhY3Rpb24gZm9yIHRoaXMgY29udHJhY3QgaXMgcmVwcmVzZW50ZWQgaW4gdGhlIHN3aXRjaCBzdGF0ZW1lbnQKLy8gSWYgdGhlIGFjdGlvbiBpcyBub3QgaW1wbGVtZW50ZWQgaW4gdGhlIGNvbnRyYWN0LCBpdHMgcmVzcGVjdGl2ZSBicmFuY2ggd2lsbCBiZSAiKk5PVF9JTVBMRU1FTlRFRCIgd2hpY2gganVzdCBjb250YWlucyAiZXJyIgp0eG4gQXBwbGljYXRpb25JRAohCnB1c2hpbnQgNgoqCnR4biBPbkNvbXBsZXRpb24KKwpzd2l0Y2ggKmNhbGxfTm9PcCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKmNyZWF0ZV9Ob09wICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRAoKKk5PVF9JTVBMRU1FTlRFRDoKCS8vIFRoZSByZXF1ZXN0ZWQgYWN0aW9uIGlzIG5vdCBpbXBsZW1lbnRlZCBpbiB0aGlzIGNvbnRyYWN0LiBBcmUgeW91IHVzaW5nIHRoZSBjb3JyZWN0IE9uQ29tcGxldGU/IERpZCB5b3Ugc2V0IHlvdXIgYXBwIElEPwoJZXJyCgovLyBjYWxsTm9uQ2xhc3NGdW5jdGlvbih1aW50NjQsdWludDY0KXVpbnQ2NAoqYWJpX3JvdXRlX2NhbGxOb25DbGFzc0Z1bmN0aW9uOgoJLy8gVGhlIEFCSSByZXR1cm4gcHJlZml4CglieXRlYyAwIC8vIDB4MTUxZjdjNzUKCgkvLyBiOiB1aW50NjQKCXR4bmEgQXBwbGljYXRpb25BcmdzIDIKCWJ0b2kKCgkvLyBhOiB1aW50NjQKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWJ0b2kKCgkvLyBleGVjdXRlIGNhbGxOb25DbGFzc0Z1bmN0aW9uKHVpbnQ2NCx1aW50NjQpdWludDY0CgljYWxsc3ViIGNhbGxOb25DbGFzc0Z1bmN0aW9uCglpdG9iCgljb25jYXQKCWxvZwoJaW50YyAwIC8vIDEKCXJldHVybgoKLy8gY2FsbE5vbkNsYXNzRnVuY3Rpb24oYTogdWludDY0LCBiOiB1aW50NjQpOiB1aW50NjQKY2FsbE5vbkNsYXNzRnVuY3Rpb246Cglwcm90byAyIDEKCgkvLyB0ZXN0cy9jb250cmFjdHMvZnVuY3Rpb25zLmFsZ28udHM6MTIKCS8vIHJldHVybiBub25DbGFzc0Z1bmN0aW9uKGEsIGIpOwoJZnJhbWVfZGlnIC0yIC8vIGI6IHVpbnQ2NAoJZnJhbWVfZGlnIC0xIC8vIGE6IHVpbnQ2NAoJY2FsbHN1YiBub25DbGFzc0Z1bmN0aW9uCglyZXRzdWIKCi8vIGNhbGxFeHRlcm5hbEZ1bmN0aW9uKHVpbnQ2NCx1aW50NjQpdWludDY0CiphYmlfcm91dGVfY2FsbEV4dGVybmFsRnVuY3Rpb246CgkvLyBUaGUgQUJJIHJldHVybiBwcmVmaXgKCWJ5dGVjIDAgLy8gMHgxNTFmN2M3NQoKCS8vIGI6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgoJYnRvaQoKCS8vIGE6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJYnRvaQoKCS8vIGV4ZWN1dGUgY2FsbEV4dGVybmFsRnVuY3Rpb24odWludDY0LHVpbnQ2NCl1aW50NjQKCWNhbGxzdWIgY2FsbEV4dGVybmFsRnVuY3Rpb24KCWl0b2IKCWNvbmNhdAoJbG9nCglpbnRjIDAgLy8gMQoJcmV0dXJuCgovLyBjYWxsRXh0ZXJuYWxGdW5jdGlvbihhOiB1aW50NjQsIGI6IHVpbnQ2NCk6IHVpbnQ2NApjYWxsRXh0ZXJuYWxGdW5jdGlvbjoKCXByb3RvIDIgMQoKCS8vIHRlc3RzL2NvbnRyYWN0cy9mdW5jdGlvbnMuYWxnby50czoxNgoJLy8gcmV0dXJuIGV4dGVybmFsRnVuY3Rpb24oYSwgYik7CglmcmFtZV9kaWcgLTIgLy8gYjogdWludDY0CglmcmFtZV9kaWcgLTEgLy8gYTogdWludDY0CgljYWxsc3ViIGV4dGVybmFsRnVuY3Rpb24KCXJldHN1YgoKLy8gY2FsbFBhY2thZ2VGdW5jdGlvbih1aW50NjQsdWludDY0KXVpbnQ2NAoqYWJpX3JvdXRlX2NhbGxQYWNrYWdlRnVuY3Rpb246CgkvLyBUaGUgQUJJIHJldHVybiBwcmVmaXgKCWJ5dGVjIDAgLy8gMHgxNTFmN2M3NQoKCS8vIGI6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgoJYnRvaQoKCS8vIGE6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJYnRvaQoKCS8vIGV4ZWN1dGUgY2FsbFBhY2thZ2VGdW5jdGlvbih1aW50NjQsdWludDY0KXVpbnQ2NAoJY2FsbHN1YiBjYWxsUGFja2FnZUZ1bmN0aW9uCglpdG9iCgljb25jYXQKCWxvZwoJaW50YyAwIC8vIDEKCXJldHVybgoKLy8gY2FsbFBhY2thZ2VGdW5jdGlvbihhOiB1aW50NjQsIGI6IHVpbnQ2NCk6IHVpbnQ2NApjYWxsUGFja2FnZUZ1bmN0aW9uOgoJcHJvdG8gMiAxCgoJLy8gdGVzdHMvY29udHJhY3RzL2Z1bmN0aW9ucy5hbGdvLnRzOjIwCgkvLyByZXR1cm4gcGFja2FnZUZ1bmN0aW9uKGEsIGIpOwoJZnJhbWVfZGlnIC0yIC8vIGI6IHVpbnQ2NAoJZnJhbWVfZGlnIC0xIC8vIGE6IHVpbnQ2NAoJY2FsbHN1YiBwYWNrYWdlRnVuY3Rpb24KCXJldHN1YgoKKmFiaV9yb3V0ZV9jcmVhdGVBcHBsaWNhdGlvbjoKCWludGMgMCAvLyAxCglyZXR1cm4KCipjcmVhdGVfTm9PcDoKCXB1c2hieXRlcyAweGI4NDQ3YjM2IC8vIG1ldGhvZCAiY3JlYXRlQXBwbGljYXRpb24oKXZvaWQiCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAwCgltYXRjaCAqYWJpX3JvdXRlX2NyZWF0ZUFwcGxpY2F0aW9uCgoJLy8gdGhpcyBjb250cmFjdCBkb2VzIG5vdCBpbXBsZW1lbnQgdGhlIGdpdmVuIEFCSSBtZXRob2QgZm9yIGNyZWF0ZSBOb09wCgllcnIKCipjYWxsX05vT3A6CglwdXNoYnl0ZXMgMHg4ZmQyM2I0OCAvLyBtZXRob2QgImNhbGxOb25DbGFzc0Z1bmN0aW9uKHVpbnQ2NCx1aW50NjQpdWludDY0IgoJcHVzaGJ5dGVzIDB4ZjVkYjNiNDEgLy8gbWV0aG9kICJjYWxsRXh0ZXJuYWxGdW5jdGlvbih1aW50NjQsdWludDY0KXVpbnQ2NCIKCXB1c2hieXRlcyAweDhiNzg5MTk2IC8vIG1ldGhvZCAiY2FsbFBhY2thZ2VGdW5jdGlvbih1aW50NjQsdWludDY0KXVpbnQ2NCIKCXR4bmEgQXBwbGljYXRpb25BcmdzIDAKCW1hdGNoICphYmlfcm91dGVfY2FsbE5vbkNsYXNzRnVuY3Rpb24gKmFiaV9yb3V0ZV9jYWxsRXh0ZXJuYWxGdW5jdGlvbiAqYWJpX3JvdXRlX2NhbGxQYWNrYWdlRnVuY3Rpb24KCgkvLyB0aGlzIGNvbnRyYWN0IGRvZXMgbm90IGltcGxlbWVudCB0aGUgZ2l2ZW4gQUJJIG1ldGhvZCBmb3IgY2FsbCBOb09wCgllcnIKCi8vIHBhY2thZ2VGdW5jdGlvbihhOiB1aW50NjQsIGI6IHVpbnQ2NCk6IHVpbnQ2NApwYWNrYWdlRnVuY3Rpb246Cglwcm90byAyIDEKCgkvLyBub2RlX21vZHVsZXMvdGVhbHNjcmlwdF90ZXN0X3BhY2thZ2UvaW5kZXgudHM6NAoJLy8gcmV0dXJuIGEgKyBiOwoJZnJhbWVfZGlnIC0xIC8vIGE6IHVpbnQ2NAoJZnJhbWVfZGlnIC0yIC8vIGI6IHVpbnQ2NAoJKwoJcmV0c3ViCgovLyBleHRlcm5hbEZ1bmN0aW9uKGE6IHVpbnQ2NCwgYjogdWludDY0KTogdWludDY0CmV4dGVybmFsRnVuY3Rpb246Cglwcm90byAyIDEKCgkvLyB0ZXN0cy9jb250cmFjdHMvZnVuY3Rpb25zLWV4dGVybmFsLmFsZ28udHM6MgoJLy8gcmV0dXJuIGEgKyBiOwoJZnJhbWVfZGlnIC0xIC8vIGE6IHVpbnQ2NAoJZnJhbWVfZGlnIC0yIC8vIGI6IHVpbnQ2NAoJKwoJcmV0c3ViCgovLyBub25DbGFzc0Z1bmN0aW9uKGE6IHVpbnQ2NCwgYjogdWludDY0KTogdWludDY0Cm5vbkNsYXNzRnVuY3Rpb246Cglwcm90byAyIDEKCgkvLyB0ZXN0cy9jb250cmFjdHMvZnVuY3Rpb25zLmFsZ28udHM6NwoJLy8gcmV0dXJuIGEgKyBiOwoJZnJhbWVfZGlnIC0xIC8vIGE6IHVpbnQ2NAoJZnJhbWVfZGlnIC0yIC8vIGI6IHVpbnQ2NAoJKwoJcmV0c3Vi",
+    "clear": "I3ByYWdtYSB2ZXJzaW9uIDEw",
+  },
+  "state": {
+    "global": {
+      "num_byte_slices": 0,
+      "num_uints": 0,
+    },
+    "local": {
+      "num_byte_slices": 0,
+      "num_uints": 0,
+    },
+  },
+}
+`;
