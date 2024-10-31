@@ -5,5 +5,5 @@ import { describe } from '@jest/globals';
 import { artifactsTest } from './common';
 
 describe('Inner Transactions', function () {
-  artifactsTest('tests/contracts/itxns.algo.ts', 'tests/contracts/artifacts/', 'ItxnsTest');
+  artifactsTest('tests/contracts/itxns.algo.ts', 'ItxnsTest');
 });

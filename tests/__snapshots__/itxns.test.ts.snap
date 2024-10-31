@@ -1,3 +1,1003 @@
 // Bun Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Inner Transactions ItxnsTest Artifacts Generates TEAL 1`] = `
+"#pragma version 10
+intcblock 1 0 6 3 2
+bytecblock 0x6161616161616161616161616161616161616161616161616161616161616161 0x151f7c75
+
+// https://github.com/algorandfoundation/TEALScript
+
+// This contract is compliant with and/or implements the following ARCs: [ ARC4 ]
+
+// The following ten lines of TEAL handle initial program flow
+// This pattern is used to make it easy for anyone to parse the start of the program and determine if a specific action is allowed
+// Here, action refers to the OnComplete in combination with whether the app is being created or called
+// Every possible action for this contract is represented in the switch statement
+// If the action is not implemented in the contract, its respective branch will be "*NOT_IMPLEMENTED" which just contains "err"
+txn ApplicationID
+!
+intc 2 // 6
+*
+txn OnCompletion
++
+switch *call_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *create_NoOp *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED *NOT_IMPLEMENTED
+
+*NOT_IMPLEMENTED:
+	// The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?
+	err
+
+// payment()void
+*abi_route_payment:
+	// execute payment()void
+	callsub payment
+	intc 0 // 1
+	return
+
+// payment(): void
+payment:
+	proto 0 0
+
+	// tests/contracts/itxns.algo.ts:6
+	// sendPayment({
+	//       amount: 100,
+	//       receiver: this.app.address,
+	//       closeRemainderTo: globals.zeroAddress,
+	//       sender: this.app.address,
+	//       rekeyTo: globals.zeroAddress,
+	//       note: 'Hello World!',
+	//     })
+	itxn_begin
+	intc 0 //  pay
+	itxn_field TypeEnum
+
+	// tests/contracts/itxns.algo.ts:7
+	// amount: 100
+	pushint 100
+	itxn_field Amount
+
+	// tests/contracts/itxns.algo.ts:8
+	// receiver: this.app.address
+	global CurrentApplicationAddress
+	itxn_field Receiver
+
+	// tests/contracts/itxns.algo.ts:9
+	// closeRemainderTo: globals.zeroAddress
+	global ZeroAddress
+	itxn_field CloseRemainderTo
+
+	// tests/contracts/itxns.algo.ts:10
+	// sender: this.app.address
+	global CurrentApplicationAddress
+	itxn_field Sender
+
+	// tests/contracts/itxns.algo.ts:11
+	// rekeyTo: globals.zeroAddress
+	global ZeroAddress
+	itxn_field RekeyTo
+
+	// tests/contracts/itxns.algo.ts:12
+	// note: 'Hello World!'
+	pushbytes 0x48656c6c6f20576f726c6421 // "Hello World!"
+	itxn_field Note
+
+	// Fee field not set, defaulting to 0
+	intc 1 // 0
+	itxn_field Fee
+
+	// Submit inner transaction
+	itxn_submit
+	retsub
+
+// assetCreation()uint64
+*abi_route_assetCreation:
+	// The ABI return prefix
+	bytec 1 // 0x151f7c75
+
+	// execute assetCreation()uint64
+	callsub assetCreation
+	itob
+	concat
+	log
+	intc 0 // 1
+	return
+
+// assetCreation(): AssetID
+assetCreation:
+	proto 0 1
+
+	// tests/contracts/itxns.algo.ts:17
+	// return sendAssetCreation({
+	//       configAssetName: 'name',
+	//       configAssetUnitName: 'unit',
+	//       configAssetTotal: 1,
+	//       configAssetManager: this.app.address,
+	//       configAssetReserve: this.app.address,
+	//       configAssetFreeze: this.app.address,
+	//       configAssetClawback: this.app.address,
+	//       configAssetDefaultFrozen: 0,
+	//       configAssetURL: 'url',
+	//       configAssetMetadataHash: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+	//     });
+	itxn_begin
+	intc 3 //  acfg
+	itxn_field TypeEnum
+
+	// tests/contracts/itxns.algo.ts:18
+	// configAssetName: 'name'
+	pushbytes 0x6e616d65 // "name"
+	itxn_field ConfigAssetName
+
+	// tests/contracts/itxns.algo.ts:19
+	// configAssetUnitName: 'unit'
+	pushbytes 0x756e6974 // "unit"
+	itxn_field ConfigAssetUnitName
+
+	// tests/contracts/itxns.algo.ts:20
+	// configAssetTotal: 1
+	intc 0 // 1
+	itxn_field ConfigAssetTotal
+
+	// tests/contracts/itxns.algo.ts:21
+	// configAssetManager: this.app.address
+	global CurrentApplicationAddress
+	itxn_field ConfigAssetManager
+
+	// tests/contracts/itxns.algo.ts:22
+	// configAssetReserve: this.app.address
+	global CurrentApplicationAddress
+	itxn_field ConfigAssetReserve
+
+	// tests/contracts/itxns.algo.ts:23
+	// configAssetFreeze: this.app.address
+	global CurrentApplicationAddress
+	itxn_field ConfigAssetFreeze
+
+	// tests/contracts/itxns.algo.ts:24
+	// configAssetClawback: this.app.address
+	global CurrentApplicationAddress
+	itxn_field ConfigAssetClawback
+
+	// tests/contracts/itxns.algo.ts:25
+	// configAssetDefaultFrozen: 0
+	intc 1 // 0
+	itxn_field ConfigAssetDefaultFrozen
+
+	// tests/contracts/itxns.algo.ts:26
+	// configAssetURL: 'url'
+	pushbytes 0x75726c // "url"
+	itxn_field ConfigAssetURL
+
+	// tests/contracts/itxns.algo.ts:27
+	// configAssetMetadataHash: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+	bytec 0 //  "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+	itxn_field ConfigAssetMetadataHash
+
+	// Fee field not set, defaulting to 0
+	intc 1 // 0
+	itxn_field Fee
+
+	// Submit inner transaction
+	itxn_submit
+	itxn CreatedAssetID
+	retsub
+
+// appCall()void
+*abi_route_appCall:
+	// execute appCall()void
+	callsub appCall
+	intc 0 // 1
+	return
+
+// appCall(): void
+appCall:
+	proto 0 0
+
+	// tests/contracts/itxns.algo.ts:32
+	// sendAppCall({
+	//       accounts: [this.app.address],
+	//       applicationArgs: ['arg1', 'arg2'],
+	//       applicationID: this.app,
+	//       applications: [this.app],
+	//       approvalProgram: 'approval',
+	//       assets: [AssetID.zeroIndex],
+	//       clearStateProgram: 'clear',
+	//       globalNumByteSlice: 1,
+	//       globalNumUint: 1,
+	//       localNumByteSlice: 1,
+	//       localNumUint: 1,
+	//       note: 'note',
+	//     })
+	itxn_begin
+	intc 2 //  appl
+	itxn_field TypeEnum
+
+	// tests/contracts/itxns.algo.ts:33
+	// accounts: [this.app.address]
+	global CurrentApplicationAddress
+	itxn_field Accounts
+
+	// tests/contracts/itxns.algo.ts:34
+	// applicationArgs: ['arg1', 'arg2']
+	pushbytes 0x61726731 // "arg1"
+	itxn_field ApplicationArgs
+	pushbytes 0x61726732 // "arg2"
+	itxn_field ApplicationArgs
+
+	// tests/contracts/itxns.algo.ts:35
+	// applicationID: this.app
+	txna Applications 0
+	itxn_field ApplicationID
+
+	// tests/contracts/itxns.algo.ts:36
+	// applications: [this.app]
+	txna Applications 0
+	itxn_field Applications
+
+	// tests/contracts/itxns.algo.ts:37
+	// approvalProgram: 'approval'
+	pushbytes 0x617070726f76616c // "approval"
+	itxn_field ApprovalProgram
+
+	// tests/contracts/itxns.algo.ts:38
+	// assets: [AssetID.zeroIndex]
+	intc 1 // 0
+	itxn_field Assets
+
+	// tests/contracts/itxns.algo.ts:39
+	// clearStateProgram: 'clear'
+	pushbytes 0x636c656172 // "clear"
+	itxn_field ClearStateProgram
+
+	// tests/contracts/itxns.algo.ts:40
+	// globalNumByteSlice: 1
+	intc 0 // 1
+	itxn_field GlobalNumByteSlice
+
+	// tests/contracts/itxns.algo.ts:41
+	// globalNumUint: 1
+	intc 0 // 1
+	itxn_field GlobalNumUint
+
+	// tests/contracts/itxns.algo.ts:42
+	// localNumByteSlice: 1
+	intc 0 // 1
+	itxn_field LocalNumByteSlice
+
+	// tests/contracts/itxns.algo.ts:43
+	// localNumUint: 1
+	intc 0 // 1
+	itxn_field LocalNumUint
+
+	// tests/contracts/itxns.algo.ts:44
+	// note: 'note'
+	pushbytes 0x6e6f7465 // "note"
+	itxn_field Note
+
+	// Fee field not set, defaulting to 0
+	intc 1 // 0
+	itxn_field Fee
+
+	// Submit inner transaction
+	itxn_submit
+	retsub
+
+// assetConfig()void
+*abi_route_assetConfig:
+	// execute assetConfig()void
+	callsub assetConfig
+	intc 0 // 1
+	return
+
+// assetConfig(): void
+assetConfig:
+	proto 0 0
+
+	// tests/contracts/itxns.algo.ts:49
+	// sendAssetConfig({
+	//       configAsset: AssetID.zeroIndex,
+	//       configAssetManager: this.app.address,
+	//       configAssetReserve: this.app.address,
+	//       configAssetFreeze: this.app.address,
+	//       configAssetClawback: this.app.address,
+	//     })
+	itxn_begin
+	intc 3 //  acfg
+	itxn_field TypeEnum
+
+	// tests/contracts/itxns.algo.ts:50
+	// configAsset: AssetID.zeroIndex
+	intc 1 // 0
+	itxn_field ConfigAsset
+
+	// tests/contracts/itxns.algo.ts:51
+	// configAssetManager: this.app.address
+	global CurrentApplicationAddress
+	itxn_field ConfigAssetManager
+
+	// tests/contracts/itxns.algo.ts:52
+	// configAssetReserve: this.app.address
+	global CurrentApplicationAddress
+	itxn_field ConfigAssetReserve
+
+	// tests/contracts/itxns.algo.ts:53
+	// configAssetFreeze: this.app.address
+	global CurrentApplicationAddress
+	itxn_field ConfigAssetFreeze
+
+	// tests/contracts/itxns.algo.ts:54
+	// configAssetClawback: this.app.address
+	global CurrentApplicationAddress
+	itxn_field ConfigAssetClawback
+
+	// Fee field not set, defaulting to 0
+	intc 1 // 0
+	itxn_field Fee
+
+	// Submit inner transaction
+	itxn_submit
+	retsub
+
+// assetFreeze()void
+*abi_route_assetFreeze:
+	// execute assetFreeze()void
+	callsub assetFreeze
+	intc 0 // 1
+	return
+
+// assetFreeze(): void
+assetFreeze:
+	proto 0 0
+
+	// tests/contracts/itxns.algo.ts:59
+	// sendAssetFreeze({
+	//       freezeAssetFrozen: true,
+	//       freezeAssetAccount: this.app.address,
+	//       freezeAsset: AssetID.zeroIndex,
+	//     })
+	itxn_begin
+	pushint 5 // afrz
+	itxn_field TypeEnum
+
+	// tests/contracts/itxns.algo.ts:60
+	// freezeAssetFrozen: true
+	intc 0 // 1
+	itxn_field FreezeAssetFrozen
+
+	// tests/contracts/itxns.algo.ts:61
+	// freezeAssetAccount: this.app.address
+	global CurrentApplicationAddress
+	itxn_field FreezeAssetAccount
+
+	// tests/contracts/itxns.algo.ts:62
+	// freezeAsset: AssetID.zeroIndex
+	intc 1 // 0
+	itxn_field FreezeAsset
+
+	// Fee field not set, defaulting to 0
+	intc 1 // 0
+	itxn_field Fee
+
+	// Submit inner transaction
+	itxn_submit
+	retsub
+
+// assetTransfer()void
+*abi_route_assetTransfer:
+	// execute assetTransfer()void
+	callsub assetTransfer
+	intc 0 // 1
+	return
+
+// assetTransfer(): void
+assetTransfer:
+	proto 0 0
+
+	// tests/contracts/itxns.algo.ts:67
+	// sendAssetTransfer({
+	//       assetAmount: 1,
+	//       assetCloseTo: this.app.address,
+	//       assetReceiver: this.app.address,
+	//       assetSender: this.app.address,
+	//       xferAsset: AssetID.zeroIndex,
+	//     })
+	itxn_begin
+	pushint 4 // axfer
+	itxn_field TypeEnum
+
+	// tests/contracts/itxns.algo.ts:68
+	// assetAmount: 1
+	intc 0 // 1
+	itxn_field AssetAmount
+
+	// tests/contracts/itxns.algo.ts:69
+	// assetCloseTo: this.app.address
+	global CurrentApplicationAddress
+	itxn_field AssetCloseTo
+
+	// tests/contracts/itxns.algo.ts:70
+	// assetReceiver: this.app.address
+	global CurrentApplicationAddress
+	itxn_field AssetReceiver
+
+	// tests/contracts/itxns.algo.ts:71
+	// assetSender: this.app.address
+	global CurrentApplicationAddress
+	itxn_field AssetSender
+
+	// tests/contracts/itxns.algo.ts:72
+	// xferAsset: AssetID.zeroIndex
+	intc 1 // 0
+	itxn_field XferAsset
+
+	// Fee field not set, defaulting to 0
+	intc 1 // 0
+	itxn_field Fee
+
+	// Submit inner transaction
+	itxn_submit
+	retsub
+
+// methodCall()uint64
+*abi_route_methodCall:
+	// The ABI return prefix
+	bytec 1 // 0x151f7c75
+
+	// execute methodCall()uint64
+	callsub methodCall
+	itob
+	concat
+	log
+	intc 0 // 1
+	return
+
+// methodCall(): AssetID
+methodCall:
+	proto 0 1
+
+	// tests/contracts/itxns.algo.ts:77
+	// return sendMethodCall<[AppID, AssetID], AssetID>({
+	//       name: 'method',
+	//       methodArgs: [this.app, AssetID.zeroIndex],
+	//     });
+	itxn_begin
+	intc 2 //  appl
+	itxn_field TypeEnum
+	pushbytes 0xa66d559c // method "method(uint64,uint64)uint64"
+	itxn_field ApplicationArgs
+
+	// tests/contracts/itxns.algo.ts:79
+	// methodArgs: [this.app, AssetID.zeroIndex]
+	txna Applications 0
+	itob
+	itxn_field ApplicationArgs
+	pushbytes 0x0000000000000000
+	itxn_field ApplicationArgs
+
+	// Fee field not set, defaulting to 0
+	intc 1 // 0
+	itxn_field Fee
+
+	// Submit inner transaction
+	itxn_submit
+	itxn NumLogs
+	intc 0 // 1
+	-
+	itxnas Logs
+	extract 4 0
+	btoi
+	retsub
+
+// onlineKeyRegistration()void
+*abi_route_onlineKeyRegistration:
+	// execute onlineKeyRegistration()void
+	callsub onlineKeyRegistration
+	intc 0 // 1
+	return
+
+// onlineKeyRegistration(): void
+onlineKeyRegistration:
+	proto 0 0
+
+	// tests/contracts/itxns.algo.ts:84
+	// sendOnlineKeyRegistration({
+	//       selectionPK: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+	//       stateProofPK: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+	//       voteFirst: 1,
+	//       voteKeyDilution: 1,
+	//       voteLast: 1,
+	//       votePK: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+	//     })
+	itxn_begin
+	intc 4 //  keyreg
+	itxn_field TypeEnum
+
+	// tests/contracts/itxns.algo.ts:85
+	// selectionPK: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+	bytec 0 //  "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+	itxn_field SelectionPK
+
+	// tests/contracts/itxns.algo.ts:86
+	// stateProofPK: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+	bytec 0 //  "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+	itxn_field StateProofPK
+
+	// tests/contracts/itxns.algo.ts:87
+	// voteFirst: 1
+	intc 0 // 1
+	itxn_field VoteFirst
+
+	// tests/contracts/itxns.algo.ts:88
+	// voteKeyDilution: 1
+	intc 0 // 1
+	itxn_field VoteKeyDilution
+
+	// tests/contracts/itxns.algo.ts:89
+	// voteLast: 1
+	intc 0 // 1
+	itxn_field VoteLast
+
+	// tests/contracts/itxns.algo.ts:90
+	// votePK: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+	bytec 0 //  "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+	itxn_field VotePK
+
+	// Fee field not set, defaulting to 0
+	intc 1 // 0
+	itxn_field Fee
+
+	// Submit inner transaction
+	itxn_submit
+	retsub
+
+// offlineKeyRegistration()void
+*abi_route_offlineKeyRegistration:
+	// execute offlineKeyRegistration()void
+	callsub offlineKeyRegistration
+	intc 0 // 1
+	return
+
+// offlineKeyRegistration(): void
+offlineKeyRegistration:
+	proto 0 0
+
+	// tests/contracts/itxns.algo.ts:95
+	// sendOfflineKeyRegistration({})
+	itxn_begin
+	intc 4 //  keyreg
+	itxn_field TypeEnum
+
+	// Fee field not set, defaulting to 0
+	intc 1 // 0
+	itxn_field Fee
+
+	// Submit inner transaction
+	itxn_submit
+	retsub
+
+// innerGeneric()void
+*abi_route_innerGeneric:
+	// execute innerGeneric()void
+	callsub innerGeneric
+	intc 0 // 1
+	return
+
+// innerGeneric(): void
+innerGeneric:
+	proto 0 0
+
+	// tests/contracts/itxns.algo.ts:99
+	// sendMethodCall<[InnerTxn<InnerAssetCreation>], void>({
+	//       name: 'foo',
+	//       methodArgs: [{ configAssetTotal: 1 }],
+	//     })
+	itxn_begin
+	intc 3 //  acfg
+	itxn_field TypeEnum
+
+	// tests/contracts/itxns.algo.ts:101
+	// configAssetTotal: 1
+	intc 0 // 1
+	itxn_field ConfigAssetTotal
+
+	// Fee field not set, defaulting to 0
+	intc 1 // 0
+	itxn_field Fee
+	itxn_next
+	intc 2 //  appl
+	itxn_field TypeEnum
+	pushbytes 0x090924e8 // method "foo(txn)void"
+	itxn_field ApplicationArgs
+
+	// tests/contracts/itxns.algo.ts:101
+	// methodArgs: [{ configAssetTotal: 1 }]
+	// Fee field not set, defaulting to 0
+	intc 1 // 0
+	itxn_field Fee
+
+	// Submit inner transaction
+	itxn_submit
+	retsub
+
+*abi_route_createApplication:
+	intc 0 // 1
+	return
+
+*create_NoOp:
+	pushbytes 0xb8447b36 // method "createApplication()void"
+	txna ApplicationArgs 0
+	match *abi_route_createApplication
+
+	// this contract does not implement the given ABI method for create NoOp
+	err
+
+*call_NoOp:
+	pushbytes 0x7a2ecb1c // method "payment()void"
+	pushbytes 0xdf9b38ad // method "assetCreation()uint64"
+	pushbytes 0x690ce8b6 // method "appCall()void"
+	pushbytes 0x8f310534 // method "assetConfig()void"
+	pushbytes 0xf834bee8 // method "assetFreeze()void"
+	pushbytes 0x1f4418b7 // method "assetTransfer()void"
+	pushbytes 0x70adfa23 // method "methodCall()uint64"
+	pushbytes 0xe6ec46fc // method "onlineKeyRegistration()void"
+	pushbytes 0x1172301a // method "offlineKeyRegistration()void"
+	pushbytes 0x7a33897d // method "innerGeneric()void"
+	txna ApplicationArgs 0
+	match *abi_route_payment *abi_route_assetCreation *abi_route_appCall *abi_route_assetConfig *abi_route_assetFreeze *abi_route_assetTransfer *abi_route_methodCall *abi_route_onlineKeyRegistration *abi_route_offlineKeyRegistration *abi_route_innerGeneric
+
+	// this contract does not implement the given ABI method for call NoOp
+	err"
+`;
+
 exports[`Inner Transactions ItxnsTest Artifacts Maintains program size 1`] = `646`;
+
+exports[`Inner Transactions ItxnsTest Artifacts Generates ABI JSON 1`] = `
+{
+  "desc": "",
+  "events": undefined,
+  "methods": [
+    {
+      "args": [],
+      "desc": undefined,
+      "events": undefined,
+      "name": "payment",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "void",
+      },
+    },
+    {
+      "args": [],
+      "desc": undefined,
+      "events": undefined,
+      "name": "assetCreation",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint64",
+      },
+    },
+    {
+      "args": [],
+      "desc": undefined,
+      "events": undefined,
+      "name": "appCall",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "void",
+      },
+    },
+    {
+      "args": [],
+      "desc": undefined,
+      "events": undefined,
+      "name": "assetConfig",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "void",
+      },
+    },
+    {
+      "args": [],
+      "desc": undefined,
+      "events": undefined,
+      "name": "assetFreeze",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "void",
+      },
+    },
+    {
+      "args": [],
+      "desc": undefined,
+      "events": undefined,
+      "name": "assetTransfer",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "void",
+      },
+    },
+    {
+      "args": [],
+      "desc": undefined,
+      "events": undefined,
+      "name": "methodCall",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "uint64",
+      },
+    },
+    {
+      "args": [],
+      "desc": undefined,
+      "events": undefined,
+      "name": "onlineKeyRegistration",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "void",
+      },
+    },
+    {
+      "args": [],
+      "desc": undefined,
+      "events": undefined,
+      "name": "offlineKeyRegistration",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "void",
+      },
+    },
+    {
+      "args": [],
+      "desc": undefined,
+      "events": undefined,
+      "name": "innerGeneric",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "void",
+      },
+    },
+    {
+      "args": [],
+      "desc": undefined,
+      "events": undefined,
+      "name": "createApplication",
+      "readonly": undefined,
+      "returns": {
+        "desc": undefined,
+        "type": "void",
+      },
+    },
+  ],
+  "name": "ItxnsTest",
+}
+`;
+
+exports[`Inner Transactions ItxnsTest Artifacts Generates ARC32 1`] = `
+{
+  "bare_call_config": {
+    "close_out": "NEVER",
+    "delete_application": "NEVER",
+    "no_op": "NEVER",
+    "opt_in": "NEVER",
+    "update_application": "NEVER",
+  },
+  "contract": {
+    "desc": "",
+    "events": undefined,
+    "methods": [
+      {
+        "args": [],
+        "desc": undefined,
+        "events": undefined,
+        "name": "payment",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "void",
+        },
+      },
+      {
+        "args": [],
+        "desc": undefined,
+        "events": undefined,
+        "name": "assetCreation",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint64",
+        },
+      },
+      {
+        "args": [],
+        "desc": undefined,
+        "events": undefined,
+        "name": "appCall",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "void",
+        },
+      },
+      {
+        "args": [],
+        "desc": undefined,
+        "events": undefined,
+        "name": "assetConfig",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "void",
+        },
+      },
+      {
+        "args": [],
+        "desc": undefined,
+        "events": undefined,
+        "name": "assetFreeze",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "void",
+        },
+      },
+      {
+        "args": [],
+        "desc": undefined,
+        "events": undefined,
+        "name": "assetTransfer",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "void",
+        },
+      },
+      {
+        "args": [],
+        "desc": undefined,
+        "events": undefined,
+        "name": "methodCall",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "uint64",
+        },
+      },
+      {
+        "args": [],
+        "desc": undefined,
+        "events": undefined,
+        "name": "onlineKeyRegistration",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "void",
+        },
+      },
+      {
+        "args": [],
+        "desc": undefined,
+        "events": undefined,
+        "name": "offlineKeyRegistration",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "void",
+        },
+      },
+      {
+        "args": [],
+        "desc": undefined,
+        "events": undefined,
+        "name": "innerGeneric",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "void",
+        },
+      },
+      {
+        "args": [],
+        "desc": undefined,
+        "events": undefined,
+        "name": "createApplication",
+        "readonly": undefined,
+        "returns": {
+          "desc": undefined,
+          "type": "void",
+        },
+      },
+    ],
+    "name": "ItxnsTest",
+  },
+  "hints": {
+    "appCall()void": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "assetConfig()void": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "assetCreation()uint64": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "assetFreeze()void": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "assetTransfer()void": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "createApplication()void": {
+      "call_config": {
+        "no_op": "CREATE",
+      },
+    },
+    "innerGeneric()void": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "methodCall()uint64": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "offlineKeyRegistration()void": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "onlineKeyRegistration()void": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+    "payment()void": {
+      "call_config": {
+        "no_op": "CALL",
+      },
+    },
+  },
+  "schema": {
+    "global": {
+      "declared": {},
+      "reserved": {},
+    },
+    "local": {
+      "declared": {},
+      "reserved": {},
+    },
+  },
+  "source": {
+    "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCmludGNibG9jayAxIDAgNiAzIDIKYnl0ZWNibG9jayAweDYxNjE2MTYxNjE2MTYxNjE2MTYxNjE2MTYxNjE2MTYxNjE2MTYxNjE2MTYxNjE2MTYxNjE2MTYxNjE2MTYxNjEgMHgxNTFmN2M3NQoKLy8gaHR0cHM6Ly9naXRodWIuY29tL2FsZ29yYW5kZm91bmRhdGlvbi9URUFMU2NyaXB0CgovLyBUaGlzIGNvbnRyYWN0IGlzIGNvbXBsaWFudCB3aXRoIGFuZC9vciBpbXBsZW1lbnRzIHRoZSBmb2xsb3dpbmcgQVJDczogWyBBUkM0IF0KCi8vIFRoZSBmb2xsb3dpbmcgdGVuIGxpbmVzIG9mIFRFQUwgaGFuZGxlIGluaXRpYWwgcHJvZ3JhbSBmbG93Ci8vIFRoaXMgcGF0dGVybiBpcyB1c2VkIHRvIG1ha2UgaXQgZWFzeSBmb3IgYW55b25lIHRvIHBhcnNlIHRoZSBzdGFydCBvZiB0aGUgcHJvZ3JhbSBhbmQgZGV0ZXJtaW5lIGlmIGEgc3BlY2lmaWMgYWN0aW9uIGlzIGFsbG93ZWQKLy8gSGVyZSwgYWN0aW9uIHJlZmVycyB0byB0aGUgT25Db21wbGV0ZSBpbiBjb21iaW5hdGlvbiB3aXRoIHdoZXRoZXIgdGhlIGFwcCBpcyBiZWluZyBjcmVhdGVkIG9yIGNhbGxlZAovLyBFdmVyeSBwb3NzaWJsZSBhY3Rpb24gZm9yIHRoaXMgY29udHJhY3QgaXMgcmVwcmVzZW50ZWQgaW4gdGhlIHN3aXRjaCBzdGF0ZW1lbnQKLy8gSWYgdGhlIGFjdGlvbiBpcyBub3QgaW1wbGVtZW50ZWQgaW4gdGhlIGNvbnRyYWN0LCBpdHMgcmVzcGVjdGl2ZSBicmFuY2ggd2lsbCBiZSAiKk5PVF9JTVBMRU1FTlRFRCIgd2hpY2gganVzdCBjb250YWlucyAiZXJyIgp0eG4gQXBwbGljYXRpb25JRAohCmludGMgMiAvLyA2CioKdHhuIE9uQ29tcGxldGlvbgorCnN3aXRjaCAqY2FsbF9Ob09wICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqY3JlYXRlX05vT3AgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVECgoqTk9UX0lNUExFTUVOVEVEOgoJLy8gVGhlIHJlcXVlc3RlZCBhY3Rpb24gaXMgbm90IGltcGxlbWVudGVkIGluIHRoaXMgY29udHJhY3QuIEFyZSB5b3UgdXNpbmcgdGhlIGNvcnJlY3QgT25Db21wbGV0ZT8gRGlkIHlvdSBzZXQgeW91ciBhcHAgSUQ/CgllcnIKCi8vIHBheW1lbnQoKXZvaWQKKmFiaV9yb3V0ZV9wYXltZW50OgoJLy8gZXhlY3V0ZSBwYXltZW50KCl2b2lkCgljYWxsc3ViIHBheW1lbnQKCWludGMgMCAvLyAxCglyZXR1cm4KCi8vIHBheW1lbnQoKTogdm9pZApwYXltZW50OgoJcHJvdG8gMCAwCgoJLy8gdGVzdHMvY29udHJhY3RzL2l0eG5zLmFsZ28udHM6NgoJLy8gc2VuZFBheW1lbnQoewoJLy8gICAgICAgYW1vdW50OiAxMDAsCgkvLyAgICAgICByZWNlaXZlcjogdGhpcy5hcHAuYWRkcmVzcywKCS8vICAgICAgIGNsb3NlUmVtYWluZGVyVG86IGdsb2JhbHMuemVyb0FkZHJlc3MsCgkvLyAgICAgICBzZW5kZXI6IHRoaXMuYXBwLmFkZHJlc3MsCgkvLyAgICAgICByZWtleVRvOiBnbG9iYWxzLnplcm9BZGRyZXNzLAoJLy8gICAgICAgbm90ZTogJ0hlbGxvIFdvcmxkIScsCgkvLyAgICAgfSkKCWl0eG5fYmVnaW4KCWludGMgMCAvLyAgcGF5CglpdHhuX2ZpZWxkIFR5cGVFbnVtCgoJLy8gdGVzdHMvY29udHJhY3RzL2l0eG5zLmFsZ28udHM6NwoJLy8gYW1vdW50OiAxMDAKCXB1c2hpbnQgMTAwCglpdHhuX2ZpZWxkIEFtb3VudAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9pdHhucy5hbGdvLnRzOjgKCS8vIHJlY2VpdmVyOiB0aGlzLmFwcC5hZGRyZXNzCglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJaXR4bl9maWVsZCBSZWNlaXZlcgoKCS8vIHRlc3RzL2NvbnRyYWN0cy9pdHhucy5hbGdvLnRzOjkKCS8vIGNsb3NlUmVtYWluZGVyVG86IGdsb2JhbHMuemVyb0FkZHJlc3MKCWdsb2JhbCBaZXJvQWRkcmVzcwoJaXR4bl9maWVsZCBDbG9zZVJlbWFpbmRlclRvCgoJLy8gdGVzdHMvY29udHJhY3RzL2l0eG5zLmFsZ28udHM6MTAKCS8vIHNlbmRlcjogdGhpcy5hcHAuYWRkcmVzcwoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCWl0eG5fZmllbGQgU2VuZGVyCgoJLy8gdGVzdHMvY29udHJhY3RzL2l0eG5zLmFsZ28udHM6MTEKCS8vIHJla2V5VG86IGdsb2JhbHMuemVyb0FkZHJlc3MKCWdsb2JhbCBaZXJvQWRkcmVzcwoJaXR4bl9maWVsZCBSZWtleVRvCgoJLy8gdGVzdHMvY29udHJhY3RzL2l0eG5zLmFsZ28udHM6MTIKCS8vIG5vdGU6ICdIZWxsbyBXb3JsZCEnCglwdXNoYnl0ZXMgMHg0ODY1NmM2YzZmMjA1NzZmNzI2YzY0MjEgLy8gIkhlbGxvIFdvcmxkISIKCWl0eG5fZmllbGQgTm90ZQoKCS8vIEZlZSBmaWVsZCBub3Qgc2V0LCBkZWZhdWx0aW5nIHRvIDAKCWludGMgMSAvLyAwCglpdHhuX2ZpZWxkIEZlZQoKCS8vIFN1Ym1pdCBpbm5lciB0cmFuc2FjdGlvbgoJaXR4bl9zdWJtaXQKCXJldHN1YgoKLy8gYXNzZXRDcmVhdGlvbigpdWludDY0CiphYmlfcm91dGVfYXNzZXRDcmVhdGlvbjoKCS8vIFRoZSBBQkkgcmV0dXJuIHByZWZpeAoJYnl0ZWMgMSAvLyAweDE1MWY3Yzc1CgoJLy8gZXhlY3V0ZSBhc3NldENyZWF0aW9uKCl1aW50NjQKCWNhbGxzdWIgYXNzZXRDcmVhdGlvbgoJaXRvYgoJY29uY2F0Cglsb2cKCWludGMgMCAvLyAxCglyZXR1cm4KCi8vIGFzc2V0Q3JlYXRpb24oKTogQXNzZXRJRAphc3NldENyZWF0aW9uOgoJcHJvdG8gMCAxCgoJLy8gdGVzdHMvY29udHJhY3RzL2l0eG5zLmFsZ28udHM6MTcKCS8vIHJldHVybiBzZW5kQXNzZXRDcmVhdGlvbih7CgkvLyAgICAgICBjb25maWdBc3NldE5hbWU6ICduYW1lJywKCS8vICAgICAgIGNvbmZpZ0Fzc2V0VW5pdE5hbWU6ICd1bml0JywKCS8vICAgICAgIGNvbmZpZ0Fzc2V0VG90YWw6IDEsCgkvLyAgICAgICBjb25maWdBc3NldE1hbmFnZXI6IHRoaXMuYXBwLmFkZHJlc3MsCgkvLyAgICAgICBjb25maWdBc3NldFJlc2VydmU6IHRoaXMuYXBwLmFkZHJlc3MsCgkvLyAgICAgICBjb25maWdBc3NldEZyZWV6ZTogdGhpcy5hcHAuYWRkcmVzcywKCS8vICAgICAgIGNvbmZpZ0Fzc2V0Q2xhd2JhY2s6IHRoaXMuYXBwLmFkZHJlc3MsCgkvLyAgICAgICBjb25maWdBc3NldERlZmF1bHRGcm96ZW46IDAsCgkvLyAgICAgICBjb25maWdBc3NldFVSTDogJ3VybCcsCgkvLyAgICAgICBjb25maWdBc3NldE1ldGFkYXRhSGFzaDogJ2FhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhJywKCS8vICAgICB9KTsKCWl0eG5fYmVnaW4KCWludGMgMyAvLyAgYWNmZwoJaXR4bl9maWVsZCBUeXBlRW51bQoKCS8vIHRlc3RzL2NvbnRyYWN0cy9pdHhucy5hbGdvLnRzOjE4CgkvLyBjb25maWdBc3NldE5hbWU6ICduYW1lJwoJcHVzaGJ5dGVzIDB4NmU2MTZkNjUgLy8gIm5hbWUiCglpdHhuX2ZpZWxkIENvbmZpZ0Fzc2V0TmFtZQoKCS8vIHRlc3RzL2NvbnRyYWN0cy9pdHhucy5hbGdvLnRzOjE5CgkvLyBjb25maWdBc3NldFVuaXROYW1lOiAndW5pdCcKCXB1c2hieXRlcyAweDc1NmU2OTc0IC8vICJ1bml0IgoJaXR4bl9maWVsZCBDb25maWdBc3NldFVuaXROYW1lCgoJLy8gdGVzdHMvY29udHJhY3RzL2l0eG5zLmFsZ28udHM6MjAKCS8vIGNvbmZpZ0Fzc2V0VG90YWw6IDEKCWludGMgMCAvLyAxCglpdHhuX2ZpZWxkIENvbmZpZ0Fzc2V0VG90YWwKCgkvLyB0ZXN0cy9jb250cmFjdHMvaXR4bnMuYWxnby50czoyMQoJLy8gY29uZmlnQXNzZXRNYW5hZ2VyOiB0aGlzLmFwcC5hZGRyZXNzCglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJaXR4bl9maWVsZCBDb25maWdBc3NldE1hbmFnZXIKCgkvLyB0ZXN0cy9jb250cmFjdHMvaXR4bnMuYWxnby50czoyMgoJLy8gY29uZmlnQXNzZXRSZXNlcnZlOiB0aGlzLmFwcC5hZGRyZXNzCglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJaXR4bl9maWVsZCBDb25maWdBc3NldFJlc2VydmUKCgkvLyB0ZXN0cy9jb250cmFjdHMvaXR4bnMuYWxnby50czoyMwoJLy8gY29uZmlnQXNzZXRGcmVlemU6IHRoaXMuYXBwLmFkZHJlc3MKCWdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCglpdHhuX2ZpZWxkIENvbmZpZ0Fzc2V0RnJlZXplCgoJLy8gdGVzdHMvY29udHJhY3RzL2l0eG5zLmFsZ28udHM6MjQKCS8vIGNvbmZpZ0Fzc2V0Q2xhd2JhY2s6IHRoaXMuYXBwLmFkZHJlc3MKCWdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCglpdHhuX2ZpZWxkIENvbmZpZ0Fzc2V0Q2xhd2JhY2sKCgkvLyB0ZXN0cy9jb250cmFjdHMvaXR4bnMuYWxnby50czoyNQoJLy8gY29uZmlnQXNzZXREZWZhdWx0RnJvemVuOiAwCglpbnRjIDEgLy8gMAoJaXR4bl9maWVsZCBDb25maWdBc3NldERlZmF1bHRGcm96ZW4KCgkvLyB0ZXN0cy9jb250cmFjdHMvaXR4bnMuYWxnby50czoyNgoJLy8gY29uZmlnQXNzZXRVUkw6ICd1cmwnCglwdXNoYnl0ZXMgMHg3NTcyNmMgLy8gInVybCIKCWl0eG5fZmllbGQgQ29uZmlnQXNzZXRVUkwKCgkvLyB0ZXN0cy9jb250cmFjdHMvaXR4bnMuYWxnby50czoyNwoJLy8gY29uZmlnQXNzZXRNZXRhZGF0YUhhc2g6ICdhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYScKCWJ5dGVjIDAgLy8gICJhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYSIKCWl0eG5fZmllbGQgQ29uZmlnQXNzZXRNZXRhZGF0YUhhc2gKCgkvLyBGZWUgZmllbGQgbm90IHNldCwgZGVmYXVsdGluZyB0byAwCglpbnRjIDEgLy8gMAoJaXR4bl9maWVsZCBGZWUKCgkvLyBTdWJtaXQgaW5uZXIgdHJhbnNhY3Rpb24KCWl0eG5fc3VibWl0CglpdHhuIENyZWF0ZWRBc3NldElECglyZXRzdWIKCi8vIGFwcENhbGwoKXZvaWQKKmFiaV9yb3V0ZV9hcHBDYWxsOgoJLy8gZXhlY3V0ZSBhcHBDYWxsKCl2b2lkCgljYWxsc3ViIGFwcENhbGwKCWludGMgMCAvLyAxCglyZXR1cm4KCi8vIGFwcENhbGwoKTogdm9pZAphcHBDYWxsOgoJcHJvdG8gMCAwCgoJLy8gdGVzdHMvY29udHJhY3RzL2l0eG5zLmFsZ28udHM6MzIKCS8vIHNlbmRBcHBDYWxsKHsKCS8vICAgICAgIGFjY291bnRzOiBbdGhpcy5hcHAuYWRkcmVzc10sCgkvLyAgICAgICBhcHBsaWNhdGlvbkFyZ3M6IFsnYXJnMScsICdhcmcyJ10sCgkvLyAgICAgICBhcHBsaWNhdGlvbklEOiB0aGlzLmFwcCwKCS8vICAgICAgIGFwcGxpY2F0aW9uczogW3RoaXMuYXBwXSwKCS8vICAgICAgIGFwcHJvdmFsUHJvZ3JhbTogJ2FwcHJvdmFsJywKCS8vICAgICAgIGFzc2V0czogW0Fzc2V0SUQuemVyb0luZGV4XSwKCS8vICAgICAgIGNsZWFyU3RhdGVQcm9ncmFtOiAnY2xlYXInLAoJLy8gICAgICAgZ2xvYmFsTnVtQnl0ZVNsaWNlOiAxLAoJLy8gICAgICAgZ2xvYmFsTnVtVWludDogMSwKCS8vICAgICAgIGxvY2FsTnVtQnl0ZVNsaWNlOiAxLAoJLy8gICAgICAgbG9jYWxOdW1VaW50OiAxLAoJLy8gICAgICAgbm90ZTogJ25vdGUnLAoJLy8gICAgIH0pCglpdHhuX2JlZ2luCglpbnRjIDIgLy8gIGFwcGwKCWl0eG5fZmllbGQgVHlwZUVudW0KCgkvLyB0ZXN0cy9jb250cmFjdHMvaXR4bnMuYWxnby50czozMwoJLy8gYWNjb3VudHM6IFt0aGlzLmFwcC5hZGRyZXNzXQoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCWl0eG5fZmllbGQgQWNjb3VudHMKCgkvLyB0ZXN0cy9jb250cmFjdHMvaXR4bnMuYWxnby50czozNAoJLy8gYXBwbGljYXRpb25BcmdzOiBbJ2FyZzEnLCAnYXJnMiddCglwdXNoYnl0ZXMgMHg2MTcyNjczMSAvLyAiYXJnMSIKCWl0eG5fZmllbGQgQXBwbGljYXRpb25BcmdzCglwdXNoYnl0ZXMgMHg2MTcyNjczMiAvLyAiYXJnMiIKCWl0eG5fZmllbGQgQXBwbGljYXRpb25BcmdzCgoJLy8gdGVzdHMvY29udHJhY3RzL2l0eG5zLmFsZ28udHM6MzUKCS8vIGFwcGxpY2F0aW9uSUQ6IHRoaXMuYXBwCgl0eG5hIEFwcGxpY2F0aW9ucyAwCglpdHhuX2ZpZWxkIEFwcGxpY2F0aW9uSUQKCgkvLyB0ZXN0cy9jb250cmFjdHMvaXR4bnMuYWxnby50czozNgoJLy8gYXBwbGljYXRpb25zOiBbdGhpcy5hcHBdCgl0eG5hIEFwcGxpY2F0aW9ucyAwCglpdHhuX2ZpZWxkIEFwcGxpY2F0aW9ucwoKCS8vIHRlc3RzL2NvbnRyYWN0cy9pdHhucy5hbGdvLnRzOjM3CgkvLyBhcHByb3ZhbFByb2dyYW06ICdhcHByb3ZhbCcKCXB1c2hieXRlcyAweDYxNzA3MDcyNmY3NjYxNmMgLy8gImFwcHJvdmFsIgoJaXR4bl9maWVsZCBBcHByb3ZhbFByb2dyYW0KCgkvLyB0ZXN0cy9jb250cmFjdHMvaXR4bnMuYWxnby50czozOAoJLy8gYXNzZXRzOiBbQXNzZXRJRC56ZXJvSW5kZXhdCglpbnRjIDEgLy8gMAoJaXR4bl9maWVsZCBBc3NldHMKCgkvLyB0ZXN0cy9jb250cmFjdHMvaXR4bnMuYWxnby50czozOQoJLy8gY2xlYXJTdGF0ZVByb2dyYW06ICdjbGVhcicKCXB1c2hieXRlcyAweDYzNmM2NTYxNzIgLy8gImNsZWFyIgoJaXR4bl9maWVsZCBDbGVhclN0YXRlUHJvZ3JhbQoKCS8vIHRlc3RzL2NvbnRyYWN0cy9pdHhucy5hbGdvLnRzOjQwCgkvLyBnbG9iYWxOdW1CeXRlU2xpY2U6IDEKCWludGMgMCAvLyAxCglpdHhuX2ZpZWxkIEdsb2JhbE51bUJ5dGVTbGljZQoKCS8vIHRlc3RzL2NvbnRyYWN0cy9pdHhucy5hbGdvLnRzOjQxCgkvLyBnbG9iYWxOdW1VaW50OiAxCglpbnRjIDAgLy8gMQoJaXR4bl9maWVsZCBHbG9iYWxOdW1VaW50CgoJLy8gdGVzdHMvY29udHJhY3RzL2l0eG5zLmFsZ28udHM6NDIKCS8vIGxvY2FsTnVtQnl0ZVNsaWNlOiAxCglpbnRjIDAgLy8gMQoJaXR4bl9maWVsZCBMb2NhbE51bUJ5dGVTbGljZQoKCS8vIHRlc3RzL2NvbnRyYWN0cy9pdHhucy5hbGdvLnRzOjQzCgkvLyBsb2NhbE51bVVpbnQ6IDEKCWludGMgMCAvLyAxCglpdHhuX2ZpZWxkIExvY2FsTnVtVWludAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9pdHhucy5hbGdvLnRzOjQ0CgkvLyBub3RlOiAnbm90ZScKCXB1c2hieXRlcyAweDZlNmY3NDY1IC8vICJub3RlIgoJaXR4bl9maWVsZCBOb3RlCgoJLy8gRmVlIGZpZWxkIG5vdCBzZXQsIGRlZmF1bHRpbmcgdG8gMAoJaW50YyAxIC8vIDAKCWl0eG5fZmllbGQgRmVlCgoJLy8gU3VibWl0IGlubmVyIHRyYW5zYWN0aW9uCglpdHhuX3N1Ym1pdAoJcmV0c3ViCgovLyBhc3NldENvbmZpZygpdm9pZAoqYWJpX3JvdXRlX2Fzc2V0Q29uZmlnOgoJLy8gZXhlY3V0ZSBhc3NldENvbmZpZygpdm9pZAoJY2FsbHN1YiBhc3NldENvbmZpZwoJaW50YyAwIC8vIDEKCXJldHVybgoKLy8gYXNzZXRDb25maWcoKTogdm9pZAphc3NldENvbmZpZzoKCXByb3RvIDAgMAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9pdHhucy5hbGdvLnRzOjQ5CgkvLyBzZW5kQXNzZXRDb25maWcoewoJLy8gICAgICAgY29uZmlnQXNzZXQ6IEFzc2V0SUQuemVyb0luZGV4LAoJLy8gICAgICAgY29uZmlnQXNzZXRNYW5hZ2VyOiB0aGlzLmFwcC5hZGRyZXNzLAoJLy8gICAgICAgY29uZmlnQXNzZXRSZXNlcnZlOiB0aGlzLmFwcC5hZGRyZXNzLAoJLy8gICAgICAgY29uZmlnQXNzZXRGcmVlemU6IHRoaXMuYXBwLmFkZHJlc3MsCgkvLyAgICAgICBjb25maWdBc3NldENsYXdiYWNrOiB0aGlzLmFwcC5hZGRyZXNzLAoJLy8gICAgIH0pCglpdHhuX2JlZ2luCglpbnRjIDMgLy8gIGFjZmcKCWl0eG5fZmllbGQgVHlwZUVudW0KCgkvLyB0ZXN0cy9jb250cmFjdHMvaXR4bnMuYWxnby50czo1MAoJLy8gY29uZmlnQXNzZXQ6IEFzc2V0SUQuemVyb0luZGV4CglpbnRjIDEgLy8gMAoJaXR4bl9maWVsZCBDb25maWdBc3NldAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9pdHhucy5hbGdvLnRzOjUxCgkvLyBjb25maWdBc3NldE1hbmFnZXI6IHRoaXMuYXBwLmFkZHJlc3MKCWdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCglpdHhuX2ZpZWxkIENvbmZpZ0Fzc2V0TWFuYWdlcgoKCS8vIHRlc3RzL2NvbnRyYWN0cy9pdHhucy5hbGdvLnRzOjUyCgkvLyBjb25maWdBc3NldFJlc2VydmU6IHRoaXMuYXBwLmFkZHJlc3MKCWdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCglpdHhuX2ZpZWxkIENvbmZpZ0Fzc2V0UmVzZXJ2ZQoKCS8vIHRlc3RzL2NvbnRyYWN0cy9pdHhucy5hbGdvLnRzOjUzCgkvLyBjb25maWdBc3NldEZyZWV6ZTogdGhpcy5hcHAuYWRkcmVzcwoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCWl0eG5fZmllbGQgQ29uZmlnQXNzZXRGcmVlemUKCgkvLyB0ZXN0cy9jb250cmFjdHMvaXR4bnMuYWxnby50czo1NAoJLy8gY29uZmlnQXNzZXRDbGF3YmFjazogdGhpcy5hcHAuYWRkcmVzcwoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCWl0eG5fZmllbGQgQ29uZmlnQXNzZXRDbGF3YmFjawoKCS8vIEZlZSBmaWVsZCBub3Qgc2V0LCBkZWZhdWx0aW5nIHRvIDAKCWludGMgMSAvLyAwCglpdHhuX2ZpZWxkIEZlZQoKCS8vIFN1Ym1pdCBpbm5lciB0cmFuc2FjdGlvbgoJaXR4bl9zdWJtaXQKCXJldHN1YgoKLy8gYXNzZXRGcmVlemUoKXZvaWQKKmFiaV9yb3V0ZV9hc3NldEZyZWV6ZToKCS8vIGV4ZWN1dGUgYXNzZXRGcmVlemUoKXZvaWQKCWNhbGxzdWIgYXNzZXRGcmVlemUKCWludGMgMCAvLyAxCglyZXR1cm4KCi8vIGFzc2V0RnJlZXplKCk6IHZvaWQKYXNzZXRGcmVlemU6Cglwcm90byAwIDAKCgkvLyB0ZXN0cy9jb250cmFjdHMvaXR4bnMuYWxnby50czo1OQoJLy8gc2VuZEFzc2V0RnJlZXplKHsKCS8vICAgICAgIGZyZWV6ZUFzc2V0RnJvemVuOiB0cnVlLAoJLy8gICAgICAgZnJlZXplQXNzZXRBY2NvdW50OiB0aGlzLmFwcC5hZGRyZXNzLAoJLy8gICAgICAgZnJlZXplQXNzZXQ6IEFzc2V0SUQuemVyb0luZGV4LAoJLy8gICAgIH0pCglpdHhuX2JlZ2luCglwdXNoaW50IDUgLy8gYWZyegoJaXR4bl9maWVsZCBUeXBlRW51bQoKCS8vIHRlc3RzL2NvbnRyYWN0cy9pdHhucy5hbGdvLnRzOjYwCgkvLyBmcmVlemVBc3NldEZyb3plbjogdHJ1ZQoJaW50YyAwIC8vIDEKCWl0eG5fZmllbGQgRnJlZXplQXNzZXRGcm96ZW4KCgkvLyB0ZXN0cy9jb250cmFjdHMvaXR4bnMuYWxnby50czo2MQoJLy8gZnJlZXplQXNzZXRBY2NvdW50OiB0aGlzLmFwcC5hZGRyZXNzCglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJaXR4bl9maWVsZCBGcmVlemVBc3NldEFjY291bnQKCgkvLyB0ZXN0cy9jb250cmFjdHMvaXR4bnMuYWxnby50czo2MgoJLy8gZnJlZXplQXNzZXQ6IEFzc2V0SUQuemVyb0luZGV4CglpbnRjIDEgLy8gMAoJaXR4bl9maWVsZCBGcmVlemVBc3NldAoKCS8vIEZlZSBmaWVsZCBub3Qgc2V0LCBkZWZhdWx0aW5nIHRvIDAKCWludGMgMSAvLyAwCglpdHhuX2ZpZWxkIEZlZQoKCS8vIFN1Ym1pdCBpbm5lciB0cmFuc2FjdGlvbgoJaXR4bl9zdWJtaXQKCXJldHN1YgoKLy8gYXNzZXRUcmFuc2Zlcigpdm9pZAoqYWJpX3JvdXRlX2Fzc2V0VHJhbnNmZXI6CgkvLyBleGVjdXRlIGFzc2V0VHJhbnNmZXIoKXZvaWQKCWNhbGxzdWIgYXNzZXRUcmFuc2ZlcgoJaW50YyAwIC8vIDEKCXJldHVybgoKLy8gYXNzZXRUcmFuc2ZlcigpOiB2b2lkCmFzc2V0VHJhbnNmZXI6Cglwcm90byAwIDAKCgkvLyB0ZXN0cy9jb250cmFjdHMvaXR4bnMuYWxnby50czo2NwoJLy8gc2VuZEFzc2V0VHJhbnNmZXIoewoJLy8gICAgICAgYXNzZXRBbW91bnQ6IDEsCgkvLyAgICAgICBhc3NldENsb3NlVG86IHRoaXMuYXBwLmFkZHJlc3MsCgkvLyAgICAgICBhc3NldFJlY2VpdmVyOiB0aGlzLmFwcC5hZGRyZXNzLAoJLy8gICAgICAgYXNzZXRTZW5kZXI6IHRoaXMuYXBwLmFkZHJlc3MsCgkvLyAgICAgICB4ZmVyQXNzZXQ6IEFzc2V0SUQuemVyb0luZGV4LAoJLy8gICAgIH0pCglpdHhuX2JlZ2luCglwdXNoaW50IDQgLy8gYXhmZXIKCWl0eG5fZmllbGQgVHlwZUVudW0KCgkvLyB0ZXN0cy9jb250cmFjdHMvaXR4bnMuYWxnby50czo2OAoJLy8gYXNzZXRBbW91bnQ6IDEKCWludGMgMCAvLyAxCglpdHhuX2ZpZWxkIEFzc2V0QW1vdW50CgoJLy8gdGVzdHMvY29udHJhY3RzL2l0eG5zLmFsZ28udHM6NjkKCS8vIGFzc2V0Q2xvc2VUbzogdGhpcy5hcHAuYWRkcmVzcwoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCWl0eG5fZmllbGQgQXNzZXRDbG9zZVRvCgoJLy8gdGVzdHMvY29udHJhY3RzL2l0eG5zLmFsZ28udHM6NzAKCS8vIGFzc2V0UmVjZWl2ZXI6IHRoaXMuYXBwLmFkZHJlc3MKCWdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCglpdHhuX2ZpZWxkIEFzc2V0UmVjZWl2ZXIKCgkvLyB0ZXN0cy9jb250cmFjdHMvaXR4bnMuYWxnby50czo3MQoJLy8gYXNzZXRTZW5kZXI6IHRoaXMuYXBwLmFkZHJlc3MKCWdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCglpdHhuX2ZpZWxkIEFzc2V0U2VuZGVyCgoJLy8gdGVzdHMvY29udHJhY3RzL2l0eG5zLmFsZ28udHM6NzIKCS8vIHhmZXJBc3NldDogQXNzZXRJRC56ZXJvSW5kZXgKCWludGMgMSAvLyAwCglpdHhuX2ZpZWxkIFhmZXJBc3NldAoKCS8vIEZlZSBmaWVsZCBub3Qgc2V0LCBkZWZhdWx0aW5nIHRvIDAKCWludGMgMSAvLyAwCglpdHhuX2ZpZWxkIEZlZQoKCS8vIFN1Ym1pdCBpbm5lciB0cmFuc2FjdGlvbgoJaXR4bl9zdWJtaXQKCXJldHN1YgoKLy8gbWV0aG9kQ2FsbCgpdWludDY0CiphYmlfcm91dGVfbWV0aG9kQ2FsbDoKCS8vIFRoZSBBQkkgcmV0dXJuIHByZWZpeAoJYnl0ZWMgMSAvLyAweDE1MWY3Yzc1CgoJLy8gZXhlY3V0ZSBtZXRob2RDYWxsKCl1aW50NjQKCWNhbGxzdWIgbWV0aG9kQ2FsbAoJaXRvYgoJY29uY2F0Cglsb2cKCWludGMgMCAvLyAxCglyZXR1cm4KCi8vIG1ldGhvZENhbGwoKTogQXNzZXRJRAptZXRob2RDYWxsOgoJcHJvdG8gMCAxCgoJLy8gdGVzdHMvY29udHJhY3RzL2l0eG5zLmFsZ28udHM6NzcKCS8vIHJldHVybiBzZW5kTWV0aG9kQ2FsbDxbQXBwSUQsIEFzc2V0SURdLCBBc3NldElEPih7CgkvLyAgICAgICBuYW1lOiAnbWV0aG9kJywKCS8vICAgICAgIG1ldGhvZEFyZ3M6IFt0aGlzLmFwcCwgQXNzZXRJRC56ZXJvSW5kZXhdLAoJLy8gICAgIH0pOwoJaXR4bl9iZWdpbgoJaW50YyAyIC8vICBhcHBsCglpdHhuX2ZpZWxkIFR5cGVFbnVtCglwdXNoYnl0ZXMgMHhhNjZkNTU5YyAvLyBtZXRob2QgIm1ldGhvZCh1aW50NjQsdWludDY0KXVpbnQ2NCIKCWl0eG5fZmllbGQgQXBwbGljYXRpb25BcmdzCgoJLy8gdGVzdHMvY29udHJhY3RzL2l0eG5zLmFsZ28udHM6NzkKCS8vIG1ldGhvZEFyZ3M6IFt0aGlzLmFwcCwgQXNzZXRJRC56ZXJvSW5kZXhdCgl0eG5hIEFwcGxpY2F0aW9ucyAwCglpdG9iCglpdHhuX2ZpZWxkIEFwcGxpY2F0aW9uQXJncwoJcHVzaGJ5dGVzIDB4MDAwMDAwMDAwMDAwMDAwMAoJaXR4bl9maWVsZCBBcHBsaWNhdGlvbkFyZ3MKCgkvLyBGZWUgZmllbGQgbm90IHNldCwgZGVmYXVsdGluZyB0byAwCglpbnRjIDEgLy8gMAoJaXR4bl9maWVsZCBGZWUKCgkvLyBTdWJtaXQgaW5uZXIgdHJhbnNhY3Rpb24KCWl0eG5fc3VibWl0CglpdHhuIE51bUxvZ3MKCWludGMgMCAvLyAxCgktCglpdHhuYXMgTG9ncwoJZXh0cmFjdCA0IDAKCWJ0b2kKCXJldHN1YgoKLy8gb25saW5lS2V5UmVnaXN0cmF0aW9uKCl2b2lkCiphYmlfcm91dGVfb25saW5lS2V5UmVnaXN0cmF0aW9uOgoJLy8gZXhlY3V0ZSBvbmxpbmVLZXlSZWdpc3RyYXRpb24oKXZvaWQKCWNhbGxzdWIgb25saW5lS2V5UmVnaXN0cmF0aW9uCglpbnRjIDAgLy8gMQoJcmV0dXJuCgovLyBvbmxpbmVLZXlSZWdpc3RyYXRpb24oKTogdm9pZApvbmxpbmVLZXlSZWdpc3RyYXRpb246Cglwcm90byAwIDAKCgkvLyB0ZXN0cy9jb250cmFjdHMvaXR4bnMuYWxnby50czo4NAoJLy8gc2VuZE9ubGluZUtleVJlZ2lzdHJhdGlvbih7CgkvLyAgICAgICBzZWxlY3Rpb25QSzogJ2FhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhJywKCS8vICAgICAgIHN0YXRlUHJvb2ZQSzogJ2FhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhJywKCS8vICAgICAgIHZvdGVGaXJzdDogMSwKCS8vICAgICAgIHZvdGVLZXlEaWx1dGlvbjogMSwKCS8vICAgICAgIHZvdGVMYXN0OiAxLAoJLy8gICAgICAgdm90ZVBLOiAnYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWEnLAoJLy8gICAgIH0pCglpdHhuX2JlZ2luCglpbnRjIDQgLy8gIGtleXJlZwoJaXR4bl9maWVsZCBUeXBlRW51bQoKCS8vIHRlc3RzL2NvbnRyYWN0cy9pdHhucy5hbGdvLnRzOjg1CgkvLyBzZWxlY3Rpb25QSzogJ2FhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhJwoJYnl0ZWMgMCAvLyAgImFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhIgoJaXR4bl9maWVsZCBTZWxlY3Rpb25QSwoKCS8vIHRlc3RzL2NvbnRyYWN0cy9pdHhucy5hbGdvLnRzOjg2CgkvLyBzdGF0ZVByb29mUEs6ICdhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYScKCWJ5dGVjIDAgLy8gICJhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYSIKCWl0eG5fZmllbGQgU3RhdGVQcm9vZlBLCgoJLy8gdGVzdHMvY29udHJhY3RzL2l0eG5zLmFsZ28udHM6ODcKCS8vIHZvdGVGaXJzdDogMQoJaW50YyAwIC8vIDEKCWl0eG5fZmllbGQgVm90ZUZpcnN0CgoJLy8gdGVzdHMvY29udHJhY3RzL2l0eG5zLmFsZ28udHM6ODgKCS8vIHZvdGVLZXlEaWx1dGlvbjogMQoJaW50YyAwIC8vIDEKCWl0eG5fZmllbGQgVm90ZUtleURpbHV0aW9uCgoJLy8gdGVzdHMvY29udHJhY3RzL2l0eG5zLmFsZ28udHM6ODkKCS8vIHZvdGVMYXN0OiAxCglpbnRjIDAgLy8gMQoJaXR4bl9maWVsZCBWb3RlTGFzdAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9pdHhucy5hbGdvLnRzOjkwCgkvLyB2b3RlUEs6ICdhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYScKCWJ5dGVjIDAgLy8gICJhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYWFhYSIKCWl0eG5fZmllbGQgVm90ZVBLCgoJLy8gRmVlIGZpZWxkIG5vdCBzZXQsIGRlZmF1bHRpbmcgdG8gMAoJaW50YyAxIC8vIDAKCWl0eG5fZmllbGQgRmVlCgoJLy8gU3VibWl0IGlubmVyIHRyYW5zYWN0aW9uCglpdHhuX3N1Ym1pdAoJcmV0c3ViCgovLyBvZmZsaW5lS2V5UmVnaXN0cmF0aW9uKCl2b2lkCiphYmlfcm91dGVfb2ZmbGluZUtleVJlZ2lzdHJhdGlvbjoKCS8vIGV4ZWN1dGUgb2ZmbGluZUtleVJlZ2lzdHJhdGlvbigpdm9pZAoJY2FsbHN1YiBvZmZsaW5lS2V5UmVnaXN0cmF0aW9uCglpbnRjIDAgLy8gMQoJcmV0dXJuCgovLyBvZmZsaW5lS2V5UmVnaXN0cmF0aW9uKCk6IHZvaWQKb2ZmbGluZUtleVJlZ2lzdHJhdGlvbjoKCXByb3RvIDAgMAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9pdHhucy5hbGdvLnRzOjk1CgkvLyBzZW5kT2ZmbGluZUtleVJlZ2lzdHJhdGlvbih7fSkKCWl0eG5fYmVnaW4KCWludGMgNCAvLyAga2V5cmVnCglpdHhuX2ZpZWxkIFR5cGVFbnVtCgoJLy8gRmVlIGZpZWxkIG5vdCBzZXQsIGRlZmF1bHRpbmcgdG8gMAoJaW50YyAxIC8vIDAKCWl0eG5fZmllbGQgRmVlCgoJLy8gU3VibWl0IGlubmVyIHRyYW5zYWN0aW9uCglpdHhuX3N1Ym1pdAoJcmV0c3ViCgovLyBpbm5lckdlbmVyaWMoKXZvaWQKKmFiaV9yb3V0ZV9pbm5lckdlbmVyaWM6CgkvLyBleGVjdXRlIGlubmVyR2VuZXJpYygpdm9pZAoJY2FsbHN1YiBpbm5lckdlbmVyaWMKCWludGMgMCAvLyAxCglyZXR1cm4KCi8vIGlubmVyR2VuZXJpYygpOiB2b2lkCmlubmVyR2VuZXJpYzoKCXByb3RvIDAgMAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9pdHhucy5hbGdvLnRzOjk5CgkvLyBzZW5kTWV0aG9kQ2FsbDxbSW5uZXJUeG48SW5uZXJBc3NldENyZWF0aW9uPl0sIHZvaWQ+KHsKCS8vICAgICAgIG5hbWU6ICdmb28nLAoJLy8gICAgICAgbWV0aG9kQXJnczogW3sgY29uZmlnQXNzZXRUb3RhbDogMSB9XSwKCS8vICAgICB9KQoJaXR4bl9iZWdpbgoJaW50YyAzIC8vICBhY2ZnCglpdHhuX2ZpZWxkIFR5cGVFbnVtCgoJLy8gdGVzdHMvY29udHJhY3RzL2l0eG5zLmFsZ28udHM6MTAxCgkvLyBjb25maWdBc3NldFRvdGFsOiAxCglpbnRjIDAgLy8gMQoJaXR4bl9maWVsZCBDb25maWdBc3NldFRvdGFsCgoJLy8gRmVlIGZpZWxkIG5vdCBzZXQsIGRlZmF1bHRpbmcgdG8gMAoJaW50YyAxIC8vIDAKCWl0eG5fZmllbGQgRmVlCglpdHhuX25leHQKCWludGMgMiAvLyAgYXBwbAoJaXR4bl9maWVsZCBUeXBlRW51bQoJcHVzaGJ5dGVzIDB4MDkwOTI0ZTggLy8gbWV0aG9kICJmb28odHhuKXZvaWQiCglpdHhuX2ZpZWxkIEFwcGxpY2F0aW9uQXJncwoKCS8vIHRlc3RzL2NvbnRyYWN0cy9pdHhucy5hbGdvLnRzOjEwMQoJLy8gbWV0aG9kQXJnczogW3sgY29uZmlnQXNzZXRUb3RhbDogMSB9XQoJLy8gRmVlIGZpZWxkIG5vdCBzZXQsIGRlZmF1bHRpbmcgdG8gMAoJaW50YyAxIC8vIDAKCWl0eG5fZmllbGQgRmVlCgoJLy8gU3VibWl0IGlubmVyIHRyYW5zYWN0aW9uCglpdHhuX3N1Ym1pdAoJcmV0c3ViCgoqYWJpX3JvdXRlX2NyZWF0ZUFwcGxpY2F0aW9uOgoJaW50YyAwIC8vIDEKCXJldHVybgoKKmNyZWF0ZV9Ob09wOgoJcHVzaGJ5dGVzIDB4Yjg0NDdiMzYgLy8gbWV0aG9kICJjcmVhdGVBcHBsaWNhdGlvbigpdm9pZCIKCXR4bmEgQXBwbGljYXRpb25BcmdzIDAKCW1hdGNoICphYmlfcm91dGVfY3JlYXRlQXBwbGljYXRpb24KCgkvLyB0aGlzIGNvbnRyYWN0IGRvZXMgbm90IGltcGxlbWVudCB0aGUgZ2l2ZW4gQUJJIG1ldGhvZCBmb3IgY3JlYXRlIE5vT3AKCWVycgoKKmNhbGxfTm9PcDoKCXB1c2hieXRlcyAweDdhMmVjYjFjIC8vIG1ldGhvZCAicGF5bWVudCgpdm9pZCIKCXB1c2hieXRlcyAweGRmOWIzOGFkIC8vIG1ldGhvZCAiYXNzZXRDcmVhdGlvbigpdWludDY0IgoJcHVzaGJ5dGVzIDB4NjkwY2U4YjYgLy8gbWV0aG9kICJhcHBDYWxsKCl2b2lkIgoJcHVzaGJ5dGVzIDB4OGYzMTA1MzQgLy8gbWV0aG9kICJhc3NldENvbmZpZygpdm9pZCIKCXB1c2hieXRlcyAweGY4MzRiZWU4IC8vIG1ldGhvZCAiYXNzZXRGcmVlemUoKXZvaWQiCglwdXNoYnl0ZXMgMHgxZjQ0MThiNyAvLyBtZXRob2QgImFzc2V0VHJhbnNmZXIoKXZvaWQiCglwdXNoYnl0ZXMgMHg3MGFkZmEyMyAvLyBtZXRob2QgIm1ldGhvZENhbGwoKXVpbnQ2NCIKCXB1c2hieXRlcyAweGU2ZWM0NmZjIC8vIG1ldGhvZCAib25saW5lS2V5UmVnaXN0cmF0aW9uKCl2b2lkIgoJcHVzaGJ5dGVzIDB4MTE3MjMwMWEgLy8gbWV0aG9kICJvZmZsaW5lS2V5UmVnaXN0cmF0aW9uKCl2b2lkIgoJcHVzaGJ5dGVzIDB4N2EzMzg5N2QgLy8gbWV0aG9kICJpbm5lckdlbmVyaWMoKXZvaWQiCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAwCgltYXRjaCAqYWJpX3JvdXRlX3BheW1lbnQgKmFiaV9yb3V0ZV9hc3NldENyZWF0aW9uICphYmlfcm91dGVfYXBwQ2FsbCAqYWJpX3JvdXRlX2Fzc2V0Q29uZmlnICphYmlfcm91dGVfYXNzZXRGcmVlemUgKmFiaV9yb3V0ZV9hc3NldFRyYW5zZmVyICphYmlfcm91dGVfbWV0aG9kQ2FsbCAqYWJpX3JvdXRlX29ubGluZUtleVJlZ2lzdHJhdGlvbiAqYWJpX3JvdXRlX29mZmxpbmVLZXlSZWdpc3RyYXRpb24gKmFiaV9yb3V0ZV9pbm5lckdlbmVyaWMKCgkvLyB0aGlzIGNvbnRyYWN0IGRvZXMgbm90IGltcGxlbWVudCB0aGUgZ2l2ZW4gQUJJIG1ldGhvZCBmb3IgY2FsbCBOb09wCgllcnI=",
+    "clear": "I3ByYWdtYSB2ZXJzaW9uIDEw",
+  },
+  "state": {
+    "global": {
+      "num_byte_slices": 0,
+      "num_uints": 0,
+    },
+    "local": {
+      "num_byte_slices": 0,
+      "num_uints": 0,
+    },
+  },
+}
+`;

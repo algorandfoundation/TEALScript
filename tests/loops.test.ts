@@ -4,32 +4,16 @@ import { expect, describe, test, beforeAll } from '@jest/globals';
 import * as algokit from '@algorandfoundation/algokit-utils';
 // eslint-disable-next-line import/no-unresolved
 import { ApplicationClient } from '@algorandfoundation/algokit-utils/types/app-client';
-import { artifactsTest, algodClient, kmdClient } from './common';
-import appSpec from './contracts/artifacts/LoopsTest.arc32.json';
+import { artifactsTest, algodClient, kmdClient, compileAndCreate } from './common';
 
 let appClient: ApplicationClient;
 
 describe('Loops', function () {
-  artifactsTest('tests/contracts/loops.algo.ts', 'tests/contracts/artifacts/', 'LoopsTest');
+  artifactsTest('tests/contracts/loops.algo.ts', 'LoopsTest');
 
   beforeAll(async function () {
     const sender = await algokit.getLocalNetDispenserAccount(algodClient, kmdClient);
-
-    appClient = algokit.getAppClient(
-      {
-        app: JSON.stringify(appSpec),
-        sender,
-        resolveBy: 'id',
-        id: 0,
-      },
-      algodClient
-    );
-
-    await appClient.create({
-      method: 'createApplication',
-      methodArgs: [],
-      sendParams: { suppressLog: true },
-    });
+    appClient = (await compileAndCreate(sender, 'tests/contracts/loops.algo.ts', 'LoopsTest')).appClient;
   });
 
   test('whileLoop', async function () {
