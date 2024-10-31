@@ -2837,7 +2837,7 @@ export default class Compiler {
 
         if (numberKeywords.length > 0) {
           const node = numberKeywords[0];
-          const loc = ts.ts.getLineAndCharacterOfPosition(this.sourceFile.compilerNode, node.getStart());
+          const loc = ts.ts.getLineAndCharacterOfPosition(node.getSourceFile().compilerNode, node.getStart());
           const errPath = path.relative(this.cwd, node.getSourceFile().getFilePath());
 
           const msg = `number keyword not allowed at ${errPath}:${loc.line + 1}:${loc.character}. Use uint64 instead.`;
@@ -2853,7 +2853,7 @@ export default class Compiler {
 
     this.sourceFile.getStatements().forEach((body) => {
       const errNode = body;
-      const loc = ts.ts.getLineAndCharacterOfPosition(this.sourceFile.compilerNode, errNode.getStart());
+      const loc = ts.ts.getLineAndCharacterOfPosition(errNode.getSourceFile().compilerNode, errNode.getStart());
       const lines: string[] = [];
       const errPath = path.relative(this.cwd, errNode.getSourceFile().getFilePath());
       errNode
@@ -2960,7 +2960,7 @@ export default class Compiler {
       if (t.teal.length === 0 || t.teal.trim().startsWith('//') || t.teal.trim().split(' ')[0].endsWith(':')) return;
 
       const relativePath = path.relative(this.cwd, t.node.getSourceFile().getFilePath());
-      const line = ts.ts.getLineAndCharacterOfPosition(this.sourceFile.compilerNode, t.node.getStart()).line + 1;
+      const line = ts.ts.getLineAndCharacterOfPosition(t.node.getSourceFile().compilerNode, t.node.getStart()).line + 1;
       this.sourceInfo.push({
         teal: i + 1,
         source: `${relativePath}:${line}`,
@@ -3359,7 +3359,7 @@ export default class Compiler {
       this.processErrorNodes.push(node);
 
       const errNode = this.processErrorNodes[0];
-      const loc = ts.ts.getLineAndCharacterOfPosition(this.sourceFile.compilerNode, errNode.getStart());
+      const loc = ts.ts.getLineAndCharacterOfPosition(errNode.getSourceFile().compilerNode, errNode.getStart());
       const lines: string[] = [];
       const errPath = path.relative(this.cwd, errNode.getSourceFile().getFilePath());
       errNode
