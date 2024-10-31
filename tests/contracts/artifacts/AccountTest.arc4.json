@@ -1,0 +1,205 @@
+{
+  "name": "AccountTest",
+  "desc": "",
+  "methods": [
+    {
+      "name": "hasAsset",
+      "args": [
+        {
+          "name": "a",
+          "type": "address"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "assetBalance",
+      "args": [
+        {
+          "name": "a",
+          "type": "address"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "assetFrozen",
+      "args": [
+        {
+          "name": "a",
+          "type": "address"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "hasBalance",
+      "args": [
+        {
+          "name": "a",
+          "type": "address"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "balance",
+      "args": [
+        {
+          "name": "a",
+          "type": "address"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "minBalance",
+      "args": [
+        {
+          "name": "a",
+          "type": "address"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "authAddr",
+      "args": [
+        {
+          "name": "a",
+          "type": "address"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "totalNumUint",
+      "args": [
+        {
+          "name": "a",
+          "type": "address"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "totalNumByteSlice",
+      "args": [
+        {
+          "name": "a",
+          "type": "address"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "totalExtraAppPages",
+      "args": [
+        {
+          "name": "a",
+          "type": "address"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "totalAppsCreated",
+      "args": [
+        {
+          "name": "a",
+          "type": "address"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "totalAppsOptedIn",
+      "args": [
+        {
+          "name": "a",
+          "type": "address"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "totalAssetsCreated",
+      "args": [
+        {
+          "name": "a",
+          "type": "address"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "totalAssets",
+      "args": [
+        {
+          "name": "a",
+          "type": "address"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "totalBoxes",
+      "args": [
+        {
+          "name": "a",
+          "type": "address"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "totalBoxBytes",
+      "args": [
+        {
+          "name": "a",
+          "type": "address"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "createApplication",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    }
+  ]
+}

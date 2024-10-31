@@ -1,0 +1,56 @@
+{
+  "name": "ARC56Test",
+  "desc": "",
+  "methods": [
+    {
+      "name": "customStructMethod",
+      "args": [
+        {
+          "name": "input",
+          "type": "(uint64)"
+        }
+      ],
+      "returns": {
+        "type": "(uint64)"
+      }
+    },
+    {
+      "name": "foo",
+      "args": [
+        {
+          "name": "inputs",
+          "type": "((uint64,uint64),(uint64,uint64))"
+        }
+      ],
+      "returns": {
+        "type": "(uint64,uint64)"
+      }
+    },
+    {
+      "name": "optInToApplication",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "customType",
+      "args": [
+        {
+          "name": "input",
+          "type": "(uint64)"
+        }
+      ],
+      "returns": {
+        "type": "(uint64)"
+      }
+    },
+    {
+      "name": "createApplication",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    }
+  ]
+}

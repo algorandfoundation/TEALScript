@@ -8,9 +8,10 @@ import { compileAndCreate, runMethod, artifactsTest, algodClient, kmdClient, get
 
 const NAME = 'MathTest';
 const PATH = 'tests/contracts/math.algo.ts';
+const ARTIFACTS_DIR = 'tests/contracts/artifacts/';
 
 describe('Math', function () {
-  artifactsTest('tests/contracts/math.algo.ts', 'MathTest');
+  artifactsTest('tests/contracts/math.algo.ts', 'tests/contracts/artifacts/', 'MathTest');
 
   describe('E2E', function () {
     const sender = algokit.getLocalNetDispenserAccount(algodClient, kmdClient);
@@ -49,38 +50,38 @@ describe('Math', function () {
 
     Object.keys(methods).forEach((method) => {
       test(method, async function () {
-        const { appClient } = await compileAndCreate(await sender, PATH, NAME);
+        const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         expect(await runMethod({ appClient, method, methodArgs: [6, 3] })).toBe((methods as any)[method]);
       });
     });
 
     test('bitwiseNot', async function () {
-      const { appClient } = await compileAndCreate(await sender, PATH, NAME);
+      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
       expect(await runMethod({ appClient, method: 'bitwiseNot', methodArgs: [6n] })).toBe(
         BigInt(`0b${'1'.repeat(61)}001`)
       );
     });
 
     test('bitwiseNotU256', async function () {
-      const { appClient } = await compileAndCreate(await sender, PATH, NAME);
+      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
       expect(await runMethod({ appClient, method: 'bitwiseNotU256', methodArgs: [6n] })).toBe(
         BigInt(`0b${'1'.repeat(253)}001`)
       );
     });
 
     test('maxU64', async function () {
-      const { appClient } = await compileAndCreate(await sender, PATH, NAME);
+      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
       expect(await runMethod({ appClient, method: 'maxU64' })).toBe(BigInt('18446744073709551615'));
     });
 
     test('uintFromHex', async function () {
-      const { appClient } = await compileAndCreate(await sender, PATH, NAME);
+      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
       expect(await runMethod({ appClient, method: 'uintFromHex' })).toBe(BigInt('0xFF'));
     });
 
     test('overflow', async function () {
-      const { appClient, compiler } = await compileAndCreate(await sender, PATH, NAME);
+      const { appClient, compiler } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
 
       let msg: string;
       try {
@@ -95,7 +96,7 @@ describe('Math', function () {
     });
 
     test('funcName', async function () {
-      const { appClient } = await compileAndCreate(await sender, PATH, NAME);
+      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
 
       await runMethod({
         appClient,
@@ -105,7 +106,7 @@ describe('Math', function () {
     });
 
     test('unsafeVariables', async function () {
-      const { appClient } = await compileAndCreate(await sender, PATH, NAME);
+      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
 
       await runMethod({
         appClient,
@@ -114,7 +115,7 @@ describe('Math', function () {
     });
 
     test('wideRatioTest', async function () {
-      const { appClient } = await compileAndCreate(await sender, PATH, NAME);
+      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
       expect(await runMethod({ appClient, method: 'wideRatioTest' })).toBe(18446744073709551615n);
     });
   });
@@ -126,7 +127,7 @@ describe('Math', function () {
         await compileAndCreate(
           algosdk.generateAccount(),
           'tests/contracts/math_compile_errors.algo.ts',
-
+          ARTIFACTS_DIR,
           'Uint8Exp'
         );
         msg = 'No error';
@@ -144,7 +145,7 @@ describe('Math', function () {
         await compileAndCreate(
           algosdk.generateAccount(),
           'tests/contracts/math_compile_errors.algo.ts',
-
+          ARTIFACTS_DIR,
           'BytesComparison'
         );
         msg = 'No error';

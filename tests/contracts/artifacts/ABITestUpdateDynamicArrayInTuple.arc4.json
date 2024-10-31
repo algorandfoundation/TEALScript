@@ -1,0 +1,20 @@
+{
+  "name": "ABITestUpdateDynamicArrayInTuple",
+  "desc": "",
+  "methods": [
+    {
+      "name": "updateDynamicArrayInTuple",
+      "args": [],
+      "returns": {
+        "type": "(uint8,uint16[],uint8[],uint16[],uint8[])"
+      }
+    },
+    {
+      "name": "createApplication",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    }
+  ]
+}

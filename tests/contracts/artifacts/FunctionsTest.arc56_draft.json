@@ -1,0 +1,867 @@
+{
+  "name": "FunctionsTest",
+  "desc": "",
+  "methods": [
+    {
+      "name": "callNonClassFunction",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint64"
+        },
+        {
+          "name": "b",
+          "type": "uint64"
+        }
+      ],
+      "returns": {
+        "type": "uint64"
+      },
+      "actions": {
+        "create": [],
+        "call": [
+          "NoOp"
+        ]
+      }
+    },
+    {
+      "name": "callExternalFunction",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint64"
+        },
+        {
+          "name": "b",
+          "type": "uint64"
+        }
+      ],
+      "returns": {
+        "type": "uint64"
+      },
+      "actions": {
+        "create": [],
+        "call": [
+          "NoOp"
+        ]
+      }
+    },
+    {
+      "name": "callPackageFunction",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint64"
+        },
+        {
+          "name": "b",
+          "type": "uint64"
+        }
+      ],
+      "returns": {
+        "type": "uint64"
+      },
+      "actions": {
+        "create": [],
+        "call": [
+          "NoOp"
+        ]
+      }
+    },
+    {
+      "name": "createApplication",
+      "args": [],
+      "returns": {
+        "type": "void"
+      },
+      "actions": {
+        "create": [
+          "NoOp"
+        ],
+        "call": []
+      }
+    }
+  ],
+  "arcs": [
+    4,
+    56
+  ],
+  "structs": {},
+  "state": {
+    "schema": {
+      "global": {
+        "bytes": 0,
+        "ints": 0
+      },
+      "local": {
+        "bytes": 0,
+        "ints": 0
+      }
+    },
+    "keys": {
+      "global": {},
+      "local": {},
+      "box": {}
+    },
+    "maps": {
+      "global": {},
+      "local": {},
+      "box": {}
+    }
+  },
+  "bareActions": {
+    "create": [],
+    "call": []
+  },
+  "sourceInfo": {
+    "approval": {
+      "sourceInfo": [
+        {
+          "teal": 1,
+          "source": "tests/contracts/functions.algo.ts:10",
+          "pc": [
+            0
+          ]
+        },
+        {
+          "teal": 2,
+          "source": "tests/contracts/functions.algo.ts:10",
+          "pc": [
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "teal": 3,
+          "source": "tests/contracts/functions.algo.ts:10",
+          "pc": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
+          ]
+        },
+        {
+          "teal": 15,
+          "source": "tests/contracts/functions.algo.ts:10",
+          "pc": [
+            11,
+            12
+          ]
+        },
+        {
+          "teal": 16,
+          "source": "tests/contracts/functions.algo.ts:10",
+          "pc": [
+            13
+          ]
+        },
+        {
+          "teal": 17,
+          "source": "tests/contracts/functions.algo.ts:10",
+          "pc": [
+            14,
+            15
+          ]
+        },
+        {
+          "teal": 18,
+          "source": "tests/contracts/functions.algo.ts:10",
+          "pc": [
+            16
+          ]
+        },
+        {
+          "teal": 19,
+          "source": "tests/contracts/functions.algo.ts:10",
+          "pc": [
+            17,
+            18
+          ]
+        },
+        {
+          "teal": 20,
+          "source": "tests/contracts/functions.algo.ts:10",
+          "pc": [
+            19
+          ]
+        },
+        {
+          "teal": 21,
+          "source": "tests/contracts/functions.algo.ts:10",
+          "pc": [
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45
+          ]
+        },
+        {
+          "teal": 25,
+          "source": "tests/contracts/functions.algo.ts:10",
+          "errorMessage": "The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?",
+          "pc": [
+            46
+          ]
+        },
+        {
+          "teal": 30,
+          "source": "tests/contracts/functions.algo.ts:11",
+          "pc": [
+            47
+          ]
+        },
+        {
+          "teal": 33,
+          "source": "tests/contracts/functions.algo.ts:11",
+          "pc": [
+            48,
+            49,
+            50
+          ]
+        },
+        {
+          "teal": 34,
+          "source": "tests/contracts/functions.algo.ts:11",
+          "pc": [
+            51
+          ]
+        },
+        {
+          "teal": 37,
+          "source": "tests/contracts/functions.algo.ts:11",
+          "pc": [
+            52,
+            53,
+            54
+          ]
+        },
+        {
+          "teal": 38,
+          "source": "tests/contracts/functions.algo.ts:11",
+          "pc": [
+            55
+          ]
+        },
+        {
+          "teal": 41,
+          "source": "tests/contracts/functions.algo.ts:11",
+          "pc": [
+            56,
+            57,
+            58
+          ]
+        },
+        {
+          "teal": 42,
+          "source": "tests/contracts/functions.algo.ts:11",
+          "pc": [
+            59
+          ]
+        },
+        {
+          "teal": 43,
+          "source": "tests/contracts/functions.algo.ts:11",
+          "pc": [
+            60
+          ]
+        },
+        {
+          "teal": 44,
+          "source": "tests/contracts/functions.algo.ts:11",
+          "pc": [
+            61
+          ]
+        },
+        {
+          "teal": 45,
+          "source": "tests/contracts/functions.algo.ts:11",
+          "pc": [
+            62
+          ]
+        },
+        {
+          "teal": 46,
+          "source": "tests/contracts/functions.algo.ts:11",
+          "pc": [
+            63
+          ]
+        },
+        {
+          "teal": 50,
+          "source": "tests/contracts/functions.algo.ts:11",
+          "pc": [
+            64,
+            65,
+            66
+          ]
+        },
+        {
+          "teal": 54,
+          "source": "tests/contracts/functions.algo.ts:12",
+          "pc": [
+            67,
+            68
+          ]
+        },
+        {
+          "teal": 55,
+          "source": "tests/contracts/functions.algo.ts:12",
+          "pc": [
+            69,
+            70
+          ]
+        },
+        {
+          "teal": 56,
+          "source": "tests/contracts/functions.algo.ts:12",
+          "pc": [
+            71,
+            72,
+            73
+          ]
+        },
+        {
+          "teal": 57,
+          "source": "tests/contracts/functions.algo.ts:11",
+          "pc": [
+            74
+          ]
+        },
+        {
+          "teal": 62,
+          "source": "tests/contracts/functions.algo.ts:15",
+          "pc": [
+            75
+          ]
+        },
+        {
+          "teal": 65,
+          "source": "tests/contracts/functions.algo.ts:15",
+          "pc": [
+            76,
+            77,
+            78
+          ]
+        },
+        {
+          "teal": 66,
+          "source": "tests/contracts/functions.algo.ts:15",
+          "pc": [
+            79
+          ]
+        },
+        {
+          "teal": 69,
+          "source": "tests/contracts/functions.algo.ts:15",
+          "pc": [
+            80,
+            81,
+            82
+          ]
+        },
+        {
+          "teal": 70,
+          "source": "tests/contracts/functions.algo.ts:15",
+          "pc": [
+            83
+          ]
+        },
+        {
+          "teal": 73,
+          "source": "tests/contracts/functions.algo.ts:15",
+          "pc": [
+            84,
+            85,
+            86
+          ]
+        },
+        {
+          "teal": 74,
+          "source": "tests/contracts/functions.algo.ts:15",
+          "pc": [
+            87
+          ]
+        },
+        {
+          "teal": 75,
+          "source": "tests/contracts/functions.algo.ts:15",
+          "pc": [
+            88
+          ]
+        },
+        {
+          "teal": 76,
+          "source": "tests/contracts/functions.algo.ts:15",
+          "pc": [
+            89
+          ]
+        },
+        {
+          "teal": 77,
+          "source": "tests/contracts/functions.algo.ts:15",
+          "pc": [
+            90
+          ]
+        },
+        {
+          "teal": 78,
+          "source": "tests/contracts/functions.algo.ts:15",
+          "pc": [
+            91
+          ]
+        },
+        {
+          "teal": 82,
+          "source": "tests/contracts/functions.algo.ts:15",
+          "pc": [
+            92,
+            93,
+            94
+          ]
+        },
+        {
+          "teal": 86,
+          "source": "tests/contracts/functions.algo.ts:16",
+          "pc": [
+            95,
+            96
+          ]
+        },
+        {
+          "teal": 87,
+          "source": "tests/contracts/functions.algo.ts:16",
+          "pc": [
+            97,
+            98
+          ]
+        },
+        {
+          "teal": 88,
+          "source": "tests/contracts/functions.algo.ts:16",
+          "pc": [
+            99,
+            100,
+            101
+          ]
+        },
+        {
+          "teal": 89,
+          "source": "tests/contracts/functions.algo.ts:15",
+          "pc": [
+            102
+          ]
+        },
+        {
+          "teal": 94,
+          "source": "tests/contracts/functions.algo.ts:19",
+          "pc": [
+            103
+          ]
+        },
+        {
+          "teal": 97,
+          "source": "tests/contracts/functions.algo.ts:19",
+          "pc": [
+            104,
+            105,
+            106
+          ]
+        },
+        {
+          "teal": 98,
+          "source": "tests/contracts/functions.algo.ts:19",
+          "pc": [
+            107
+          ]
+        },
+        {
+          "teal": 101,
+          "source": "tests/contracts/functions.algo.ts:19",
+          "pc": [
+            108,
+            109,
+            110
+          ]
+        },
+        {
+          "teal": 102,
+          "source": "tests/contracts/functions.algo.ts:19",
+          "pc": [
+            111
+          ]
+        },
+        {
+          "teal": 105,
+          "source": "tests/contracts/functions.algo.ts:19",
+          "pc": [
+            112,
+            113,
+            114
+          ]
+        },
+        {
+          "teal": 106,
+          "source": "tests/contracts/functions.algo.ts:19",
+          "pc": [
+            115
+          ]
+        },
+        {
+          "teal": 107,
+          "source": "tests/contracts/functions.algo.ts:19",
+          "pc": [
+            116
+          ]
+        },
+        {
+          "teal": 108,
+          "source": "tests/contracts/functions.algo.ts:19",
+          "pc": [
+            117
+          ]
+        },
+        {
+          "teal": 109,
+          "source": "tests/contracts/functions.algo.ts:19",
+          "pc": [
+            118
+          ]
+        },
+        {
+          "teal": 110,
+          "source": "tests/contracts/functions.algo.ts:19",
+          "pc": [
+            119
+          ]
+        },
+        {
+          "teal": 114,
+          "source": "tests/contracts/functions.algo.ts:19",
+          "pc": [
+            120,
+            121,
+            122
+          ]
+        },
+        {
+          "teal": 118,
+          "source": "tests/contracts/functions.algo.ts:20",
+          "pc": [
+            123,
+            124
+          ]
+        },
+        {
+          "teal": 119,
+          "source": "tests/contracts/functions.algo.ts:20",
+          "pc": [
+            125,
+            126
+          ]
+        },
+        {
+          "teal": 120,
+          "source": "tests/contracts/functions.algo.ts:20",
+          "pc": [
+            127,
+            128,
+            129
+          ]
+        },
+        {
+          "teal": 121,
+          "source": "tests/contracts/functions.algo.ts:19",
+          "pc": [
+            130
+          ]
+        },
+        {
+          "teal": 124,
+          "source": "tests/contracts/functions.algo.ts:10",
+          "pc": [
+            131
+          ]
+        },
+        {
+          "teal": 125,
+          "source": "tests/contracts/functions.algo.ts:10",
+          "pc": [
+            132
+          ]
+        },
+        {
+          "teal": 128,
+          "source": "tests/contracts/functions.algo.ts:10",
+          "pc": [
+            133,
+            134,
+            135,
+            136,
+            137,
+            138
+          ]
+        },
+        {
+          "teal": 129,
+          "source": "tests/contracts/functions.algo.ts:10",
+          "pc": [
+            139,
+            140,
+            141
+          ]
+        },
+        {
+          "teal": 130,
+          "source": "tests/contracts/functions.algo.ts:10",
+          "pc": [
+            142,
+            143,
+            144,
+            145
+          ]
+        },
+        {
+          "teal": 133,
+          "source": "tests/contracts/functions.algo.ts:10",
+          "errorMessage": "this contract does not implement the given ABI method for create NoOp",
+          "pc": [
+            146
+          ]
+        },
+        {
+          "teal": 136,
+          "source": "tests/contracts/functions.algo.ts:10",
+          "pc": [
+            147,
+            148,
+            149,
+            150,
+            151,
+            152
+          ]
+        },
+        {
+          "teal": 137,
+          "source": "tests/contracts/functions.algo.ts:10",
+          "pc": [
+            153,
+            154,
+            155,
+            156,
+            157,
+            158
+          ]
+        },
+        {
+          "teal": 138,
+          "source": "tests/contracts/functions.algo.ts:10",
+          "pc": [
+            159,
+            160,
+            161,
+            162,
+            163,
+            164
+          ]
+        },
+        {
+          "teal": 139,
+          "source": "tests/contracts/functions.algo.ts:10",
+          "pc": [
+            165,
+            166,
+            167
+          ]
+        },
+        {
+          "teal": 140,
+          "source": "tests/contracts/functions.algo.ts:10",
+          "pc": [
+            168,
+            169,
+            170,
+            171,
+            172,
+            173,
+            174,
+            175
+          ]
+        },
+        {
+          "teal": 143,
+          "source": "tests/contracts/functions.algo.ts:10",
+          "errorMessage": "this contract does not implement the given ABI method for call NoOp",
+          "pc": [
+            176
+          ]
+        },
+        {
+          "teal": 147,
+          "source": "node_modules/tealscript_test_package/index.ts:2",
+          "pc": [
+            177,
+            178,
+            179
+          ]
+        },
+        {
+          "teal": 151,
+          "source": "node_modules/tealscript_test_package/index.ts:4",
+          "pc": [
+            180,
+            181
+          ]
+        },
+        {
+          "teal": 152,
+          "source": "node_modules/tealscript_test_package/index.ts:4",
+          "pc": [
+            182,
+            183
+          ]
+        },
+        {
+          "teal": 153,
+          "source": "node_modules/tealscript_test_package/index.ts:4",
+          "pc": [
+            184
+          ]
+        },
+        {
+          "teal": 154,
+          "source": "node_modules/tealscript_test_package/index.ts:2",
+          "pc": [
+            185
+          ]
+        },
+        {
+          "teal": 158,
+          "source": "tests/contracts/functions-external.algo.ts:1",
+          "pc": [
+            186,
+            187,
+            188
+          ]
+        },
+        {
+          "teal": 162,
+          "source": "tests/contracts/functions-external.algo.ts:2",
+          "pc": [
+            189,
+            190
+          ]
+        },
+        {
+          "teal": 163,
+          "source": "tests/contracts/functions-external.algo.ts:2",
+          "pc": [
+            191,
+            192
+          ]
+        },
+        {
+          "teal": 164,
+          "source": "tests/contracts/functions-external.algo.ts:2",
+          "pc": [
+            193
+          ]
+        },
+        {
+          "teal": 165,
+          "source": "tests/contracts/functions-external.algo.ts:1",
+          "pc": [
+            194
+          ]
+        },
+        {
+          "teal": 169,
+          "source": "tests/contracts/functions.algo.ts:6",
+          "pc": [
+            195,
+            196,
+            197
+          ]
+        },
+        {
+          "teal": 173,
+          "source": "tests/contracts/functions.algo.ts:7",
+          "pc": [
+            198,
+            199
+          ]
+        },
+        {
+          "teal": 174,
+          "source": "tests/contracts/functions.algo.ts:7",
+          "pc": [
+            200,
+            201
+          ]
+        },
+        {
+          "teal": 175,
+          "source": "tests/contracts/functions.algo.ts:7",
+          "pc": [
+            202
+          ]
+        },
+        {
+          "teal": 176,
+          "source": "tests/contracts/functions.algo.ts:6",
+          "pc": [
+            203
+          ]
+        }
+      ],
+      "pcOffsetMethod": "none"
+    },
+    "clear": {
+      "sourceInfo": [],
+      "pcOffsetMethod": "none"
+    }
+  },
+  "source": {
+    "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCmludGNibG9jayAxCmJ5dGVjYmxvY2sgMHgxNTFmN2M3NQoKLy8gVGhpcyBURUFMIHdhcyBnZW5lcmF0ZWQgYnkgVEVBTFNjcmlwdCB2MC4xMDUuMwovLyBodHRwczovL2dpdGh1Yi5jb20vYWxnb3JhbmRmb3VuZGF0aW9uL1RFQUxTY3JpcHQKCi8vIFRoaXMgY29udHJhY3QgaXMgY29tcGxpYW50IHdpdGggYW5kL29yIGltcGxlbWVudHMgdGhlIGZvbGxvd2luZyBBUkNzOiBbIEFSQzQgXQoKLy8gVGhlIGZvbGxvd2luZyB0ZW4gbGluZXMgb2YgVEVBTCBoYW5kbGUgaW5pdGlhbCBwcm9ncmFtIGZsb3cKLy8gVGhpcyBwYXR0ZXJuIGlzIHVzZWQgdG8gbWFrZSBpdCBlYXN5IGZvciBhbnlvbmUgdG8gcGFyc2UgdGhlIHN0YXJ0IG9mIHRoZSBwcm9ncmFtIGFuZCBkZXRlcm1pbmUgaWYgYSBzcGVjaWZpYyBhY3Rpb24gaXMgYWxsb3dlZAovLyBIZXJlLCBhY3Rpb24gcmVmZXJzIHRvIHRoZSBPbkNvbXBsZXRlIGluIGNvbWJpbmF0aW9uIHdpdGggd2hldGhlciB0aGUgYXBwIGlzIGJlaW5nIGNyZWF0ZWQgb3IgY2FsbGVkCi8vIEV2ZXJ5IHBvc3NpYmxlIGFjdGlvbiBmb3IgdGhpcyBjb250cmFjdCBpcyByZXByZXNlbnRlZCBpbiB0aGUgc3dpdGNoIHN0YXRlbWVudAovLyBJZiB0aGUgYWN0aW9uIGlzIG5vdCBpbXBsZW1lbnRlZCBpbiB0aGUgY29udHJhY3QsIGl0cyByZXNwZWN0aXZlIGJyYW5jaCB3aWxsIGJlICIqTk9UX0lNUExFTUVOVEVEIiB3aGljaCBqdXN0IGNvbnRhaW5zICJlcnIiCnR4biBBcHBsaWNhdGlvbklECiEKcHVzaGludCA2CioKdHhuIE9uQ29tcGxldGlvbgorCnN3aXRjaCAqY2FsbF9Ob09wICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqY3JlYXRlX05vT3AgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVECgoqTk9UX0lNUExFTUVOVEVEOgoJLy8gVGhlIHJlcXVlc3RlZCBhY3Rpb24gaXMgbm90IGltcGxlbWVudGVkIGluIHRoaXMgY29udHJhY3QuIEFyZSB5b3UgdXNpbmcgdGhlIGNvcnJlY3QgT25Db21wbGV0ZT8gRGlkIHlvdSBzZXQgeW91ciBhcHAgSUQ/CgllcnIKCi8vIGNhbGxOb25DbGFzc0Z1bmN0aW9uKHVpbnQ2NCx1aW50NjQpdWludDY0CiphYmlfcm91dGVfY2FsbE5vbkNsYXNzRnVuY3Rpb246CgkvLyBUaGUgQUJJIHJldHVybiBwcmVmaXgKCWJ5dGVjIDAgLy8gMHgxNTFmN2M3NQoKCS8vIGI6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgoJYnRvaQoKCS8vIGE6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJYnRvaQoKCS8vIGV4ZWN1dGUgY2FsbE5vbkNsYXNzRnVuY3Rpb24odWludDY0LHVpbnQ2NCl1aW50NjQKCWNhbGxzdWIgY2FsbE5vbkNsYXNzRnVuY3Rpb24KCWl0b2IKCWNvbmNhdAoJbG9nCglpbnRjIDAgLy8gMQoJcmV0dXJuCgovLyBjYWxsTm9uQ2xhc3NGdW5jdGlvbihhOiB1aW50NjQsIGI6IHVpbnQ2NCk6IHVpbnQ2NApjYWxsTm9uQ2xhc3NGdW5jdGlvbjoKCXByb3RvIDIgMQoKCS8vIHRlc3RzL2NvbnRyYWN0cy9mdW5jdGlvbnMuYWxnby50czoxMgoJLy8gcmV0dXJuIG5vbkNsYXNzRnVuY3Rpb24oYSwgYik7CglmcmFtZV9kaWcgLTIgLy8gYjogdWludDY0CglmcmFtZV9kaWcgLTEgLy8gYTogdWludDY0CgljYWxsc3ViIG5vbkNsYXNzRnVuY3Rpb24KCXJldHN1YgoKLy8gY2FsbEV4dGVybmFsRnVuY3Rpb24odWludDY0LHVpbnQ2NCl1aW50NjQKKmFiaV9yb3V0ZV9jYWxsRXh0ZXJuYWxGdW5jdGlvbjoKCS8vIFRoZSBBQkkgcmV0dXJuIHByZWZpeAoJYnl0ZWMgMCAvLyAweDE1MWY3Yzc1CgoJLy8gYjogdWludDY0Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAyCglidG9pCgoJLy8gYTogdWludDY0Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglidG9pCgoJLy8gZXhlY3V0ZSBjYWxsRXh0ZXJuYWxGdW5jdGlvbih1aW50NjQsdWludDY0KXVpbnQ2NAoJY2FsbHN1YiBjYWxsRXh0ZXJuYWxGdW5jdGlvbgoJaXRvYgoJY29uY2F0Cglsb2cKCWludGMgMCAvLyAxCglyZXR1cm4KCi8vIGNhbGxFeHRlcm5hbEZ1bmN0aW9uKGE6IHVpbnQ2NCwgYjogdWludDY0KTogdWludDY0CmNhbGxFeHRlcm5hbEZ1bmN0aW9uOgoJcHJvdG8gMiAxCgoJLy8gdGVzdHMvY29udHJhY3RzL2Z1bmN0aW9ucy5hbGdvLnRzOjE2CgkvLyByZXR1cm4gZXh0ZXJuYWxGdW5jdGlvbihhLCBiKTsKCWZyYW1lX2RpZyAtMiAvLyBiOiB1aW50NjQKCWZyYW1lX2RpZyAtMSAvLyBhOiB1aW50NjQKCWNhbGxzdWIgZXh0ZXJuYWxGdW5jdGlvbgoJcmV0c3ViCgovLyBjYWxsUGFja2FnZUZ1bmN0aW9uKHVpbnQ2NCx1aW50NjQpdWludDY0CiphYmlfcm91dGVfY2FsbFBhY2thZ2VGdW5jdGlvbjoKCS8vIFRoZSBBQkkgcmV0dXJuIHByZWZpeAoJYnl0ZWMgMCAvLyAweDE1MWY3Yzc1CgoJLy8gYjogdWludDY0Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAyCglidG9pCgoJLy8gYTogdWludDY0Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglidG9pCgoJLy8gZXhlY3V0ZSBjYWxsUGFja2FnZUZ1bmN0aW9uKHVpbnQ2NCx1aW50NjQpdWludDY0CgljYWxsc3ViIGNhbGxQYWNrYWdlRnVuY3Rpb24KCWl0b2IKCWNvbmNhdAoJbG9nCglpbnRjIDAgLy8gMQoJcmV0dXJuCgovLyBjYWxsUGFja2FnZUZ1bmN0aW9uKGE6IHVpbnQ2NCwgYjogdWludDY0KTogdWludDY0CmNhbGxQYWNrYWdlRnVuY3Rpb246Cglwcm90byAyIDEKCgkvLyB0ZXN0cy9jb250cmFjdHMvZnVuY3Rpb25zLmFsZ28udHM6MjAKCS8vIHJldHVybiBwYWNrYWdlRnVuY3Rpb24oYSwgYik7CglmcmFtZV9kaWcgLTIgLy8gYjogdWludDY0CglmcmFtZV9kaWcgLTEgLy8gYTogdWludDY0CgljYWxsc3ViIHBhY2thZ2VGdW5jdGlvbgoJcmV0c3ViCgoqYWJpX3JvdXRlX2NyZWF0ZUFwcGxpY2F0aW9uOgoJaW50YyAwIC8vIDEKCXJldHVybgoKKmNyZWF0ZV9Ob09wOgoJcHVzaGJ5dGVzIDB4Yjg0NDdiMzYgLy8gbWV0aG9kICJjcmVhdGVBcHBsaWNhdGlvbigpdm9pZCIKCXR4bmEgQXBwbGljYXRpb25BcmdzIDAKCW1hdGNoICphYmlfcm91dGVfY3JlYXRlQXBwbGljYXRpb24KCgkvLyB0aGlzIGNvbnRyYWN0IGRvZXMgbm90IGltcGxlbWVudCB0aGUgZ2l2ZW4gQUJJIG1ldGhvZCBmb3IgY3JlYXRlIE5vT3AKCWVycgoKKmNhbGxfTm9PcDoKCXB1c2hieXRlcyAweDhmZDIzYjQ4IC8vIG1ldGhvZCAiY2FsbE5vbkNsYXNzRnVuY3Rpb24odWludDY0LHVpbnQ2NCl1aW50NjQiCglwdXNoYnl0ZXMgMHhmNWRiM2I0MSAvLyBtZXRob2QgImNhbGxFeHRlcm5hbEZ1bmN0aW9uKHVpbnQ2NCx1aW50NjQpdWludDY0IgoJcHVzaGJ5dGVzIDB4OGI3ODkxOTYgLy8gbWV0aG9kICJjYWxsUGFja2FnZUZ1bmN0aW9uKHVpbnQ2NCx1aW50NjQpdWludDY0IgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggKmFiaV9yb3V0ZV9jYWxsTm9uQ2xhc3NGdW5jdGlvbiAqYWJpX3JvdXRlX2NhbGxFeHRlcm5hbEZ1bmN0aW9uICphYmlfcm91dGVfY2FsbFBhY2thZ2VGdW5jdGlvbgoKCS8vIHRoaXMgY29udHJhY3QgZG9lcyBub3QgaW1wbGVtZW50IHRoZSBnaXZlbiBBQkkgbWV0aG9kIGZvciBjYWxsIE5vT3AKCWVycgoKLy8gcGFja2FnZUZ1bmN0aW9uKGE6IHVpbnQ2NCwgYjogdWludDY0KTogdWludDY0CnBhY2thZ2VGdW5jdGlvbjoKCXByb3RvIDIgMQoKCS8vIG5vZGVfbW9kdWxlcy90ZWFsc2NyaXB0X3Rlc3RfcGFja2FnZS9pbmRleC50czo0CgkvLyByZXR1cm4gYSArIGI7CglmcmFtZV9kaWcgLTEgLy8gYTogdWludDY0CglmcmFtZV9kaWcgLTIgLy8gYjogdWludDY0CgkrCglyZXRzdWIKCi8vIGV4dGVybmFsRnVuY3Rpb24oYTogdWludDY0LCBiOiB1aW50NjQpOiB1aW50NjQKZXh0ZXJuYWxGdW5jdGlvbjoKCXByb3RvIDIgMQoKCS8vIHRlc3RzL2NvbnRyYWN0cy9mdW5jdGlvbnMtZXh0ZXJuYWwuYWxnby50czoyCgkvLyByZXR1cm4gYSArIGI7CglmcmFtZV9kaWcgLTEgLy8gYTogdWludDY0CglmcmFtZV9kaWcgLTIgLy8gYjogdWludDY0CgkrCglyZXRzdWIKCi8vIG5vbkNsYXNzRnVuY3Rpb24oYTogdWludDY0LCBiOiB1aW50NjQpOiB1aW50NjQKbm9uQ2xhc3NGdW5jdGlvbjoKCXByb3RvIDIgMQoKCS8vIHRlc3RzL2NvbnRyYWN0cy9mdW5jdGlvbnMuYWxnby50czo3CgkvLyByZXR1cm4gYSArIGI7CglmcmFtZV9kaWcgLTEgLy8gYTogdWludDY0CglmcmFtZV9kaWcgLTIgLy8gYjogdWludDY0CgkrCglyZXRzdWI=",
+    "clear": "I3ByYWdtYSB2ZXJzaW9uIDEw"
+  },
+  "byteCode": {
+    "approval": "CiABASYBBBUffHUxGBSBBgsxGQiNDABlAAAAAAAAAAAAAABXAAAAAAAAAAAAAAAoNhoCFzYaAReIAAUWULAiQ4oCAYv+i/+IAHmJKDYaAhc2GgEXiAAFFlCwIkOKAgGL/ov/iABUiSg2GgIXNhoBF4gABRZQsCJDigIBi/6L/4gAL4kiQ4AEuER7NjYaAI4B//EAgASP0jtIgAT12ztBgASLeJGWNhoAjgP/f/+b/7cAigIBi/+L/giJigIBi/+L/giJigIBi/+L/giJ",
+    "clear": "Cg=="
+  },
+  "compilerInfo": {
+    "compiler": "algod",
+    "compilerVersion": {
+      "major": 3,
+      "minor": 26,
+      "patch": 0,
+      "commitHash": "0d10b244"
+    }
+  }
+}

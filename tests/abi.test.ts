@@ -3,6 +3,7 @@
 import * as algokit from '@algorandfoundation/algokit-utils';
 // eslint-disable-next-line import/no-unresolved
 import { ApplicationClient } from '@algorandfoundation/algokit-utils/types/app-client';
+import path from 'path';
 import { describe, test, expect } from '@jest/globals';
 import algosdk from 'algosdk';
 import {
@@ -11,6 +12,8 @@ import {
   compileAndCreate as commonCompileAndCreate,
   runMethod as commonRunMethod,
 } from './common';
+
+const ARTIFACTS_PATH = path.join(__dirname, 'contracts', 'artifacts');
 
 const sender = algokit.getLocalNetDispenserAccount(algodClient, kmdClient);
 
@@ -21,7 +24,7 @@ async function compileAndCreate(name: string): Promise<{
 }> {
   const className = `ABITest${name.charAt(0).toUpperCase() + name.slice(1)}`;
 
-  return commonCompileAndCreate(await sender, `tests/contracts/abi.algo.ts`, className);
+  return commonCompileAndCreate(await sender, `tests/contracts/abi.algo.ts`, ARTIFACTS_PATH, className);
 }
 
 async function runMethod(appClient: ApplicationClient, name: string, methodArgs: algosdk.ABIArgument[] = []) {

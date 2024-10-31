@@ -1,0 +1,25 @@
+{
+  "name": "ABITestBooleanArgAndReturn",
+  "desc": "",
+  "methods": [
+    {
+      "name": "booleanArgAndReturn",
+      "args": [
+        {
+          "name": "a",
+          "type": "bool"
+        }
+      ],
+      "returns": {
+        "type": "bool"
+      }
+    },
+    {
+      "name": "createApplication",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    }
+  ]
+}

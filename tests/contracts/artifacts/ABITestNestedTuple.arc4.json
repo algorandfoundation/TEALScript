@@ -1,0 +1,20 @@
+{
+  "name": "ABITestNestedTuple",
+  "desc": "",
+  "methods": [
+    {
+      "name": "nestedTuple",
+      "args": [],
+      "returns": {
+        "type": "(uint16,(uint8,string),(uint16,string))"
+      }
+    },
+    {
+      "name": "createApplication",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    }
+  ]
+}

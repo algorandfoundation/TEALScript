@@ -21,17 +21,3 @@ export const GATING_TYPE_CREATED_BY_NFD_ADDRESSES = 3;
 export const GATING_TYPE_SEGMENT_OF_NFD = 4;
 // This constant needs to always be set to the highest value of the constants
 export const GATING_TYPE_CONST_MAX = 4;
-
-export const MAX_NODES = 8; // more just as a reasonable limit and cap on contract storage
-export const MAX_POOLS_PER_NODE = 3; // max number of pools per node
-// This MAX_POOLS constant has to be explicitly specified in ValidatorInfo.pools[ xxx ] StaticArray!
-// It also must be reflected in poolPctOfWhole in PoolTokenPayoutRatio!
-// if this constant is changed, the calculated value must be put in manually into the StaticArray definition.
-export const MAX_POOLS = MAX_NODES * MAX_POOLS_PER_NODE;
-
-export const MIN_EPOCH_LENGTH = 1; // 1 round is technical minimum but its absurd - 20 would be approx 1 minute
-export const MAX_EPOCH_LENGTH = 1000000; // 1 million rounds or.. just over a month ?
-export const MAX_POOLS_PER_STAKER = 6;
-
-export const ALGORAND_STAKING_BLOCK_DELAY = 320; // # of blocks until algorand sees online balance changes in staking
-export const APPROX_AVG_ROUNDS_PER_DAY = 30857; // approx 'daily' rounds for APR bins (60*60*24/2.8)

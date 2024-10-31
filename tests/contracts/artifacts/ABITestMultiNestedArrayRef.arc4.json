@@ -1,0 +1,20 @@
+{
+  "name": "ABITestMultiNestedArrayRef",
+  "desc": "",
+  "methods": [
+    {
+      "name": "multiNestedArrayRef",
+      "args": [],
+      "returns": {
+        "type": "uint8[2][2][2]"
+      }
+    },
+    {
+      "name": "createApplication",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    }
+  ]
+}

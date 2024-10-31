@@ -1,0 +1,25 @@
+{
+  "name": "ABITestExtractUint",
+  "desc": "",
+  "methods": [
+    {
+      "name": "extractUint",
+      "args": [
+        {
+          "name": "arg",
+          "type": "uint64"
+        }
+      ],
+      "returns": {
+        "type": "uint8"
+      }
+    },
+    {
+      "name": "createApplication",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    }
+  ]
+}

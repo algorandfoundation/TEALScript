@@ -1,0 +1,20 @@
+{
+  "name": "ABITestMaxUfixed",
+  "desc": "",
+  "methods": [
+    {
+      "name": "maxUfixed",
+      "args": [],
+      "returns": {
+        "type": "ufixed64x2"
+      }
+    },
+    {
+      "name": "createApplication",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    }
+  ]
+}

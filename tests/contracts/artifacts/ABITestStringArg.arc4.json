@@ -1,0 +1,25 @@
+{
+  "name": "ABITestStringArg",
+  "desc": "",
+  "methods": [
+    {
+      "name": "stringArg",
+      "args": [
+        {
+          "name": "s",
+          "type": "string"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "createApplication",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "name": "ABITestStaticArrayInStorageRef",
+  "desc": "",
+  "methods": [
+    {
+      "name": "staticArrayInStorageRef",
+      "args": [],
+      "returns": {
+        "type": "uint64[3]"
+      }
+    },
+    {
+      "name": "createApplication",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    }
+  ]
+}
