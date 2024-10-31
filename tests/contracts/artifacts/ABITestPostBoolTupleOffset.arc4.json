@@ -1,0 +1,20 @@
+{
+  "name": "ABITestPostBoolTupleOffset",
+  "desc": "",
+  "methods": [
+    {
+      "name": "postBoolTupleOffset",
+      "args": [],
+      "returns": {
+        "type": "(bool,uint64,uint64)"
+      }
+    },
+    {
+      "name": "createApplication",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    }
+  ]
+}

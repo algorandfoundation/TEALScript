@@ -7,9 +7,11 @@
 import * as algokit from '@algorandfoundation/algokit-utils';
 import { describe, test, expect } from '@jest/globals';
 import { artifactsTest, compileAndCreate, runMethod, algodClient, kmdClient } from './common';
+import arc56 from './contracts/artifacts/Templates.arc56_draft.json';
 
 const NAME = 'Templates';
 const PATH = 'tests/contracts/general.algo.ts';
+const ARTIFACTS_DIR = 'tests/contracts/artifacts/';
 
 const BYTE_CBLOCK = 38;
 const INT_CBLOCK = 32;
@@ -50,13 +52,20 @@ function getConstantBlockOffsets(bytes: number[]) {
 }
 
 describe('Template Variables', function () {
-  artifactsTest(PATH, NAME);
+  artifactsTest(PATH, ARTIFACTS_DIR, NAME, {
+    templateVars: {
+      bytes64TmplVar: `0x${'0'.repeat(64)}`,
+      uint64TmplVar: 123,
+      bytes32TmplVar: `0x${'0'.repeat(32)}`,
+      bytesTmplVar: '0xFF',
+    },
+  });
 
   describe('E2E', function () {
     const sender = algokit.getLocalNetDispenserAccount(algodClient, kmdClient);
 
     test('error source mapping', async function () {
-      const { appClient, appId, compiler } = await compileAndCreate(await sender, PATH, NAME, {
+      const { appClient, appId } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME, {
         bytes64TmplVar: '0'.repeat(64),
         uint64TmplVar: 123,
         bytes32TmplVar: '0'.repeat(32),
@@ -76,10 +85,7 @@ describe('Template Variables', function () {
 
       const offsetPc = pc - cblocksOffset;
 
-      const sourceInfo = compiler
-        .arc56Description()
-        .sourceInfo!.approval.sourceInfo.find((s) => s.pc?.includes(offsetPc));
-
+      const sourceInfo = arc56.sourceInfo.approval.sourceInfo.find((s) => s.pc?.includes(offsetPc));
       expect(sourceInfo?.errorMessage).toBe('this is an error');
     });
   });

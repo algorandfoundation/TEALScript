@@ -1,0 +1,20 @@
+{
+  "name": "ABITestReturnTupleWithDyamicArray",
+  "desc": "",
+  "methods": [
+    {
+      "name": "returnTupleWithDyamicArray",
+      "args": [],
+      "returns": {
+        "type": "(uint64,uint16,uint64[],uint16[])"
+      }
+    },
+    {
+      "name": "createApplication",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    }
+  ]
+}

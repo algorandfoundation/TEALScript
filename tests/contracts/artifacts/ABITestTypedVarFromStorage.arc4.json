@@ -1,0 +1,25 @@
+{
+  "name": "ABITestTypedVarFromStorage",
+  "desc": "",
+  "methods": [
+    {
+      "name": "typedVarFromStorage",
+      "args": [
+        {
+          "name": "key",
+          "type": "uint32"
+        }
+      ],
+      "returns": {
+        "type": "byte[32]"
+      }
+    },
+    {
+      "name": "createApplication",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    }
+  ]
+}

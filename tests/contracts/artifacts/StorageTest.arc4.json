@@ -1,0 +1,345 @@
+{
+  "name": "StorageTest",
+  "desc": "",
+  "methods": [
+    {
+      "name": "prefix",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "globalKeyPut",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "globalKeyGet",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "globalKeyDelete",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "globalKeyExists",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "localKeyPut",
+      "args": [
+        {
+          "name": "a",
+          "type": "address"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "localKeyGet",
+      "args": [
+        {
+          "name": "a",
+          "type": "address"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "localKeyDelete",
+      "args": [
+        {
+          "name": "a",
+          "type": "address"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "localKeyExists",
+      "args": [
+        {
+          "name": "a",
+          "type": "address"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "boxKeyPut",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "boxKeyGet",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "boxKeyDelete",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "boxKeyExists",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "globalMapPut",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "globalMapGet",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "globalMapDelete",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "globalMapExists",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "localMapPut",
+      "args": [
+        {
+          "name": "a",
+          "type": "address"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "localMapGet",
+      "args": [
+        {
+          "name": "a",
+          "type": "address"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "localMapDelete",
+      "args": [
+        {
+          "name": "a",
+          "type": "address"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "localMapExists",
+      "args": [
+        {
+          "name": "a",
+          "type": "address"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "boxMapPut",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "boxMapGet",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "boxMapDelete",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "boxMapExists",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "boxKeyCreate",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "boxMapCreate",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "boxKeyLength",
+      "args": [],
+      "returns": {
+        "type": "uint64"
+      }
+    },
+    {
+      "name": "boxMapLength",
+      "args": [],
+      "returns": {
+        "type": "uint64"
+      }
+    },
+    {
+      "name": "boxKeyReplace",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "boxMapReplace",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "boxKeyExtract",
+      "args": [],
+      "returns": {
+        "type": "string"
+      }
+    },
+    {
+      "name": "boxMapExtract",
+      "args": [],
+      "returns": {
+        "type": "string"
+      }
+    },
+    {
+      "name": "isOptedIn",
+      "args": [],
+      "returns": {
+        "type": "bool"
+      }
+    },
+    {
+      "name": "exGlobal",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "exLocal",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "accessStaticValueInLargeBox",
+      "args": [],
+      "returns": {
+        "type": "uint16"
+      }
+    },
+    {
+      "name": "dynamicAccessStaticValueInLargeBox",
+      "args": [
+        {
+          "name": "i",
+          "type": "uint64"
+        }
+      ],
+      "returns": {
+        "type": "uint16"
+      }
+    },
+    {
+      "name": "boxResize",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "boxSplice",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "exStateExists",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "createApplication",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    }
+  ]
+}

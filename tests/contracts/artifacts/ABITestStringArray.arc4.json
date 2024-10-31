@@ -1,0 +1,25 @@
+{
+  "name": "ABITestStringArray",
+  "desc": "",
+  "methods": [
+    {
+      "name": "stringArray",
+      "args": [
+        {
+          "name": "a",
+          "type": "string[]"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "createApplication",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    }
+  ]
+}

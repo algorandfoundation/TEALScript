@@ -1,0 +1,25 @@
+{
+  "name": "ABITestUint64Casting",
+  "desc": "",
+  "methods": [
+    {
+      "name": "uint64Casting",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint256"
+        }
+      ],
+      "returns": {
+        "type": "uint64"
+      }
+    },
+    {
+      "name": "createApplication",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    }
+  ]
+}

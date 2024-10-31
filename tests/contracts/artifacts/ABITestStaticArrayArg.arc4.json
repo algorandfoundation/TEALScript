@@ -1,0 +1,25 @@
+{
+  "name": "ABITestStaticArrayArg",
+  "desc": "",
+  "methods": [
+    {
+      "name": "staticArrayArg",
+      "args": [
+        {
+          "name": "a",
+          "type": "uint64[3]"
+        }
+      ],
+      "returns": {
+        "type": "uint64"
+      }
+    },
+    {
+      "name": "createApplication",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    }
+  ]
+}

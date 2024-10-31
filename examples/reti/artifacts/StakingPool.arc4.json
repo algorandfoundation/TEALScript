@@ -3,6 +3,13 @@
   "desc": "",
   "methods": [
     {
+      "name": "updateApplication",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
       "name": "createApplication",
       "desc": "Initialize the staking pool w/ owner and manager, but can only be created by the validator contract.",
       "args": [
@@ -103,7 +110,6 @@
     {
       "name": "getStakerInfo",
       "desc": "Retrieves the staked information for a given staker.",
-      "readonly": true,
       "args": [
         {
           "name": "staker",

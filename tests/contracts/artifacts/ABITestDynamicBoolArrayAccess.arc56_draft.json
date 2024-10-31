@@ -1,0 +1,665 @@
+{
+  "name": "ABITestDynamicBoolArrayAccess",
+  "desc": "",
+  "methods": [
+    {
+      "name": "dynamicBoolArrayAccess",
+      "args": [],
+      "returns": {
+        "type": "bool"
+      },
+      "actions": {
+        "create": [],
+        "call": [
+          "NoOp"
+        ]
+      }
+    },
+    {
+      "name": "createApplication",
+      "args": [],
+      "returns": {
+        "type": "void"
+      },
+      "actions": {
+        "create": [
+          "NoOp"
+        ],
+        "call": []
+      }
+    }
+  ],
+  "arcs": [
+    4,
+    56
+  ],
+  "structs": {},
+  "state": {
+    "schema": {
+      "global": {
+        "bytes": 0,
+        "ints": 0
+      },
+      "local": {
+        "bytes": 0,
+        "ints": 0
+      }
+    },
+    "keys": {
+      "global": {},
+      "local": {},
+      "box": {}
+    },
+    "maps": {
+      "global": {},
+      "local": {},
+      "box": {}
+    }
+  },
+  "bareActions": {
+    "create": [],
+    "call": []
+  },
+  "sourceInfo": {
+    "approval": {
+      "sourceInfo": [
+        {
+          "teal": 1,
+          "source": "tests/contracts/abi.algo.ts:937",
+          "pc": [
+            0
+          ]
+        },
+        {
+          "teal": 2,
+          "source": "tests/contracts/abi.algo.ts:937",
+          "pc": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        {
+          "teal": 14,
+          "source": "tests/contracts/abi.algo.ts:937",
+          "pc": [
+            7,
+            8
+          ]
+        },
+        {
+          "teal": 15,
+          "source": "tests/contracts/abi.algo.ts:937",
+          "pc": [
+            9
+          ]
+        },
+        {
+          "teal": 16,
+          "source": "tests/contracts/abi.algo.ts:937",
+          "pc": [
+            10
+          ]
+        },
+        {
+          "teal": 17,
+          "source": "tests/contracts/abi.algo.ts:937",
+          "pc": [
+            11
+          ]
+        },
+        {
+          "teal": 18,
+          "source": "tests/contracts/abi.algo.ts:937",
+          "pc": [
+            12,
+            13
+          ]
+        },
+        {
+          "teal": 19,
+          "source": "tests/contracts/abi.algo.ts:937",
+          "pc": [
+            14
+          ]
+        },
+        {
+          "teal": 20,
+          "source": "tests/contracts/abi.algo.ts:937",
+          "pc": [
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40
+          ]
+        },
+        {
+          "teal": 24,
+          "source": "tests/contracts/abi.algo.ts:937",
+          "errorMessage": "The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?",
+          "pc": [
+            41
+          ]
+        },
+        {
+          "teal": 29,
+          "source": "tests/contracts/abi.algo.ts:938",
+          "pc": [
+            42,
+            43,
+            44,
+            45,
+            46,
+            47
+          ]
+        },
+        {
+          "teal": 32,
+          "source": "tests/contracts/abi.algo.ts:938",
+          "pc": [
+            48,
+            49,
+            50
+          ]
+        },
+        {
+          "teal": 33,
+          "source": "tests/contracts/abi.algo.ts:938",
+          "pc": [
+            51,
+            52,
+            53
+          ]
+        },
+        {
+          "teal": 34,
+          "source": "tests/contracts/abi.algo.ts:938",
+          "pc": [
+            54
+          ]
+        },
+        {
+          "teal": 35,
+          "source": "tests/contracts/abi.algo.ts:938",
+          "pc": [
+            55,
+            56
+          ]
+        },
+        {
+          "teal": 36,
+          "source": "tests/contracts/abi.algo.ts:938",
+          "pc": [
+            57
+          ]
+        },
+        {
+          "teal": 37,
+          "source": "tests/contracts/abi.algo.ts:938",
+          "pc": [
+            58
+          ]
+        },
+        {
+          "teal": 38,
+          "source": "tests/contracts/abi.algo.ts:938",
+          "pc": [
+            59
+          ]
+        },
+        {
+          "teal": 39,
+          "source": "tests/contracts/abi.algo.ts:938",
+          "pc": [
+            60
+          ]
+        },
+        {
+          "teal": 40,
+          "source": "tests/contracts/abi.algo.ts:938",
+          "pc": [
+            61
+          ]
+        },
+        {
+          "teal": 44,
+          "source": "tests/contracts/abi.algo.ts:938",
+          "pc": [
+            62,
+            63,
+            64
+          ]
+        },
+        {
+          "teal": 47,
+          "source": "tests/contracts/abi.algo.ts:938",
+          "pc": [
+            65,
+            66
+          ]
+        },
+        {
+          "teal": 51,
+          "source": "tests/contracts/abi.algo.ts:939",
+          "pc": [
+            67,
+            68,
+            69,
+            70
+          ]
+        },
+        {
+          "teal": 52,
+          "source": "tests/contracts/abi.algo.ts:939",
+          "pc": [
+            71,
+            72,
+            73,
+            74
+          ]
+        },
+        {
+          "teal": 53,
+          "source": "tests/contracts/abi.algo.ts:939",
+          "pc": [
+            75
+          ]
+        },
+        {
+          "teal": 54,
+          "source": "tests/contracts/abi.algo.ts:939",
+          "pc": [
+            76
+          ]
+        },
+        {
+          "teal": 55,
+          "source": "tests/contracts/abi.algo.ts:939",
+          "pc": [
+            77
+          ]
+        },
+        {
+          "teal": 56,
+          "source": "tests/contracts/abi.algo.ts:939",
+          "pc": [
+            78
+          ]
+        },
+        {
+          "teal": 57,
+          "source": "tests/contracts/abi.algo.ts:939",
+          "pc": [
+            79
+          ]
+        },
+        {
+          "teal": 58,
+          "source": "tests/contracts/abi.algo.ts:939",
+          "pc": [
+            80
+          ]
+        },
+        {
+          "teal": 59,
+          "source": "tests/contracts/abi.algo.ts:939",
+          "pc": [
+            81,
+            82
+          ]
+        },
+        {
+          "teal": 60,
+          "source": "tests/contracts/abi.algo.ts:939",
+          "pc": [
+            83
+          ]
+        },
+        {
+          "teal": 61,
+          "source": "tests/contracts/abi.algo.ts:939",
+          "pc": [
+            84
+          ]
+        },
+        {
+          "teal": 62,
+          "source": "tests/contracts/abi.algo.ts:939",
+          "pc": [
+            85,
+            86
+          ]
+        },
+        {
+          "teal": 63,
+          "source": "tests/contracts/abi.algo.ts:939",
+          "pc": [
+            87
+          ]
+        },
+        {
+          "teal": 64,
+          "source": "tests/contracts/abi.algo.ts:939",
+          "pc": [
+            88
+          ]
+        },
+        {
+          "teal": 65,
+          "source": "tests/contracts/abi.algo.ts:939",
+          "pc": [
+            89,
+            90
+          ]
+        },
+        {
+          "teal": 66,
+          "source": "tests/contracts/abi.algo.ts:939",
+          "pc": [
+            91
+          ]
+        },
+        {
+          "teal": 67,
+          "source": "tests/contracts/abi.algo.ts:939",
+          "pc": [
+            92
+          ]
+        },
+        {
+          "teal": 68,
+          "source": "tests/contracts/abi.algo.ts:939",
+          "pc": [
+            93,
+            94
+          ]
+        },
+        {
+          "teal": 69,
+          "source": "tests/contracts/abi.algo.ts:939",
+          "pc": [
+            95
+          ]
+        },
+        {
+          "teal": 70,
+          "source": "tests/contracts/abi.algo.ts:939",
+          "pc": [
+            96
+          ]
+        },
+        {
+          "teal": 71,
+          "source": "tests/contracts/abi.algo.ts:939",
+          "pc": [
+            97
+          ]
+        },
+        {
+          "teal": 72,
+          "source": "tests/contracts/abi.algo.ts:939",
+          "pc": [
+            98
+          ]
+        },
+        {
+          "teal": 73,
+          "source": "tests/contracts/abi.algo.ts:939",
+          "pc": [
+            99
+          ]
+        },
+        {
+          "teal": 74,
+          "source": "tests/contracts/abi.algo.ts:939",
+          "pc": [
+            100,
+            101
+          ]
+        },
+        {
+          "teal": 75,
+          "source": "tests/contracts/abi.algo.ts:939",
+          "pc": [
+            102
+          ]
+        },
+        {
+          "teal": 76,
+          "source": "tests/contracts/abi.algo.ts:939",
+          "pc": [
+            103
+          ]
+        },
+        {
+          "teal": 77,
+          "source": "tests/contracts/abi.algo.ts:939",
+          "pc": [
+            104
+          ]
+        },
+        {
+          "teal": 78,
+          "source": "tests/contracts/abi.algo.ts:939",
+          "pc": [
+            105
+          ]
+        },
+        {
+          "teal": 79,
+          "source": "tests/contracts/abi.algo.ts:939",
+          "pc": [
+            106
+          ]
+        },
+        {
+          "teal": 80,
+          "source": "tests/contracts/abi.algo.ts:939",
+          "pc": [
+            107
+          ]
+        },
+        {
+          "teal": 81,
+          "source": "tests/contracts/abi.algo.ts:939",
+          "pc": [
+            108,
+            109
+          ]
+        },
+        {
+          "teal": 85,
+          "source": "tests/contracts/abi.algo.ts:941",
+          "pc": [
+            110,
+            111
+          ]
+        },
+        {
+          "teal": 86,
+          "source": "tests/contracts/abi.algo.ts:941",
+          "pc": [
+            112,
+            113
+          ]
+        },
+        {
+          "teal": 87,
+          "source": "tests/contracts/abi.algo.ts:941",
+          "pc": [
+            114,
+            115
+          ]
+        },
+        {
+          "teal": 88,
+          "source": "tests/contracts/abi.algo.ts:941",
+          "pc": [
+            116
+          ]
+        },
+        {
+          "teal": 89,
+          "source": "tests/contracts/abi.algo.ts:941",
+          "pc": [
+            117
+          ]
+        },
+        {
+          "teal": 92,
+          "source": "tests/contracts/abi.algo.ts:938",
+          "pc": [
+            118,
+            119
+          ]
+        },
+        {
+          "teal": 93,
+          "source": "tests/contracts/abi.algo.ts:938",
+          "pc": [
+            120
+          ]
+        },
+        {
+          "teal": 96,
+          "source": "tests/contracts/abi.algo.ts:937",
+          "pc": [
+            121
+          ]
+        },
+        {
+          "teal": 97,
+          "source": "tests/contracts/abi.algo.ts:937",
+          "pc": [
+            122
+          ]
+        },
+        {
+          "teal": 100,
+          "source": "tests/contracts/abi.algo.ts:937",
+          "pc": [
+            123,
+            124,
+            125,
+            126,
+            127,
+            128
+          ]
+        },
+        {
+          "teal": 101,
+          "source": "tests/contracts/abi.algo.ts:937",
+          "pc": [
+            129,
+            130,
+            131
+          ]
+        },
+        {
+          "teal": 102,
+          "source": "tests/contracts/abi.algo.ts:937",
+          "pc": [
+            132,
+            133,
+            134,
+            135
+          ]
+        },
+        {
+          "teal": 105,
+          "source": "tests/contracts/abi.algo.ts:937",
+          "errorMessage": "this contract does not implement the given ABI method for create NoOp",
+          "pc": [
+            136
+          ]
+        },
+        {
+          "teal": 108,
+          "source": "tests/contracts/abi.algo.ts:937",
+          "pc": [
+            137,
+            138,
+            139,
+            140,
+            141,
+            142
+          ]
+        },
+        {
+          "teal": 109,
+          "source": "tests/contracts/abi.algo.ts:937",
+          "pc": [
+            143,
+            144,
+            145
+          ]
+        },
+        {
+          "teal": 110,
+          "source": "tests/contracts/abi.algo.ts:937",
+          "pc": [
+            146,
+            147,
+            148,
+            149
+          ]
+        },
+        {
+          "teal": 113,
+          "source": "tests/contracts/abi.algo.ts:937",
+          "errorMessage": "this contract does not implement the given ABI method for call NoOp",
+          "pc": [
+            150
+          ]
+        }
+      ],
+      "pcOffsetMethod": "none"
+    },
+    "clear": {
+      "sourceInfo": [],
+      "pcOffsetMethod": "none"
+    }
+  },
+  "source": {
+    "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCmludGNibG9jayAwIDEgNiA4CgovLyBUaGlzIFRFQUwgd2FzIGdlbmVyYXRlZCBieSBURUFMU2NyaXB0IHYwLjEwNS4zCi8vIGh0dHBzOi8vZ2l0aHViLmNvbS9hbGdvcmFuZGZvdW5kYXRpb24vVEVBTFNjcmlwdAoKLy8gVGhpcyBjb250cmFjdCBpcyBjb21wbGlhbnQgd2l0aCBhbmQvb3IgaW1wbGVtZW50cyB0aGUgZm9sbG93aW5nIEFSQ3M6IFsgQVJDNCBdCgovLyBUaGUgZm9sbG93aW5nIHRlbiBsaW5lcyBvZiBURUFMIGhhbmRsZSBpbml0aWFsIHByb2dyYW0gZmxvdwovLyBUaGlzIHBhdHRlcm4gaXMgdXNlZCB0byBtYWtlIGl0IGVhc3kgZm9yIGFueW9uZSB0byBwYXJzZSB0aGUgc3RhcnQgb2YgdGhlIHByb2dyYW0gYW5kIGRldGVybWluZSBpZiBhIHNwZWNpZmljIGFjdGlvbiBpcyBhbGxvd2VkCi8vIEhlcmUsIGFjdGlvbiByZWZlcnMgdG8gdGhlIE9uQ29tcGxldGUgaW4gY29tYmluYXRpb24gd2l0aCB3aGV0aGVyIHRoZSBhcHAgaXMgYmVpbmcgY3JlYXRlZCBvciBjYWxsZWQKLy8gRXZlcnkgcG9zc2libGUgYWN0aW9uIGZvciB0aGlzIGNvbnRyYWN0IGlzIHJlcHJlc2VudGVkIGluIHRoZSBzd2l0Y2ggc3RhdGVtZW50Ci8vIElmIHRoZSBhY3Rpb24gaXMgbm90IGltcGxlbWVudGVkIGluIHRoZSBjb250cmFjdCwgaXRzIHJlc3BlY3RpdmUgYnJhbmNoIHdpbGwgYmUgIipOT1RfSU1QTEVNRU5URUQiIHdoaWNoIGp1c3QgY29udGFpbnMgImVyciIKdHhuIEFwcGxpY2F0aW9uSUQKIQppbnRjIDIgLy8gNgoqCnR4biBPbkNvbXBsZXRpb24KKwpzd2l0Y2ggKmNhbGxfTm9PcCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKmNyZWF0ZV9Ob09wICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRAoKKk5PVF9JTVBMRU1FTlRFRDoKCS8vIFRoZSByZXF1ZXN0ZWQgYWN0aW9uIGlzIG5vdCBpbXBsZW1lbnRlZCBpbiB0aGlzIGNvbnRyYWN0LiBBcmUgeW91IHVzaW5nIHRoZSBjb3JyZWN0IE9uQ29tcGxldGU/IERpZCB5b3Ugc2V0IHlvdXIgYXBwIElEPwoJZXJyCgovLyBkeW5hbWljQm9vbEFycmF5QWNjZXNzKClib29sCiphYmlfcm91dGVfZHluYW1pY0Jvb2xBcnJheUFjY2VzczoKCS8vIFRoZSBBQkkgcmV0dXJuIHByZWZpeAoJcHVzaGJ5dGVzIDB4MTUxZjdjNzUKCgkvLyBleGVjdXRlIGR5bmFtaWNCb29sQXJyYXlBY2Nlc3MoKWJvb2wKCWNhbGxzdWIgZHluYW1pY0Jvb2xBcnJheUFjY2VzcwoJcHVzaGJ5dGVzIDB4MDAKCWludGMgMCAvLyAwCgl1bmNvdmVyIDIKCXNldGJpdAoJY29uY2F0Cglsb2cKCWludGMgMSAvLyAxCglyZXR1cm4KCi8vIGR5bmFtaWNCb29sQXJyYXlBY2Nlc3MoKTogYm9vbGVhbgpkeW5hbWljQm9vbEFycmF5QWNjZXNzOgoJcHJvdG8gMCAxCgoJLy8gUHVzaCBlbXB0eSBieXRlcyBhZnRlciB0aGUgZnJhbWUgcG9pbnRlciB0byByZXNlcnZlIHNwYWNlIGZvciBsb2NhbCB2YXJpYWJsZXMKCXB1c2hieXRlcyAweAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9hYmkuYWxnby50czo5MzkKCS8vIGE6IGJvb2xlYW5bXSA9IFt0cnVlLCBmYWxzZSwgdHJ1ZSwgdHJ1ZSwgZmFsc2UsIGZhbHNlLCB0cnVlLCBmYWxzZSwgZmFsc2VdCglwdXNoYnl0ZXMgMHgwMDA5CglwdXNoYnl0ZXMgMHgwMDAwCglpbnRjIDAgLy8gMAoJaW50YyAxIC8vIDEKCXNldGJpdAoJaW50YyAxIC8vIDEKCWludGMgMCAvLyAwCglzZXRiaXQKCXB1c2hpbnQgMgoJaW50YyAxIC8vIDEKCXNldGJpdAoJcHVzaGludCAzCglpbnRjIDEgLy8gMQoJc2V0Yml0CglwdXNoaW50IDQKCWludGMgMCAvLyAwCglzZXRiaXQKCXB1c2hpbnQgNQoJaW50YyAwIC8vIDAKCXNldGJpdAoJaW50YyAyIC8vIDYKCWludGMgMSAvLyAxCglzZXRiaXQKCXB1c2hpbnQgNwoJaW50YyAwIC8vIDAKCXNldGJpdAoJaW50YyAzIC8vIDgKCWludGMgMCAvLyAwCglzZXRiaXQKCWNvbmNhdAoJZnJhbWVfYnVyeSAwIC8vIGE6IGJvb2xlYW5bXQoKCS8vIHRlc3RzL2NvbnRyYWN0cy9hYmkuYWxnby50czo5NDEKCS8vIHJldHVybiBhWzhdOwoJZnJhbWVfZGlnIDAgLy8gYTogYm9vbGVhbltdCglzdG9yZSAyNTUgLy8gZnVsbCBhcnJheQoJbG9hZCAyNTUgLy8gZnVsbCBhcnJheQoJaW50YyAzIC8vIDgKCWdldGJpdAoKCS8vIHNldCB0aGUgc3Vicm91dGluZSByZXR1cm4gdmFsdWUKCWZyYW1lX2J1cnkgMAoJcmV0c3ViCgoqYWJpX3JvdXRlX2NyZWF0ZUFwcGxpY2F0aW9uOgoJaW50YyAxIC8vIDEKCXJldHVybgoKKmNyZWF0ZV9Ob09wOgoJcHVzaGJ5dGVzIDB4Yjg0NDdiMzYgLy8gbWV0aG9kICJjcmVhdGVBcHBsaWNhdGlvbigpdm9pZCIKCXR4bmEgQXBwbGljYXRpb25BcmdzIDAKCW1hdGNoICphYmlfcm91dGVfY3JlYXRlQXBwbGljYXRpb24KCgkvLyB0aGlzIGNvbnRyYWN0IGRvZXMgbm90IGltcGxlbWVudCB0aGUgZ2l2ZW4gQUJJIG1ldGhvZCBmb3IgY3JlYXRlIE5vT3AKCWVycgoKKmNhbGxfTm9PcDoKCXB1c2hieXRlcyAweDhlYzgwMjQ5IC8vIG1ldGhvZCAiZHluYW1pY0Jvb2xBcnJheUFjY2VzcygpYm9vbCIKCXR4bmEgQXBwbGljYXRpb25BcmdzIDAKCW1hdGNoICphYmlfcm91dGVfZHluYW1pY0Jvb2xBcnJheUFjY2VzcwoKCS8vIHRoaXMgY29udHJhY3QgZG9lcyBub3QgaW1wbGVtZW50IHRoZSBnaXZlbiBBQkkgbWV0aG9kIGZvciBjYWxsIE5vT3AKCWVycg==",
+    "clear": "I3ByYWdtYSB2ZXJzaW9uIDEw"
+  },
+  "byteCode": {
+    "approval": "CiAEAAEGCDEYFCQLMRkIjQwAYAAAAAAAAAAAAAAAUgAAAAAAAAAAAAAAgAQVH3x1iAALgAEAIk8CVFCwI0OKAAGAAIACAAmAAgAAIiNUIyJUgQIjVIEDI1SBBCJUgQUiVCQjVIEHIlQlIlRQjACLADX/NP8lU4wAiSNDgAS4RHs2NhoAjgH/8QCABI7IAkk2GgCOAf+UAA==",
+    "clear": "Cg=="
+  },
+  "compilerInfo": {
+    "compiler": "algod",
+    "compilerVersion": {
+      "major": 3,
+      "minor": 26,
+      "patch": 0,
+      "commitHash": "0d10b244"
+    }
+  }
+}
