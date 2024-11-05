@@ -2942,15 +2942,15 @@ export default class Compiler {
 
     if (this.currentProgram !== 'lsig') this.routeAbiMethods();
 
+    while (this.pendingSubroutines.length > 0) {
+      this.processSubroutine(this.pendingSubroutines.pop()!);
+    }
+
     Object.keys(this.compilerSubroutines).forEach((sub) => {
       if (this.teal[this.currentProgram].map((t) => t.teal).includes(`callsub ${sub}`)) {
         this.pushLines(this.classNode, ...this.compilerSubroutines[sub]());
       }
     });
-
-    while (this.pendingSubroutines.length > 0) {
-      this.processSubroutine(this.pendingSubroutines.pop()!);
-    }
 
     this.teal[this.currentProgram] = await this.postProcessTeal(this.teal[this.currentProgram]);
     this.teal[this.currentProgram] = optimizeTeal(this.teal[this.currentProgram]);
@@ -5026,10 +5026,16 @@ export default class Compiler {
       .map((a) => a.getKind())
       .includes(ts.SyntaxKind.ClassDeclaration);
 
+    /** True if defined in a function outside of a class */
+    const inFunction = defNode
+      .getAncestors()
+      .map((a) => a.getKind())
+      .includes(ts.SyntaxKind.FunctionDeclaration);
+
     // This is true when we are in a non-class function and the identifier is a function parameter
     const isFunctionParam = defNode.getParent()?.isKind(ts.SyntaxKind.FunctionDeclaration);
 
-    if (!inClass && !isFunctionParam) {
+    if (!inClass && !isFunctionParam && !inFunction) {
       if (!defNode.isKind(ts.SyntaxKind.VariableDeclaration)) throw Error();
       this.processNode(defNode.getInitializerOrThrow());
       return;
