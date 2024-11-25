@@ -1,0 +1,861 @@
+{
+  "name": "CreatorVerifier",
+  "desc": "",
+  "methods": [
+    {
+      "name": "allowOptInsFrom",
+      "desc": "Allow anyone to use the lsig to opt in the txn sender into an asset created by the creator",
+      "args": [
+        {
+          "name": "creator",
+          "type": "address"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      },
+      "actions": {
+        "create": [],
+        "call": [
+          "NoOp"
+        ]
+      }
+    },
+    {
+      "name": "disableOptInsFrom",
+      "desc": "Disable opt-ins for ASAs from the given creator",
+      "args": [
+        {
+          "name": "creator",
+          "type": "address"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      },
+      "actions": {
+        "create": [],
+        "call": [
+          "NoOp"
+        ]
+      }
+    },
+    {
+      "name": "verifyCreator",
+      "args": [
+        {
+          "name": "optIn",
+          "type": "axfer"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      },
+      "actions": {
+        "create": [],
+        "call": [
+          "NoOp"
+        ]
+      }
+    },
+    {
+      "name": "createApplication",
+      "args": [],
+      "returns": {
+        "type": "void"
+      },
+      "actions": {
+        "create": [
+          "NoOp"
+        ],
+        "call": []
+      }
+    }
+  ],
+  "arcs": [
+    4,
+    56
+  ],
+  "structs": {},
+  "state": {
+    "schema": {
+      "global": {
+        "bytes": 0,
+        "ints": 0
+      },
+      "local": {
+        "bytes": 0,
+        "ints": 0
+      }
+    },
+    "keys": {
+      "global": {},
+      "local": {},
+      "box": {}
+    },
+    "maps": {
+      "global": {},
+      "local": {},
+      "box": {
+        "allowedCreators": {
+          "keyType": "(address,address)",
+          "valueType": "bool"
+        }
+      }
+    }
+  },
+  "bareActions": {
+    "create": [],
+    "call": []
+  },
+  "sourceInfo": {
+    "approval": {
+      "sourceInfo": [
+        {
+          "teal": 1,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:35",
+          "pc": [
+            0
+          ]
+        },
+        {
+          "teal": 2,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:35",
+          "pc": [
+            1,
+            2,
+            3,
+            4,
+            5
+          ]
+        },
+        {
+          "teal": 3,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:35",
+          "pc": [
+            6,
+            7,
+            8,
+            9
+          ]
+        },
+        {
+          "teal": 15,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:35",
+          "pc": [
+            10,
+            11
+          ]
+        },
+        {
+          "teal": 16,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:35",
+          "pc": [
+            12
+          ]
+        },
+        {
+          "teal": 17,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:35",
+          "pc": [
+            13,
+            14
+          ]
+        },
+        {
+          "teal": 18,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:35",
+          "pc": [
+            15
+          ]
+        },
+        {
+          "teal": 19,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:35",
+          "pc": [
+            16,
+            17
+          ]
+        },
+        {
+          "teal": 20,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:35",
+          "pc": [
+            18
+          ]
+        },
+        {
+          "teal": 21,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:35",
+          "pc": [
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44
+          ]
+        },
+        {
+          "teal": 25,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:35",
+          "errorMessage": "The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?",
+          "pc": [
+            45
+          ]
+        },
+        {
+          "teal": 30,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:40",
+          "pc": [
+            46,
+            47,
+            48
+          ]
+        },
+        {
+          "teal": 31,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:40",
+          "pc": [
+            49
+          ]
+        },
+        {
+          "teal": 32,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:40",
+          "pc": [
+            50
+          ]
+        },
+        {
+          "teal": 33,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:40",
+          "pc": [
+            51
+          ]
+        },
+        {
+          "teal": 34,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:40",
+          "pc": [
+            52
+          ]
+        },
+        {
+          "teal": 37,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:40",
+          "errorMessage": "argument 0 (creator) for allowOptInsFrom must be a address",
+          "pc": [
+            53
+          ]
+        },
+        {
+          "teal": 40,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:40",
+          "pc": [
+            54,
+            55,
+            56
+          ]
+        },
+        {
+          "teal": 41,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:40",
+          "pc": [
+            57
+          ]
+        },
+        {
+          "teal": 42,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:40",
+          "pc": [
+            58
+          ]
+        },
+        {
+          "teal": 48,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:40",
+          "pc": [
+            59,
+            60,
+            61
+          ]
+        },
+        {
+          "teal": 52,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:41",
+          "pc": [
+            62,
+            63
+          ]
+        },
+        {
+          "teal": 53,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:41",
+          "pc": [
+            64,
+            65
+          ]
+        },
+        {
+          "teal": 54,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:41",
+          "pc": [
+            66
+          ]
+        },
+        {
+          "teal": 55,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:41",
+          "pc": [
+            67
+          ]
+        },
+        {
+          "teal": 56,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:41",
+          "pc": [
+            68
+          ]
+        },
+        {
+          "teal": 57,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:41",
+          "pc": [
+            69
+          ]
+        },
+        {
+          "teal": 58,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:41",
+          "pc": [
+            70,
+            71
+          ]
+        },
+        {
+          "teal": 59,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:41",
+          "pc": [
+            72
+          ]
+        },
+        {
+          "teal": 60,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:41",
+          "pc": [
+            73
+          ]
+        },
+        {
+          "teal": 61,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:40",
+          "pc": [
+            74
+          ]
+        },
+        {
+          "teal": 66,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:45",
+          "pc": [
+            75,
+            76,
+            77
+          ]
+        },
+        {
+          "teal": 67,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:45",
+          "pc": [
+            78
+          ]
+        },
+        {
+          "teal": 68,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:45",
+          "pc": [
+            79
+          ]
+        },
+        {
+          "teal": 69,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:45",
+          "pc": [
+            80
+          ]
+        },
+        {
+          "teal": 70,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:45",
+          "pc": [
+            81
+          ]
+        },
+        {
+          "teal": 73,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:45",
+          "errorMessage": "argument 0 (creator) for disableOptInsFrom must be a address",
+          "pc": [
+            82
+          ]
+        },
+        {
+          "teal": 76,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:45",
+          "pc": [
+            83,
+            84,
+            85
+          ]
+        },
+        {
+          "teal": 77,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:45",
+          "pc": [
+            86
+          ]
+        },
+        {
+          "teal": 78,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:45",
+          "pc": [
+            87
+          ]
+        },
+        {
+          "teal": 84,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:45",
+          "pc": [
+            88,
+            89,
+            90
+          ]
+        },
+        {
+          "teal": 88,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:46",
+          "pc": [
+            91,
+            92
+          ]
+        },
+        {
+          "teal": 89,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:46",
+          "pc": [
+            93,
+            94
+          ]
+        },
+        {
+          "teal": 90,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:46",
+          "pc": [
+            95
+          ]
+        },
+        {
+          "teal": 91,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:46",
+          "pc": [
+            96
+          ]
+        },
+        {
+          "teal": 92,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:46",
+          "pc": [
+            97
+          ]
+        },
+        {
+          "teal": 93,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:46",
+          "pc": [
+            98
+          ]
+        },
+        {
+          "teal": 94,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:46",
+          "pc": [
+            99,
+            100
+          ]
+        },
+        {
+          "teal": 95,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:46",
+          "pc": [
+            101
+          ]
+        },
+        {
+          "teal": 96,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:46",
+          "pc": [
+            102
+          ]
+        },
+        {
+          "teal": 97,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:45",
+          "pc": [
+            103
+          ]
+        },
+        {
+          "teal": 102,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:50",
+          "pc": [
+            104,
+            105
+          ]
+        },
+        {
+          "teal": 103,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:50",
+          "pc": [
+            106
+          ]
+        },
+        {
+          "teal": 104,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:50",
+          "pc": [
+            107
+          ]
+        },
+        {
+          "teal": 105,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:50",
+          "pc": [
+            108
+          ]
+        },
+        {
+          "teal": 106,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:50",
+          "pc": [
+            109,
+            110
+          ]
+        },
+        {
+          "teal": 107,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:50",
+          "pc": [
+            111,
+            112
+          ]
+        },
+        {
+          "teal": 108,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:50",
+          "pc": [
+            113
+          ]
+        },
+        {
+          "teal": 111,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:50",
+          "errorMessage": "argument 0 (optIn) for verifyCreator must be a axfer transaction",
+          "pc": [
+            114
+          ]
+        },
+        {
+          "teal": 114,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:50",
+          "pc": [
+            115,
+            116,
+            117
+          ]
+        },
+        {
+          "teal": 115,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:50",
+          "pc": [
+            118
+          ]
+        },
+        {
+          "teal": 116,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:50",
+          "pc": [
+            119
+          ]
+        },
+        {
+          "teal": 120,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:50",
+          "pc": [
+            120,
+            121,
+            122
+          ]
+        },
+        {
+          "teal": 124,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:52",
+          "pc": [
+            123,
+            124
+          ]
+        },
+        {
+          "teal": 125,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:52",
+          "pc": [
+            125,
+            126
+          ]
+        },
+        {
+          "teal": 126,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:52",
+          "pc": [
+            127,
+            128
+          ]
+        },
+        {
+          "teal": 127,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:52",
+          "pc": [
+            129,
+            130
+          ]
+        },
+        {
+          "teal": 128,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:52",
+          "pc": [
+            131,
+            132
+          ]
+        },
+        {
+          "teal": 129,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:52",
+          "pc": [
+            133
+          ]
+        },
+        {
+          "teal": 130,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:52",
+          "pc": [
+            134
+          ]
+        },
+        {
+          "teal": 131,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:52",
+          "pc": [
+            135
+          ]
+        },
+        {
+          "teal": 134,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:52",
+          "errorMessage": "box value does not exist: this.allowedCreators([optIn.sender, optIn.xferAsset.creator]).value",
+          "pc": [
+            136
+          ]
+        },
+        {
+          "teal": 135,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:52",
+          "pc": [
+            137
+          ]
+        },
+        {
+          "teal": 136,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:52",
+          "pc": [
+            138
+          ]
+        },
+        {
+          "teal": 137,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:52",
+          "pc": [
+            139
+          ]
+        },
+        {
+          "teal": 138,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:50",
+          "pc": [
+            140
+          ]
+        },
+        {
+          "teal": 141,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:35",
+          "pc": [
+            141
+          ]
+        },
+        {
+          "teal": 142,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:35",
+          "pc": [
+            142
+          ]
+        },
+        {
+          "teal": 145,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:35",
+          "pc": [
+            143,
+            144,
+            145,
+            146,
+            147,
+            148
+          ]
+        },
+        {
+          "teal": 146,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:35",
+          "pc": [
+            149,
+            150,
+            151
+          ]
+        },
+        {
+          "teal": 147,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:35",
+          "pc": [
+            152,
+            153,
+            154,
+            155
+          ]
+        },
+        {
+          "teal": 150,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:35",
+          "errorMessage": "this contract does not implement the given ABI method for create NoOp",
+          "pc": [
+            156
+          ]
+        },
+        {
+          "teal": 153,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:35",
+          "pc": [
+            157,
+            158,
+            159,
+            160,
+            161,
+            162
+          ]
+        },
+        {
+          "teal": 154,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:35",
+          "pc": [
+            163,
+            164,
+            165,
+            166,
+            167,
+            168
+          ]
+        },
+        {
+          "teal": 155,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:35",
+          "pc": [
+            169,
+            170,
+            171,
+            172,
+            173,
+            174
+          ]
+        },
+        {
+          "teal": 156,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:35",
+          "pc": [
+            175,
+            176,
+            177
+          ]
+        },
+        {
+          "teal": 157,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:35",
+          "pc": [
+            178,
+            179,
+            180,
+            181,
+            182,
+            183,
+            184,
+            185
+          ]
+        },
+        {
+          "teal": 160,
+          "source": "examples/lsig_with_app/lsig_with_app.algo.ts:35",
+          "errorMessage": "this contract does not implement the given ABI method for call NoOp",
+          "pc": [
+            186
+          ]
+        }
+      ],
+      "pcOffsetMethod": "none"
+    },
+    "clear": {
+      "sourceInfo": [],
+      "pcOffsetMethod": "none"
+    }
+  },
+  "source": {
+    "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCmludGNibG9jayAxIDAgMzIKYnl0ZWNibG9jayAweDAwCgovLyBUaGlzIFRFQUwgd2FzIGdlbmVyYXRlZCBieSBURUFMU2NyaXB0IHYwLjEwNi4wCi8vIGh0dHBzOi8vZ2l0aHViLmNvbS9hbGdvcmFuZGZvdW5kYXRpb24vVEVBTFNjcmlwdAoKLy8gVGhpcyBjb250cmFjdCBpcyBjb21wbGlhbnQgd2l0aCBhbmQvb3IgaW1wbGVtZW50cyB0aGUgZm9sbG93aW5nIEFSQ3M6IFsgQVJDNCBdCgovLyBUaGUgZm9sbG93aW5nIHRlbiBsaW5lcyBvZiBURUFMIGhhbmRsZSBpbml0aWFsIHByb2dyYW0gZmxvdwovLyBUaGlzIHBhdHRlcm4gaXMgdXNlZCB0byBtYWtlIGl0IGVhc3kgZm9yIGFueW9uZSB0byBwYXJzZSB0aGUgc3RhcnQgb2YgdGhlIHByb2dyYW0gYW5kIGRldGVybWluZSBpZiBhIHNwZWNpZmljIGFjdGlvbiBpcyBhbGxvd2VkCi8vIEhlcmUsIGFjdGlvbiByZWZlcnMgdG8gdGhlIE9uQ29tcGxldGUgaW4gY29tYmluYXRpb24gd2l0aCB3aGV0aGVyIHRoZSBhcHAgaXMgYmVpbmcgY3JlYXRlZCBvciBjYWxsZWQKLy8gRXZlcnkgcG9zc2libGUgYWN0aW9uIGZvciB0aGlzIGNvbnRyYWN0IGlzIHJlcHJlc2VudGVkIGluIHRoZSBzd2l0Y2ggc3RhdGVtZW50Ci8vIElmIHRoZSBhY3Rpb24gaXMgbm90IGltcGxlbWVudGVkIGluIHRoZSBjb250cmFjdCwgaXRzIHJlc3BlY3RpdmUgYnJhbmNoIHdpbGwgYmUgIipOT1RfSU1QTEVNRU5URUQiIHdoaWNoIGp1c3QgY29udGFpbnMgImVyciIKdHhuIEFwcGxpY2F0aW9uSUQKIQpwdXNoaW50IDYKKgp0eG4gT25Db21wbGV0aW9uCisKc3dpdGNoICpjYWxsX05vT3AgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpjcmVhdGVfTm9PcCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQKCipOT1RfSU1QTEVNRU5URUQ6CgkvLyBUaGUgcmVxdWVzdGVkIGFjdGlvbiBpcyBub3QgaW1wbGVtZW50ZWQgaW4gdGhpcyBjb250cmFjdC4gQXJlIHlvdSB1c2luZyB0aGUgY29ycmVjdCBPbkNvbXBsZXRlPyBEaWQgeW91IHNldCB5b3VyIGFwcCBJRD8KCWVycgoKLy8gYWxsb3dPcHRJbnNGcm9tKGFkZHJlc3Mpdm9pZAoqYWJpX3JvdXRlX2FsbG93T3B0SW5zRnJvbToKCS8vIGNyZWF0b3I6IGFkZHJlc3MKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWR1cAoJbGVuCglpbnRjIDIgLy8gMzIKCT09CgoJLy8gYXJndW1lbnQgMCAoY3JlYXRvcikgZm9yIGFsbG93T3B0SW5zRnJvbSBtdXN0IGJlIGEgYWRkcmVzcwoJYXNzZXJ0CgoJLy8gZXhlY3V0ZSBhbGxvd09wdEluc0Zyb20oYWRkcmVzcyl2b2lkCgljYWxsc3ViIGFsbG93T3B0SW5zRnJvbQoJaW50YyAwIC8vIDEKCXJldHVybgoKLy8gYWxsb3dPcHRJbnNGcm9tKGNyZWF0b3I6IEFkZHJlc3MpOiB2b2lkCi8vCi8vIEFsbG93IGFueW9uZSB0byB1c2UgdGhlIGxzaWcgdG8gb3B0IGluIHRoZSB0eG4gc2VuZGVyIGludG8gYW4gYXNzZXQgY3JlYXRlZCBieSB0aGUgY3JlYXRvcgphbGxvd09wdEluc0Zyb206Cglwcm90byAxIDAKCgkvLyBleGFtcGxlcy9sc2lnX3dpdGhfYXBwL2xzaWdfd2l0aF9hcHAuYWxnby50czo0MQoJLy8gdGhpcy5hbGxvd2VkQ3JlYXRvcnMoW3RoaXMudHhuLnNlbmRlciwgY3JlYXRvcl0pLnZhbHVlID0gdHJ1ZQoJdHhuIFNlbmRlcgoJZnJhbWVfZGlnIC0xIC8vIGNyZWF0b3I6IEFkZHJlc3MKCWNvbmNhdAoJaW50YyAwIC8vIDEKCWJ5dGVjIDAgLy8gMHgwMAoJaW50YyAxIC8vIDAKCXVuY292ZXIgMgoJc2V0Yml0Cglib3hfcHV0CglyZXRzdWIKCi8vIGRpc2FibGVPcHRJbnNGcm9tKGFkZHJlc3Mpdm9pZAoqYWJpX3JvdXRlX2Rpc2FibGVPcHRJbnNGcm9tOgoJLy8gY3JlYXRvcjogYWRkcmVzcwoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJZHVwCglsZW4KCWludGMgMiAvLyAzMgoJPT0KCgkvLyBhcmd1bWVudCAwIChjcmVhdG9yKSBmb3IgZGlzYWJsZU9wdEluc0Zyb20gbXVzdCBiZSBhIGFkZHJlc3MKCWFzc2VydAoKCS8vIGV4ZWN1dGUgZGlzYWJsZU9wdEluc0Zyb20oYWRkcmVzcyl2b2lkCgljYWxsc3ViIGRpc2FibGVPcHRJbnNGcm9tCglpbnRjIDAgLy8gMQoJcmV0dXJuCgovLyBkaXNhYmxlT3B0SW5zRnJvbShjcmVhdG9yOiBBZGRyZXNzKTogdm9pZAovLwovLyBEaXNhYmxlIG9wdC1pbnMgZm9yIEFTQXMgZnJvbSB0aGUgZ2l2ZW4gY3JlYXRvcgpkaXNhYmxlT3B0SW5zRnJvbToKCXByb3RvIDEgMAoKCS8vIGV4YW1wbGVzL2xzaWdfd2l0aF9hcHAvbHNpZ193aXRoX2FwcC5hbGdvLnRzOjQ2CgkvLyB0aGlzLmFsbG93ZWRDcmVhdG9ycyhbdGhpcy50eG4uc2VuZGVyLCBjcmVhdG9yXSkudmFsdWUgPSBmYWxzZQoJdHhuIFNlbmRlcgoJZnJhbWVfZGlnIC0xIC8vIGNyZWF0b3I6IEFkZHJlc3MKCWNvbmNhdAoJaW50YyAxIC8vIDAKCWJ5dGVjIDAgLy8gMHgwMAoJaW50YyAxIC8vIDAKCXVuY292ZXIgMgoJc2V0Yml0Cglib3hfcHV0CglyZXRzdWIKCi8vIHZlcmlmeUNyZWF0b3IoYXhmZXIpdm9pZAoqYWJpX3JvdXRlX3ZlcmlmeUNyZWF0b3I6CgkvLyBvcHRJbjogYXhmZXIKCXR4biBHcm91cEluZGV4CglpbnRjIDAgLy8gMQoJLQoJZHVwCglndHhucyBUeXBlRW51bQoJcHVzaGludCA0IC8vIGF4ZmVyCgk9PQoKCS8vIGFyZ3VtZW50IDAgKG9wdEluKSBmb3IgdmVyaWZ5Q3JlYXRvciBtdXN0IGJlIGEgYXhmZXIgdHJhbnNhY3Rpb24KCWFzc2VydAoKCS8vIGV4ZWN1dGUgdmVyaWZ5Q3JlYXRvcihheGZlcil2b2lkCgljYWxsc3ViIHZlcmlmeUNyZWF0b3IKCWludGMgMCAvLyAxCglyZXR1cm4KCi8vIHZlcmlmeUNyZWF0b3Iob3B0SW46IEFzc2V0VHJhbnNmZXJUeG4pOiB2b2lkCnZlcmlmeUNyZWF0b3I6Cglwcm90byAxIDAKCgkvLyBleGFtcGxlcy9sc2lnX3dpdGhfYXBwL2xzaWdfd2l0aF9hcHAuYWxnby50czo1MgoJLy8gYXNzZXJ0KHRoaXMuYWxsb3dlZENyZWF0b3JzKFtvcHRJbi5zZW5kZXIsIG9wdEluLnhmZXJBc3NldC5jcmVhdG9yXSkudmFsdWUpCglmcmFtZV9kaWcgLTEgLy8gb3B0SW46IEFzc2V0VHJhbnNmZXJUeG4KCWd0eG5zIFNlbmRlcgoJZnJhbWVfZGlnIC0xIC8vIG9wdEluOiBBc3NldFRyYW5zZmVyVHhuCglndHhucyBYZmVyQXNzZXQKCWFzc2V0X3BhcmFtc19nZXQgQXNzZXRDcmVhdG9yCglwb3AKCWNvbmNhdAoJYm94X2dldAoKCS8vIGJveCB2YWx1ZSBkb2VzIG5vdCBleGlzdDogdGhpcy5hbGxvd2VkQ3JlYXRvcnMoW29wdEluLnNlbmRlciwgb3B0SW4ueGZlckFzc2V0LmNyZWF0b3JdKS52YWx1ZQoJYXNzZXJ0CglpbnRjIDEgLy8gMAoJZ2V0Yml0Cglhc3NlcnQKCXJldHN1YgoKKmFiaV9yb3V0ZV9jcmVhdGVBcHBsaWNhdGlvbjoKCWludGMgMCAvLyAxCglyZXR1cm4KCipjcmVhdGVfTm9PcDoKCXB1c2hieXRlcyAweGI4NDQ3YjM2IC8vIG1ldGhvZCAiY3JlYXRlQXBwbGljYXRpb24oKXZvaWQiCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAwCgltYXRjaCAqYWJpX3JvdXRlX2NyZWF0ZUFwcGxpY2F0aW9uCgoJLy8gdGhpcyBjb250cmFjdCBkb2VzIG5vdCBpbXBsZW1lbnQgdGhlIGdpdmVuIEFCSSBtZXRob2QgZm9yIGNyZWF0ZSBOb09wCgllcnIKCipjYWxsX05vT3A6CglwdXNoYnl0ZXMgMHhmMWJmMmNhOCAvLyBtZXRob2QgImFsbG93T3B0SW5zRnJvbShhZGRyZXNzKXZvaWQiCglwdXNoYnl0ZXMgMHhiYzI4YWMyYiAvLyBtZXRob2QgImRpc2FibGVPcHRJbnNGcm9tKGFkZHJlc3Mpdm9pZCIKCXB1c2hieXRlcyAweDhkNWFhNzI3IC8vIG1ldGhvZCAidmVyaWZ5Q3JlYXRvcihheGZlcil2b2lkIgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggKmFiaV9yb3V0ZV9hbGxvd09wdEluc0Zyb20gKmFiaV9yb3V0ZV9kaXNhYmxlT3B0SW5zRnJvbSAqYWJpX3JvdXRlX3ZlcmlmeUNyZWF0b3IKCgkvLyB0aGlzIGNvbnRyYWN0IGRvZXMgbm90IGltcGxlbWVudCB0aGUgZ2l2ZW4gQUJJIG1ldGhvZCBmb3IgY2FsbCBOb09wCgllcnI=",
+    "clear": "I3ByYWdtYSB2ZXJzaW9uIDEw"
+  },
+  "byteCode": {
+    "approval": "CiADAQAgJgEBADEYFIEGCzEZCI0MAHAAAAAAAAAAAAAAAGIAAAAAAAAAAAAAADYaAUkVJBJEiAACIkOKAQAxAIv/UCIoI08CVL+JNhoBSRUkEkSIAAIiQ4oBADEAi/9QIygjTwJUv4kxFiIJSTgQgQQSRIgAAiJDigEAi/84AIv/OBFxC0hQvkQjU0SJIkOABLhEezY2GgCOAf/xAIAE8b8sqIAEvCisK4AEjVqnJzYaAI4D/3T/kf+uAA==",
+    "clear": "Cg=="
+  },
+  "compilerInfo": {
+    "compiler": "algod",
+    "compilerVersion": {
+      "major": 3,
+      "minor": 26,
+      "patch": 0,
+      "commitHash": "0d10b244"
+    }
+  }
+}

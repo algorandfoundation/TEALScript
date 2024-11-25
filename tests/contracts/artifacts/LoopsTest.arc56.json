@@ -1,0 +1,2535 @@
+{
+  "name": "LoopsTest",
+  "desc": "",
+  "methods": [
+    {
+      "name": "whileLoop",
+      "args": [],
+      "returns": {
+        "type": "uint64"
+      },
+      "actions": {
+        "create": [],
+        "call": [
+          "NoOp"
+        ]
+      }
+    },
+    {
+      "name": "forLoop",
+      "args": [],
+      "returns": {
+        "type": "uint64"
+      },
+      "actions": {
+        "create": [],
+        "call": [
+          "NoOp"
+        ]
+      }
+    },
+    {
+      "name": "doWhileLoop",
+      "args": [],
+      "returns": {
+        "type": "uint64"
+      },
+      "actions": {
+        "create": [],
+        "call": [
+          "NoOp"
+        ]
+      }
+    },
+    {
+      "name": "breakWhileLoop",
+      "args": [],
+      "returns": {
+        "type": "uint64"
+      },
+      "actions": {
+        "create": [],
+        "call": [
+          "NoOp"
+        ]
+      }
+    },
+    {
+      "name": "continueWhileLoop",
+      "args": [],
+      "returns": {
+        "type": "uint64"
+      },
+      "actions": {
+        "create": [],
+        "call": [
+          "NoOp"
+        ]
+      }
+    },
+    {
+      "name": "breakForLoop",
+      "args": [],
+      "returns": {
+        "type": "uint64"
+      },
+      "actions": {
+        "create": [],
+        "call": [
+          "NoOp"
+        ]
+      }
+    },
+    {
+      "name": "continueForLoop",
+      "args": [],
+      "returns": {
+        "type": "uint64"
+      },
+      "actions": {
+        "create": [],
+        "call": [
+          "NoOp"
+        ]
+      }
+    },
+    {
+      "name": "breakDoWhileLoop",
+      "args": [],
+      "returns": {
+        "type": "uint64"
+      },
+      "actions": {
+        "create": [],
+        "call": [
+          "NoOp"
+        ]
+      }
+    },
+    {
+      "name": "continueDoWhileLoop",
+      "args": [],
+      "returns": {
+        "type": "uint64"
+      },
+      "actions": {
+        "create": [],
+        "call": [
+          "NoOp"
+        ]
+      }
+    },
+    {
+      "name": "createApplication",
+      "args": [],
+      "returns": {
+        "type": "void"
+      },
+      "actions": {
+        "create": [
+          "NoOp"
+        ],
+        "call": []
+      }
+    }
+  ],
+  "arcs": [
+    4,
+    56
+  ],
+  "structs": {},
+  "state": {
+    "schema": {
+      "global": {
+        "bytes": 0,
+        "ints": 0
+      },
+      "local": {
+        "bytes": 0,
+        "ints": 0
+      }
+    },
+    "keys": {
+      "global": {},
+      "local": {},
+      "box": {}
+    },
+    "maps": {
+      "global": {},
+      "local": {},
+      "box": {}
+    }
+  },
+  "bareActions": {
+    "create": [],
+    "call": []
+  },
+  "sourceInfo": {
+    "approval": {
+      "sourceInfo": [
+        {
+          "teal": 1,
+          "source": "tests/contracts/loops.algo.ts:5",
+          "pc": [
+            0
+          ]
+        },
+        {
+          "teal": 2,
+          "source": "tests/contracts/loops.algo.ts:5",
+          "pc": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ]
+        },
+        {
+          "teal": 3,
+          "source": "tests/contracts/loops.algo.ts:5",
+          "pc": [
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16
+          ]
+        },
+        {
+          "teal": 15,
+          "source": "tests/contracts/loops.algo.ts:5",
+          "pc": [
+            17,
+            18
+          ]
+        },
+        {
+          "teal": 16,
+          "source": "tests/contracts/loops.algo.ts:5",
+          "pc": [
+            19
+          ]
+        },
+        {
+          "teal": 17,
+          "source": "tests/contracts/loops.algo.ts:5",
+          "pc": [
+            20,
+            21
+          ]
+        },
+        {
+          "teal": 18,
+          "source": "tests/contracts/loops.algo.ts:5",
+          "pc": [
+            22
+          ]
+        },
+        {
+          "teal": 19,
+          "source": "tests/contracts/loops.algo.ts:5",
+          "pc": [
+            23,
+            24
+          ]
+        },
+        {
+          "teal": 20,
+          "source": "tests/contracts/loops.algo.ts:5",
+          "pc": [
+            25
+          ]
+        },
+        {
+          "teal": 21,
+          "source": "tests/contracts/loops.algo.ts:5",
+          "pc": [
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51
+          ]
+        },
+        {
+          "teal": 25,
+          "source": "tests/contracts/loops.algo.ts:5",
+          "errorMessage": "The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?",
+          "pc": [
+            52
+          ]
+        },
+        {
+          "teal": 30,
+          "source": "tests/contracts/loops.algo.ts:6",
+          "pc": [
+            53
+          ]
+        },
+        {
+          "teal": 33,
+          "source": "tests/contracts/loops.algo.ts:6",
+          "pc": [
+            54,
+            55,
+            56
+          ]
+        },
+        {
+          "teal": 34,
+          "source": "tests/contracts/loops.algo.ts:6",
+          "pc": [
+            57
+          ]
+        },
+        {
+          "teal": 35,
+          "source": "tests/contracts/loops.algo.ts:6",
+          "pc": [
+            58
+          ]
+        },
+        {
+          "teal": 36,
+          "source": "tests/contracts/loops.algo.ts:6",
+          "pc": [
+            59
+          ]
+        },
+        {
+          "teal": 37,
+          "source": "tests/contracts/loops.algo.ts:6",
+          "pc": [
+            60
+          ]
+        },
+        {
+          "teal": 38,
+          "source": "tests/contracts/loops.algo.ts:6",
+          "pc": [
+            61
+          ]
+        },
+        {
+          "teal": 42,
+          "source": "tests/contracts/loops.algo.ts:6",
+          "pc": [
+            62,
+            63,
+            64
+          ]
+        },
+        {
+          "teal": 45,
+          "source": "tests/contracts/loops.algo.ts:6",
+          "pc": [
+            65
+          ]
+        },
+        {
+          "teal": 49,
+          "source": "tests/contracts/loops.algo.ts:7",
+          "pc": [
+            66
+          ]
+        },
+        {
+          "teal": 50,
+          "source": "tests/contracts/loops.algo.ts:7",
+          "pc": [
+            67,
+            68
+          ]
+        },
+        {
+          "teal": 57,
+          "source": "tests/contracts/loops.algo.ts:9",
+          "pc": [
+            69,
+            70
+          ]
+        },
+        {
+          "teal": 58,
+          "source": "tests/contracts/loops.algo.ts:9",
+          "pc": [
+            71
+          ]
+        },
+        {
+          "teal": 59,
+          "source": "tests/contracts/loops.algo.ts:9",
+          "pc": [
+            72
+          ]
+        },
+        {
+          "teal": 60,
+          "source": "tests/contracts/loops.algo.ts:9",
+          "pc": [
+            73,
+            74,
+            75
+          ]
+        },
+        {
+          "teal": 64,
+          "source": "tests/contracts/loops.algo.ts:10",
+          "pc": [
+            76,
+            77
+          ]
+        },
+        {
+          "teal": 65,
+          "source": "tests/contracts/loops.algo.ts:10",
+          "pc": [
+            78
+          ]
+        },
+        {
+          "teal": 66,
+          "source": "tests/contracts/loops.algo.ts:10",
+          "pc": [
+            79
+          ]
+        },
+        {
+          "teal": 67,
+          "source": "tests/contracts/loops.algo.ts:10",
+          "pc": [
+            80,
+            81
+          ]
+        },
+        {
+          "teal": 68,
+          "source": "tests/contracts/loops.algo.ts:9",
+          "pc": [
+            82,
+            83,
+            84
+          ]
+        },
+        {
+          "teal": 73,
+          "source": "tests/contracts/loops.algo.ts:13",
+          "pc": [
+            85,
+            86
+          ]
+        },
+        {
+          "teal": 76,
+          "source": "tests/contracts/loops.algo.ts:6",
+          "pc": [
+            87,
+            88
+          ]
+        },
+        {
+          "teal": 77,
+          "source": "tests/contracts/loops.algo.ts:6",
+          "pc": [
+            89
+          ]
+        },
+        {
+          "teal": 82,
+          "source": "tests/contracts/loops.algo.ts:16",
+          "pc": [
+            90
+          ]
+        },
+        {
+          "teal": 85,
+          "source": "tests/contracts/loops.algo.ts:16",
+          "pc": [
+            91,
+            92,
+            93
+          ]
+        },
+        {
+          "teal": 86,
+          "source": "tests/contracts/loops.algo.ts:16",
+          "pc": [
+            94
+          ]
+        },
+        {
+          "teal": 87,
+          "source": "tests/contracts/loops.algo.ts:16",
+          "pc": [
+            95
+          ]
+        },
+        {
+          "teal": 88,
+          "source": "tests/contracts/loops.algo.ts:16",
+          "pc": [
+            96
+          ]
+        },
+        {
+          "teal": 89,
+          "source": "tests/contracts/loops.algo.ts:16",
+          "pc": [
+            97
+          ]
+        },
+        {
+          "teal": 90,
+          "source": "tests/contracts/loops.algo.ts:16",
+          "pc": [
+            98
+          ]
+        },
+        {
+          "teal": 94,
+          "source": "tests/contracts/loops.algo.ts:16",
+          "pc": [
+            99,
+            100,
+            101
+          ]
+        },
+        {
+          "teal": 97,
+          "source": "tests/contracts/loops.algo.ts:16",
+          "pc": [
+            102
+          ]
+        },
+        {
+          "teal": 98,
+          "source": "tests/contracts/loops.algo.ts:16",
+          "pc": [
+            103
+          ]
+        },
+        {
+          "teal": 102,
+          "source": "tests/contracts/loops.algo.ts:17",
+          "pc": [
+            104
+          ]
+        },
+        {
+          "teal": 103,
+          "source": "tests/contracts/loops.algo.ts:17",
+          "pc": [
+            105,
+            106
+          ]
+        },
+        {
+          "teal": 107,
+          "source": "tests/contracts/loops.algo.ts:19",
+          "pc": [
+            107
+          ]
+        },
+        {
+          "teal": 108,
+          "source": "tests/contracts/loops.algo.ts:19",
+          "pc": [
+            108,
+            109
+          ]
+        },
+        {
+          "teal": 113,
+          "source": "tests/contracts/loops.algo.ts:19",
+          "pc": [
+            110,
+            111
+          ]
+        },
+        {
+          "teal": 114,
+          "source": "tests/contracts/loops.algo.ts:19",
+          "pc": [
+            112
+          ]
+        },
+        {
+          "teal": 115,
+          "source": "tests/contracts/loops.algo.ts:19",
+          "pc": [
+            113
+          ]
+        },
+        {
+          "teal": 116,
+          "source": "tests/contracts/loops.algo.ts:19",
+          "pc": [
+            114,
+            115,
+            116
+          ]
+        },
+        {
+          "teal": 120,
+          "source": "tests/contracts/loops.algo.ts:20",
+          "pc": [
+            117,
+            118
+          ]
+        },
+        {
+          "teal": 121,
+          "source": "tests/contracts/loops.algo.ts:20",
+          "pc": [
+            119
+          ]
+        },
+        {
+          "teal": 122,
+          "source": "tests/contracts/loops.algo.ts:20",
+          "pc": [
+            120
+          ]
+        },
+        {
+          "teal": 123,
+          "source": "tests/contracts/loops.algo.ts:20",
+          "pc": [
+            121,
+            122
+          ]
+        },
+        {
+          "teal": 128,
+          "source": "tests/contracts/loops.algo.ts:19",
+          "pc": [
+            123,
+            124
+          ]
+        },
+        {
+          "teal": 129,
+          "source": "tests/contracts/loops.algo.ts:19",
+          "pc": [
+            125
+          ]
+        },
+        {
+          "teal": 130,
+          "source": "tests/contracts/loops.algo.ts:19",
+          "pc": [
+            126
+          ]
+        },
+        {
+          "teal": 131,
+          "source": "tests/contracts/loops.algo.ts:19",
+          "pc": [
+            127,
+            128
+          ]
+        },
+        {
+          "teal": 132,
+          "source": "tests/contracts/loops.algo.ts:19",
+          "pc": [
+            129,
+            130,
+            131
+          ]
+        },
+        {
+          "teal": 137,
+          "source": "tests/contracts/loops.algo.ts:23",
+          "pc": [
+            132,
+            133
+          ]
+        },
+        {
+          "teal": 140,
+          "source": "tests/contracts/loops.algo.ts:16",
+          "pc": [
+            134,
+            135
+          ]
+        },
+        {
+          "teal": 143,
+          "source": "tests/contracts/loops.algo.ts:16",
+          "pc": [
+            136,
+            137
+          ]
+        },
+        {
+          "teal": 144,
+          "source": "tests/contracts/loops.algo.ts:16",
+          "pc": [
+            138
+          ]
+        },
+        {
+          "teal": 149,
+          "source": "tests/contracts/loops.algo.ts:26",
+          "pc": [
+            139
+          ]
+        },
+        {
+          "teal": 152,
+          "source": "tests/contracts/loops.algo.ts:26",
+          "pc": [
+            140,
+            141,
+            142
+          ]
+        },
+        {
+          "teal": 153,
+          "source": "tests/contracts/loops.algo.ts:26",
+          "pc": [
+            143
+          ]
+        },
+        {
+          "teal": 154,
+          "source": "tests/contracts/loops.algo.ts:26",
+          "pc": [
+            144
+          ]
+        },
+        {
+          "teal": 155,
+          "source": "tests/contracts/loops.algo.ts:26",
+          "pc": [
+            145
+          ]
+        },
+        {
+          "teal": 156,
+          "source": "tests/contracts/loops.algo.ts:26",
+          "pc": [
+            146
+          ]
+        },
+        {
+          "teal": 157,
+          "source": "tests/contracts/loops.algo.ts:26",
+          "pc": [
+            147
+          ]
+        },
+        {
+          "teal": 161,
+          "source": "tests/contracts/loops.algo.ts:26",
+          "pc": [
+            148,
+            149,
+            150
+          ]
+        },
+        {
+          "teal": 164,
+          "source": "tests/contracts/loops.algo.ts:26",
+          "pc": [
+            151
+          ]
+        },
+        {
+          "teal": 168,
+          "source": "tests/contracts/loops.algo.ts:27",
+          "pc": [
+            152
+          ]
+        },
+        {
+          "teal": 169,
+          "source": "tests/contracts/loops.algo.ts:27",
+          "pc": [
+            153,
+            154
+          ]
+        },
+        {
+          "teal": 174,
+          "source": "tests/contracts/loops.algo.ts:30",
+          "pc": [
+            155,
+            156
+          ]
+        },
+        {
+          "teal": 175,
+          "source": "tests/contracts/loops.algo.ts:30",
+          "pc": [
+            157
+          ]
+        },
+        {
+          "teal": 176,
+          "source": "tests/contracts/loops.algo.ts:30",
+          "pc": [
+            158
+          ]
+        },
+        {
+          "teal": 177,
+          "source": "tests/contracts/loops.algo.ts:30",
+          "pc": [
+            159,
+            160
+          ]
+        },
+        {
+          "teal": 184,
+          "source": "tests/contracts/loops.algo.ts:31",
+          "pc": [
+            161,
+            162
+          ]
+        },
+        {
+          "teal": 185,
+          "source": "tests/contracts/loops.algo.ts:31",
+          "pc": [
+            163
+          ]
+        },
+        {
+          "teal": 186,
+          "source": "tests/contracts/loops.algo.ts:31",
+          "pc": [
+            164
+          ]
+        },
+        {
+          "teal": 187,
+          "source": "tests/contracts/loops.algo.ts:29",
+          "pc": [
+            165,
+            166,
+            167
+          ]
+        },
+        {
+          "teal": 192,
+          "source": "tests/contracts/loops.algo.ts:33",
+          "pc": [
+            168,
+            169
+          ]
+        },
+        {
+          "teal": 195,
+          "source": "tests/contracts/loops.algo.ts:26",
+          "pc": [
+            170,
+            171
+          ]
+        },
+        {
+          "teal": 196,
+          "source": "tests/contracts/loops.algo.ts:26",
+          "pc": [
+            172
+          ]
+        },
+        {
+          "teal": 201,
+          "source": "tests/contracts/loops.algo.ts:36",
+          "pc": [
+            173
+          ]
+        },
+        {
+          "teal": 204,
+          "source": "tests/contracts/loops.algo.ts:36",
+          "pc": [
+            174,
+            175,
+            176
+          ]
+        },
+        {
+          "teal": 205,
+          "source": "tests/contracts/loops.algo.ts:36",
+          "pc": [
+            177
+          ]
+        },
+        {
+          "teal": 206,
+          "source": "tests/contracts/loops.algo.ts:36",
+          "pc": [
+            178
+          ]
+        },
+        {
+          "teal": 207,
+          "source": "tests/contracts/loops.algo.ts:36",
+          "pc": [
+            179
+          ]
+        },
+        {
+          "teal": 208,
+          "source": "tests/contracts/loops.algo.ts:36",
+          "pc": [
+            180
+          ]
+        },
+        {
+          "teal": 209,
+          "source": "tests/contracts/loops.algo.ts:36",
+          "pc": [
+            181
+          ]
+        },
+        {
+          "teal": 213,
+          "source": "tests/contracts/loops.algo.ts:36",
+          "pc": [
+            182,
+            183,
+            184
+          ]
+        },
+        {
+          "teal": 216,
+          "source": "tests/contracts/loops.algo.ts:36",
+          "pc": [
+            185
+          ]
+        },
+        {
+          "teal": 220,
+          "source": "tests/contracts/loops.algo.ts:37",
+          "pc": [
+            186
+          ]
+        },
+        {
+          "teal": 221,
+          "source": "tests/contracts/loops.algo.ts:37",
+          "pc": [
+            187,
+            188
+          ]
+        },
+        {
+          "teal": 228,
+          "source": "tests/contracts/loops.algo.ts:39",
+          "pc": [
+            189,
+            190
+          ]
+        },
+        {
+          "teal": 229,
+          "source": "tests/contracts/loops.algo.ts:39",
+          "pc": [
+            191
+          ]
+        },
+        {
+          "teal": 230,
+          "source": "tests/contracts/loops.algo.ts:39",
+          "pc": [
+            192
+          ]
+        },
+        {
+          "teal": 231,
+          "source": "tests/contracts/loops.algo.ts:39",
+          "pc": [
+            193,
+            194,
+            195
+          ]
+        },
+        {
+          "teal": 235,
+          "source": "tests/contracts/loops.algo.ts:40",
+          "pc": [
+            196,
+            197
+          ]
+        },
+        {
+          "teal": 236,
+          "source": "tests/contracts/loops.algo.ts:40",
+          "pc": [
+            198
+          ]
+        },
+        {
+          "teal": 237,
+          "source": "tests/contracts/loops.algo.ts:40",
+          "pc": [
+            199
+          ]
+        },
+        {
+          "teal": 238,
+          "source": "tests/contracts/loops.algo.ts:40",
+          "pc": [
+            200,
+            201
+          ]
+        },
+        {
+          "teal": 243,
+          "source": "tests/contracts/loops.algo.ts:41",
+          "pc": [
+            202,
+            203
+          ]
+        },
+        {
+          "teal": 244,
+          "source": "tests/contracts/loops.algo.ts:41",
+          "pc": [
+            204
+          ]
+        },
+        {
+          "teal": 245,
+          "source": "tests/contracts/loops.algo.ts:41",
+          "pc": [
+            205
+          ]
+        },
+        {
+          "teal": 246,
+          "source": "tests/contracts/loops.algo.ts:41",
+          "pc": [
+            206,
+            207,
+            208
+          ]
+        },
+        {
+          "teal": 249,
+          "source": "tests/contracts/loops.algo.ts:41",
+          "pc": [
+            209,
+            210,
+            211
+          ]
+        },
+        {
+          "teal": 252,
+          "source": "tests/contracts/loops.algo.ts:39",
+          "pc": [
+            212,
+            213,
+            214
+          ]
+        },
+        {
+          "teal": 257,
+          "source": "tests/contracts/loops.algo.ts:44",
+          "pc": [
+            215,
+            216
+          ]
+        },
+        {
+          "teal": 260,
+          "source": "tests/contracts/loops.algo.ts:36",
+          "pc": [
+            217,
+            218
+          ]
+        },
+        {
+          "teal": 261,
+          "source": "tests/contracts/loops.algo.ts:36",
+          "pc": [
+            219
+          ]
+        },
+        {
+          "teal": 266,
+          "source": "tests/contracts/loops.algo.ts:47",
+          "pc": [
+            220
+          ]
+        },
+        {
+          "teal": 269,
+          "source": "tests/contracts/loops.algo.ts:47",
+          "pc": [
+            221,
+            222,
+            223
+          ]
+        },
+        {
+          "teal": 270,
+          "source": "tests/contracts/loops.algo.ts:47",
+          "pc": [
+            224
+          ]
+        },
+        {
+          "teal": 271,
+          "source": "tests/contracts/loops.algo.ts:47",
+          "pc": [
+            225
+          ]
+        },
+        {
+          "teal": 272,
+          "source": "tests/contracts/loops.algo.ts:47",
+          "pc": [
+            226
+          ]
+        },
+        {
+          "teal": 273,
+          "source": "tests/contracts/loops.algo.ts:47",
+          "pc": [
+            227
+          ]
+        },
+        {
+          "teal": 274,
+          "source": "tests/contracts/loops.algo.ts:47",
+          "pc": [
+            228
+          ]
+        },
+        {
+          "teal": 278,
+          "source": "tests/contracts/loops.algo.ts:47",
+          "pc": [
+            229,
+            230,
+            231
+          ]
+        },
+        {
+          "teal": 281,
+          "source": "tests/contracts/loops.algo.ts:47",
+          "pc": [
+            232
+          ]
+        },
+        {
+          "teal": 285,
+          "source": "tests/contracts/loops.algo.ts:48",
+          "pc": [
+            233
+          ]
+        },
+        {
+          "teal": 286,
+          "source": "tests/contracts/loops.algo.ts:48",
+          "pc": [
+            234,
+            235
+          ]
+        },
+        {
+          "teal": 293,
+          "source": "tests/contracts/loops.algo.ts:50",
+          "pc": [
+            236,
+            237
+          ]
+        },
+        {
+          "teal": 294,
+          "source": "tests/contracts/loops.algo.ts:50",
+          "pc": [
+            238
+          ]
+        },
+        {
+          "teal": 295,
+          "source": "tests/contracts/loops.algo.ts:50",
+          "pc": [
+            239
+          ]
+        },
+        {
+          "teal": 296,
+          "source": "tests/contracts/loops.algo.ts:50",
+          "pc": [
+            240,
+            241,
+            242
+          ]
+        },
+        {
+          "teal": 301,
+          "source": "tests/contracts/loops.algo.ts:51",
+          "pc": [
+            243,
+            244
+          ]
+        },
+        {
+          "teal": 302,
+          "source": "tests/contracts/loops.algo.ts:51",
+          "pc": [
+            245
+          ]
+        },
+        {
+          "teal": 303,
+          "source": "tests/contracts/loops.algo.ts:51",
+          "pc": [
+            246
+          ]
+        },
+        {
+          "teal": 304,
+          "source": "tests/contracts/loops.algo.ts:51",
+          "pc": [
+            247,
+            248,
+            249
+          ]
+        },
+        {
+          "teal": 309,
+          "source": "tests/contracts/loops.algo.ts:52",
+          "pc": [
+            250,
+            251
+          ]
+        },
+        {
+          "teal": 310,
+          "source": "tests/contracts/loops.algo.ts:52",
+          "pc": [
+            252,
+            253
+          ]
+        },
+        {
+          "teal": 311,
+          "source": "tests/contracts/loops.algo.ts:53",
+          "pc": [
+            254,
+            255,
+            256
+          ]
+        },
+        {
+          "teal": 316,
+          "source": "tests/contracts/loops.algo.ts:55",
+          "pc": [
+            257,
+            258
+          ]
+        },
+        {
+          "teal": 317,
+          "source": "tests/contracts/loops.algo.ts:55",
+          "pc": [
+            259
+          ]
+        },
+        {
+          "teal": 318,
+          "source": "tests/contracts/loops.algo.ts:55",
+          "pc": [
+            260
+          ]
+        },
+        {
+          "teal": 319,
+          "source": "tests/contracts/loops.algo.ts:55",
+          "pc": [
+            261,
+            262
+          ]
+        },
+        {
+          "teal": 320,
+          "source": "tests/contracts/loops.algo.ts:50",
+          "pc": [
+            263,
+            264,
+            265
+          ]
+        },
+        {
+          "teal": 325,
+          "source": "tests/contracts/loops.algo.ts:58",
+          "pc": [
+            266,
+            267
+          ]
+        },
+        {
+          "teal": 328,
+          "source": "tests/contracts/loops.algo.ts:47",
+          "pc": [
+            268,
+            269
+          ]
+        },
+        {
+          "teal": 329,
+          "source": "tests/contracts/loops.algo.ts:47",
+          "pc": [
+            270
+          ]
+        },
+        {
+          "teal": 334,
+          "source": "tests/contracts/loops.algo.ts:61",
+          "pc": [
+            271
+          ]
+        },
+        {
+          "teal": 337,
+          "source": "tests/contracts/loops.algo.ts:61",
+          "pc": [
+            272,
+            273,
+            274
+          ]
+        },
+        {
+          "teal": 338,
+          "source": "tests/contracts/loops.algo.ts:61",
+          "pc": [
+            275
+          ]
+        },
+        {
+          "teal": 339,
+          "source": "tests/contracts/loops.algo.ts:61",
+          "pc": [
+            276
+          ]
+        },
+        {
+          "teal": 340,
+          "source": "tests/contracts/loops.algo.ts:61",
+          "pc": [
+            277
+          ]
+        },
+        {
+          "teal": 341,
+          "source": "tests/contracts/loops.algo.ts:61",
+          "pc": [
+            278
+          ]
+        },
+        {
+          "teal": 342,
+          "source": "tests/contracts/loops.algo.ts:61",
+          "pc": [
+            279
+          ]
+        },
+        {
+          "teal": 346,
+          "source": "tests/contracts/loops.algo.ts:61",
+          "pc": [
+            280,
+            281,
+            282
+          ]
+        },
+        {
+          "teal": 349,
+          "source": "tests/contracts/loops.algo.ts:61",
+          "pc": [
+            283
+          ]
+        },
+        {
+          "teal": 350,
+          "source": "tests/contracts/loops.algo.ts:61",
+          "pc": [
+            284
+          ]
+        },
+        {
+          "teal": 354,
+          "source": "tests/contracts/loops.algo.ts:62",
+          "pc": [
+            285
+          ]
+        },
+        {
+          "teal": 355,
+          "source": "tests/contracts/loops.algo.ts:62",
+          "pc": [
+            286,
+            287
+          ]
+        },
+        {
+          "teal": 359,
+          "source": "tests/contracts/loops.algo.ts:64",
+          "pc": [
+            288
+          ]
+        },
+        {
+          "teal": 360,
+          "source": "tests/contracts/loops.algo.ts:64",
+          "pc": [
+            289,
+            290
+          ]
+        },
+        {
+          "teal": 365,
+          "source": "tests/contracts/loops.algo.ts:64",
+          "pc": [
+            291,
+            292
+          ]
+        },
+        {
+          "teal": 366,
+          "source": "tests/contracts/loops.algo.ts:64",
+          "pc": [
+            293
+          ]
+        },
+        {
+          "teal": 367,
+          "source": "tests/contracts/loops.algo.ts:64",
+          "pc": [
+            294
+          ]
+        },
+        {
+          "teal": 368,
+          "source": "tests/contracts/loops.algo.ts:64",
+          "pc": [
+            295,
+            296,
+            297
+          ]
+        },
+        {
+          "teal": 372,
+          "source": "tests/contracts/loops.algo.ts:65",
+          "pc": [
+            298,
+            299
+          ]
+        },
+        {
+          "teal": 373,
+          "source": "tests/contracts/loops.algo.ts:65",
+          "pc": [
+            300
+          ]
+        },
+        {
+          "teal": 374,
+          "source": "tests/contracts/loops.algo.ts:65",
+          "pc": [
+            301
+          ]
+        },
+        {
+          "teal": 375,
+          "source": "tests/contracts/loops.algo.ts:65",
+          "pc": [
+            302,
+            303
+          ]
+        },
+        {
+          "teal": 380,
+          "source": "tests/contracts/loops.algo.ts:66",
+          "pc": [
+            304,
+            305
+          ]
+        },
+        {
+          "teal": 381,
+          "source": "tests/contracts/loops.algo.ts:66",
+          "pc": [
+            306
+          ]
+        },
+        {
+          "teal": 382,
+          "source": "tests/contracts/loops.algo.ts:66",
+          "pc": [
+            307
+          ]
+        },
+        {
+          "teal": 383,
+          "source": "tests/contracts/loops.algo.ts:66",
+          "pc": [
+            308,
+            309,
+            310
+          ]
+        },
+        {
+          "teal": 386,
+          "source": "tests/contracts/loops.algo.ts:66",
+          "pc": [
+            311,
+            312,
+            313
+          ]
+        },
+        {
+          "teal": 393,
+          "source": "tests/contracts/loops.algo.ts:64",
+          "pc": [
+            314,
+            315
+          ]
+        },
+        {
+          "teal": 394,
+          "source": "tests/contracts/loops.algo.ts:64",
+          "pc": [
+            316
+          ]
+        },
+        {
+          "teal": 395,
+          "source": "tests/contracts/loops.algo.ts:64",
+          "pc": [
+            317
+          ]
+        },
+        {
+          "teal": 396,
+          "source": "tests/contracts/loops.algo.ts:64",
+          "pc": [
+            318,
+            319
+          ]
+        },
+        {
+          "teal": 397,
+          "source": "tests/contracts/loops.algo.ts:64",
+          "pc": [
+            320,
+            321,
+            322
+          ]
+        },
+        {
+          "teal": 402,
+          "source": "tests/contracts/loops.algo.ts:69",
+          "pc": [
+            323,
+            324
+          ]
+        },
+        {
+          "teal": 405,
+          "source": "tests/contracts/loops.algo.ts:61",
+          "pc": [
+            325,
+            326
+          ]
+        },
+        {
+          "teal": 408,
+          "source": "tests/contracts/loops.algo.ts:61",
+          "pc": [
+            327,
+            328
+          ]
+        },
+        {
+          "teal": 409,
+          "source": "tests/contracts/loops.algo.ts:61",
+          "pc": [
+            329
+          ]
+        },
+        {
+          "teal": 414,
+          "source": "tests/contracts/loops.algo.ts:72",
+          "pc": [
+            330
+          ]
+        },
+        {
+          "teal": 417,
+          "source": "tests/contracts/loops.algo.ts:72",
+          "pc": [
+            331,
+            332,
+            333
+          ]
+        },
+        {
+          "teal": 418,
+          "source": "tests/contracts/loops.algo.ts:72",
+          "pc": [
+            334
+          ]
+        },
+        {
+          "teal": 419,
+          "source": "tests/contracts/loops.algo.ts:72",
+          "pc": [
+            335
+          ]
+        },
+        {
+          "teal": 420,
+          "source": "tests/contracts/loops.algo.ts:72",
+          "pc": [
+            336
+          ]
+        },
+        {
+          "teal": 421,
+          "source": "tests/contracts/loops.algo.ts:72",
+          "pc": [
+            337
+          ]
+        },
+        {
+          "teal": 422,
+          "source": "tests/contracts/loops.algo.ts:72",
+          "pc": [
+            338
+          ]
+        },
+        {
+          "teal": 426,
+          "source": "tests/contracts/loops.algo.ts:72",
+          "pc": [
+            339,
+            340,
+            341
+          ]
+        },
+        {
+          "teal": 429,
+          "source": "tests/contracts/loops.algo.ts:72",
+          "pc": [
+            342
+          ]
+        },
+        {
+          "teal": 430,
+          "source": "tests/contracts/loops.algo.ts:72",
+          "pc": [
+            343
+          ]
+        },
+        {
+          "teal": 434,
+          "source": "tests/contracts/loops.algo.ts:73",
+          "pc": [
+            344
+          ]
+        },
+        {
+          "teal": 435,
+          "source": "tests/contracts/loops.algo.ts:73",
+          "pc": [
+            345,
+            346
+          ]
+        },
+        {
+          "teal": 439,
+          "source": "tests/contracts/loops.algo.ts:75",
+          "pc": [
+            347
+          ]
+        },
+        {
+          "teal": 440,
+          "source": "tests/contracts/loops.algo.ts:75",
+          "pc": [
+            348,
+            349
+          ]
+        },
+        {
+          "teal": 445,
+          "source": "tests/contracts/loops.algo.ts:75",
+          "pc": [
+            350,
+            351
+          ]
+        },
+        {
+          "teal": 446,
+          "source": "tests/contracts/loops.algo.ts:75",
+          "pc": [
+            352
+          ]
+        },
+        {
+          "teal": 447,
+          "source": "tests/contracts/loops.algo.ts:75",
+          "pc": [
+            353
+          ]
+        },
+        {
+          "teal": 448,
+          "source": "tests/contracts/loops.algo.ts:75",
+          "pc": [
+            354,
+            355,
+            356
+          ]
+        },
+        {
+          "teal": 453,
+          "source": "tests/contracts/loops.algo.ts:76",
+          "pc": [
+            357,
+            358
+          ]
+        },
+        {
+          "teal": 454,
+          "source": "tests/contracts/loops.algo.ts:76",
+          "pc": [
+            359
+          ]
+        },
+        {
+          "teal": 455,
+          "source": "tests/contracts/loops.algo.ts:76",
+          "pc": [
+            360
+          ]
+        },
+        {
+          "teal": 456,
+          "source": "tests/contracts/loops.algo.ts:76",
+          "pc": [
+            361,
+            362,
+            363
+          ]
+        },
+        {
+          "teal": 461,
+          "source": "tests/contracts/loops.algo.ts:77",
+          "pc": [
+            364,
+            365
+          ]
+        },
+        {
+          "teal": 462,
+          "source": "tests/contracts/loops.algo.ts:77",
+          "pc": [
+            366,
+            367
+          ]
+        },
+        {
+          "teal": 463,
+          "source": "tests/contracts/loops.algo.ts:78",
+          "pc": [
+            368,
+            369,
+            370
+          ]
+        },
+        {
+          "teal": 468,
+          "source": "tests/contracts/loops.algo.ts:80",
+          "pc": [
+            371,
+            372
+          ]
+        },
+        {
+          "teal": 469,
+          "source": "tests/contracts/loops.algo.ts:80",
+          "pc": [
+            373
+          ]
+        },
+        {
+          "teal": 470,
+          "source": "tests/contracts/loops.algo.ts:80",
+          "pc": [
+            374
+          ]
+        },
+        {
+          "teal": 471,
+          "source": "tests/contracts/loops.algo.ts:80",
+          "pc": [
+            375,
+            376
+          ]
+        },
+        {
+          "teal": 476,
+          "source": "tests/contracts/loops.algo.ts:75",
+          "pc": [
+            377,
+            378
+          ]
+        },
+        {
+          "teal": 477,
+          "source": "tests/contracts/loops.algo.ts:75",
+          "pc": [
+            379
+          ]
+        },
+        {
+          "teal": 478,
+          "source": "tests/contracts/loops.algo.ts:75",
+          "pc": [
+            380
+          ]
+        },
+        {
+          "teal": 479,
+          "source": "tests/contracts/loops.algo.ts:75",
+          "pc": [
+            381,
+            382
+          ]
+        },
+        {
+          "teal": 480,
+          "source": "tests/contracts/loops.algo.ts:75",
+          "pc": [
+            383,
+            384,
+            385
+          ]
+        },
+        {
+          "teal": 485,
+          "source": "tests/contracts/loops.algo.ts:83",
+          "pc": [
+            386,
+            387
+          ]
+        },
+        {
+          "teal": 488,
+          "source": "tests/contracts/loops.algo.ts:72",
+          "pc": [
+            388,
+            389
+          ]
+        },
+        {
+          "teal": 491,
+          "source": "tests/contracts/loops.algo.ts:72",
+          "pc": [
+            390,
+            391
+          ]
+        },
+        {
+          "teal": 492,
+          "source": "tests/contracts/loops.algo.ts:72",
+          "pc": [
+            392
+          ]
+        },
+        {
+          "teal": 497,
+          "source": "tests/contracts/loops.algo.ts:86",
+          "pc": [
+            393
+          ]
+        },
+        {
+          "teal": 500,
+          "source": "tests/contracts/loops.algo.ts:86",
+          "pc": [
+            394,
+            395,
+            396
+          ]
+        },
+        {
+          "teal": 501,
+          "source": "tests/contracts/loops.algo.ts:86",
+          "pc": [
+            397
+          ]
+        },
+        {
+          "teal": 502,
+          "source": "tests/contracts/loops.algo.ts:86",
+          "pc": [
+            398
+          ]
+        },
+        {
+          "teal": 503,
+          "source": "tests/contracts/loops.algo.ts:86",
+          "pc": [
+            399
+          ]
+        },
+        {
+          "teal": 504,
+          "source": "tests/contracts/loops.algo.ts:86",
+          "pc": [
+            400
+          ]
+        },
+        {
+          "teal": 505,
+          "source": "tests/contracts/loops.algo.ts:86",
+          "pc": [
+            401
+          ]
+        },
+        {
+          "teal": 509,
+          "source": "tests/contracts/loops.algo.ts:86",
+          "pc": [
+            402,
+            403,
+            404
+          ]
+        },
+        {
+          "teal": 512,
+          "source": "tests/contracts/loops.algo.ts:86",
+          "pc": [
+            405
+          ]
+        },
+        {
+          "teal": 516,
+          "source": "tests/contracts/loops.algo.ts:87",
+          "pc": [
+            406
+          ]
+        },
+        {
+          "teal": 517,
+          "source": "tests/contracts/loops.algo.ts:87",
+          "pc": [
+            407,
+            408
+          ]
+        },
+        {
+          "teal": 522,
+          "source": "tests/contracts/loops.algo.ts:90",
+          "pc": [
+            409,
+            410
+          ]
+        },
+        {
+          "teal": 523,
+          "source": "tests/contracts/loops.algo.ts:90",
+          "pc": [
+            411
+          ]
+        },
+        {
+          "teal": 524,
+          "source": "tests/contracts/loops.algo.ts:90",
+          "pc": [
+            412
+          ]
+        },
+        {
+          "teal": 525,
+          "source": "tests/contracts/loops.algo.ts:90",
+          "pc": [
+            413,
+            414
+          ]
+        },
+        {
+          "teal": 530,
+          "source": "tests/contracts/loops.algo.ts:91",
+          "pc": [
+            415,
+            416
+          ]
+        },
+        {
+          "teal": 531,
+          "source": "tests/contracts/loops.algo.ts:91",
+          "pc": [
+            417
+          ]
+        },
+        {
+          "teal": 532,
+          "source": "tests/contracts/loops.algo.ts:91",
+          "pc": [
+            418
+          ]
+        },
+        {
+          "teal": 533,
+          "source": "tests/contracts/loops.algo.ts:91",
+          "pc": [
+            419,
+            420,
+            421
+          ]
+        },
+        {
+          "teal": 536,
+          "source": "tests/contracts/loops.algo.ts:91",
+          "pc": [
+            422,
+            423,
+            424
+          ]
+        },
+        {
+          "teal": 545,
+          "source": "tests/contracts/loops.algo.ts:92",
+          "pc": [
+            425,
+            426
+          ]
+        },
+        {
+          "teal": 546,
+          "source": "tests/contracts/loops.algo.ts:92",
+          "pc": [
+            427
+          ]
+        },
+        {
+          "teal": 547,
+          "source": "tests/contracts/loops.algo.ts:92",
+          "pc": [
+            428
+          ]
+        },
+        {
+          "teal": 548,
+          "source": "tests/contracts/loops.algo.ts:89",
+          "pc": [
+            429,
+            430,
+            431
+          ]
+        },
+        {
+          "teal": 553,
+          "source": "tests/contracts/loops.algo.ts:94",
+          "pc": [
+            432,
+            433
+          ]
+        },
+        {
+          "teal": 556,
+          "source": "tests/contracts/loops.algo.ts:86",
+          "pc": [
+            434,
+            435
+          ]
+        },
+        {
+          "teal": 557,
+          "source": "tests/contracts/loops.algo.ts:86",
+          "pc": [
+            436
+          ]
+        },
+        {
+          "teal": 562,
+          "source": "tests/contracts/loops.algo.ts:97",
+          "pc": [
+            437
+          ]
+        },
+        {
+          "teal": 565,
+          "source": "tests/contracts/loops.algo.ts:97",
+          "pc": [
+            438,
+            439,
+            440
+          ]
+        },
+        {
+          "teal": 566,
+          "source": "tests/contracts/loops.algo.ts:97",
+          "pc": [
+            441
+          ]
+        },
+        {
+          "teal": 567,
+          "source": "tests/contracts/loops.algo.ts:97",
+          "pc": [
+            442
+          ]
+        },
+        {
+          "teal": 568,
+          "source": "tests/contracts/loops.algo.ts:97",
+          "pc": [
+            443
+          ]
+        },
+        {
+          "teal": 569,
+          "source": "tests/contracts/loops.algo.ts:97",
+          "pc": [
+            444
+          ]
+        },
+        {
+          "teal": 570,
+          "source": "tests/contracts/loops.algo.ts:97",
+          "pc": [
+            445
+          ]
+        },
+        {
+          "teal": 574,
+          "source": "tests/contracts/loops.algo.ts:97",
+          "pc": [
+            446,
+            447,
+            448
+          ]
+        },
+        {
+          "teal": 577,
+          "source": "tests/contracts/loops.algo.ts:97",
+          "pc": [
+            449
+          ]
+        },
+        {
+          "teal": 581,
+          "source": "tests/contracts/loops.algo.ts:98",
+          "pc": [
+            450
+          ]
+        },
+        {
+          "teal": 582,
+          "source": "tests/contracts/loops.algo.ts:98",
+          "pc": [
+            451,
+            452
+          ]
+        },
+        {
+          "teal": 588,
+          "source": "tests/contracts/loops.algo.ts:101",
+          "pc": [
+            453,
+            454
+          ]
+        },
+        {
+          "teal": 589,
+          "source": "tests/contracts/loops.algo.ts:101",
+          "pc": [
+            455
+          ]
+        },
+        {
+          "teal": 590,
+          "source": "tests/contracts/loops.algo.ts:101",
+          "pc": [
+            456
+          ]
+        },
+        {
+          "teal": 591,
+          "source": "tests/contracts/loops.algo.ts:101",
+          "pc": [
+            457,
+            458,
+            459
+          ]
+        },
+        {
+          "teal": 596,
+          "source": "tests/contracts/loops.algo.ts:102",
+          "pc": [
+            460,
+            461
+          ]
+        },
+        {
+          "teal": 597,
+          "source": "tests/contracts/loops.algo.ts:102",
+          "pc": [
+            462,
+            463
+          ]
+        },
+        {
+          "teal": 598,
+          "source": "tests/contracts/loops.algo.ts:103",
+          "pc": [
+            464,
+            465,
+            466
+          ]
+        },
+        {
+          "teal": 603,
+          "source": "tests/contracts/loops.algo.ts:105",
+          "pc": [
+            467,
+            468
+          ]
+        },
+        {
+          "teal": 604,
+          "source": "tests/contracts/loops.algo.ts:105",
+          "pc": [
+            469
+          ]
+        },
+        {
+          "teal": 605,
+          "source": "tests/contracts/loops.algo.ts:105",
+          "pc": [
+            470
+          ]
+        },
+        {
+          "teal": 606,
+          "source": "tests/contracts/loops.algo.ts:105",
+          "pc": [
+            471,
+            472
+          ]
+        },
+        {
+          "teal": 613,
+          "source": "tests/contracts/loops.algo.ts:106",
+          "pc": [
+            473,
+            474
+          ]
+        },
+        {
+          "teal": 614,
+          "source": "tests/contracts/loops.algo.ts:106",
+          "pc": [
+            475
+          ]
+        },
+        {
+          "teal": 615,
+          "source": "tests/contracts/loops.algo.ts:106",
+          "pc": [
+            476
+          ]
+        },
+        {
+          "teal": 616,
+          "source": "tests/contracts/loops.algo.ts:100",
+          "pc": [
+            477,
+            478,
+            479
+          ]
+        },
+        {
+          "teal": 621,
+          "source": "tests/contracts/loops.algo.ts:108",
+          "pc": [
+            480,
+            481
+          ]
+        },
+        {
+          "teal": 624,
+          "source": "tests/contracts/loops.algo.ts:97",
+          "pc": [
+            482,
+            483
+          ]
+        },
+        {
+          "teal": 625,
+          "source": "tests/contracts/loops.algo.ts:97",
+          "pc": [
+            484
+          ]
+        },
+        {
+          "teal": 628,
+          "source": "tests/contracts/loops.algo.ts:5",
+          "pc": [
+            485
+          ]
+        },
+        {
+          "teal": 629,
+          "source": "tests/contracts/loops.algo.ts:5",
+          "pc": [
+            486
+          ]
+        },
+        {
+          "teal": 632,
+          "source": "tests/contracts/loops.algo.ts:5",
+          "pc": [
+            487,
+            488,
+            489,
+            490,
+            491,
+            492
+          ]
+        },
+        {
+          "teal": 633,
+          "source": "tests/contracts/loops.algo.ts:5",
+          "pc": [
+            493,
+            494,
+            495
+          ]
+        },
+        {
+          "teal": 634,
+          "source": "tests/contracts/loops.algo.ts:5",
+          "pc": [
+            496,
+            497,
+            498,
+            499
+          ]
+        },
+        {
+          "teal": 637,
+          "source": "tests/contracts/loops.algo.ts:5",
+          "errorMessage": "this contract does not implement the given ABI method for create NoOp",
+          "pc": [
+            500
+          ]
+        },
+        {
+          "teal": 640,
+          "source": "tests/contracts/loops.algo.ts:5",
+          "pc": [
+            501,
+            502,
+            503,
+            504,
+            505,
+            506
+          ]
+        },
+        {
+          "teal": 641,
+          "source": "tests/contracts/loops.algo.ts:5",
+          "pc": [
+            507,
+            508,
+            509,
+            510,
+            511,
+            512
+          ]
+        },
+        {
+          "teal": 642,
+          "source": "tests/contracts/loops.algo.ts:5",
+          "pc": [
+            513,
+            514,
+            515,
+            516,
+            517,
+            518
+          ]
+        },
+        {
+          "teal": 643,
+          "source": "tests/contracts/loops.algo.ts:5",
+          "pc": [
+            519,
+            520,
+            521,
+            522,
+            523,
+            524
+          ]
+        },
+        {
+          "teal": 644,
+          "source": "tests/contracts/loops.algo.ts:5",
+          "pc": [
+            525,
+            526,
+            527,
+            528,
+            529,
+            530
+          ]
+        },
+        {
+          "teal": 645,
+          "source": "tests/contracts/loops.algo.ts:5",
+          "pc": [
+            531,
+            532,
+            533,
+            534,
+            535,
+            536
+          ]
+        },
+        {
+          "teal": 646,
+          "source": "tests/contracts/loops.algo.ts:5",
+          "pc": [
+            537,
+            538,
+            539,
+            540,
+            541,
+            542
+          ]
+        },
+        {
+          "teal": 647,
+          "source": "tests/contracts/loops.algo.ts:5",
+          "pc": [
+            543,
+            544,
+            545,
+            546,
+            547,
+            548
+          ]
+        },
+        {
+          "teal": 648,
+          "source": "tests/contracts/loops.algo.ts:5",
+          "pc": [
+            549,
+            550,
+            551,
+            552,
+            553,
+            554
+          ]
+        },
+        {
+          "teal": 649,
+          "source": "tests/contracts/loops.algo.ts:5",
+          "pc": [
+            555,
+            556,
+            557
+          ]
+        },
+        {
+          "teal": 650,
+          "source": "tests/contracts/loops.algo.ts:5",
+          "pc": [
+            558,
+            559,
+            560,
+            561,
+            562,
+            563,
+            564,
+            565,
+            566,
+            567,
+            568,
+            569,
+            570,
+            571,
+            572,
+            573,
+            574,
+            575,
+            576,
+            577
+          ]
+        },
+        {
+          "teal": 653,
+          "source": "tests/contracts/loops.algo.ts:5",
+          "errorMessage": "this contract does not implement the given ABI method for call NoOp",
+          "pc": [
+            578
+          ]
+        }
+      ],
+      "pcOffsetMethod": "none"
+    },
+    "clear": {
+      "sourceInfo": [],
+      "pcOffsetMethod": "none"
+    }
+  },
+  "source": {
+    "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCmludGNibG9jayAxIDAgMTAgNSAxMzM3CmJ5dGVjYmxvY2sgMHggMHgxNTFmN2M3NQoKLy8gVGhpcyBURUFMIHdhcyBnZW5lcmF0ZWQgYnkgVEVBTFNjcmlwdCB2MC4xMDYuMAovLyBodHRwczovL2dpdGh1Yi5jb20vYWxnb3JhbmRmb3VuZGF0aW9uL1RFQUxTY3JpcHQKCi8vIFRoaXMgY29udHJhY3QgaXMgY29tcGxpYW50IHdpdGggYW5kL29yIGltcGxlbWVudHMgdGhlIGZvbGxvd2luZyBBUkNzOiBbIEFSQzQgXQoKLy8gVGhlIGZvbGxvd2luZyB0ZW4gbGluZXMgb2YgVEVBTCBoYW5kbGUgaW5pdGlhbCBwcm9ncmFtIGZsb3cKLy8gVGhpcyBwYXR0ZXJuIGlzIHVzZWQgdG8gbWFrZSBpdCBlYXN5IGZvciBhbnlvbmUgdG8gcGFyc2UgdGhlIHN0YXJ0IG9mIHRoZSBwcm9ncmFtIGFuZCBkZXRlcm1pbmUgaWYgYSBzcGVjaWZpYyBhY3Rpb24gaXMgYWxsb3dlZAovLyBIZXJlLCBhY3Rpb24gcmVmZXJzIHRvIHRoZSBPbkNvbXBsZXRlIGluIGNvbWJpbmF0aW9uIHdpdGggd2hldGhlciB0aGUgYXBwIGlzIGJlaW5nIGNyZWF0ZWQgb3IgY2FsbGVkCi8vIEV2ZXJ5IHBvc3NpYmxlIGFjdGlvbiBmb3IgdGhpcyBjb250cmFjdCBpcyByZXByZXNlbnRlZCBpbiB0aGUgc3dpdGNoIHN0YXRlbWVudAovLyBJZiB0aGUgYWN0aW9uIGlzIG5vdCBpbXBsZW1lbnRlZCBpbiB0aGUgY29udHJhY3QsIGl0cyByZXNwZWN0aXZlIGJyYW5jaCB3aWxsIGJlICIqTk9UX0lNUExFTUVOVEVEIiB3aGljaCBqdXN0IGNvbnRhaW5zICJlcnIiCnR4biBBcHBsaWNhdGlvbklECiEKcHVzaGludCA2CioKdHhuIE9uQ29tcGxldGlvbgorCnN3aXRjaCAqY2FsbF9Ob09wICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqY3JlYXRlX05vT3AgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVECgoqTk9UX0lNUExFTUVOVEVEOgoJLy8gVGhlIHJlcXVlc3RlZCBhY3Rpb24gaXMgbm90IGltcGxlbWVudGVkIGluIHRoaXMgY29udHJhY3QuIEFyZSB5b3UgdXNpbmcgdGhlIGNvcnJlY3QgT25Db21wbGV0ZT8gRGlkIHlvdSBzZXQgeW91ciBhcHAgSUQ/CgllcnIKCi8vIHdoaWxlTG9vcCgpdWludDY0CiphYmlfcm91dGVfd2hpbGVMb29wOgoJLy8gVGhlIEFCSSByZXR1cm4gcHJlZml4CglieXRlYyAxIC8vIDB4MTUxZjdjNzUKCgkvLyBleGVjdXRlIHdoaWxlTG9vcCgpdWludDY0CgljYWxsc3ViIHdoaWxlTG9vcAoJaXRvYgoJY29uY2F0Cglsb2cKCWludGMgMCAvLyAxCglyZXR1cm4KCi8vIHdoaWxlTG9vcCgpOiB1aW50NjQKd2hpbGVMb29wOgoJcHJvdG8gMCAxCgoJLy8gUHVzaCBlbXB0eSBieXRlcyBhZnRlciB0aGUgZnJhbWUgcG9pbnRlciB0byByZXNlcnZlIHNwYWNlIGZvciBsb2NhbCB2YXJpYWJsZXMKCWJ5dGVjIDAgLy8gMHgKCgkvLyB0ZXN0cy9jb250cmFjdHMvbG9vcHMuYWxnby50czo3CgkvLyBpID0gMAoJaW50YyAxIC8vIDAKCWZyYW1lX2J1cnkgMCAvLyBpOiB1aW50NjQKCip3aGlsZV8wOgoKKndoaWxlXzBfY29udGludWU6CgkvLyB0ZXN0cy9jb250cmFjdHMvbG9vcHMuYWxnby50czo5CgkvLyBpIDwgMTAKCWZyYW1lX2RpZyAwIC8vIGk6IHVpbnQ2NAoJaW50YyAyIC8vIDEwCgk8CglieiAqd2hpbGVfMF9lbmQKCgkvLyB0ZXN0cy9jb250cmFjdHMvbG9vcHMuYWxnby50czoxMAoJLy8gaSA9IGkgKyAxCglmcmFtZV9kaWcgMCAvLyBpOiB1aW50NjQKCWludGMgMCAvLyAxCgkrCglmcmFtZV9idXJ5IDAgLy8gaTogdWludDY0CgliICp3aGlsZV8wCgoqd2hpbGVfMF9lbmQ6CgkvLyB0ZXN0cy9jb250cmFjdHMvbG9vcHMuYWxnby50czoxMwoJLy8gcmV0dXJuIGk7CglmcmFtZV9kaWcgMCAvLyBpOiB1aW50NjQKCgkvLyBzZXQgdGhlIHN1YnJvdXRpbmUgcmV0dXJuIHZhbHVlCglmcmFtZV9idXJ5IDAKCXJldHN1YgoKLy8gZm9yTG9vcCgpdWludDY0CiphYmlfcm91dGVfZm9yTG9vcDoKCS8vIFRoZSBBQkkgcmV0dXJuIHByZWZpeAoJYnl0ZWMgMSAvLyAweDE1MWY3Yzc1CgoJLy8gZXhlY3V0ZSBmb3JMb29wKCl1aW50NjQKCWNhbGxzdWIgZm9yTG9vcAoJaXRvYgoJY29uY2F0Cglsb2cKCWludGMgMCAvLyAxCglyZXR1cm4KCi8vIGZvckxvb3AoKTogdWludDY0CmZvckxvb3A6Cglwcm90byAwIDEKCgkvLyBQdXNoIGVtcHR5IGJ5dGVzIGFmdGVyIHRoZSBmcmFtZSBwb2ludGVyIHRvIHJlc2VydmUgc3BhY2UgZm9yIGxvY2FsIHZhcmlhYmxlcwoJYnl0ZWMgMCAvLyAweAoJZHVwCgoJLy8gdGVzdHMvY29udHJhY3RzL2xvb3BzLmFsZ28udHM6MTcKCS8vIGkgPSAwCglpbnRjIDEgLy8gMAoJZnJhbWVfYnVyeSAwIC8vIGk6IHVpbnQ2NAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9sb29wcy5hbGdvLnRzOjE5CgkvLyBmb3IgKGxldCBqID0gMDsgaiA8IDEwOyBqID0gaiArIDEpCglpbnRjIDEgLy8gMAoJZnJhbWVfYnVyeSAxIC8vIGo6IHVpbnQ2NAoKKmZvcl8wOgoJLy8gdGVzdHMvY29udHJhY3RzL2xvb3BzLmFsZ28udHM6MTkKCS8vIGogPCAxMAoJZnJhbWVfZGlnIDEgLy8gajogdWludDY0CglpbnRjIDIgLy8gMTAKCTwKCWJ6ICpmb3JfMF9lbmQKCgkvLyB0ZXN0cy9jb250cmFjdHMvbG9vcHMuYWxnby50czoyMAoJLy8gaSA9IGkgKyAxCglmcmFtZV9kaWcgMCAvLyBpOiB1aW50NjQKCWludGMgMCAvLyAxCgkrCglmcmFtZV9idXJ5IDAgLy8gaTogdWludDY0CgoqZm9yXzBfY29udGludWU6CgkvLyB0ZXN0cy9jb250cmFjdHMvbG9vcHMuYWxnby50czoxOQoJLy8gaiA9IGogKyAxCglmcmFtZV9kaWcgMSAvLyBqOiB1aW50NjQKCWludGMgMCAvLyAxCgkrCglmcmFtZV9idXJ5IDEgLy8gajogdWludDY0CgliICpmb3JfMAoKKmZvcl8wX2VuZDoKCS8vIHRlc3RzL2NvbnRyYWN0cy9sb29wcy5hbGdvLnRzOjIzCgkvLyByZXR1cm4gaTsKCWZyYW1lX2RpZyAwIC8vIGk6IHVpbnQ2NAoKCS8vIHNldCB0aGUgc3Vicm91dGluZSByZXR1cm4gdmFsdWUKCWZyYW1lX2J1cnkgMAoKCS8vIHBvcCBhbGwgbG9jYWwgdmFyaWFibGVzIGZyb20gdGhlIHN0YWNrCglwb3BuIDEKCXJldHN1YgoKLy8gZG9XaGlsZUxvb3AoKXVpbnQ2NAoqYWJpX3JvdXRlX2RvV2hpbGVMb29wOgoJLy8gVGhlIEFCSSByZXR1cm4gcHJlZml4CglieXRlYyAxIC8vIDB4MTUxZjdjNzUKCgkvLyBleGVjdXRlIGRvV2hpbGVMb29wKCl1aW50NjQKCWNhbGxzdWIgZG9XaGlsZUxvb3AKCWl0b2IKCWNvbmNhdAoJbG9nCglpbnRjIDAgLy8gMQoJcmV0dXJuCgovLyBkb1doaWxlTG9vcCgpOiB1aW50NjQKZG9XaGlsZUxvb3A6Cglwcm90byAwIDEKCgkvLyBQdXNoIGVtcHR5IGJ5dGVzIGFmdGVyIHRoZSBmcmFtZSBwb2ludGVyIHRvIHJlc2VydmUgc3BhY2UgZm9yIGxvY2FsIHZhcmlhYmxlcwoJYnl0ZWMgMCAvLyAweAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9sb29wcy5hbGdvLnRzOjI3CgkvLyBpID0gMAoJaW50YyAxIC8vIDAKCWZyYW1lX2J1cnkgMCAvLyBpOiB1aW50NjQKCipkb193aGlsZV8wX3N0YXRlbWVudDoKCS8vIHRlc3RzL2NvbnRyYWN0cy9sb29wcy5hbGdvLnRzOjMwCgkvLyBpID0gaSArIDEKCWZyYW1lX2RpZyAwIC8vIGk6IHVpbnQ2NAoJaW50YyAwIC8vIDEKCSsKCWZyYW1lX2J1cnkgMCAvLyBpOiB1aW50NjQKCipkb193aGlsZV8wOgoKKmRvX3doaWxlXzBfY29udGludWU6CgkvLyB0ZXN0cy9jb250cmFjdHMvbG9vcHMuYWxnby50czozMQoJLy8gaSA8IDEwCglmcmFtZV9kaWcgMCAvLyBpOiB1aW50NjQKCWludGMgMiAvLyAxMAoJPAoJYm56ICpkb193aGlsZV8wX3N0YXRlbWVudAoKKmRvX3doaWxlXzBfZW5kOgoJLy8gdGVzdHMvY29udHJhY3RzL2xvb3BzLmFsZ28udHM6MzMKCS8vIHJldHVybiBpOwoJZnJhbWVfZGlnIDAgLy8gaTogdWludDY0CgoJLy8gc2V0IHRoZSBzdWJyb3V0aW5lIHJldHVybiB2YWx1ZQoJZnJhbWVfYnVyeSAwCglyZXRzdWIKCi8vIGJyZWFrV2hpbGVMb29wKCl1aW50NjQKKmFiaV9yb3V0ZV9icmVha1doaWxlTG9vcDoKCS8vIFRoZSBBQkkgcmV0dXJuIHByZWZpeAoJYnl0ZWMgMSAvLyAweDE1MWY3Yzc1CgoJLy8gZXhlY3V0ZSBicmVha1doaWxlTG9vcCgpdWludDY0CgljYWxsc3ViIGJyZWFrV2hpbGVMb29wCglpdG9iCgljb25jYXQKCWxvZwoJaW50YyAwIC8vIDEKCXJldHVybgoKLy8gYnJlYWtXaGlsZUxvb3AoKTogdWludDY0CmJyZWFrV2hpbGVMb29wOgoJcHJvdG8gMCAxCgoJLy8gUHVzaCBlbXB0eSBieXRlcyBhZnRlciB0aGUgZnJhbWUgcG9pbnRlciB0byByZXNlcnZlIHNwYWNlIGZvciBsb2NhbCB2YXJpYWJsZXMKCWJ5dGVjIDAgLy8gMHgKCgkvLyB0ZXN0cy9jb250cmFjdHMvbG9vcHMuYWxnby50czozNwoJLy8gaSA9IDAKCWludGMgMSAvLyAwCglmcmFtZV9idXJ5IDAgLy8gaTogdWludDY0Cgoqd2hpbGVfMToKCip3aGlsZV8xX2NvbnRpbnVlOgoJLy8gdGVzdHMvY29udHJhY3RzL2xvb3BzLmFsZ28udHM6MzkKCS8vIGkgPCAxMAoJZnJhbWVfZGlnIDAgLy8gaTogdWludDY0CglpbnRjIDIgLy8gMTAKCTwKCWJ6ICp3aGlsZV8xX2VuZAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9sb29wcy5hbGdvLnRzOjQwCgkvLyBpID0gaSArIDEKCWZyYW1lX2RpZyAwIC8vIGk6IHVpbnQ2NAoJaW50YyAwIC8vIDEKCSsKCWZyYW1lX2J1cnkgMCAvLyBpOiB1aW50NjQKCgkvLyAqaWYwX2NvbmRpdGlvbgoJLy8gdGVzdHMvY29udHJhY3RzL2xvb3BzLmFsZ28udHM6NDEKCS8vIGkgPT09IDUKCWZyYW1lX2RpZyAwIC8vIGk6IHVpbnQ2NAoJaW50YyAzIC8vIDUKCT09CglieiAqaWYwX2VuZAoKCS8vICppZjBfY29uc2VxdWVudAoJYiAqd2hpbGVfMV9lbmQKCippZjBfZW5kOgoJYiAqd2hpbGVfMQoKKndoaWxlXzFfZW5kOgoJLy8gdGVzdHMvY29udHJhY3RzL2xvb3BzLmFsZ28udHM6NDQKCS8vIHJldHVybiBpOwoJZnJhbWVfZGlnIDAgLy8gaTogdWludDY0CgoJLy8gc2V0IHRoZSBzdWJyb3V0aW5lIHJldHVybiB2YWx1ZQoJZnJhbWVfYnVyeSAwCglyZXRzdWIKCi8vIGNvbnRpbnVlV2hpbGVMb29wKCl1aW50NjQKKmFiaV9yb3V0ZV9jb250aW51ZVdoaWxlTG9vcDoKCS8vIFRoZSBBQkkgcmV0dXJuIHByZWZpeAoJYnl0ZWMgMSAvLyAweDE1MWY3Yzc1CgoJLy8gZXhlY3V0ZSBjb250aW51ZVdoaWxlTG9vcCgpdWludDY0CgljYWxsc3ViIGNvbnRpbnVlV2hpbGVMb29wCglpdG9iCgljb25jYXQKCWxvZwoJaW50YyAwIC8vIDEKCXJldHVybgoKLy8gY29udGludWVXaGlsZUxvb3AoKTogdWludDY0CmNvbnRpbnVlV2hpbGVMb29wOgoJcHJvdG8gMCAxCgoJLy8gUHVzaCBlbXB0eSBieXRlcyBhZnRlciB0aGUgZnJhbWUgcG9pbnRlciB0byByZXNlcnZlIHNwYWNlIGZvciBsb2NhbCB2YXJpYWJsZXMKCWJ5dGVjIDAgLy8gMHgKCgkvLyB0ZXN0cy9jb250cmFjdHMvbG9vcHMuYWxnby50czo0OAoJLy8gaSA9IDAKCWludGMgMSAvLyAwCglmcmFtZV9idXJ5IDAgLy8gaTogdWludDY0Cgoqd2hpbGVfMjoKCip3aGlsZV8yX2NvbnRpbnVlOgoJLy8gdGVzdHMvY29udHJhY3RzL2xvb3BzLmFsZ28udHM6NTAKCS8vIGkgPCAxMAoJZnJhbWVfZGlnIDAgLy8gaTogdWludDY0CglpbnRjIDIgLy8gMTAKCTwKCWJ6ICp3aGlsZV8yX2VuZAoKCS8vICppZjFfY29uZGl0aW9uCgkvLyB0ZXN0cy9jb250cmFjdHMvbG9vcHMuYWxnby50czo1MQoJLy8gaSA9PT0gNQoJZnJhbWVfZGlnIDAgLy8gaTogdWludDY0CglpbnRjIDMgLy8gNQoJPT0KCWJ6ICppZjFfZW5kCgoJLy8gKmlmMV9jb25zZXF1ZW50CgkvLyB0ZXN0cy9jb250cmFjdHMvbG9vcHMuYWxnby50czo1MgoJLy8gaSA9IDEzMzcKCWludGMgNCAvLyAxMzM3CglmcmFtZV9idXJ5IDAgLy8gaTogdWludDY0CgliICp3aGlsZV8yX2NvbnRpbnVlCgoqaWYxX2VuZDoKCS8vIHRlc3RzL2NvbnRyYWN0cy9sb29wcy5hbGdvLnRzOjU1CgkvLyBpID0gaSArIDEKCWZyYW1lX2RpZyAwIC8vIGk6IHVpbnQ2NAoJaW50YyAwIC8vIDEKCSsKCWZyYW1lX2J1cnkgMCAvLyBpOiB1aW50NjQKCWIgKndoaWxlXzIKCip3aGlsZV8yX2VuZDoKCS8vIHRlc3RzL2NvbnRyYWN0cy9sb29wcy5hbGdvLnRzOjU4CgkvLyByZXR1cm4gaTsKCWZyYW1lX2RpZyAwIC8vIGk6IHVpbnQ2NAoKCS8vIHNldCB0aGUgc3Vicm91dGluZSByZXR1cm4gdmFsdWUKCWZyYW1lX2J1cnkgMAoJcmV0c3ViCgovLyBicmVha0Zvckxvb3AoKXVpbnQ2NAoqYWJpX3JvdXRlX2JyZWFrRm9yTG9vcDoKCS8vIFRoZSBBQkkgcmV0dXJuIHByZWZpeAoJYnl0ZWMgMSAvLyAweDE1MWY3Yzc1CgoJLy8gZXhlY3V0ZSBicmVha0Zvckxvb3AoKXVpbnQ2NAoJY2FsbHN1YiBicmVha0Zvckxvb3AKCWl0b2IKCWNvbmNhdAoJbG9nCglpbnRjIDAgLy8gMQoJcmV0dXJuCgovLyBicmVha0Zvckxvb3AoKTogdWludDY0CmJyZWFrRm9yTG9vcDoKCXByb3RvIDAgMQoKCS8vIFB1c2ggZW1wdHkgYnl0ZXMgYWZ0ZXIgdGhlIGZyYW1lIHBvaW50ZXIgdG8gcmVzZXJ2ZSBzcGFjZSBmb3IgbG9jYWwgdmFyaWFibGVzCglieXRlYyAwIC8vIDB4CglkdXAKCgkvLyB0ZXN0cy9jb250cmFjdHMvbG9vcHMuYWxnby50czo2MgoJLy8gaSA9IDAKCWludGMgMSAvLyAwCglmcmFtZV9idXJ5IDAgLy8gaTogdWludDY0CgoJLy8gdGVzdHMvY29udHJhY3RzL2xvb3BzLmFsZ28udHM6NjQKCS8vIGZvciAobGV0IGogPSAwOyBqIDwgMTA7IGogPSBqICsgMSkKCWludGMgMSAvLyAwCglmcmFtZV9idXJ5IDEgLy8gajogdWludDY0CgoqZm9yXzE6CgkvLyB0ZXN0cy9jb250cmFjdHMvbG9vcHMuYWxnby50czo2NAoJLy8gaiA8IDEwCglmcmFtZV9kaWcgMSAvLyBqOiB1aW50NjQKCWludGMgMiAvLyAxMAoJPAoJYnogKmZvcl8xX2VuZAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9sb29wcy5hbGdvLnRzOjY1CgkvLyBpID0gaSArIDEKCWZyYW1lX2RpZyAwIC8vIGk6IHVpbnQ2NAoJaW50YyAwIC8vIDEKCSsKCWZyYW1lX2J1cnkgMCAvLyBpOiB1aW50NjQKCgkvLyAqaWYyX2NvbmRpdGlvbgoJLy8gdGVzdHMvY29udHJhY3RzL2xvb3BzLmFsZ28udHM6NjYKCS8vIGkgPT09IDUKCWZyYW1lX2RpZyAwIC8vIGk6IHVpbnQ2NAoJaW50YyAzIC8vIDUKCT09CglieiAqaWYyX2VuZAoKCS8vICppZjJfY29uc2VxdWVudAoJYiAqZm9yXzFfZW5kCgoqaWYyX2VuZDoKCipmb3JfMV9jb250aW51ZToKCS8vIHRlc3RzL2NvbnRyYWN0cy9sb29wcy5hbGdvLnRzOjY0CgkvLyBqID0gaiArIDEKCWZyYW1lX2RpZyAxIC8vIGo6IHVpbnQ2NAoJaW50YyAwIC8vIDEKCSsKCWZyYW1lX2J1cnkgMSAvLyBqOiB1aW50NjQKCWIgKmZvcl8xCgoqZm9yXzFfZW5kOgoJLy8gdGVzdHMvY29udHJhY3RzL2xvb3BzLmFsZ28udHM6NjkKCS8vIHJldHVybiBpOwoJZnJhbWVfZGlnIDAgLy8gaTogdWludDY0CgoJLy8gc2V0IHRoZSBzdWJyb3V0aW5lIHJldHVybiB2YWx1ZQoJZnJhbWVfYnVyeSAwCgoJLy8gcG9wIGFsbCBsb2NhbCB2YXJpYWJsZXMgZnJvbSB0aGUgc3RhY2sKCXBvcG4gMQoJcmV0c3ViCgovLyBjb250aW51ZUZvckxvb3AoKXVpbnQ2NAoqYWJpX3JvdXRlX2NvbnRpbnVlRm9yTG9vcDoKCS8vIFRoZSBBQkkgcmV0dXJuIHByZWZpeAoJYnl0ZWMgMSAvLyAweDE1MWY3Yzc1CgoJLy8gZXhlY3V0ZSBjb250aW51ZUZvckxvb3AoKXVpbnQ2NAoJY2FsbHN1YiBjb250aW51ZUZvckxvb3AKCWl0b2IKCWNvbmNhdAoJbG9nCglpbnRjIDAgLy8gMQoJcmV0dXJuCgovLyBjb250aW51ZUZvckxvb3AoKTogdWludDY0CmNvbnRpbnVlRm9yTG9vcDoKCXByb3RvIDAgMQoKCS8vIFB1c2ggZW1wdHkgYnl0ZXMgYWZ0ZXIgdGhlIGZyYW1lIHBvaW50ZXIgdG8gcmVzZXJ2ZSBzcGFjZSBmb3IgbG9jYWwgdmFyaWFibGVzCglieXRlYyAwIC8vIDB4CglkdXAKCgkvLyB0ZXN0cy9jb250cmFjdHMvbG9vcHMuYWxnby50czo3MwoJLy8gaSA9IDAKCWludGMgMSAvLyAwCglmcmFtZV9idXJ5IDAgLy8gaTogdWludDY0CgoJLy8gdGVzdHMvY29udHJhY3RzL2xvb3BzLmFsZ28udHM6NzUKCS8vIGZvciAobGV0IGogPSAwOyBqIDwgMTA7IGogPSBqICsgMSkKCWludGMgMSAvLyAwCglmcmFtZV9idXJ5IDEgLy8gajogdWludDY0CgoqZm9yXzI6CgkvLyB0ZXN0cy9jb250cmFjdHMvbG9vcHMuYWxnby50czo3NQoJLy8gaiA8IDEwCglmcmFtZV9kaWcgMSAvLyBqOiB1aW50NjQKCWludGMgMiAvLyAxMAoJPAoJYnogKmZvcl8yX2VuZAoKCS8vICppZjNfY29uZGl0aW9uCgkvLyB0ZXN0cy9jb250cmFjdHMvbG9vcHMuYWxnby50czo3NgoJLy8gaSA9PT0gNQoJZnJhbWVfZGlnIDAgLy8gaTogdWludDY0CglpbnRjIDMgLy8gNQoJPT0KCWJ6ICppZjNfZW5kCgoJLy8gKmlmM19jb25zZXF1ZW50CgkvLyB0ZXN0cy9jb250cmFjdHMvbG9vcHMuYWxnby50czo3NwoJLy8gaSA9IDEzMzcKCWludGMgNCAvLyAxMzM3CglmcmFtZV9idXJ5IDAgLy8gaTogdWludDY0CgliICpmb3JfMl9jb250aW51ZQoKKmlmM19lbmQ6CgkvLyB0ZXN0cy9jb250cmFjdHMvbG9vcHMuYWxnby50czo4MAoJLy8gaSA9IGkgKyAxCglmcmFtZV9kaWcgMCAvLyBpOiB1aW50NjQKCWludGMgMCAvLyAxCgkrCglmcmFtZV9idXJ5IDAgLy8gaTogdWludDY0CgoqZm9yXzJfY29udGludWU6CgkvLyB0ZXN0cy9jb250cmFjdHMvbG9vcHMuYWxnby50czo3NQoJLy8gaiA9IGogKyAxCglmcmFtZV9kaWcgMSAvLyBqOiB1aW50NjQKCWludGMgMCAvLyAxCgkrCglmcmFtZV9idXJ5IDEgLy8gajogdWludDY0CgliICpmb3JfMgoKKmZvcl8yX2VuZDoKCS8vIHRlc3RzL2NvbnRyYWN0cy9sb29wcy5hbGdvLnRzOjgzCgkvLyByZXR1cm4gaTsKCWZyYW1lX2RpZyAwIC8vIGk6IHVpbnQ2NAoKCS8vIHNldCB0aGUgc3Vicm91dGluZSByZXR1cm4gdmFsdWUKCWZyYW1lX2J1cnkgMAoKCS8vIHBvcCBhbGwgbG9jYWwgdmFyaWFibGVzIGZyb20gdGhlIHN0YWNrCglwb3BuIDEKCXJldHN1YgoKLy8gYnJlYWtEb1doaWxlTG9vcCgpdWludDY0CiphYmlfcm91dGVfYnJlYWtEb1doaWxlTG9vcDoKCS8vIFRoZSBBQkkgcmV0dXJuIHByZWZpeAoJYnl0ZWMgMSAvLyAweDE1MWY3Yzc1CgoJLy8gZXhlY3V0ZSBicmVha0RvV2hpbGVMb29wKCl1aW50NjQKCWNhbGxzdWIgYnJlYWtEb1doaWxlTG9vcAoJaXRvYgoJY29uY2F0Cglsb2cKCWludGMgMCAvLyAxCglyZXR1cm4KCi8vIGJyZWFrRG9XaGlsZUxvb3AoKTogdWludDY0CmJyZWFrRG9XaGlsZUxvb3A6Cglwcm90byAwIDEKCgkvLyBQdXNoIGVtcHR5IGJ5dGVzIGFmdGVyIHRoZSBmcmFtZSBwb2ludGVyIHRvIHJlc2VydmUgc3BhY2UgZm9yIGxvY2FsIHZhcmlhYmxlcwoJYnl0ZWMgMCAvLyAweAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9sb29wcy5hbGdvLnRzOjg3CgkvLyBpID0gMAoJaW50YyAxIC8vIDAKCWZyYW1lX2J1cnkgMCAvLyBpOiB1aW50NjQKCipkb193aGlsZV8xX3N0YXRlbWVudDoKCS8vIHRlc3RzL2NvbnRyYWN0cy9sb29wcy5hbGdvLnRzOjkwCgkvLyBpID0gaSArIDEKCWZyYW1lX2RpZyAwIC8vIGk6IHVpbnQ2NAoJaW50YyAwIC8vIDEKCSsKCWZyYW1lX2J1cnkgMCAvLyBpOiB1aW50NjQKCgkvLyAqaWY0X2NvbmRpdGlvbgoJLy8gdGVzdHMvY29udHJhY3RzL2xvb3BzLmFsZ28udHM6OTEKCS8vIGkgPT09IDUKCWZyYW1lX2RpZyAwIC8vIGk6IHVpbnQ2NAoJaW50YyAzIC8vIDUKCT09CglieiAqaWY0X2VuZAoKCS8vICppZjRfY29uc2VxdWVudAoJYiAqZG9fd2hpbGVfMV9lbmQKCippZjRfZW5kOgoKKmRvX3doaWxlXzE6CgoqZG9fd2hpbGVfMV9jb250aW51ZToKCS8vIHRlc3RzL2NvbnRyYWN0cy9sb29wcy5hbGdvLnRzOjkyCgkvLyBpIDwgMTAKCWZyYW1lX2RpZyAwIC8vIGk6IHVpbnQ2NAoJaW50YyAyIC8vIDEwCgk8CglibnogKmRvX3doaWxlXzFfc3RhdGVtZW50CgoqZG9fd2hpbGVfMV9lbmQ6CgkvLyB0ZXN0cy9jb250cmFjdHMvbG9vcHMuYWxnby50czo5NAoJLy8gcmV0dXJuIGk7CglmcmFtZV9kaWcgMCAvLyBpOiB1aW50NjQKCgkvLyBzZXQgdGhlIHN1YnJvdXRpbmUgcmV0dXJuIHZhbHVlCglmcmFtZV9idXJ5IDAKCXJldHN1YgoKLy8gY29udGludWVEb1doaWxlTG9vcCgpdWludDY0CiphYmlfcm91dGVfY29udGludWVEb1doaWxlTG9vcDoKCS8vIFRoZSBBQkkgcmV0dXJuIHByZWZpeAoJYnl0ZWMgMSAvLyAweDE1MWY3Yzc1CgoJLy8gZXhlY3V0ZSBjb250aW51ZURvV2hpbGVMb29wKCl1aW50NjQKCWNhbGxzdWIgY29udGludWVEb1doaWxlTG9vcAoJaXRvYgoJY29uY2F0Cglsb2cKCWludGMgMCAvLyAxCglyZXR1cm4KCi8vIGNvbnRpbnVlRG9XaGlsZUxvb3AoKTogdWludDY0CmNvbnRpbnVlRG9XaGlsZUxvb3A6Cglwcm90byAwIDEKCgkvLyBQdXNoIGVtcHR5IGJ5dGVzIGFmdGVyIHRoZSBmcmFtZSBwb2ludGVyIHRvIHJlc2VydmUgc3BhY2UgZm9yIGxvY2FsIHZhcmlhYmxlcwoJYnl0ZWMgMCAvLyAweAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9sb29wcy5hbGdvLnRzOjk4CgkvLyBpID0gMAoJaW50YyAxIC8vIDAKCWZyYW1lX2J1cnkgMCAvLyBpOiB1aW50NjQKCipkb193aGlsZV8yX3N0YXRlbWVudDoKCS8vICppZjVfY29uZGl0aW9uCgkvLyB0ZXN0cy9jb250cmFjdHMvbG9vcHMuYWxnby50czoxMDEKCS8vIGkgPT09IDUKCWZyYW1lX2RpZyAwIC8vIGk6IHVpbnQ2NAoJaW50YyAzIC8vIDUKCT09CglieiAqaWY1X2VuZAoKCS8vICppZjVfY29uc2VxdWVudAoJLy8gdGVzdHMvY29udHJhY3RzL2xvb3BzLmFsZ28udHM6MTAyCgkvLyBpID0gMTMzNwoJaW50YyA0IC8vIDEzMzcKCWZyYW1lX2J1cnkgMCAvLyBpOiB1aW50NjQKCWIgKmRvX3doaWxlXzJfY29udGludWUKCippZjVfZW5kOgoJLy8gdGVzdHMvY29udHJhY3RzL2xvb3BzLmFsZ28udHM6MTA1CgkvLyBpID0gaSArIDEKCWZyYW1lX2RpZyAwIC8vIGk6IHVpbnQ2NAoJaW50YyAwIC8vIDEKCSsKCWZyYW1lX2J1cnkgMCAvLyBpOiB1aW50NjQKCipkb193aGlsZV8yOgoKKmRvX3doaWxlXzJfY29udGludWU6CgkvLyB0ZXN0cy9jb250cmFjdHMvbG9vcHMuYWxnby50czoxMDYKCS8vIGkgPCAxMAoJZnJhbWVfZGlnIDAgLy8gaTogdWludDY0CglpbnRjIDIgLy8gMTAKCTwKCWJueiAqZG9fd2hpbGVfMl9zdGF0ZW1lbnQKCipkb193aGlsZV8yX2VuZDoKCS8vIHRlc3RzL2NvbnRyYWN0cy9sb29wcy5hbGdvLnRzOjEwOAoJLy8gcmV0dXJuIGk7CglmcmFtZV9kaWcgMCAvLyBpOiB1aW50NjQKCgkvLyBzZXQgdGhlIHN1YnJvdXRpbmUgcmV0dXJuIHZhbHVlCglmcmFtZV9idXJ5IDAKCXJldHN1YgoKKmFiaV9yb3V0ZV9jcmVhdGVBcHBsaWNhdGlvbjoKCWludGMgMCAvLyAxCglyZXR1cm4KCipjcmVhdGVfTm9PcDoKCXB1c2hieXRlcyAweGI4NDQ3YjM2IC8vIG1ldGhvZCAiY3JlYXRlQXBwbGljYXRpb24oKXZvaWQiCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAwCgltYXRjaCAqYWJpX3JvdXRlX2NyZWF0ZUFwcGxpY2F0aW9uCgoJLy8gdGhpcyBjb250cmFjdCBkb2VzIG5vdCBpbXBsZW1lbnQgdGhlIGdpdmVuIEFCSSBtZXRob2QgZm9yIGNyZWF0ZSBOb09wCgllcnIKCipjYWxsX05vT3A6CglwdXNoYnl0ZXMgMHhlMTY0YmJkOSAvLyBtZXRob2QgIndoaWxlTG9vcCgpdWludDY0IgoJcHVzaGJ5dGVzIDB4NWIzZWQ5ZjYgLy8gbWV0aG9kICJmb3JMb29wKCl1aW50NjQiCglwdXNoYnl0ZXMgMHgxZDg2MWEzZCAvLyBtZXRob2QgImRvV2hpbGVMb29wKCl1aW50NjQiCglwdXNoYnl0ZXMgMHg4MjFmZTgyOSAvLyBtZXRob2QgImJyZWFrV2hpbGVMb29wKCl1aW50NjQiCglwdXNoYnl0ZXMgMHg4ZDE1MjgwYSAvLyBtZXRob2QgImNvbnRpbnVlV2hpbGVMb29wKCl1aW50NjQiCglwdXNoYnl0ZXMgMHg2ODk3Y2Y1ZSAvLyBtZXRob2QgImJyZWFrRm9yTG9vcCgpdWludDY0IgoJcHVzaGJ5dGVzIDB4OTljYmFjYWIgLy8gbWV0aG9kICJjb250aW51ZUZvckxvb3AoKXVpbnQ2NCIKCXB1c2hieXRlcyAweDg2ZDVlZGQzIC8vIG1ldGhvZCAiYnJlYWtEb1doaWxlTG9vcCgpdWludDY0IgoJcHVzaGJ5dGVzIDB4ZTAxZDlkNDIgLy8gbWV0aG9kICJjb250aW51ZURvV2hpbGVMb29wKCl1aW50NjQiCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAwCgltYXRjaCAqYWJpX3JvdXRlX3doaWxlTG9vcCAqYWJpX3JvdXRlX2Zvckxvb3AgKmFiaV9yb3V0ZV9kb1doaWxlTG9vcCAqYWJpX3JvdXRlX2JyZWFrV2hpbGVMb29wICphYmlfcm91dGVfY29udGludWVXaGlsZUxvb3AgKmFiaV9yb3V0ZV9icmVha0Zvckxvb3AgKmFiaV9yb3V0ZV9jb250aW51ZUZvckxvb3AgKmFiaV9yb3V0ZV9icmVha0RvV2hpbGVMb29wICphYmlfcm91dGVfY29udGludWVEb1doaWxlTG9vcAoKCS8vIHRoaXMgY29udHJhY3QgZG9lcyBub3QgaW1wbGVtZW50IHRoZSBnaXZlbiBBQkkgbWV0aG9kIGZvciBjYWxsIE5vT3AKCWVycg==",
+    "clear": "I3ByYWdtYSB2ZXJzaW9uIDEw"
+  },
+  "byteCode": {
+    "approval": "CiAFAQAKBbkKJgIABBUffHUxGBSBBgsxGQiNDAHBAAAAAAAAAAAAAAGzAAAAAAAAAAAAAAApiAAFFlCwIkOKAAEoI4wAiwAkDEEACYsAIgiMAEL/8IsAjACJKYgABRZQsCJDigABKEkjjAAjjAGLASQMQQAPiwAiCIwAiwEiCIwBQv/qiwCMAEYBiSmIAAUWULAiQ4oAASgjjACLACIIjACLACQMQP/ziwCMAIkpiAAFFlCwIkOKAAEoI4wAiwAkDEEAE4sAIgiMAIsAJRJBAANCAANC/+aLAIwAiSmIAAUWULAiQ4oAASgjjACLACQMQQAXiwAlEkEAByEEjABC/+uLACIIjABC/+KLAIwAiSmIAAUWULAiQ4oAAShJI4wAI4wBiwEkDEEAGYsAIgiMAIsAJRJBAANCAAmLASIIjAFC/+CLAIwARgGJKYgABRZQsCJDigABKEkjjAAjjAGLASQMQQAdiwAlEkEAByEEjABCAAaLACIIjACLASIIjAFC/9yLAIwARgGJKYgABRZQsCJDigABKCOMAIsAIgiMAIsAJRJBAANCAAeLACQMQP/piwCMAIkpiAAFFlCwIkOKAAEoI4wAiwAlEkEAByEEjABCAAaLACIIjACLACQMQP/liwCMAIkiQ4AEuER7NjYaAI4B//EAgAThZLvZgARbPtn2gAQdhho9gASCH+gpgASNFSgKgARol89egASZy6yrgASG1e3TgATgHZ1CNhoAjgn98/4Y/kn+a/6a/s3/CP9H/3MA",
+    "clear": "Cg=="
+  },
+  "compilerInfo": {
+    "compiler": "algod",
+    "compilerVersion": {
+      "major": 3,
+      "minor": 26,
+      "patch": 0,
+      "commitHash": "0d10b244"
+    }
+  }
+}

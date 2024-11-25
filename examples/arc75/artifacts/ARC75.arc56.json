@@ -1,0 +1,3457 @@
+{
+  "name": "ARC75",
+  "desc": "",
+  "methods": [
+    {
+      "name": "addAppToWhiteList",
+      "desc": "Add app to whitelist box",
+      "args": [
+        {
+          "name": "arc",
+          "type": "string",
+          "desc": "The ARC the whitelist corresponds to"
+        },
+        {
+          "name": "boxIndex",
+          "type": "uint16",
+          "desc": "The index of the whitelist box to add the app to"
+        },
+        {
+          "name": "appID",
+          "type": "uint64",
+          "desc": "The app ID to add to the whitelist"
+        },
+        {
+          "name": "payment",
+          "type": "pay",
+          "desc": "The payment transaction to cover the MBR change"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      },
+      "actions": {
+        "create": [],
+        "call": [
+          "NoOp"
+        ]
+      }
+    },
+    {
+      "name": "setAppWhitelist",
+      "desc": "Sets a app whitelist for the sender. Should only be used when adding/removing\nmore than one app",
+      "args": [
+        {
+          "name": "arc",
+          "type": "string"
+        },
+        {
+          "name": "boxIndex",
+          "type": "uint16",
+          "desc": "The index of the whitelist box to put the app IDs in"
+        },
+        {
+          "name": "appIDs",
+          "type": "uint64[]",
+          "desc": "Array of app IDs that signify the whitelisted apps"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      },
+      "actions": {
+        "create": [],
+        "call": [
+          "NoOp"
+        ]
+      }
+    },
+    {
+      "name": "deleteWhitelist",
+      "desc": "Deletes a app whitelist for the sender",
+      "args": [
+        {
+          "name": "arc",
+          "type": "string",
+          "desc": "The ARC the whitelist corresponds to"
+        },
+        {
+          "name": "boxIndex",
+          "type": "uint16",
+          "desc": "The index of the whitelist box to delete"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      },
+      "actions": {
+        "create": [],
+        "call": [
+          "NoOp"
+        ]
+      }
+    },
+    {
+      "name": "deleteAppFromWhitelist",
+      "desc": "Deletes a app from a whitelist for the sender",
+      "args": [
+        {
+          "name": "arc",
+          "type": "string"
+        },
+        {
+          "name": "boxIndex",
+          "type": "uint16",
+          "desc": "The index of the whitelist box to delete from"
+        },
+        {
+          "name": "appID",
+          "type": "uint64",
+          "desc": "The app ID to delete from the whitelist"
+        },
+        {
+          "name": "index",
+          "type": "uint64",
+          "desc": "The index of the app in the whitelist"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      },
+      "actions": {
+        "create": [],
+        "call": [
+          "NoOp"
+        ]
+      }
+    },
+    {
+      "name": "createApplication",
+      "args": [],
+      "returns": {
+        "type": "void"
+      },
+      "actions": {
+        "create": [
+          "NoOp"
+        ],
+        "call": []
+      }
+    }
+  ],
+  "arcs": [
+    4,
+    56
+  ],
+  "structs": {
+    "Whitelist": [
+      {
+        "name": "account",
+        "type": "address"
+      },
+      {
+        "name": "boxIndex",
+        "type": "uint16"
+      },
+      {
+        "name": "arc",
+        "type": "string"
+      }
+    ]
+  },
+  "state": {
+    "schema": {
+      "global": {
+        "bytes": 0,
+        "ints": 0
+      },
+      "local": {
+        "bytes": 0,
+        "ints": 0
+      }
+    },
+    "keys": {
+      "global": {},
+      "local": {},
+      "box": {}
+    },
+    "maps": {
+      "global": {},
+      "local": {},
+      "box": {
+        "whitelist": {
+          "keyType": "Whitelist",
+          "valueType": "uint64[]"
+        }
+      }
+    }
+  },
+  "bareActions": {
+    "create": [],
+    "call": []
+  },
+  "sourceInfo": {
+    "approval": {
+      "sourceInfo": [
+        {
+          "teal": 1,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "pc": [
+            0
+          ]
+        },
+        {
+          "teal": 2,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "pc": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ]
+        },
+        {
+          "teal": 3,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "pc": [
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "teal": 15,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "pc": [
+            13,
+            14
+          ]
+        },
+        {
+          "teal": 16,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "pc": [
+            15
+          ]
+        },
+        {
+          "teal": 17,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "pc": [
+            16,
+            17
+          ]
+        },
+        {
+          "teal": 18,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "pc": [
+            18
+          ]
+        },
+        {
+          "teal": 19,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "pc": [
+            19,
+            20
+          ]
+        },
+        {
+          "teal": 20,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "pc": [
+            21
+          ]
+        },
+        {
+          "teal": 21,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "pc": [
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47
+          ]
+        },
+        {
+          "teal": 25,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "errorMessage": "The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?",
+          "pc": [
+            48
+          ]
+        },
+        {
+          "teal": 29,
+          "source": "examples/arc75/arc75.algo.ts:9",
+          "pc": [
+            49,
+            50,
+            51
+          ]
+        },
+        {
+          "teal": 37,
+          "source": "examples/arc75/arc75.algo.ts:10",
+          "pc": [
+            52,
+            53
+          ]
+        },
+        {
+          "teal": 38,
+          "source": "examples/arc75/arc75.algo.ts:11",
+          "pc": [
+            54,
+            55
+          ]
+        },
+        {
+          "teal": 39,
+          "source": "examples/arc75/arc75.algo.ts:11",
+          "pc": [
+            56,
+            57
+          ]
+        },
+        {
+          "teal": 40,
+          "source": "examples/arc75/arc75.algo.ts:11",
+          "pc": [
+            58
+          ]
+        },
+        {
+          "teal": 43,
+          "source": "examples/arc75/arc75.algo.ts:11",
+          "errorMessage": "transaction verification failed: {\"txn\":\"payment\",\"field\":\"receiver\",\"expected\":\"this.app.address\"}",
+          "pc": [
+            59
+          ]
+        },
+        {
+          "teal": 46,
+          "source": "examples/arc75/arc75.algo.ts:10",
+          "pc": [
+            60,
+            61
+          ]
+        },
+        {
+          "teal": 47,
+          "source": "examples/arc75/arc75.algo.ts:12",
+          "pc": [
+            62,
+            63
+          ]
+        },
+        {
+          "teal": 48,
+          "source": "examples/arc75/arc75.algo.ts:12",
+          "pc": [
+            64,
+            65
+          ]
+        },
+        {
+          "teal": 49,
+          "source": "examples/arc75/arc75.algo.ts:12",
+          "pc": [
+            66,
+            67
+          ]
+        },
+        {
+          "teal": 50,
+          "source": "examples/arc75/arc75.algo.ts:12",
+          "pc": [
+            68
+          ]
+        },
+        {
+          "teal": 51,
+          "source": "examples/arc75/arc75.algo.ts:12",
+          "pc": [
+            69,
+            70
+          ]
+        },
+        {
+          "teal": 52,
+          "source": "examples/arc75/arc75.algo.ts:12",
+          "pc": [
+            71
+          ]
+        },
+        {
+          "teal": 53,
+          "source": "examples/arc75/arc75.algo.ts:12",
+          "pc": [
+            72
+          ]
+        },
+        {
+          "teal": 56,
+          "source": "examples/arc75/arc75.algo.ts:12",
+          "errorMessage": "transaction verification failed: {\"txn\":\"payment\",\"field\":\"amount\",\"expected\":\"this.app.address.minBalance - preMBR\"}",
+          "pc": [
+            73
+          ]
+        },
+        {
+          "teal": 57,
+          "source": "examples/arc75/arc75.algo.ts:9",
+          "pc": [
+            74
+          ]
+        },
+        {
+          "teal": 61,
+          "source": "examples/arc75/arc75.algo.ts:16",
+          "pc": [
+            75,
+            76,
+            77
+          ]
+        },
+        {
+          "teal": 68,
+          "source": "examples/arc75/arc75.algo.ts:17",
+          "pc": [
+            78
+          ]
+        },
+        {
+          "teal": 69,
+          "source": "examples/arc75/arc75.algo.ts:17",
+          "pc": [
+            79
+          ]
+        },
+        {
+          "teal": 70,
+          "source": "examples/arc75/arc75.algo.ts:17",
+          "pc": [
+            80,
+            81
+          ]
+        },
+        {
+          "teal": 74,
+          "source": "examples/arc75/arc75.algo.ts:18",
+          "pc": [
+            82,
+            83
+          ]
+        },
+        {
+          "teal": 75,
+          "source": "examples/arc75/arc75.algo.ts:18",
+          "pc": [
+            84,
+            85
+          ]
+        },
+        {
+          "teal": 79,
+          "source": "examples/arc75/arc75.algo.ts:19",
+          "pc": [
+            86,
+            87
+          ]
+        },
+        {
+          "teal": 80,
+          "source": "examples/arc75/arc75.algo.ts:19",
+          "pc": [
+            88,
+            89
+          ]
+        },
+        {
+          "teal": 81,
+          "source": "examples/arc75/arc75.algo.ts:19",
+          "pc": [
+            90,
+            91
+          ]
+        },
+        {
+          "teal": 82,
+          "source": "examples/arc75/arc75.algo.ts:19",
+          "pc": [
+            92
+          ]
+        },
+        {
+          "teal": 83,
+          "source": "examples/arc75/arc75.algo.ts:19",
+          "pc": [
+            93
+          ]
+        },
+        {
+          "teal": 84,
+          "source": "examples/arc75/arc75.algo.ts:19",
+          "pc": [
+            94,
+            95
+          ]
+        },
+        {
+          "teal": 87,
+          "source": "examples/arc75/arc75.algo.ts:17",
+          "pc": [
+            96
+          ]
+        },
+        {
+          "teal": 88,
+          "source": "examples/arc75/arc75.algo.ts:17",
+          "pc": [
+            97,
+            98
+          ]
+        },
+        {
+          "teal": 91,
+          "source": "examples/arc75/arc75.algo.ts:17",
+          "pc": [
+            99
+          ]
+        },
+        {
+          "teal": 92,
+          "source": "examples/arc75/arc75.algo.ts:16",
+          "pc": [
+            100
+          ]
+        },
+        {
+          "teal": 97,
+          "source": "examples/arc75/arc75.algo.ts:32",
+          "pc": [
+            101,
+            102
+          ]
+        },
+        {
+          "teal": 98,
+          "source": "examples/arc75/arc75.algo.ts:32",
+          "pc": [
+            103
+          ]
+        },
+        {
+          "teal": 99,
+          "source": "examples/arc75/arc75.algo.ts:32",
+          "pc": [
+            104
+          ]
+        },
+        {
+          "teal": 100,
+          "source": "examples/arc75/arc75.algo.ts:32",
+          "pc": [
+            105
+          ]
+        },
+        {
+          "teal": 101,
+          "source": "examples/arc75/arc75.algo.ts:32",
+          "pc": [
+            106,
+            107
+          ]
+        },
+        {
+          "teal": 102,
+          "source": "examples/arc75/arc75.algo.ts:32",
+          "pc": [
+            108
+          ]
+        },
+        {
+          "teal": 103,
+          "source": "examples/arc75/arc75.algo.ts:32",
+          "pc": [
+            109
+          ]
+        },
+        {
+          "teal": 106,
+          "source": "examples/arc75/arc75.algo.ts:32",
+          "errorMessage": "argument 0 (payment) for addAppToWhiteList must be a pay transaction",
+          "pc": [
+            110
+          ]
+        },
+        {
+          "teal": 109,
+          "source": "examples/arc75/arc75.algo.ts:32",
+          "pc": [
+            111,
+            112,
+            113
+          ]
+        },
+        {
+          "teal": 110,
+          "source": "examples/arc75/arc75.algo.ts:32",
+          "pc": [
+            114
+          ]
+        },
+        {
+          "teal": 113,
+          "source": "examples/arc75/arc75.algo.ts:32",
+          "pc": [
+            115,
+            116,
+            117
+          ]
+        },
+        {
+          "teal": 114,
+          "source": "examples/arc75/arc75.algo.ts:32",
+          "pc": [
+            118
+          ]
+        },
+        {
+          "teal": 115,
+          "source": "examples/arc75/arc75.algo.ts:32",
+          "pc": [
+            119
+          ]
+        },
+        {
+          "teal": 116,
+          "source": "examples/arc75/arc75.algo.ts:32",
+          "pc": [
+            120
+          ]
+        },
+        {
+          "teal": 117,
+          "source": "examples/arc75/arc75.algo.ts:32",
+          "pc": [
+            121
+          ]
+        },
+        {
+          "teal": 120,
+          "source": "examples/arc75/arc75.algo.ts:32",
+          "errorMessage": "argument 2 (boxIndex) for addAppToWhiteList must be a uint16",
+          "pc": [
+            122
+          ]
+        },
+        {
+          "teal": 121,
+          "source": "examples/arc75/arc75.algo.ts:32",
+          "pc": [
+            123
+          ]
+        },
+        {
+          "teal": 124,
+          "source": "examples/arc75/arc75.algo.ts:32",
+          "pc": [
+            124,
+            125,
+            126
+          ]
+        },
+        {
+          "teal": 125,
+          "source": "examples/arc75/arc75.algo.ts:32",
+          "pc": [
+            127,
+            128,
+            129
+          ]
+        },
+        {
+          "teal": 128,
+          "source": "examples/arc75/arc75.algo.ts:32",
+          "pc": [
+            130,
+            131,
+            132
+          ]
+        },
+        {
+          "teal": 129,
+          "source": "examples/arc75/arc75.algo.ts:32",
+          "pc": [
+            133
+          ]
+        },
+        {
+          "teal": 130,
+          "source": "examples/arc75/arc75.algo.ts:32",
+          "pc": [
+            134
+          ]
+        },
+        {
+          "teal": 141,
+          "source": "examples/arc75/arc75.algo.ts:32",
+          "pc": [
+            135,
+            136,
+            137
+          ]
+        },
+        {
+          "teal": 144,
+          "source": "examples/arc75/arc75.algo.ts:32",
+          "pc": [
+            138
+          ]
+        },
+        {
+          "teal": 145,
+          "source": "examples/arc75/arc75.algo.ts:32",
+          "pc": [
+            139,
+            140
+          ]
+        },
+        {
+          "teal": 149,
+          "source": "examples/arc75/arc75.algo.ts:33",
+          "pc": [
+            141,
+            142
+          ]
+        },
+        {
+          "teal": 150,
+          "source": "examples/arc75/arc75.algo.ts:33",
+          "pc": [
+            143,
+            144
+          ]
+        },
+        {
+          "teal": 151,
+          "source": "examples/arc75/arc75.algo.ts:33",
+          "pc": [
+            145
+          ]
+        },
+        {
+          "teal": 152,
+          "source": "examples/arc75/arc75.algo.ts:33",
+          "pc": [
+            146,
+            147
+          ]
+        },
+        {
+          "teal": 156,
+          "source": "examples/arc75/arc75.algo.ts:34",
+          "pc": [
+            148
+          ]
+        },
+        {
+          "teal": 157,
+          "source": "examples/arc75/arc75.algo.ts:34",
+          "pc": [
+            149
+          ]
+        },
+        {
+          "teal": 158,
+          "source": "examples/arc75/arc75.algo.ts:34",
+          "pc": [
+            150
+          ]
+        },
+        {
+          "teal": 159,
+          "source": "examples/arc75/arc75.algo.ts:34",
+          "pc": [
+            151,
+            152
+          ]
+        },
+        {
+          "teal": 160,
+          "source": "examples/arc75/arc75.algo.ts:34",
+          "pc": [
+            153,
+            154,
+            155
+          ]
+        },
+        {
+          "teal": 161,
+          "source": "examples/arc75/arc75.algo.ts:34",
+          "pc": [
+            156,
+            157
+          ]
+        },
+        {
+          "teal": 162,
+          "source": "examples/arc75/arc75.algo.ts:34",
+          "pc": [
+            158
+          ]
+        },
+        {
+          "teal": 163,
+          "source": "examples/arc75/arc75.algo.ts:34",
+          "pc": [
+            159,
+            160,
+            161
+          ]
+        },
+        {
+          "teal": 164,
+          "source": "examples/arc75/arc75.algo.ts:34",
+          "pc": [
+            162,
+            163,
+            164
+          ]
+        },
+        {
+          "teal": 165,
+          "source": "examples/arc75/arc75.algo.ts:34",
+          "pc": [
+            165,
+            166
+          ]
+        },
+        {
+          "teal": 166,
+          "source": "examples/arc75/arc75.algo.ts:34",
+          "pc": [
+            167
+          ]
+        },
+        {
+          "teal": 167,
+          "source": "examples/arc75/arc75.algo.ts:34",
+          "pc": [
+            168
+          ]
+        },
+        {
+          "teal": 168,
+          "source": "examples/arc75/arc75.algo.ts:34",
+          "pc": [
+            169
+          ]
+        },
+        {
+          "teal": 169,
+          "source": "examples/arc75/arc75.algo.ts:34",
+          "pc": [
+            170,
+            171,
+            172
+          ]
+        },
+        {
+          "teal": 170,
+          "source": "examples/arc75/arc75.algo.ts:34",
+          "pc": [
+            173
+          ]
+        },
+        {
+          "teal": 171,
+          "source": "examples/arc75/arc75.algo.ts:34",
+          "pc": [
+            174
+          ]
+        },
+        {
+          "teal": 172,
+          "source": "examples/arc75/arc75.algo.ts:34",
+          "pc": [
+            175,
+            176,
+            177
+          ]
+        },
+        {
+          "teal": 173,
+          "source": "examples/arc75/arc75.algo.ts:34",
+          "pc": [
+            178
+          ]
+        },
+        {
+          "teal": 174,
+          "source": "examples/arc75/arc75.algo.ts:34",
+          "pc": [
+            179
+          ]
+        },
+        {
+          "teal": 175,
+          "source": "examples/arc75/arc75.algo.ts:34",
+          "pc": [
+            180,
+            181
+          ]
+        },
+        {
+          "teal": 180,
+          "source": "examples/arc75/arc75.algo.ts:36",
+          "pc": [
+            182,
+            183
+          ]
+        },
+        {
+          "teal": 181,
+          "source": "examples/arc75/arc75.algo.ts:36",
+          "pc": [
+            184
+          ]
+        },
+        {
+          "teal": 182,
+          "source": "examples/arc75/arc75.algo.ts:36",
+          "pc": [
+            185
+          ]
+        },
+        {
+          "teal": 183,
+          "source": "examples/arc75/arc75.algo.ts:36",
+          "pc": [
+            186
+          ]
+        },
+        {
+          "teal": 184,
+          "source": "examples/arc75/arc75.algo.ts:36",
+          "pc": [
+            187,
+            188,
+            189
+          ]
+        },
+        {
+          "teal": 189,
+          "source": "examples/arc75/arc75.algo.ts:37",
+          "pc": [
+            190,
+            191
+          ]
+        },
+        {
+          "teal": 190,
+          "source": "examples/arc75/arc75.algo.ts:37",
+          "pc": [
+            192
+          ]
+        },
+        {
+          "teal": 193,
+          "source": "examples/arc75/arc75.algo.ts:37",
+          "errorMessage": "box value does not exist: this.whitelist(whitelist).value",
+          "pc": [
+            193
+          ]
+        },
+        {
+          "teal": 194,
+          "source": "examples/arc75/arc75.algo.ts:37",
+          "pc": [
+            194,
+            195,
+            196
+          ]
+        },
+        {
+          "teal": 195,
+          "source": "examples/arc75/arc75.algo.ts:37",
+          "pc": [
+            197,
+            198
+          ]
+        },
+        {
+          "teal": 196,
+          "source": "examples/arc75/arc75.algo.ts:37",
+          "pc": [
+            199
+          ]
+        },
+        {
+          "teal": 197,
+          "source": "examples/arc75/arc75.algo.ts:37",
+          "pc": [
+            200
+          ]
+        },
+        {
+          "teal": 198,
+          "source": "examples/arc75/arc75.algo.ts:37",
+          "pc": [
+            201,
+            202
+          ]
+        },
+        {
+          "teal": 199,
+          "source": "examples/arc75/arc75.algo.ts:37",
+          "pc": [
+            203
+          ]
+        },
+        {
+          "teal": 200,
+          "source": "examples/arc75/arc75.algo.ts:37",
+          "pc": [
+            204
+          ]
+        },
+        {
+          "teal": 201,
+          "source": "examples/arc75/arc75.algo.ts:37",
+          "pc": [
+            205
+          ]
+        },
+        {
+          "teal": 202,
+          "source": "examples/arc75/arc75.algo.ts:37",
+          "pc": [
+            206
+          ]
+        },
+        {
+          "teal": 203,
+          "source": "examples/arc75/arc75.algo.ts:37",
+          "pc": [
+            207
+          ]
+        },
+        {
+          "teal": 204,
+          "source": "examples/arc75/arc75.algo.ts:37",
+          "pc": [
+            208
+          ]
+        },
+        {
+          "teal": 205,
+          "source": "examples/arc75/arc75.algo.ts:37",
+          "pc": [
+            209
+          ]
+        },
+        {
+          "teal": 206,
+          "source": "examples/arc75/arc75.algo.ts:37",
+          "pc": [
+            210
+          ]
+        },
+        {
+          "teal": 207,
+          "source": "examples/arc75/arc75.algo.ts:37",
+          "pc": [
+            211
+          ]
+        },
+        {
+          "teal": 208,
+          "source": "examples/arc75/arc75.algo.ts:37",
+          "pc": [
+            212,
+            213,
+            214
+          ]
+        },
+        {
+          "teal": 209,
+          "source": "examples/arc75/arc75.algo.ts:37",
+          "pc": [
+            215
+          ]
+        },
+        {
+          "teal": 210,
+          "source": "examples/arc75/arc75.algo.ts:37",
+          "pc": [
+            216
+          ]
+        },
+        {
+          "teal": 211,
+          "source": "examples/arc75/arc75.algo.ts:37",
+          "pc": [
+            217
+          ]
+        },
+        {
+          "teal": 212,
+          "source": "examples/arc75/arc75.algo.ts:36",
+          "pc": [
+            218,
+            219,
+            220
+          ]
+        },
+        {
+          "teal": 217,
+          "source": "examples/arc75/arc75.algo.ts:39",
+          "pc": [
+            221,
+            222
+          ]
+        },
+        {
+          "teal": 218,
+          "source": "examples/arc75/arc75.algo.ts:39",
+          "pc": [
+            223
+          ]
+        },
+        {
+          "teal": 219,
+          "source": "examples/arc75/arc75.algo.ts:39",
+          "pc": [
+            224,
+            225
+          ]
+        },
+        {
+          "teal": 223,
+          "source": "examples/arc75/arc75.algo.ts:40",
+          "pc": [
+            226,
+            227
+          ]
+        },
+        {
+          "teal": 224,
+          "source": "examples/arc75/arc75.algo.ts:40",
+          "pc": [
+            228
+          ]
+        },
+        {
+          "teal": 225,
+          "source": "examples/arc75/arc75.algo.ts:40",
+          "pc": [
+            229
+          ]
+        },
+        {
+          "teal": 226,
+          "source": "examples/arc75/arc75.algo.ts:40",
+          "pc": [
+            230
+          ]
+        },
+        {
+          "teal": 227,
+          "source": "examples/arc75/arc75.algo.ts:40",
+          "pc": [
+            231,
+            232
+          ]
+        },
+        {
+          "teal": 228,
+          "source": "examples/arc75/arc75.algo.ts:40",
+          "pc": [
+            233
+          ]
+        },
+        {
+          "teal": 229,
+          "source": "examples/arc75/arc75.algo.ts:40",
+          "pc": [
+            234
+          ]
+        },
+        {
+          "teal": 230,
+          "source": "examples/arc75/arc75.algo.ts:40",
+          "pc": [
+            235
+          ]
+        },
+        {
+          "teal": 231,
+          "source": "examples/arc75/arc75.algo.ts:40",
+          "pc": [
+            236
+          ]
+        },
+        {
+          "teal": 232,
+          "source": "examples/arc75/arc75.algo.ts:40",
+          "pc": [
+            237
+          ]
+        },
+        {
+          "teal": 233,
+          "source": "examples/arc75/arc75.algo.ts:40",
+          "pc": [
+            238,
+            239,
+            240
+          ]
+        },
+        {
+          "teal": 234,
+          "source": "examples/arc75/arc75.algo.ts:40",
+          "pc": [
+            241
+          ]
+        },
+        {
+          "teal": 235,
+          "source": "examples/arc75/arc75.algo.ts:40",
+          "pc": [
+            242
+          ]
+        },
+        {
+          "teal": 236,
+          "source": "examples/arc75/arc75.algo.ts:40",
+          "pc": [
+            243
+          ]
+        },
+        {
+          "teal": 241,
+          "source": "examples/arc75/arc75.algo.ts:43",
+          "pc": [
+            244,
+            245
+          ]
+        },
+        {
+          "teal": 242,
+          "source": "examples/arc75/arc75.algo.ts:43",
+          "pc": [
+            246,
+            247
+          ]
+        },
+        {
+          "teal": 243,
+          "source": "examples/arc75/arc75.algo.ts:43",
+          "pc": [
+            248,
+            249,
+            250
+          ]
+        },
+        {
+          "teal": 244,
+          "source": "examples/arc75/arc75.algo.ts:32",
+          "pc": [
+            251
+          ]
+        },
+        {
+          "teal": 249,
+          "source": "examples/arc75/arc75.algo.ts:54",
+          "pc": [
+            252,
+            253,
+            254
+          ]
+        },
+        {
+          "teal": 250,
+          "source": "examples/arc75/arc75.algo.ts:54",
+          "pc": [
+            255,
+            256,
+            257
+          ]
+        },
+        {
+          "teal": 253,
+          "source": "examples/arc75/arc75.algo.ts:54",
+          "pc": [
+            258,
+            259,
+            260
+          ]
+        },
+        {
+          "teal": 254,
+          "source": "examples/arc75/arc75.algo.ts:54",
+          "pc": [
+            261
+          ]
+        },
+        {
+          "teal": 255,
+          "source": "examples/arc75/arc75.algo.ts:54",
+          "pc": [
+            262
+          ]
+        },
+        {
+          "teal": 256,
+          "source": "examples/arc75/arc75.algo.ts:54",
+          "pc": [
+            263
+          ]
+        },
+        {
+          "teal": 257,
+          "source": "examples/arc75/arc75.algo.ts:54",
+          "pc": [
+            264
+          ]
+        },
+        {
+          "teal": 260,
+          "source": "examples/arc75/arc75.algo.ts:54",
+          "errorMessage": "argument 1 (boxIndex) for setAppWhitelist must be a uint16",
+          "pc": [
+            265
+          ]
+        },
+        {
+          "teal": 261,
+          "source": "examples/arc75/arc75.algo.ts:54",
+          "pc": [
+            266
+          ]
+        },
+        {
+          "teal": 264,
+          "source": "examples/arc75/arc75.algo.ts:54",
+          "pc": [
+            267,
+            268,
+            269
+          ]
+        },
+        {
+          "teal": 265,
+          "source": "examples/arc75/arc75.algo.ts:54",
+          "pc": [
+            270,
+            271,
+            272
+          ]
+        },
+        {
+          "teal": 268,
+          "source": "examples/arc75/arc75.algo.ts:54",
+          "pc": [
+            273,
+            274,
+            275
+          ]
+        },
+        {
+          "teal": 269,
+          "source": "examples/arc75/arc75.algo.ts:54",
+          "pc": [
+            276
+          ]
+        },
+        {
+          "teal": 270,
+          "source": "examples/arc75/arc75.algo.ts:54",
+          "pc": [
+            277
+          ]
+        },
+        {
+          "teal": 280,
+          "source": "examples/arc75/arc75.algo.ts:54",
+          "pc": [
+            278,
+            279,
+            280
+          ]
+        },
+        {
+          "teal": 283,
+          "source": "examples/arc75/arc75.algo.ts:54",
+          "pc": [
+            281
+          ]
+        },
+        {
+          "teal": 284,
+          "source": "examples/arc75/arc75.algo.ts:54",
+          "pc": [
+            282
+          ]
+        },
+        {
+          "teal": 288,
+          "source": "examples/arc75/arc75.algo.ts:55",
+          "pc": [
+            283,
+            284
+          ]
+        },
+        {
+          "teal": 289,
+          "source": "examples/arc75/arc75.algo.ts:55",
+          "pc": [
+            285,
+            286
+          ]
+        },
+        {
+          "teal": 290,
+          "source": "examples/arc75/arc75.algo.ts:55",
+          "pc": [
+            287
+          ]
+        },
+        {
+          "teal": 291,
+          "source": "examples/arc75/arc75.algo.ts:55",
+          "pc": [
+            288,
+            289
+          ]
+        },
+        {
+          "teal": 295,
+          "source": "examples/arc75/arc75.algo.ts:56",
+          "pc": [
+            290
+          ]
+        },
+        {
+          "teal": 296,
+          "source": "examples/arc75/arc75.algo.ts:56",
+          "pc": [
+            291
+          ]
+        },
+        {
+          "teal": 297,
+          "source": "examples/arc75/arc75.algo.ts:56",
+          "pc": [
+            292
+          ]
+        },
+        {
+          "teal": 298,
+          "source": "examples/arc75/arc75.algo.ts:56",
+          "pc": [
+            293,
+            294
+          ]
+        },
+        {
+          "teal": 299,
+          "source": "examples/arc75/arc75.algo.ts:56",
+          "pc": [
+            295,
+            296,
+            297
+          ]
+        },
+        {
+          "teal": 300,
+          "source": "examples/arc75/arc75.algo.ts:56",
+          "pc": [
+            298,
+            299
+          ]
+        },
+        {
+          "teal": 301,
+          "source": "examples/arc75/arc75.algo.ts:56",
+          "pc": [
+            300
+          ]
+        },
+        {
+          "teal": 302,
+          "source": "examples/arc75/arc75.algo.ts:56",
+          "pc": [
+            301,
+            302,
+            303
+          ]
+        },
+        {
+          "teal": 303,
+          "source": "examples/arc75/arc75.algo.ts:56",
+          "pc": [
+            304,
+            305,
+            306
+          ]
+        },
+        {
+          "teal": 304,
+          "source": "examples/arc75/arc75.algo.ts:56",
+          "pc": [
+            307,
+            308
+          ]
+        },
+        {
+          "teal": 305,
+          "source": "examples/arc75/arc75.algo.ts:56",
+          "pc": [
+            309
+          ]
+        },
+        {
+          "teal": 306,
+          "source": "examples/arc75/arc75.algo.ts:56",
+          "pc": [
+            310
+          ]
+        },
+        {
+          "teal": 307,
+          "source": "examples/arc75/arc75.algo.ts:56",
+          "pc": [
+            311
+          ]
+        },
+        {
+          "teal": 308,
+          "source": "examples/arc75/arc75.algo.ts:56",
+          "pc": [
+            312,
+            313,
+            314
+          ]
+        },
+        {
+          "teal": 309,
+          "source": "examples/arc75/arc75.algo.ts:56",
+          "pc": [
+            315
+          ]
+        },
+        {
+          "teal": 310,
+          "source": "examples/arc75/arc75.algo.ts:56",
+          "pc": [
+            316
+          ]
+        },
+        {
+          "teal": 311,
+          "source": "examples/arc75/arc75.algo.ts:56",
+          "pc": [
+            317,
+            318,
+            319
+          ]
+        },
+        {
+          "teal": 312,
+          "source": "examples/arc75/arc75.algo.ts:56",
+          "pc": [
+            320
+          ]
+        },
+        {
+          "teal": 313,
+          "source": "examples/arc75/arc75.algo.ts:56",
+          "pc": [
+            321
+          ]
+        },
+        {
+          "teal": 314,
+          "source": "examples/arc75/arc75.algo.ts:56",
+          "pc": [
+            322,
+            323
+          ]
+        },
+        {
+          "teal": 318,
+          "source": "examples/arc75/arc75.algo.ts:58",
+          "pc": [
+            324,
+            325
+          ]
+        },
+        {
+          "teal": 319,
+          "source": "examples/arc75/arc75.algo.ts:58",
+          "pc": [
+            326
+          ]
+        },
+        {
+          "teal": 323,
+          "source": "examples/arc75/arc75.algo.ts:60",
+          "pc": [
+            327,
+            328
+          ]
+        },
+        {
+          "teal": 324,
+          "source": "examples/arc75/arc75.algo.ts:60",
+          "pc": [
+            329
+          ]
+        },
+        {
+          "teal": 325,
+          "source": "examples/arc75/arc75.algo.ts:60",
+          "pc": [
+            330
+          ]
+        },
+        {
+          "teal": 326,
+          "source": "examples/arc75/arc75.algo.ts:60",
+          "pc": [
+            331
+          ]
+        },
+        {
+          "teal": 327,
+          "source": "examples/arc75/arc75.algo.ts:60",
+          "pc": [
+            332,
+            333
+          ]
+        },
+        {
+          "teal": 328,
+          "source": "examples/arc75/arc75.algo.ts:60",
+          "pc": [
+            334
+          ]
+        },
+        {
+          "teal": 329,
+          "source": "examples/arc75/arc75.algo.ts:60",
+          "pc": [
+            335
+          ]
+        },
+        {
+          "teal": 330,
+          "source": "examples/arc75/arc75.algo.ts:60",
+          "pc": [
+            336
+          ]
+        },
+        {
+          "teal": 331,
+          "source": "examples/arc75/arc75.algo.ts:60",
+          "pc": [
+            337
+          ]
+        },
+        {
+          "teal": 332,
+          "source": "examples/arc75/arc75.algo.ts:60",
+          "pc": [
+            338
+          ]
+        },
+        {
+          "teal": 333,
+          "source": "examples/arc75/arc75.algo.ts:60",
+          "pc": [
+            339,
+            340,
+            341
+          ]
+        },
+        {
+          "teal": 334,
+          "source": "examples/arc75/arc75.algo.ts:60",
+          "pc": [
+            342
+          ]
+        },
+        {
+          "teal": 335,
+          "source": "examples/arc75/arc75.algo.ts:60",
+          "pc": [
+            343
+          ]
+        },
+        {
+          "teal": 336,
+          "source": "examples/arc75/arc75.algo.ts:60",
+          "pc": [
+            344
+          ]
+        },
+        {
+          "teal": 341,
+          "source": "examples/arc75/arc75.algo.ts:62",
+          "pc": [
+            345,
+            346
+          ]
+        },
+        {
+          "teal": 342,
+          "source": "examples/arc75/arc75.algo.ts:62",
+          "pc": [
+            347,
+            348
+          ]
+        },
+        {
+          "teal": 343,
+          "source": "examples/arc75/arc75.algo.ts:62",
+          "pc": [
+            349,
+            350
+          ]
+        },
+        {
+          "teal": 344,
+          "source": "examples/arc75/arc75.algo.ts:62",
+          "pc": [
+            351
+          ]
+        },
+        {
+          "teal": 345,
+          "source": "examples/arc75/arc75.algo.ts:62",
+          "pc": [
+            352
+          ]
+        },
+        {
+          "teal": 346,
+          "source": "examples/arc75/arc75.algo.ts:62",
+          "pc": [
+            353,
+            354,
+            355
+          ]
+        },
+        {
+          "teal": 351,
+          "source": "examples/arc75/arc75.algo.ts:63",
+          "pc": [
+            356,
+            357
+          ]
+        },
+        {
+          "teal": 352,
+          "source": "examples/arc75/arc75.algo.ts:63",
+          "pc": [
+            358,
+            359,
+            360
+          ]
+        },
+        {
+          "teal": 353,
+          "source": "examples/arc75/arc75.algo.ts:62",
+          "pc": [
+            361,
+            362,
+            363
+          ]
+        },
+        {
+          "teal": 358,
+          "source": "examples/arc75/arc75.algo.ts:65",
+          "pc": [
+            364,
+            365
+          ]
+        },
+        {
+          "teal": 359,
+          "source": "examples/arc75/arc75.algo.ts:65",
+          "pc": [
+            366,
+            367
+          ]
+        },
+        {
+          "teal": 360,
+          "source": "examples/arc75/arc75.algo.ts:65",
+          "pc": [
+            368
+          ]
+        },
+        {
+          "teal": 361,
+          "source": "examples/arc75/arc75.algo.ts:65",
+          "pc": [
+            369
+          ]
+        },
+        {
+          "teal": 362,
+          "source": "examples/arc75/arc75.algo.ts:65",
+          "pc": [
+            370
+          ]
+        },
+        {
+          "teal": 363,
+          "source": "examples/arc75/arc75.algo.ts:65",
+          "pc": [
+            371,
+            372
+          ]
+        },
+        {
+          "teal": 364,
+          "source": "examples/arc75/arc75.algo.ts:65",
+          "pc": [
+            373
+          ]
+        },
+        {
+          "teal": 365,
+          "source": "examples/arc75/arc75.algo.ts:65",
+          "pc": [
+            374
+          ]
+        },
+        {
+          "teal": 368,
+          "source": "examples/arc75/arc75.algo.ts:65",
+          "errorMessage": "failed to cast this.txnGroup[this.txn.groupIndex - 1] to pay",
+          "pc": [
+            375
+          ]
+        },
+        {
+          "teal": 369,
+          "source": "examples/arc75/arc75.algo.ts:65",
+          "pc": [
+            376,
+            377,
+            378
+          ]
+        },
+        {
+          "teal": 372,
+          "source": "examples/arc75/arc75.algo.ts:54",
+          "pc": [
+            379
+          ]
+        },
+        {
+          "teal": 377,
+          "source": "examples/arc75/arc75.algo.ts:76",
+          "pc": [
+            380,
+            381,
+            382
+          ]
+        },
+        {
+          "teal": 378,
+          "source": "examples/arc75/arc75.algo.ts:76",
+          "pc": [
+            383
+          ]
+        },
+        {
+          "teal": 379,
+          "source": "examples/arc75/arc75.algo.ts:76",
+          "pc": [
+            384
+          ]
+        },
+        {
+          "teal": 380,
+          "source": "examples/arc75/arc75.algo.ts:76",
+          "pc": [
+            385
+          ]
+        },
+        {
+          "teal": 381,
+          "source": "examples/arc75/arc75.algo.ts:76",
+          "pc": [
+            386
+          ]
+        },
+        {
+          "teal": 384,
+          "source": "examples/arc75/arc75.algo.ts:76",
+          "errorMessage": "argument 0 (boxIndex) for deleteWhitelist must be a uint16",
+          "pc": [
+            387
+          ]
+        },
+        {
+          "teal": 385,
+          "source": "examples/arc75/arc75.algo.ts:76",
+          "pc": [
+            388
+          ]
+        },
+        {
+          "teal": 388,
+          "source": "examples/arc75/arc75.algo.ts:76",
+          "pc": [
+            389,
+            390,
+            391
+          ]
+        },
+        {
+          "teal": 389,
+          "source": "examples/arc75/arc75.algo.ts:76",
+          "pc": [
+            392,
+            393,
+            394
+          ]
+        },
+        {
+          "teal": 392,
+          "source": "examples/arc75/arc75.algo.ts:76",
+          "pc": [
+            395,
+            396,
+            397
+          ]
+        },
+        {
+          "teal": 393,
+          "source": "examples/arc75/arc75.algo.ts:76",
+          "pc": [
+            398
+          ]
+        },
+        {
+          "teal": 394,
+          "source": "examples/arc75/arc75.algo.ts:76",
+          "pc": [
+            399
+          ]
+        },
+        {
+          "teal": 403,
+          "source": "examples/arc75/arc75.algo.ts:76",
+          "pc": [
+            400,
+            401,
+            402
+          ]
+        },
+        {
+          "teal": 406,
+          "source": "examples/arc75/arc75.algo.ts:76",
+          "pc": [
+            403
+          ]
+        },
+        {
+          "teal": 407,
+          "source": "examples/arc75/arc75.algo.ts:76",
+          "pc": [
+            404
+          ]
+        },
+        {
+          "teal": 411,
+          "source": "examples/arc75/arc75.algo.ts:77",
+          "pc": [
+            405,
+            406
+          ]
+        },
+        {
+          "teal": 412,
+          "source": "examples/arc75/arc75.algo.ts:77",
+          "pc": [
+            407,
+            408
+          ]
+        },
+        {
+          "teal": 413,
+          "source": "examples/arc75/arc75.algo.ts:77",
+          "pc": [
+            409
+          ]
+        },
+        {
+          "teal": 414,
+          "source": "examples/arc75/arc75.algo.ts:77",
+          "pc": [
+            410,
+            411
+          ]
+        },
+        {
+          "teal": 418,
+          "source": "examples/arc75/arc75.algo.ts:78",
+          "pc": [
+            412
+          ]
+        },
+        {
+          "teal": 419,
+          "source": "examples/arc75/arc75.algo.ts:78",
+          "pc": [
+            413
+          ]
+        },
+        {
+          "teal": 420,
+          "source": "examples/arc75/arc75.algo.ts:78",
+          "pc": [
+            414
+          ]
+        },
+        {
+          "teal": 421,
+          "source": "examples/arc75/arc75.algo.ts:78",
+          "pc": [
+            415,
+            416
+          ]
+        },
+        {
+          "teal": 422,
+          "source": "examples/arc75/arc75.algo.ts:78",
+          "pc": [
+            417,
+            418,
+            419
+          ]
+        },
+        {
+          "teal": 423,
+          "source": "examples/arc75/arc75.algo.ts:78",
+          "pc": [
+            420,
+            421
+          ]
+        },
+        {
+          "teal": 424,
+          "source": "examples/arc75/arc75.algo.ts:78",
+          "pc": [
+            422
+          ]
+        },
+        {
+          "teal": 425,
+          "source": "examples/arc75/arc75.algo.ts:78",
+          "pc": [
+            423,
+            424,
+            425
+          ]
+        },
+        {
+          "teal": 426,
+          "source": "examples/arc75/arc75.algo.ts:78",
+          "pc": [
+            426,
+            427,
+            428
+          ]
+        },
+        {
+          "teal": 427,
+          "source": "examples/arc75/arc75.algo.ts:78",
+          "pc": [
+            429,
+            430
+          ]
+        },
+        {
+          "teal": 428,
+          "source": "examples/arc75/arc75.algo.ts:78",
+          "pc": [
+            431
+          ]
+        },
+        {
+          "teal": 429,
+          "source": "examples/arc75/arc75.algo.ts:78",
+          "pc": [
+            432
+          ]
+        },
+        {
+          "teal": 430,
+          "source": "examples/arc75/arc75.algo.ts:78",
+          "pc": [
+            433
+          ]
+        },
+        {
+          "teal": 431,
+          "source": "examples/arc75/arc75.algo.ts:78",
+          "pc": [
+            434,
+            435,
+            436
+          ]
+        },
+        {
+          "teal": 432,
+          "source": "examples/arc75/arc75.algo.ts:78",
+          "pc": [
+            437
+          ]
+        },
+        {
+          "teal": 433,
+          "source": "examples/arc75/arc75.algo.ts:78",
+          "pc": [
+            438
+          ]
+        },
+        {
+          "teal": 434,
+          "source": "examples/arc75/arc75.algo.ts:78",
+          "pc": [
+            439,
+            440,
+            441
+          ]
+        },
+        {
+          "teal": 435,
+          "source": "examples/arc75/arc75.algo.ts:78",
+          "pc": [
+            442
+          ]
+        },
+        {
+          "teal": 436,
+          "source": "examples/arc75/arc75.algo.ts:78",
+          "pc": [
+            443
+          ]
+        },
+        {
+          "teal": 437,
+          "source": "examples/arc75/arc75.algo.ts:78",
+          "pc": [
+            444,
+            445
+          ]
+        },
+        {
+          "teal": 441,
+          "source": "examples/arc75/arc75.algo.ts:80",
+          "pc": [
+            446,
+            447
+          ]
+        },
+        {
+          "teal": 442,
+          "source": "examples/arc75/arc75.algo.ts:80",
+          "pc": [
+            448
+          ]
+        },
+        {
+          "teal": 446,
+          "source": "examples/arc75/arc75.algo.ts:82",
+          "pc": [
+            449,
+            450
+          ]
+        },
+        {
+          "teal": 447,
+          "source": "examples/arc75/arc75.algo.ts:82",
+          "pc": [
+            451,
+            452,
+            453
+          ]
+        },
+        {
+          "teal": 448,
+          "source": "examples/arc75/arc75.algo.ts:76",
+          "pc": [
+            454
+          ]
+        },
+        {
+          "teal": 453,
+          "source": "examples/arc75/arc75.algo.ts:93",
+          "pc": [
+            455,
+            456,
+            457
+          ]
+        },
+        {
+          "teal": 454,
+          "source": "examples/arc75/arc75.algo.ts:93",
+          "pc": [
+            458
+          ]
+        },
+        {
+          "teal": 457,
+          "source": "examples/arc75/arc75.algo.ts:93",
+          "pc": [
+            459,
+            460,
+            461
+          ]
+        },
+        {
+          "teal": 458,
+          "source": "examples/arc75/arc75.algo.ts:93",
+          "pc": [
+            462
+          ]
+        },
+        {
+          "teal": 461,
+          "source": "examples/arc75/arc75.algo.ts:93",
+          "pc": [
+            463,
+            464,
+            465
+          ]
+        },
+        {
+          "teal": 462,
+          "source": "examples/arc75/arc75.algo.ts:93",
+          "pc": [
+            466
+          ]
+        },
+        {
+          "teal": 463,
+          "source": "examples/arc75/arc75.algo.ts:93",
+          "pc": [
+            467
+          ]
+        },
+        {
+          "teal": 464,
+          "source": "examples/arc75/arc75.algo.ts:93",
+          "pc": [
+            468
+          ]
+        },
+        {
+          "teal": 465,
+          "source": "examples/arc75/arc75.algo.ts:93",
+          "pc": [
+            469
+          ]
+        },
+        {
+          "teal": 468,
+          "source": "examples/arc75/arc75.algo.ts:93",
+          "errorMessage": "argument 2 (boxIndex) for deleteAppFromWhitelist must be a uint16",
+          "pc": [
+            470
+          ]
+        },
+        {
+          "teal": 469,
+          "source": "examples/arc75/arc75.algo.ts:93",
+          "pc": [
+            471
+          ]
+        },
+        {
+          "teal": 472,
+          "source": "examples/arc75/arc75.algo.ts:93",
+          "pc": [
+            472,
+            473,
+            474
+          ]
+        },
+        {
+          "teal": 473,
+          "source": "examples/arc75/arc75.algo.ts:93",
+          "pc": [
+            475,
+            476,
+            477
+          ]
+        },
+        {
+          "teal": 476,
+          "source": "examples/arc75/arc75.algo.ts:93",
+          "pc": [
+            478,
+            479,
+            480
+          ]
+        },
+        {
+          "teal": 477,
+          "source": "examples/arc75/arc75.algo.ts:93",
+          "pc": [
+            481
+          ]
+        },
+        {
+          "teal": 478,
+          "source": "examples/arc75/arc75.algo.ts:93",
+          "pc": [
+            482
+          ]
+        },
+        {
+          "teal": 488,
+          "source": "examples/arc75/arc75.algo.ts:93",
+          "pc": [
+            483,
+            484,
+            485
+          ]
+        },
+        {
+          "teal": 491,
+          "source": "examples/arc75/arc75.algo.ts:93",
+          "pc": [
+            486
+          ]
+        },
+        {
+          "teal": 492,
+          "source": "examples/arc75/arc75.algo.ts:93",
+          "pc": [
+            487,
+            488
+          ]
+        },
+        {
+          "teal": 496,
+          "source": "examples/arc75/arc75.algo.ts:94",
+          "pc": [
+            489,
+            490
+          ]
+        },
+        {
+          "teal": 497,
+          "source": "examples/arc75/arc75.algo.ts:94",
+          "pc": [
+            491,
+            492
+          ]
+        },
+        {
+          "teal": 498,
+          "source": "examples/arc75/arc75.algo.ts:94",
+          "pc": [
+            493
+          ]
+        },
+        {
+          "teal": 499,
+          "source": "examples/arc75/arc75.algo.ts:94",
+          "pc": [
+            494,
+            495
+          ]
+        },
+        {
+          "teal": 503,
+          "source": "examples/arc75/arc75.algo.ts:95",
+          "pc": [
+            496
+          ]
+        },
+        {
+          "teal": 504,
+          "source": "examples/arc75/arc75.algo.ts:95",
+          "pc": [
+            497
+          ]
+        },
+        {
+          "teal": 505,
+          "source": "examples/arc75/arc75.algo.ts:95",
+          "pc": [
+            498
+          ]
+        },
+        {
+          "teal": 506,
+          "source": "examples/arc75/arc75.algo.ts:95",
+          "pc": [
+            499,
+            500
+          ]
+        },
+        {
+          "teal": 507,
+          "source": "examples/arc75/arc75.algo.ts:95",
+          "pc": [
+            501,
+            502,
+            503
+          ]
+        },
+        {
+          "teal": 508,
+          "source": "examples/arc75/arc75.algo.ts:95",
+          "pc": [
+            504,
+            505
+          ]
+        },
+        {
+          "teal": 509,
+          "source": "examples/arc75/arc75.algo.ts:95",
+          "pc": [
+            506
+          ]
+        },
+        {
+          "teal": 510,
+          "source": "examples/arc75/arc75.algo.ts:95",
+          "pc": [
+            507,
+            508,
+            509
+          ]
+        },
+        {
+          "teal": 511,
+          "source": "examples/arc75/arc75.algo.ts:95",
+          "pc": [
+            510,
+            511,
+            512
+          ]
+        },
+        {
+          "teal": 512,
+          "source": "examples/arc75/arc75.algo.ts:95",
+          "pc": [
+            513,
+            514
+          ]
+        },
+        {
+          "teal": 513,
+          "source": "examples/arc75/arc75.algo.ts:95",
+          "pc": [
+            515
+          ]
+        },
+        {
+          "teal": 514,
+          "source": "examples/arc75/arc75.algo.ts:95",
+          "pc": [
+            516
+          ]
+        },
+        {
+          "teal": 515,
+          "source": "examples/arc75/arc75.algo.ts:95",
+          "pc": [
+            517
+          ]
+        },
+        {
+          "teal": 516,
+          "source": "examples/arc75/arc75.algo.ts:95",
+          "pc": [
+            518,
+            519,
+            520
+          ]
+        },
+        {
+          "teal": 517,
+          "source": "examples/arc75/arc75.algo.ts:95",
+          "pc": [
+            521
+          ]
+        },
+        {
+          "teal": 518,
+          "source": "examples/arc75/arc75.algo.ts:95",
+          "pc": [
+            522
+          ]
+        },
+        {
+          "teal": 519,
+          "source": "examples/arc75/arc75.algo.ts:95",
+          "pc": [
+            523,
+            524,
+            525
+          ]
+        },
+        {
+          "teal": 520,
+          "source": "examples/arc75/arc75.algo.ts:95",
+          "pc": [
+            526
+          ]
+        },
+        {
+          "teal": 521,
+          "source": "examples/arc75/arc75.algo.ts:95",
+          "pc": [
+            527
+          ]
+        },
+        {
+          "teal": 522,
+          "source": "examples/arc75/arc75.algo.ts:95",
+          "pc": [
+            528,
+            529
+          ]
+        },
+        {
+          "teal": 526,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            530,
+            531
+          ]
+        },
+        {
+          "teal": 527,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            532
+          ]
+        },
+        {
+          "teal": 530,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "errorMessage": "box value does not exist: this.whitelist(whitelist).value",
+          "pc": [
+            533
+          ]
+        },
+        {
+          "teal": 531,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            534,
+            535,
+            536
+          ]
+        },
+        {
+          "teal": 532,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            537
+          ]
+        },
+        {
+          "teal": 533,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            538,
+            539
+          ]
+        },
+        {
+          "teal": 534,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            540
+          ]
+        },
+        {
+          "teal": 535,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            541
+          ]
+        },
+        {
+          "teal": 536,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            542,
+            543
+          ]
+        },
+        {
+          "teal": 537,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            544,
+            545
+          ]
+        },
+        {
+          "teal": 538,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            546,
+            547
+          ]
+        },
+        {
+          "teal": 539,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            548,
+            549
+          ]
+        },
+        {
+          "teal": 540,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            550
+          ]
+        },
+        {
+          "teal": 543,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "errorMessage": "box value does not exist: this.whitelist(whitelist).value",
+          "pc": [
+            551
+          ]
+        },
+        {
+          "teal": 544,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            552,
+            553,
+            554
+          ]
+        },
+        {
+          "teal": 545,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            555
+          ]
+        },
+        {
+          "teal": 546,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            556,
+            557
+          ]
+        },
+        {
+          "teal": 547,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            558
+          ]
+        },
+        {
+          "teal": 548,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            559,
+            560
+          ]
+        },
+        {
+          "teal": 549,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            561
+          ]
+        },
+        {
+          "teal": 552,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "errorMessage": "box value does not exist: this.whitelist(whitelist).value",
+          "pc": [
+            562
+          ]
+        },
+        {
+          "teal": 553,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            563,
+            564,
+            565
+          ]
+        },
+        {
+          "teal": 554,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            566
+          ]
+        },
+        {
+          "teal": 555,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            567
+          ]
+        },
+        {
+          "teal": 556,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            568,
+            569
+          ]
+        },
+        {
+          "teal": 557,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            570,
+            571
+          ]
+        },
+        {
+          "teal": 558,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            572
+          ]
+        },
+        {
+          "teal": 559,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            573
+          ]
+        },
+        {
+          "teal": 560,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            574
+          ]
+        },
+        {
+          "teal": 561,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            575
+          ]
+        },
+        {
+          "teal": 562,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            576
+          ]
+        },
+        {
+          "teal": 563,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            577
+          ]
+        },
+        {
+          "teal": 564,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            578,
+            579
+          ]
+        },
+        {
+          "teal": 565,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            580
+          ]
+        },
+        {
+          "teal": 568,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "errorMessage": "box value does not exist: this.whitelist(whitelist).value",
+          "pc": [
+            581
+          ]
+        },
+        {
+          "teal": 569,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            582,
+            583,
+            584
+          ]
+        },
+        {
+          "teal": 570,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            585,
+            586
+          ]
+        },
+        {
+          "teal": 571,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            587,
+            588
+          ]
+        },
+        {
+          "teal": 572,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            589
+          ]
+        },
+        {
+          "teal": 573,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            590
+          ]
+        },
+        {
+          "teal": 574,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            591
+          ]
+        },
+        {
+          "teal": 575,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            592
+          ]
+        },
+        {
+          "teal": 576,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            593,
+            594
+          ]
+        },
+        {
+          "teal": 577,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            595
+          ]
+        },
+        {
+          "teal": 578,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            596
+          ]
+        },
+        {
+          "teal": 579,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            597
+          ]
+        },
+        {
+          "teal": 580,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            598
+          ]
+        },
+        {
+          "teal": 581,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            599
+          ]
+        },
+        {
+          "teal": 582,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            600
+          ]
+        },
+        {
+          "teal": 583,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            601
+          ]
+        },
+        {
+          "teal": 584,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            602
+          ]
+        },
+        {
+          "teal": 585,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            603
+          ]
+        },
+        {
+          "teal": 586,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            604,
+            605,
+            606
+          ]
+        },
+        {
+          "teal": 587,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            607
+          ]
+        },
+        {
+          "teal": 588,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            608
+          ]
+        },
+        {
+          "teal": 589,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            609
+          ]
+        },
+        {
+          "teal": 590,
+          "source": "examples/arc75/arc75.algo.ts:97",
+          "pc": [
+            610,
+            611
+          ]
+        },
+        {
+          "teal": 594,
+          "source": "examples/arc75/arc75.algo.ts:99",
+          "pc": [
+            612,
+            613
+          ]
+        },
+        {
+          "teal": 595,
+          "source": "examples/arc75/arc75.algo.ts:99",
+          "pc": [
+            614,
+            615
+          ]
+        },
+        {
+          "teal": 596,
+          "source": "examples/arc75/arc75.algo.ts:99",
+          "pc": [
+            616,
+            617
+          ]
+        },
+        {
+          "teal": 597,
+          "source": "examples/arc75/arc75.algo.ts:99",
+          "pc": [
+            618,
+            619,
+            620
+          ]
+        },
+        {
+          "teal": 598,
+          "source": "examples/arc75/arc75.algo.ts:99",
+          "pc": [
+            621
+          ]
+        },
+        {
+          "teal": 599,
+          "source": "examples/arc75/arc75.algo.ts:99",
+          "pc": [
+            622,
+            623
+          ]
+        },
+        {
+          "teal": 600,
+          "source": "examples/arc75/arc75.algo.ts:99",
+          "pc": [
+            624
+          ]
+        },
+        {
+          "teal": 601,
+          "source": "examples/arc75/arc75.algo.ts:99",
+          "pc": [
+            625
+          ]
+        },
+        {
+          "teal": 605,
+          "source": "examples/arc75/arc75.algo.ts:101",
+          "pc": [
+            626,
+            627
+          ]
+        },
+        {
+          "teal": 606,
+          "source": "examples/arc75/arc75.algo.ts:101",
+          "pc": [
+            628,
+            629,
+            630
+          ]
+        },
+        {
+          "teal": 607,
+          "source": "examples/arc75/arc75.algo.ts:93",
+          "pc": [
+            631
+          ]
+        },
+        {
+          "teal": 610,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "pc": [
+            632
+          ]
+        },
+        {
+          "teal": 611,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "pc": [
+            633
+          ]
+        },
+        {
+          "teal": 614,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "pc": [
+            634,
+            635,
+            636,
+            637,
+            638,
+            639
+          ]
+        },
+        {
+          "teal": 615,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "pc": [
+            640,
+            641,
+            642
+          ]
+        },
+        {
+          "teal": 616,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "pc": [
+            643,
+            644,
+            645,
+            646
+          ]
+        },
+        {
+          "teal": 619,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "errorMessage": "this contract does not implement the given ABI method for create NoOp",
+          "pc": [
+            647
+          ]
+        },
+        {
+          "teal": 622,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "pc": [
+            648,
+            649,
+            650,
+            651,
+            652,
+            653
+          ]
+        },
+        {
+          "teal": 623,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "pc": [
+            654,
+            655,
+            656,
+            657,
+            658,
+            659
+          ]
+        },
+        {
+          "teal": 624,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "pc": [
+            660,
+            661,
+            662,
+            663,
+            664,
+            665
+          ]
+        },
+        {
+          "teal": 625,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "pc": [
+            666,
+            667,
+            668,
+            669,
+            670,
+            671
+          ]
+        },
+        {
+          "teal": 626,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "pc": [
+            672,
+            673,
+            674
+          ]
+        },
+        {
+          "teal": 627,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "pc": [
+            675,
+            676,
+            677,
+            678,
+            679,
+            680,
+            681,
+            682,
+            683,
+            684
+          ]
+        },
+        {
+          "teal": 630,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "errorMessage": "this contract does not implement the given ABI method for call NoOp",
+          "pc": [
+            685
+          ]
+        },
+        {
+          "teal": 633,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "pc": [
+            686,
+            687,
+            688
+          ]
+        },
+        {
+          "teal": 634,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "pc": [
+            689,
+            690
+          ]
+        },
+        {
+          "teal": 635,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "pc": [
+            691,
+            692
+          ]
+        },
+        {
+          "teal": 636,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "pc": [
+            693
+          ]
+        },
+        {
+          "teal": 637,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "pc": [
+            694,
+            695
+          ]
+        },
+        {
+          "teal": 638,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "pc": [
+            696,
+            697
+          ]
+        },
+        {
+          "teal": 639,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "pc": [
+            698
+          ]
+        },
+        {
+          "teal": 642,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "pc": [
+            699,
+            700,
+            701
+          ]
+        },
+        {
+          "teal": 643,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "pc": [
+            702,
+            703
+          ]
+        },
+        {
+          "teal": 644,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "pc": [
+            704,
+            705
+          ]
+        },
+        {
+          "teal": 645,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "pc": [
+            706
+          ]
+        },
+        {
+          "teal": 646,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "pc": [
+            707,
+            708
+          ]
+        },
+        {
+          "teal": 647,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "pc": [
+            709,
+            710
+          ]
+        },
+        {
+          "teal": 648,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "pc": [
+            711
+          ]
+        },
+        {
+          "teal": 649,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "pc": [
+            712
+          ]
+        },
+        {
+          "teal": 650,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "pc": [
+            713,
+            714
+          ]
+        },
+        {
+          "teal": 651,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "pc": [
+            715
+          ]
+        },
+        {
+          "teal": 652,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "pc": [
+            716
+          ]
+        },
+        {
+          "teal": 653,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "pc": [
+            717
+          ]
+        },
+        {
+          "teal": 654,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "pc": [
+            718,
+            719,
+            720
+          ]
+        },
+        {
+          "teal": 655,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "pc": [
+            721,
+            722
+          ]
+        },
+        {
+          "teal": 656,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "pc": [
+            723,
+            724
+          ]
+        },
+        {
+          "teal": 657,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "pc": [
+            725
+          ]
+        },
+        {
+          "teal": 658,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "pc": [
+            726
+          ]
+        },
+        {
+          "teal": 659,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "pc": [
+            727,
+            728
+          ]
+        },
+        {
+          "teal": 660,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "pc": [
+            729,
+            730
+          ]
+        },
+        {
+          "teal": 661,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "pc": [
+            731,
+            732
+          ]
+        },
+        {
+          "teal": 662,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "pc": [
+            733,
+            734
+          ]
+        },
+        {
+          "teal": 663,
+          "source": "examples/arc75/arc75.algo.ts:6",
+          "pc": [
+            735
+          ]
+        }
+      ],
+      "pcOffsetMethod": "none"
+    },
+    "clear": {
+      "sourceInfo": [],
+      "pcOffsetMethod": "none"
+    }
+  },
+  "source": {
+    "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCmludGNibG9jayAxIDggMiAwCmJ5dGVjYmxvY2sgMHggMHgwMDI0CgovLyBUaGlzIFRFQUwgd2FzIGdlbmVyYXRlZCBieSBURUFMU2NyaXB0IHYwLjEwNi4wCi8vIGh0dHBzOi8vZ2l0aHViLmNvbS9hbGdvcmFuZGZvdW5kYXRpb24vVEVBTFNjcmlwdAoKLy8gVGhpcyBjb250cmFjdCBpcyBjb21wbGlhbnQgd2l0aCBhbmQvb3IgaW1wbGVtZW50cyB0aGUgZm9sbG93aW5nIEFSQ3M6IFsgQVJDNCBdCgovLyBUaGUgZm9sbG93aW5nIHRlbiBsaW5lcyBvZiBURUFMIGhhbmRsZSBpbml0aWFsIHByb2dyYW0gZmxvdwovLyBUaGlzIHBhdHRlcm4gaXMgdXNlZCB0byBtYWtlIGl0IGVhc3kgZm9yIGFueW9uZSB0byBwYXJzZSB0aGUgc3RhcnQgb2YgdGhlIHByb2dyYW0gYW5kIGRldGVybWluZSBpZiBhIHNwZWNpZmljIGFjdGlvbiBpcyBhbGxvd2VkCi8vIEhlcmUsIGFjdGlvbiByZWZlcnMgdG8gdGhlIE9uQ29tcGxldGUgaW4gY29tYmluYXRpb24gd2l0aCB3aGV0aGVyIHRoZSBhcHAgaXMgYmVpbmcgY3JlYXRlZCBvciBjYWxsZWQKLy8gRXZlcnkgcG9zc2libGUgYWN0aW9uIGZvciB0aGlzIGNvbnRyYWN0IGlzIHJlcHJlc2VudGVkIGluIHRoZSBzd2l0Y2ggc3RhdGVtZW50Ci8vIElmIHRoZSBhY3Rpb24gaXMgbm90IGltcGxlbWVudGVkIGluIHRoZSBjb250cmFjdCwgaXRzIHJlc3BlY3RpdmUgYnJhbmNoIHdpbGwgYmUgIipOT1RfSU1QTEVNRU5URUQiIHdoaWNoIGp1c3QgY29udGFpbnMgImVyciIKdHhuIEFwcGxpY2F0aW9uSUQKIQpwdXNoaW50IDYKKgp0eG4gT25Db21wbGV0aW9uCisKc3dpdGNoICpjYWxsX05vT3AgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpjcmVhdGVfTm9PcCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQKCipOT1RfSU1QTEVNRU5URUQ6CgkvLyBUaGUgcmVxdWVzdGVkIGFjdGlvbiBpcyBub3QgaW1wbGVtZW50ZWQgaW4gdGhpcyBjb250cmFjdC4gQXJlIHlvdSB1c2luZyB0aGUgY29ycmVjdCBPbkNvbXBsZXRlPyBEaWQgeW91IHNldCB5b3VyIGFwcCBJRD8KCWVycgoKLy8gdmVyaWZ5TUJSUGF5bWVudChwYXltZW50OiBQYXlUeG4sIHByZU1CUjogdWludDY0KTogdm9pZAp2ZXJpZnlNQlJQYXltZW50OgoJcHJvdG8gMiAwCgoJLy8gZXhhbXBsZXMvYXJjNzUvYXJjNzUuYWxnby50czoxMAoJLy8gdmVyaWZ5UGF5VHhuKHBheW1lbnQsIHsKCS8vICAgICAgIHJlY2VpdmVyOiB0aGlzLmFwcC5hZGRyZXNzLAoJLy8gICAgICAgYW1vdW50OiB0aGlzLmFwcC5hZGRyZXNzLm1pbkJhbGFuY2UgLSBwcmVNQlIsCgkvLyAgICAgfSkKCS8vIHZlcmlmeSByZWNlaXZlcgoJZnJhbWVfZGlnIC0xIC8vIHBheW1lbnQ6IFBheVR4bgoJZ3R4bnMgUmVjZWl2ZXIKCWdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCgk9PQoKCS8vIHRyYW5zYWN0aW9uIHZlcmlmaWNhdGlvbiBmYWlsZWQ6IHsidHhuIjoicGF5bWVudCIsImZpZWxkIjoicmVjZWl2ZXIiLCJleHBlY3RlZCI6InRoaXMuYXBwLmFkZHJlc3MifQoJYXNzZXJ0CgoJLy8gdmVyaWZ5IGFtb3VudAoJZnJhbWVfZGlnIC0xIC8vIHBheW1lbnQ6IFBheVR4bgoJZ3R4bnMgQW1vdW50CglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJYWNjdF9wYXJhbXNfZ2V0IEFjY3RNaW5CYWxhbmNlCglwb3AKCWZyYW1lX2RpZyAtMiAvLyBwcmVNQlI6IHVpbnQ2NAoJLQoJPT0KCgkvLyB0cmFuc2FjdGlvbiB2ZXJpZmljYXRpb24gZmFpbGVkOiB7InR4biI6InBheW1lbnQiLCJmaWVsZCI6ImFtb3VudCIsImV4cGVjdGVkIjoidGhpcy5hcHAuYWRkcmVzcy5taW5CYWxhbmNlIC0gcHJlTUJSIn0KCWFzc2VydAoJcmV0c3ViCgovLyBzZW5kTUJSUGF5bWVudChwcmVNQlI6IHVpbnQ2NCk6IHZvaWQKc2VuZE1CUlBheW1lbnQ6Cglwcm90byAxIDAKCgkvLyBleGFtcGxlcy9hcmM3NS9hcmM3NS5hbGdvLnRzOjE3CgkvLyBzZW5kUGF5bWVudCh7CgkvLyAgICAgICByZWNlaXZlcjogdGhpcy50eG4uc2VuZGVyLAoJLy8gICAgICAgYW1vdW50OiBwcmVNQlIgLSB0aGlzLmFwcC5hZGRyZXNzLm1pbkJhbGFuY2UsCgkvLyAgICAgfSkKCWl0eG5fYmVnaW4KCWludGMgMCAvLyAgcGF5CglpdHhuX2ZpZWxkIFR5cGVFbnVtCgoJLy8gZXhhbXBsZXMvYXJjNzUvYXJjNzUuYWxnby50czoxOAoJLy8gcmVjZWl2ZXI6IHRoaXMudHhuLnNlbmRlcgoJdHhuIFNlbmRlcgoJaXR4bl9maWVsZCBSZWNlaXZlcgoKCS8vIGV4YW1wbGVzL2FyYzc1L2FyYzc1LmFsZ28udHM6MTkKCS8vIGFtb3VudDogcHJlTUJSIC0gdGhpcy5hcHAuYWRkcmVzcy5taW5CYWxhbmNlCglmcmFtZV9kaWcgLTEgLy8gcHJlTUJSOiB1aW50NjQKCWdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCglhY2N0X3BhcmFtc19nZXQgQWNjdE1pbkJhbGFuY2UKCXBvcAoJLQoJaXR4bl9maWVsZCBBbW91bnQKCgkvLyBGZWUgZmllbGQgbm90IHNldCwgZGVmYXVsdGluZyB0byAwCglpbnRjIDMgLy8gMAoJaXR4bl9maWVsZCBGZWUKCgkvLyBTdWJtaXQgaW5uZXIgdHJhbnNhY3Rpb24KCWl0eG5fc3VibWl0CglyZXRzdWIKCi8vIGFkZEFwcFRvV2hpdGVMaXN0KHN0cmluZyx1aW50MTYsdWludDY0LHBheSl2b2lkCiphYmlfcm91dGVfYWRkQXBwVG9XaGl0ZUxpc3Q6CgkvLyBwYXltZW50OiBwYXkKCXR4biBHcm91cEluZGV4CglpbnRjIDAgLy8gMQoJLQoJZHVwCglndHhucyBUeXBlRW51bQoJaW50YyAwIC8vICBwYXkKCT09CgoJLy8gYXJndW1lbnQgMCAocGF5bWVudCkgZm9yIGFkZEFwcFRvV2hpdGVMaXN0IG11c3QgYmUgYSBwYXkgdHJhbnNhY3Rpb24KCWFzc2VydAoKCS8vIGFwcElEOiB1aW50NjQKCXR4bmEgQXBwbGljYXRpb25BcmdzIDMKCWJ0b2kKCgkvLyBib3hJbmRleDogdWludDE2Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAyCglkdXAKCWxlbgoJaW50YyAyIC8vIDIKCT09CgoJLy8gYXJndW1lbnQgMiAoYm94SW5kZXgpIGZvciBhZGRBcHBUb1doaXRlTGlzdCBtdXN0IGJlIGEgdWludDE2Cglhc3NlcnQKCWJ0b2kKCgkvLyBhcmM6IHN0cmluZwoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJZXh0cmFjdCAyIDAKCgkvLyBleGVjdXRlIGFkZEFwcFRvV2hpdGVMaXN0KHN0cmluZyx1aW50MTYsdWludDY0LHBheSl2b2lkCgljYWxsc3ViIGFkZEFwcFRvV2hpdGVMaXN0CglpbnRjIDAgLy8gMQoJcmV0dXJuCgovLyBhZGRBcHBUb1doaXRlTGlzdChhcmM6IHN0cmluZywgYm94SW5kZXg6IHVpbnQxNiwgYXBwSUQ6IHVpbnQ2NCwgcGF5bWVudDogUGF5VHhuKTogdm9pZAovLwovLyBBZGQgYXBwIHRvIHdoaXRlbGlzdCBib3gKLy8KLy8gQHBhcmFtIGFyYyAtIFRoZSBBUkMgdGhlIHdoaXRlbGlzdCBjb3JyZXNwb25kcyB0bwovLyBAcGFyYW0gYm94SW5kZXggLSBUaGUgaW5kZXggb2YgdGhlIHdoaXRlbGlzdCBib3ggdG8gYWRkIHRoZSBhcHAgdG8KLy8gQHBhcmFtIGFwcElEIC0gVGhlIGFwcCBJRCB0byBhZGQgdG8gdGhlIHdoaXRlbGlzdAovLyBAcGFyYW0gcGF5bWVudCAtIFRoZSBwYXltZW50IHRyYW5zYWN0aW9uIHRvIGNvdmVyIHRoZSBNQlIgY2hhbmdlCmFkZEFwcFRvV2hpdGVMaXN0OgoJcHJvdG8gNCAwCgoJLy8gUHVzaCBlbXB0eSBieXRlcyBhZnRlciB0aGUgZnJhbWUgcG9pbnRlciB0byByZXNlcnZlIHNwYWNlIGZvciBsb2NhbCB2YXJpYWJsZXMKCWJ5dGVjIDAgLy8gMHgKCWR1cG4gMgoKCS8vIGV4YW1wbGVzL2FyYzc1L2FyYzc1LmFsZ28udHM6MzMKCS8vIHByZU1CUiA9IHRoaXMuYXBwLmFkZHJlc3MubWluQmFsYW5jZQoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCWFjY3RfcGFyYW1zX2dldCBBY2N0TWluQmFsYW5jZQoJcG9wCglmcmFtZV9idXJ5IDAgLy8gcHJlTUJSOiB1aW50NjQKCgkvLyBleGFtcGxlcy9hcmM3NS9hcmM3NS5hbGdvLnRzOjM0CgkvLyB3aGl0ZWxpc3Q6IFdoaXRlbGlzdCA9IHsgYWNjb3VudDogdGhpcy50eG4uc2VuZGVyLCBib3hJbmRleDogYm94SW5kZXgsIGFyYzogYXJjIH0KCWJ5dGVjIDAgLy8gIGluaXRpYWwgaGVhZAoJYnl0ZWMgMCAvLyAgaW5pdGlhbCB0YWlsCglieXRlYyAxIC8vICBpbml0aWFsIGhlYWQgb2Zmc2V0Cgl0eG4gU2VuZGVyCgljYWxsc3ViICpwcm9jZXNzX3N0YXRpY190dXBsZV9lbGVtZW50CglmcmFtZV9kaWcgLTIgLy8gYm94SW5kZXg6IHVpbnQxNgoJaXRvYgoJZXh0cmFjdCA2IDIKCWNhbGxzdWIgKnByb2Nlc3Nfc3RhdGljX3R1cGxlX2VsZW1lbnQKCWZyYW1lX2RpZyAtMSAvLyBhcmM6IHN0cmluZwoJZHVwCglsZW4KCWl0b2IKCWV4dHJhY3QgNiAyCglzd2FwCgljb25jYXQKCWNhbGxzdWIgKnByb2Nlc3NfZHluYW1pY190dXBsZV9lbGVtZW50Cglwb3AgLy8gcG9wIGhlYWQgb2Zmc2V0Cgljb25jYXQgLy8gY29uY2F0IGhlYWQgYW5kIHRhaWwKCWZyYW1lX2J1cnkgMSAvLyB3aGl0ZWxpc3Q6IFdoaXRlbGlzdAoKCS8vICppZjBfY29uZGl0aW9uCgkvLyBleGFtcGxlcy9hcmM3NS9hcmM3NS5hbGdvLnRzOjM2CgkvLyB0aGlzLndoaXRlbGlzdCh3aGl0ZWxpc3QpLmV4aXN0cwoJZnJhbWVfZGlnIDEgLy8gd2hpdGVsaXN0OiBXaGl0ZWxpc3QKCWJveF9sZW4KCXN3YXAKCXBvcAoJYnogKmlmMF9lbHNlCgoJLy8gKmlmMF9jb25zZXF1ZW50CgkvLyBleGFtcGxlcy9hcmM3NS9hcmM3NS5hbGdvLnRzOjM3CgkvLyB0aGlzLndoaXRlbGlzdCh3aGl0ZWxpc3QpLnZhbHVlLnB1c2goYXBwSUQpCglmcmFtZV9kaWcgMSAvLyB3aGl0ZWxpc3Q6IFdoaXRlbGlzdAoJYm94X2dldAoKCS8vIGJveCB2YWx1ZSBkb2VzIG5vdCBleGlzdDogdGhpcy53aGl0ZWxpc3Qod2hpdGVsaXN0KS52YWx1ZQoJYXNzZXJ0CglleHRyYWN0IDIgMAoJZnJhbWVfZGlnIC0zIC8vIGFwcElEOiB1aW50NjQKCWl0b2IKCWNvbmNhdAoJZnJhbWVfZGlnIDEgLy8gd2hpdGVsaXN0OiBXaGl0ZWxpc3QKCWR1cAoJYm94X2RlbAoJcG9wCglzd2FwCglkdXAKCWxlbgoJaW50YyAxIC8vIDgKCS8KCWl0b2IKCWV4dHJhY3QgNiAyCglzd2FwCgljb25jYXQKCWJveF9wdXQKCWIgKmlmMF9lbmQKCippZjBfZWxzZToKCS8vIGV4YW1wbGVzL2FyYzc1L2FyYzc1LmFsZ28udHM6MzkKCS8vIG5ld1doaXRlbGlzdDogdWludDY0W10gPSBbYXBwSURdCglmcmFtZV9kaWcgLTMgLy8gYXBwSUQ6IHVpbnQ2NAoJaXRvYgoJZnJhbWVfYnVyeSAyIC8vIG5ld1doaXRlbGlzdDogdWludDY0W10KCgkvLyBleGFtcGxlcy9hcmM3NS9hcmM3NS5hbGdvLnRzOjQwCgkvLyB0aGlzLndoaXRlbGlzdCh3aGl0ZWxpc3QpLnZhbHVlID0gbmV3V2hpdGVsaXN0CglmcmFtZV9kaWcgMSAvLyB3aGl0ZWxpc3Q6IFdoaXRlbGlzdAoJZHVwCglib3hfZGVsCglwb3AKCWZyYW1lX2RpZyAyIC8vIG5ld1doaXRlbGlzdDogdWludDY0W10KCWR1cAoJbGVuCglpbnRjIDEgLy8gOAoJLwoJaXRvYgoJZXh0cmFjdCA2IDIKCXN3YXAKCWNvbmNhdAoJYm94X3B1dAoKKmlmMF9lbmQ6CgkvLyBleGFtcGxlcy9hcmM3NS9hcmM3NS5hbGdvLnRzOjQzCgkvLyB0aGlzLnZlcmlmeU1CUlBheW1lbnQocGF5bWVudCwgcHJlTUJSKQoJZnJhbWVfZGlnIDAgLy8gcHJlTUJSOiB1aW50NjQKCWZyYW1lX2RpZyAtNCAvLyBwYXltZW50OiBQYXlUeG4KCWNhbGxzdWIgdmVyaWZ5TUJSUGF5bWVudAoJcmV0c3ViCgovLyBzZXRBcHBXaGl0ZWxpc3Qoc3RyaW5nLHVpbnQxNix1aW50NjRbXSl2b2lkCiphYmlfcm91dGVfc2V0QXBwV2hpdGVsaXN0OgoJLy8gYXBwSURzOiB1aW50NjRbXQoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMwoJZXh0cmFjdCAyIDAKCgkvLyBib3hJbmRleDogdWludDE2Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAyCglkdXAKCWxlbgoJaW50YyAyIC8vIDIKCT09CgoJLy8gYXJndW1lbnQgMSAoYm94SW5kZXgpIGZvciBzZXRBcHBXaGl0ZWxpc3QgbXVzdCBiZSBhIHVpbnQxNgoJYXNzZXJ0CglidG9pCgoJLy8gYXJjOiBzdHJpbmcKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWV4dHJhY3QgMiAwCgoJLy8gZXhlY3V0ZSBzZXRBcHBXaGl0ZWxpc3Qoc3RyaW5nLHVpbnQxNix1aW50NjRbXSl2b2lkCgljYWxsc3ViIHNldEFwcFdoaXRlbGlzdAoJaW50YyAwIC8vIDEKCXJldHVybgoKLy8gc2V0QXBwV2hpdGVsaXN0KGFyYzogc3RyaW5nLCBib3hJbmRleDogdWludDE2LCBhcHBJRHM6IHVpbnQ2NFtdKTogdm9pZAovLwovLyBTZXRzIGEgYXBwIHdoaXRlbGlzdCBmb3IgdGhlIHNlbmRlci4gU2hvdWxkIG9ubHkgYmUgdXNlZCB3aGVuIGFkZGluZy9yZW1vdmluZwovLyBtb3JlIHRoYW4gb25lIGFwcAovLwovLyBAcGFyYW0gYm94SW5kZXggLSBUaGUgaW5kZXggb2YgdGhlIHdoaXRlbGlzdCBib3ggdG8gcHV0IHRoZSBhcHAgSURzIGluCi8vIEBwYXJhbSBhcHBJRHMgLSBBcnJheSBvZiBhcHAgSURzIHRoYXQgc2lnbmlmeSB0aGUgd2hpdGVsaXN0ZWQgYXBwcwpzZXRBcHBXaGl0ZWxpc3Q6Cglwcm90byAzIDAKCgkvLyBQdXNoIGVtcHR5IGJ5dGVzIGFmdGVyIHRoZSBmcmFtZSBwb2ludGVyIHRvIHJlc2VydmUgc3BhY2UgZm9yIGxvY2FsIHZhcmlhYmxlcwoJYnl0ZWMgMCAvLyAweAoJZHVwCgoJLy8gZXhhbXBsZXMvYXJjNzUvYXJjNzUuYWxnby50czo1NQoJLy8gcHJlTUJSID0gdGhpcy5hcHAuYWRkcmVzcy5taW5CYWxhbmNlCglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJYWNjdF9wYXJhbXNfZ2V0IEFjY3RNaW5CYWxhbmNlCglwb3AKCWZyYW1lX2J1cnkgMCAvLyBwcmVNQlI6IHVpbnQ2NAoKCS8vIGV4YW1wbGVzL2FyYzc1L2FyYzc1LmFsZ28udHM6NTYKCS8vIHdoaXRlbGlzdDogV2hpdGVsaXN0ID0geyBhY2NvdW50OiB0aGlzLnR4bi5zZW5kZXIsIGJveEluZGV4OiBib3hJbmRleCwgYXJjOiBhcmMgfQoJYnl0ZWMgMCAvLyAgaW5pdGlhbCBoZWFkCglieXRlYyAwIC8vICBpbml0aWFsIHRhaWwKCWJ5dGVjIDEgLy8gIGluaXRpYWwgaGVhZCBvZmZzZXQKCXR4biBTZW5kZXIKCWNhbGxzdWIgKnByb2Nlc3Nfc3RhdGljX3R1cGxlX2VsZW1lbnQKCWZyYW1lX2RpZyAtMiAvLyBib3hJbmRleDogdWludDE2CglpdG9iCglleHRyYWN0IDYgMgoJY2FsbHN1YiAqcHJvY2Vzc19zdGF0aWNfdHVwbGVfZWxlbWVudAoJZnJhbWVfZGlnIC0xIC8vIGFyYzogc3RyaW5nCglkdXAKCWxlbgoJaXRvYgoJZXh0cmFjdCA2IDIKCXN3YXAKCWNvbmNhdAoJY2FsbHN1YiAqcHJvY2Vzc19keW5hbWljX3R1cGxlX2VsZW1lbnQKCXBvcCAvLyBwb3AgaGVhZCBvZmZzZXQKCWNvbmNhdCAvLyBjb25jYXQgaGVhZCBhbmQgdGFpbAoJZnJhbWVfYnVyeSAxIC8vIHdoaXRlbGlzdDogV2hpdGVsaXN0CgoJLy8gZXhhbXBsZXMvYXJjNzUvYXJjNzUuYWxnby50czo1OAoJLy8gdGhpcy53aGl0ZWxpc3Qod2hpdGVsaXN0KS5kZWxldGUoKQoJZnJhbWVfZGlnIDEgLy8gd2hpdGVsaXN0OiBXaGl0ZWxpc3QKCWJveF9kZWwKCgkvLyBleGFtcGxlcy9hcmM3NS9hcmM3NS5hbGdvLnRzOjYwCgkvLyB0aGlzLndoaXRlbGlzdCh3aGl0ZWxpc3QpLnZhbHVlID0gYXBwSURzCglmcmFtZV9kaWcgMSAvLyB3aGl0ZWxpc3Q6IFdoaXRlbGlzdAoJZHVwCglib3hfZGVsCglwb3AKCWZyYW1lX2RpZyAtMyAvLyBhcHBJRHM6IHVpbnQ2NFtdCglkdXAKCWxlbgoJaW50YyAxIC8vIDgKCS8KCWl0b2IKCWV4dHJhY3QgNiAyCglzd2FwCgljb25jYXQKCWJveF9wdXQKCgkvLyAqaWYxX2NvbmRpdGlvbgoJLy8gZXhhbXBsZXMvYXJjNzUvYXJjNzUuYWxnby50czo2MgoJLy8gcHJlTUJSID4gdGhpcy5hcHAuYWRkcmVzcy5taW5CYWxhbmNlCglmcmFtZV9kaWcgMCAvLyBwcmVNQlI6IHVpbnQ2NAoJZ2xvYmFsIEN1cnJlbnRBcHBsaWNhdGlvbkFkZHJlc3MKCWFjY3RfcGFyYW1zX2dldCBBY2N0TWluQmFsYW5jZQoJcG9wCgk+CglieiAqaWYxX2Vsc2UKCgkvLyAqaWYxX2NvbnNlcXVlbnQKCS8vIGV4YW1wbGVzL2FyYzc1L2FyYzc1LmFsZ28udHM6NjMKCS8vIHRoaXMuc2VuZE1CUlBheW1lbnQocHJlTUJSKQoJZnJhbWVfZGlnIDAgLy8gcHJlTUJSOiB1aW50NjQKCWNhbGxzdWIgc2VuZE1CUlBheW1lbnQKCWIgKmlmMV9lbmQKCippZjFfZWxzZToKCS8vIGV4YW1wbGVzL2FyYzc1L2FyYzc1LmFsZ28udHM6NjUKCS8vIHRoaXMudmVyaWZ5TUJSUGF5bWVudCh0aGlzLnR4bkdyb3VwW3RoaXMudHhuLmdyb3VwSW5kZXggLSAxXSBhcyBQYXlUeG4sIHByZU1CUikKCWZyYW1lX2RpZyAwIC8vIHByZU1CUjogdWludDY0Cgl0eG4gR3JvdXBJbmRleAoJaW50YyAwIC8vIDEKCS0KCWR1cAoJZ3R4bnMgVHlwZUVudW0KCWludGMgMCAvLyAgcGF5Cgk9PQoKCS8vIGZhaWxlZCB0byBjYXN0IHRoaXMudHhuR3JvdXBbdGhpcy50eG4uZ3JvdXBJbmRleCAtIDFdIHRvIHBheQoJYXNzZXJ0CgljYWxsc3ViIHZlcmlmeU1CUlBheW1lbnQKCippZjFfZW5kOgoJcmV0c3ViCgovLyBkZWxldGVXaGl0ZWxpc3Qoc3RyaW5nLHVpbnQxNil2b2lkCiphYmlfcm91dGVfZGVsZXRlV2hpdGVsaXN0OgoJLy8gYm94SW5kZXg6IHVpbnQxNgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgoJZHVwCglsZW4KCWludGMgMiAvLyAyCgk9PQoKCS8vIGFyZ3VtZW50IDAgKGJveEluZGV4KSBmb3IgZGVsZXRlV2hpdGVsaXN0IG11c3QgYmUgYSB1aW50MTYKCWFzc2VydAoJYnRvaQoKCS8vIGFyYzogc3RyaW5nCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglleHRyYWN0IDIgMAoKCS8vIGV4ZWN1dGUgZGVsZXRlV2hpdGVsaXN0KHN0cmluZyx1aW50MTYpdm9pZAoJY2FsbHN1YiBkZWxldGVXaGl0ZWxpc3QKCWludGMgMCAvLyAxCglyZXR1cm4KCi8vIGRlbGV0ZVdoaXRlbGlzdChhcmM6IHN0cmluZywgYm94SW5kZXg6IHVpbnQxNik6IHZvaWQKLy8KLy8gRGVsZXRlcyBhIGFwcCB3aGl0ZWxpc3QgZm9yIHRoZSBzZW5kZXIKLy8KLy8gQHBhcmFtIGFyYyAtIFRoZSBBUkMgdGhlIHdoaXRlbGlzdCBjb3JyZXNwb25kcyB0bwovLyBAcGFyYW0gYm94SW5kZXggLSBUaGUgaW5kZXggb2YgdGhlIHdoaXRlbGlzdCBib3ggdG8gZGVsZXRlCmRlbGV0ZVdoaXRlbGlzdDoKCXByb3RvIDIgMAoKCS8vIFB1c2ggZW1wdHkgYnl0ZXMgYWZ0ZXIgdGhlIGZyYW1lIHBvaW50ZXIgdG8gcmVzZXJ2ZSBzcGFjZSBmb3IgbG9jYWwgdmFyaWFibGVzCglieXRlYyAwIC8vIDB4CglkdXAKCgkvLyBleGFtcGxlcy9hcmM3NS9hcmM3NS5hbGdvLnRzOjc3CgkvLyBwcmVNQlIgPSB0aGlzLmFwcC5hZGRyZXNzLm1pbkJhbGFuY2UKCWdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCglhY2N0X3BhcmFtc19nZXQgQWNjdE1pbkJhbGFuY2UKCXBvcAoJZnJhbWVfYnVyeSAwIC8vIHByZU1CUjogdWludDY0CgoJLy8gZXhhbXBsZXMvYXJjNzUvYXJjNzUuYWxnby50czo3OAoJLy8gd2hpdGVsaXN0OiBXaGl0ZWxpc3QgPSB7IGFjY291bnQ6IHRoaXMudHhuLnNlbmRlciwgYm94SW5kZXg6IGJveEluZGV4LCBhcmM6IGFyYyB9CglieXRlYyAwIC8vICBpbml0aWFsIGhlYWQKCWJ5dGVjIDAgLy8gIGluaXRpYWwgdGFpbAoJYnl0ZWMgMSAvLyAgaW5pdGlhbCBoZWFkIG9mZnNldAoJdHhuIFNlbmRlcgoJY2FsbHN1YiAqcHJvY2Vzc19zdGF0aWNfdHVwbGVfZWxlbWVudAoJZnJhbWVfZGlnIC0yIC8vIGJveEluZGV4OiB1aW50MTYKCWl0b2IKCWV4dHJhY3QgNiAyCgljYWxsc3ViICpwcm9jZXNzX3N0YXRpY190dXBsZV9lbGVtZW50CglmcmFtZV9kaWcgLTEgLy8gYXJjOiBzdHJpbmcKCWR1cAoJbGVuCglpdG9iCglleHRyYWN0IDYgMgoJc3dhcAoJY29uY2F0CgljYWxsc3ViICpwcm9jZXNzX2R5bmFtaWNfdHVwbGVfZWxlbWVudAoJcG9wIC8vIHBvcCBoZWFkIG9mZnNldAoJY29uY2F0IC8vIGNvbmNhdCBoZWFkIGFuZCB0YWlsCglmcmFtZV9idXJ5IDEgLy8gd2hpdGVsaXN0OiBXaGl0ZWxpc3QKCgkvLyBleGFtcGxlcy9hcmM3NS9hcmM3NS5hbGdvLnRzOjgwCgkvLyB0aGlzLndoaXRlbGlzdCh3aGl0ZWxpc3QpLmRlbGV0ZSgpCglmcmFtZV9kaWcgMSAvLyB3aGl0ZWxpc3Q6IFdoaXRlbGlzdAoJYm94X2RlbAoKCS8vIGV4YW1wbGVzL2FyYzc1L2FyYzc1LmFsZ28udHM6ODIKCS8vIHRoaXMuc2VuZE1CUlBheW1lbnQocHJlTUJSKQoJZnJhbWVfZGlnIDAgLy8gcHJlTUJSOiB1aW50NjQKCWNhbGxzdWIgc2VuZE1CUlBheW1lbnQKCXJldHN1YgoKLy8gZGVsZXRlQXBwRnJvbVdoaXRlbGlzdChzdHJpbmcsdWludDE2LHVpbnQ2NCx1aW50NjQpdm9pZAoqYWJpX3JvdXRlX2RlbGV0ZUFwcEZyb21XaGl0ZWxpc3Q6CgkvLyBpbmRleDogdWludDY0Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyA0CglidG9pCgoJLy8gYXBwSUQ6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMwoJYnRvaQoKCS8vIGJveEluZGV4OiB1aW50MTYKCXR4bmEgQXBwbGljYXRpb25BcmdzIDIKCWR1cAoJbGVuCglpbnRjIDIgLy8gMgoJPT0KCgkvLyBhcmd1bWVudCAyIChib3hJbmRleCkgZm9yIGRlbGV0ZUFwcEZyb21XaGl0ZWxpc3QgbXVzdCBiZSBhIHVpbnQxNgoJYXNzZXJ0CglidG9pCgoJLy8gYXJjOiBzdHJpbmcKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWV4dHJhY3QgMiAwCgoJLy8gZXhlY3V0ZSBkZWxldGVBcHBGcm9tV2hpdGVsaXN0KHN0cmluZyx1aW50MTYsdWludDY0LHVpbnQ2NCl2b2lkCgljYWxsc3ViIGRlbGV0ZUFwcEZyb21XaGl0ZWxpc3QKCWludGMgMCAvLyAxCglyZXR1cm4KCi8vIGRlbGV0ZUFwcEZyb21XaGl0ZWxpc3QoYXJjOiBzdHJpbmcsIGJveEluZGV4OiB1aW50MTYsIGFwcElEOiB1aW50NjQsIGluZGV4OiB1aW50NjQpOiB2b2lkCi8vCi8vIERlbGV0ZXMgYSBhcHAgZnJvbSBhIHdoaXRlbGlzdCBmb3IgdGhlIHNlbmRlcgovLwovLyBAcGFyYW0gYm94SW5kZXggLSBUaGUgaW5kZXggb2YgdGhlIHdoaXRlbGlzdCBib3ggdG8gZGVsZXRlIGZyb20KLy8gQHBhcmFtIGFwcElEIC0gVGhlIGFwcCBJRCB0byBkZWxldGUgZnJvbSB0aGUgd2hpdGVsaXN0Ci8vIEBwYXJhbSBpbmRleCAtIFRoZSBpbmRleCBvZiB0aGUgYXBwIGluIHRoZSB3aGl0ZWxpc3QKZGVsZXRlQXBwRnJvbVdoaXRlbGlzdDoKCXByb3RvIDQgMAoKCS8vIFB1c2ggZW1wdHkgYnl0ZXMgYWZ0ZXIgdGhlIGZyYW1lIHBvaW50ZXIgdG8gcmVzZXJ2ZSBzcGFjZSBmb3IgbG9jYWwgdmFyaWFibGVzCglieXRlYyAwIC8vIDB4CglkdXBuIDIKCgkvLyBleGFtcGxlcy9hcmM3NS9hcmM3NS5hbGdvLnRzOjk0CgkvLyBwcmVNQlIgPSB0aGlzLmFwcC5hZGRyZXNzLm1pbkJhbGFuY2UKCWdsb2JhbCBDdXJyZW50QXBwbGljYXRpb25BZGRyZXNzCglhY2N0X3BhcmFtc19nZXQgQWNjdE1pbkJhbGFuY2UKCXBvcAoJZnJhbWVfYnVyeSAwIC8vIHByZU1CUjogdWludDY0CgoJLy8gZXhhbXBsZXMvYXJjNzUvYXJjNzUuYWxnby50czo5NQoJLy8gd2hpdGVsaXN0OiBXaGl0ZWxpc3QgPSB7IGFjY291bnQ6IHRoaXMudHhuLnNlbmRlciwgYm94SW5kZXg6IGJveEluZGV4LCBhcmM6IGFyYyB9CglieXRlYyAwIC8vICBpbml0aWFsIGhlYWQKCWJ5dGVjIDAgLy8gIGluaXRpYWwgdGFpbAoJYnl0ZWMgMSAvLyAgaW5pdGlhbCBoZWFkIG9mZnNldAoJdHhuIFNlbmRlcgoJY2FsbHN1YiAqcHJvY2Vzc19zdGF0aWNfdHVwbGVfZWxlbWVudAoJZnJhbWVfZGlnIC0yIC8vIGJveEluZGV4OiB1aW50MTYKCWl0b2IKCWV4dHJhY3QgNiAyCgljYWxsc3ViICpwcm9jZXNzX3N0YXRpY190dXBsZV9lbGVtZW50CglmcmFtZV9kaWcgLTEgLy8gYXJjOiBzdHJpbmcKCWR1cAoJbGVuCglpdG9iCglleHRyYWN0IDYgMgoJc3dhcAoJY29uY2F0CgljYWxsc3ViICpwcm9jZXNzX2R5bmFtaWNfdHVwbGVfZWxlbWVudAoJcG9wIC8vIHBvcCBoZWFkIG9mZnNldAoJY29uY2F0IC8vIGNvbmNhdCBoZWFkIGFuZCB0YWlsCglmcmFtZV9idXJ5IDEgLy8gd2hpdGVsaXN0OiBXaGl0ZWxpc3QKCgkvLyBleGFtcGxlcy9hcmM3NS9hcmM3NS5hbGdvLnRzOjk3CgkvLyBzcGxpY2VkID0gdGhpcy53aGl0ZWxpc3Qod2hpdGVsaXN0KS52YWx1ZS5zcGxpY2UoaW5kZXgsIDEpCglmcmFtZV9kaWcgMSAvLyB3aGl0ZWxpc3Q6IFdoaXRlbGlzdAoJYm94X2dldAoKCS8vIGJveCB2YWx1ZSBkb2VzIG5vdCBleGlzdDogdGhpcy53aGl0ZWxpc3Qod2hpdGVsaXN0KS52YWx1ZQoJYXNzZXJ0CglleHRyYWN0IDIgMAoJaW50YyAwIC8vIDEKCWZyYW1lX2RpZyAtNCAvLyBpbmRleDogdWludDY0CglpbnRjIDEgLy8gOAoJKgoJc3RvcmUgMjQ3IC8vIHNwbGljZSBzdGFydAoJcHVzaGludCAxNgoJc3RvcmUgMjQ2IC8vIHNwbGljZSBieXRlIGxlbmd0aAoJZnJhbWVfZGlnIDEgLy8gd2hpdGVsaXN0OiBXaGl0ZWxpc3QKCWJveF9nZXQKCgkvLyBib3ggdmFsdWUgZG9lcyBub3QgZXhpc3Q6IHRoaXMud2hpdGVsaXN0KHdoaXRlbGlzdCkudmFsdWUKCWFzc2VydAoJZXh0cmFjdCAyIDAKCWludGMgMyAvLyAwCglsb2FkIDI0NyAvLyBzcGxpY2Ugc3RhcnQKCXN1YnN0cmluZzMKCWZyYW1lX2RpZyAxIC8vIHdoaXRlbGlzdDogV2hpdGVsaXN0Cglib3hfZ2V0CgoJLy8gYm94IHZhbHVlIGRvZXMgbm90IGV4aXN0OiB0aGlzLndoaXRlbGlzdCh3aGl0ZWxpc3QpLnZhbHVlCglhc3NlcnQKCWV4dHJhY3QgMiAwCglkdXAKCWxlbgoJbG9hZCAyNDcgLy8gc3BsaWNlIHN0YXJ0Cglsb2FkIDI0NiAvLyBzcGxpY2UgYnl0ZSBsZW5ndGgKCSsKCWludGMgMSAvLyA4CgktCglzd2FwCglzdWJzdHJpbmczCgljb25jYXQKCWZyYW1lX2RpZyAxIC8vIHdoaXRlbGlzdDogV2hpdGVsaXN0Cglib3hfZ2V0CgoJLy8gYm94IHZhbHVlIGRvZXMgbm90IGV4aXN0OiB0aGlzLndoaXRlbGlzdCh3aGl0ZWxpc3QpLnZhbHVlCglhc3NlcnQKCWV4dHJhY3QgMiAwCglsb2FkIDI0NyAvLyBzcGxpY2Ugc3RhcnQKCWxvYWQgMjQ2IC8vIHNwbGljZSBieXRlIGxlbmd0aAoJaW50YyAxIC8vIDgKCS0KCWV4dHJhY3QzCglzd2FwCglmcmFtZV9kaWcgMSAvLyB3aGl0ZWxpc3Q6IFdoaXRlbGlzdAoJZHVwCglib3hfZGVsCglwb3AKCXN3YXAKCWR1cAoJbGVuCglpbnRjIDEgLy8gOAoJLwoJaXRvYgoJZXh0cmFjdCA2IDIKCXN3YXAKCWNvbmNhdAoJYm94X3B1dAoJZnJhbWVfYnVyeSAyIC8vIHNwbGljZWQ6IHVpbnQ2NFtdCgoJLy8gZXhhbXBsZXMvYXJjNzUvYXJjNzUuYWxnby50czo5OQoJLy8gYXNzZXJ0KHNwbGljZWRbMF0gPT09IGFwcElEKQoJZnJhbWVfZGlnIDIgLy8gc3BsaWNlZDogdWludDY0W10KCXN0b3JlIDI1NSAvLyBmdWxsIGFycmF5Cglsb2FkIDI1NSAvLyBmdWxsIGFycmF5CglleHRyYWN0IDAgOAoJYnRvaQoJZnJhbWVfZGlnIC0zIC8vIGFwcElEOiB1aW50NjQKCT09Cglhc3NlcnQKCgkvLyBleGFtcGxlcy9hcmM3NS9hcmM3NS5hbGdvLnRzOjEwMQoJLy8gdGhpcy5zZW5kTUJSUGF5bWVudChwcmVNQlIpCglmcmFtZV9kaWcgMCAvLyBwcmVNQlI6IHVpbnQ2NAoJY2FsbHN1YiBzZW5kTUJSUGF5bWVudAoJcmV0c3ViCgoqYWJpX3JvdXRlX2NyZWF0ZUFwcGxpY2F0aW9uOgoJaW50YyAwIC8vIDEKCXJldHVybgoKKmNyZWF0ZV9Ob09wOgoJcHVzaGJ5dGVzIDB4Yjg0NDdiMzYgLy8gbWV0aG9kICJjcmVhdGVBcHBsaWNhdGlvbigpdm9pZCIKCXR4bmEgQXBwbGljYXRpb25BcmdzIDAKCW1hdGNoICphYmlfcm91dGVfY3JlYXRlQXBwbGljYXRpb24KCgkvLyB0aGlzIGNvbnRyYWN0IGRvZXMgbm90IGltcGxlbWVudCB0aGUgZ2l2ZW4gQUJJIG1ldGhvZCBmb3IgY3JlYXRlIE5vT3AKCWVycgoKKmNhbGxfTm9PcDoKCXB1c2hieXRlcyAweDQ2N2M3Y2JkIC8vIG1ldGhvZCAiYWRkQXBwVG9XaGl0ZUxpc3Qoc3RyaW5nLHVpbnQxNix1aW50NjQscGF5KXZvaWQiCglwdXNoYnl0ZXMgMHhkMTk4ZmNiOCAvLyBtZXRob2QgInNldEFwcFdoaXRlbGlzdChzdHJpbmcsdWludDE2LHVpbnQ2NFtdKXZvaWQiCglwdXNoYnl0ZXMgMHg3YzMzZTgzMiAvLyBtZXRob2QgImRlbGV0ZVdoaXRlbGlzdChzdHJpbmcsdWludDE2KXZvaWQiCglwdXNoYnl0ZXMgMHg3ZTE2NzRhYyAvLyBtZXRob2QgImRlbGV0ZUFwcEZyb21XaGl0ZWxpc3Qoc3RyaW5nLHVpbnQxNix1aW50NjQsdWludDY0KXZvaWQiCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAwCgltYXRjaCAqYWJpX3JvdXRlX2FkZEFwcFRvV2hpdGVMaXN0ICphYmlfcm91dGVfc2V0QXBwV2hpdGVsaXN0ICphYmlfcm91dGVfZGVsZXRlV2hpdGVsaXN0ICphYmlfcm91dGVfZGVsZXRlQXBwRnJvbVdoaXRlbGlzdAoKCS8vIHRoaXMgY29udHJhY3QgZG9lcyBub3QgaW1wbGVtZW50IHRoZSBnaXZlbiBBQkkgbWV0aG9kIGZvciBjYWxsIE5vT3AKCWVycgoKKnByb2Nlc3Nfc3RhdGljX3R1cGxlX2VsZW1lbnQ6Cglwcm90byA0IDMKCWZyYW1lX2RpZyAtNCAvLyB0dXBsZSBoZWFkCglmcmFtZV9kaWcgLTEgLy8gZWxlbWVudAoJY29uY2F0CglmcmFtZV9kaWcgLTMgLy8gdHVwbGUgdGFpbAoJZnJhbWVfZGlnIC0yIC8vIGhlYWQgb2Zmc2V0CglyZXRzdWIKCipwcm9jZXNzX2R5bmFtaWNfdHVwbGVfZWxlbWVudDoKCXByb3RvIDQgMwoJZnJhbWVfZGlnIC00IC8vIHR1cGxlIGhlYWQKCWZyYW1lX2RpZyAtMiAvLyBoZWFkIG9mZnNldAoJY29uY2F0CglmcmFtZV9idXJ5IC00IC8vIHR1cGxlIGhlYWQKCWZyYW1lX2RpZyAtMSAvLyBlbGVtZW50CglkdXAKCWxlbgoJZnJhbWVfZGlnIC0yIC8vIGhlYWQgb2Zmc2V0CglidG9pCgkrCglpdG9iCglleHRyYWN0IDYgMgoJZnJhbWVfYnVyeSAtMiAvLyBoZWFkIG9mZnNldAoJZnJhbWVfZGlnIC0zIC8vIHR1cGxlIHRhaWwKCXN3YXAKCWNvbmNhdAoJZnJhbWVfYnVyeSAtMyAvLyB0dXBsZSB0YWlsCglmcmFtZV9kaWcgLTQgLy8gdHVwbGUgaGVhZAoJZnJhbWVfZGlnIC0zIC8vIHR1cGxlIHRhaWwKCWZyYW1lX2RpZyAtMiAvLyBoZWFkIG9mZnNldAoJcmV0c3Vi",
+    "clear": "I3ByYWdtYSB2ZXJzaW9uIDEw"
+  },
+  "byteCode": {
+    "approval": "CiAEAQgCACYCAAIAJDEYFIEGCzEZCI0MAlgAAAAAAAAAAAAAAkoAAAAAAAAAAAAAAIoCAIv/OAcyChJEi/84CDIKcwFIi/4JEkSJigEAsSKyEDEAsgeL/zIKcwFICbIIJbIBs4kxFiIJSTgQIhJENhoDFzYaAkkVJBJEFzYaAVcCAIgAAiJDigQAKEcCMgpzAUiMACgoKTEAiAISi/4WVwYCiAIJi/9JFRZXBgJMUIgCCUhQjAGLAb1MSEEAH4sBvkRXAgCL/RZQiwFJvEhMSRUjChZXBgJMUL9CABeL/RaMAosBSbxIiwJJFSMKFlcGAkxQv4sAi/yI/zaJNhoDVwIANhoCSRUkEkQXNhoBVwIAiAACIkOKAwAoSTIKcwFIjAAoKCkxAIgBhIv+FlcGAogBe4v/SRUWVwYCTFCIAXtIUIwBiwG8iwFJvEiL/UkVIwoWVwYCTFC/iwAyCnMBSA1BAAiLAIj+4kIAD4sAMRYiCUk4ECISRIj+tok2GgJJFSQSRBc2GgFXAgCIAAIiQ4oCAChJMgpzAUiMACgoKTEAiAEKi/4WVwYCiAEBi/9JFRZXBgJMUIgBAUhQjAGLAbyLAIj+hYk2GgQXNhoDFzYaAkkVJBJEFzYaAVcCAIgAAiJDigQAKEcCMgpzAUiMACgoKTEAiAC2i/4WVwYCiACti/9JFRZXBgJMUIgArUhQjAGLAb5EVwIAIov8Iws194EQNfaLAb5EVwIAJTT3UosBvkRXAgBJFTT3NPYIIwlMUlCLAb5EVwIANPc09iMJWEyLAUm8SExJFSMKFlcGAkxQv4wCiwI1/zT/VwAIF4v9EkSLAIj91IkiQ4AEuER7NjYaAI4B//EAgARGfHy9gATRmPy4gAR8M+gygAR+FnSsNhoAjgT9uP5P/s//GgCKBAOL/Iv/UIv9i/6JigQDi/yL/lCM/Iv/SRWL/hcIFlcGAoz+i/1MUIz9i/yL/Yv+iQ==",
+    "clear": "Cg=="
+  },
+  "compilerInfo": {
+    "compiler": "algod",
+    "compilerVersion": {
+      "major": 3,
+      "minor": 26,
+      "patch": 0,
+      "commitHash": "0d10b244"
+    }
+  }
+}

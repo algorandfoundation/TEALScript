@@ -88,7 +88,7 @@ export function artifactsTest(
 
       test('Generates ARC56', () => {
         expect(compiler.arc56Description()).toEqual(
-          JSON.parse(fs.readFileSync(`${artifactsPath}/${className}.arc56_draft.json`, 'utf-8'))
+          JSON.parse(fs.readFileSync(`${artifactsPath}/${className}.arc56.json`, 'utf-8'))
         );
       });
     }

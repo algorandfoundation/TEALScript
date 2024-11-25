@@ -1,0 +1,2013 @@
+{
+  "name": "BigBox",
+  "desc": "",
+  "methods": [
+    {
+      "name": "startUpload",
+      "desc": "Allocate boxes to begin data upload process",
+      "args": [
+        {
+          "name": "dataIdentifier",
+          "type": "string",
+          "desc": "The unique identifier for the data"
+        },
+        {
+          "name": "numBoxes",
+          "type": "uint64",
+          "desc": "The number of boxes that the data will take up"
+        },
+        {
+          "name": "endBoxSize",
+          "type": "uint64",
+          "desc": "The size of the last box"
+        },
+        {
+          "name": "mbrPayment",
+          "type": "pay",
+          "desc": "Payment from the uploader to cover the box MBR"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      },
+      "actions": {
+        "create": [],
+        "call": [
+          "NoOp"
+        ]
+      }
+    },
+    {
+      "name": "upload",
+      "desc": "Upload data to a specific offset in a box",
+      "args": [
+        {
+          "name": "dataIdentifier",
+          "type": "string",
+          "desc": "The unique identifier for the data"
+        },
+        {
+          "name": "boxIndex",
+          "type": "uint64",
+          "desc": "The index of the box to upload the given chunk of data to"
+        },
+        {
+          "name": "offset",
+          "type": "uint64",
+          "desc": "The offset within the box to start writing the data"
+        },
+        {
+          "name": "data",
+          "type": "byte[]",
+          "desc": "The data to write"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      },
+      "actions": {
+        "create": [],
+        "call": [
+          "NoOp"
+        ]
+      }
+    },
+    {
+      "name": "setStatus",
+      "desc": "Set the status of the data",
+      "args": [
+        {
+          "name": "dataIdentifier",
+          "type": "string",
+          "desc": "The unique identifier for the data"
+        },
+        {
+          "name": "status",
+          "type": "uint8",
+          "desc": "The new status for the data"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      },
+      "actions": {
+        "create": [],
+        "call": [
+          "NoOp"
+        ]
+      }
+    },
+    {
+      "name": "createApplication",
+      "args": [],
+      "returns": {
+        "type": "void"
+      },
+      "actions": {
+        "create": [
+          "NoOp"
+        ],
+        "call": []
+      }
+    }
+  ],
+  "arcs": [
+    4,
+    56
+  ],
+  "structs": {
+    "Metadata": [
+      {
+        "name": "start",
+        "type": "uint64"
+      },
+      {
+        "name": "end",
+        "type": "uint64"
+      },
+      {
+        "name": "status",
+        "type": "uint8"
+      },
+      {
+        "name": "endSize",
+        "type": "uint64"
+      }
+    ]
+  },
+  "state": {
+    "schema": {
+      "global": {
+        "bytes": 0,
+        "ints": 1
+      },
+      "local": {
+        "bytes": 0,
+        "ints": 0
+      }
+    },
+    "keys": {
+      "global": {
+        "currentIndex": {
+          "key": "Y3VycmVudEluZGV4",
+          "keyType": "AVMBytes",
+          "valueType": "uint64"
+        }
+      },
+      "local": {},
+      "box": {}
+    },
+    "maps": {
+      "global": {},
+      "local": {},
+      "box": {
+        "dataBoxes": {
+          "keyType": "uint64",
+          "valueType": "AVMBytes"
+        },
+        "metadata": {
+          "keyType": "AVMBytes",
+          "valueType": "Metadata"
+        }
+      }
+    }
+  },
+  "bareActions": {
+    "create": [],
+    "call": []
+  },
+  "sourceInfo": {
+    "approval": {
+      "sourceInfo": [
+        {
+          "teal": 1,
+          "source": "examples/big_box/big_box.algo.ts:20",
+          "pc": [
+            0
+          ]
+        },
+        {
+          "teal": 2,
+          "source": "examples/big_box/big_box.algo.ts:20",
+          "pc": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12
+          ]
+        },
+        {
+          "teal": 3,
+          "source": "examples/big_box/big_box.algo.ts:20",
+          "pc": [
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28
+          ]
+        },
+        {
+          "teal": 15,
+          "source": "examples/big_box/big_box.algo.ts:20",
+          "pc": [
+            29,
+            30
+          ]
+        },
+        {
+          "teal": 16,
+          "source": "examples/big_box/big_box.algo.ts:20",
+          "pc": [
+            31
+          ]
+        },
+        {
+          "teal": 17,
+          "source": "examples/big_box/big_box.algo.ts:20",
+          "pc": [
+            32,
+            33
+          ]
+        },
+        {
+          "teal": 18,
+          "source": "examples/big_box/big_box.algo.ts:20",
+          "pc": [
+            34
+          ]
+        },
+        {
+          "teal": 19,
+          "source": "examples/big_box/big_box.algo.ts:20",
+          "pc": [
+            35,
+            36
+          ]
+        },
+        {
+          "teal": 20,
+          "source": "examples/big_box/big_box.algo.ts:20",
+          "pc": [
+            37
+          ]
+        },
+        {
+          "teal": 21,
+          "source": "examples/big_box/big_box.algo.ts:20",
+          "pc": [
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57,
+            58,
+            59,
+            60,
+            61,
+            62,
+            63
+          ]
+        },
+        {
+          "teal": 25,
+          "source": "examples/big_box/big_box.algo.ts:20",
+          "errorMessage": "The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?",
+          "pc": [
+            64
+          ]
+        },
+        {
+          "teal": 30,
+          "source": "examples/big_box/big_box.algo.ts:40",
+          "pc": [
+            65,
+            66
+          ]
+        },
+        {
+          "teal": 31,
+          "source": "examples/big_box/big_box.algo.ts:40",
+          "pc": [
+            67
+          ]
+        },
+        {
+          "teal": 32,
+          "source": "examples/big_box/big_box.algo.ts:40",
+          "pc": [
+            68
+          ]
+        },
+        {
+          "teal": 33,
+          "source": "examples/big_box/big_box.algo.ts:40",
+          "pc": [
+            69
+          ]
+        },
+        {
+          "teal": 34,
+          "source": "examples/big_box/big_box.algo.ts:40",
+          "pc": [
+            70,
+            71
+          ]
+        },
+        {
+          "teal": 35,
+          "source": "examples/big_box/big_box.algo.ts:40",
+          "pc": [
+            72
+          ]
+        },
+        {
+          "teal": 36,
+          "source": "examples/big_box/big_box.algo.ts:40",
+          "pc": [
+            73
+          ]
+        },
+        {
+          "teal": 39,
+          "source": "examples/big_box/big_box.algo.ts:40",
+          "errorMessage": "argument 0 (mbrPayment) for startUpload must be a pay transaction",
+          "pc": [
+            74
+          ]
+        },
+        {
+          "teal": 42,
+          "source": "examples/big_box/big_box.algo.ts:40",
+          "pc": [
+            75,
+            76,
+            77
+          ]
+        },
+        {
+          "teal": 43,
+          "source": "examples/big_box/big_box.algo.ts:40",
+          "pc": [
+            78
+          ]
+        },
+        {
+          "teal": 46,
+          "source": "examples/big_box/big_box.algo.ts:40",
+          "pc": [
+            79,
+            80,
+            81
+          ]
+        },
+        {
+          "teal": 47,
+          "source": "examples/big_box/big_box.algo.ts:40",
+          "pc": [
+            82
+          ]
+        },
+        {
+          "teal": 50,
+          "source": "examples/big_box/big_box.algo.ts:40",
+          "pc": [
+            83,
+            84,
+            85
+          ]
+        },
+        {
+          "teal": 51,
+          "source": "examples/big_box/big_box.algo.ts:40",
+          "pc": [
+            86,
+            87,
+            88
+          ]
+        },
+        {
+          "teal": 54,
+          "source": "examples/big_box/big_box.algo.ts:40",
+          "pc": [
+            89,
+            90,
+            91
+          ]
+        },
+        {
+          "teal": 55,
+          "source": "examples/big_box/big_box.algo.ts:40",
+          "pc": [
+            92
+          ]
+        },
+        {
+          "teal": 56,
+          "source": "examples/big_box/big_box.algo.ts:40",
+          "pc": [
+            93
+          ]
+        },
+        {
+          "teal": 68,
+          "source": "examples/big_box/big_box.algo.ts:40",
+          "pc": [
+            94,
+            95,
+            96
+          ]
+        },
+        {
+          "teal": 71,
+          "source": "examples/big_box/big_box.algo.ts:40",
+          "pc": [
+            97
+          ]
+        },
+        {
+          "teal": 72,
+          "source": "examples/big_box/big_box.algo.ts:40",
+          "pc": [
+            98,
+            99
+          ]
+        },
+        {
+          "teal": 76,
+          "source": "examples/big_box/big_box.algo.ts:41",
+          "pc": [
+            100
+          ]
+        },
+        {
+          "teal": 77,
+          "source": "examples/big_box/big_box.algo.ts:41",
+          "pc": [
+            101
+          ]
+        },
+        {
+          "teal": 78,
+          "source": "examples/big_box/big_box.algo.ts:41",
+          "pc": [
+            102,
+            103
+          ]
+        },
+        {
+          "teal": 82,
+          "source": "examples/big_box/big_box.algo.ts:42",
+          "pc": [
+            104,
+            105
+          ]
+        },
+        {
+          "teal": 83,
+          "source": "examples/big_box/big_box.algo.ts:42",
+          "pc": [
+            106,
+            107
+          ]
+        },
+        {
+          "teal": 84,
+          "source": "examples/big_box/big_box.algo.ts:42",
+          "pc": [
+            108
+          ]
+        },
+        {
+          "teal": 85,
+          "source": "examples/big_box/big_box.algo.ts:42",
+          "pc": [
+            109
+          ]
+        },
+        {
+          "teal": 86,
+          "source": "examples/big_box/big_box.algo.ts:42",
+          "pc": [
+            110
+          ]
+        },
+        {
+          "teal": 87,
+          "source": "examples/big_box/big_box.algo.ts:42",
+          "pc": [
+            111,
+            112
+          ]
+        },
+        {
+          "teal": 96,
+          "source": "examples/big_box/big_box.algo.ts:45",
+          "pc": [
+            113,
+            114
+          ]
+        },
+        {
+          "teal": 97,
+          "source": "examples/big_box/big_box.algo.ts:45",
+          "pc": [
+            115
+          ]
+        },
+        {
+          "teal": 98,
+          "source": "examples/big_box/big_box.algo.ts:46",
+          "pc": [
+            116,
+            117
+          ]
+        },
+        {
+          "teal": 99,
+          "source": "examples/big_box/big_box.algo.ts:46",
+          "pc": [
+            118
+          ]
+        },
+        {
+          "teal": 100,
+          "source": "examples/big_box/big_box.algo.ts:46",
+          "pc": [
+            119
+          ]
+        },
+        {
+          "teal": 101,
+          "source": "examples/big_box/big_box.algo.ts:47",
+          "pc": [
+            120,
+            121,
+            122
+          ]
+        },
+        {
+          "teal": 102,
+          "source": "examples/big_box/big_box.algo.ts:47",
+          "pc": [
+            123
+          ]
+        },
+        {
+          "teal": 103,
+          "source": "examples/big_box/big_box.algo.ts:48",
+          "pc": [
+            124,
+            125
+          ]
+        },
+        {
+          "teal": 104,
+          "source": "examples/big_box/big_box.algo.ts:48",
+          "pc": [
+            126
+          ]
+        },
+        {
+          "teal": 105,
+          "source": "examples/big_box/big_box.algo.ts:48",
+          "pc": [
+            127
+          ]
+        },
+        {
+          "teal": 106,
+          "source": "examples/big_box/big_box.algo.ts:44",
+          "pc": [
+            128,
+            129
+          ]
+        },
+        {
+          "teal": 110,
+          "source": "examples/big_box/big_box.algo.ts:51",
+          "pc": [
+            130,
+            131
+          ]
+        },
+        {
+          "teal": 111,
+          "source": "examples/big_box/big_box.algo.ts:51",
+          "pc": [
+            132
+          ]
+        },
+        {
+          "teal": 112,
+          "source": "examples/big_box/big_box.algo.ts:51",
+          "pc": [
+            133
+          ]
+        },
+        {
+          "teal": 113,
+          "source": "examples/big_box/big_box.algo.ts:51",
+          "pc": [
+            134
+          ]
+        },
+        {
+          "teal": 114,
+          "source": "examples/big_box/big_box.algo.ts:51",
+          "pc": [
+            135
+          ]
+        },
+        {
+          "teal": 115,
+          "source": "examples/big_box/big_box.algo.ts:51",
+          "pc": [
+            136
+          ]
+        },
+        {
+          "teal": 119,
+          "source": "examples/big_box/big_box.algo.ts:53",
+          "pc": [
+            137,
+            138
+          ]
+        },
+        {
+          "teal": 120,
+          "source": "examples/big_box/big_box.algo.ts:53",
+          "pc": [
+            139,
+            140
+          ]
+        },
+        {
+          "teal": 121,
+          "source": "examples/big_box/big_box.algo.ts:53",
+          "pc": [
+            141
+          ]
+        },
+        {
+          "teal": 125,
+          "source": "examples/big_box/big_box.algo.ts:55",
+          "pc": [
+            142
+          ]
+        },
+        {
+          "teal": 126,
+          "source": "examples/big_box/big_box.algo.ts:55",
+          "pc": [
+            143,
+            144
+          ]
+        },
+        {
+          "teal": 127,
+          "source": "examples/big_box/big_box.algo.ts:55",
+          "pc": [
+            145
+          ]
+        },
+        {
+          "teal": 128,
+          "source": "examples/big_box/big_box.algo.ts:55",
+          "pc": [
+            146
+          ]
+        },
+        {
+          "teal": 129,
+          "source": "examples/big_box/big_box.algo.ts:55",
+          "pc": [
+            147
+          ]
+        },
+        {
+          "teal": 137,
+          "source": "examples/big_box/big_box.algo.ts:58",
+          "pc": [
+            148,
+            149
+          ]
+        },
+        {
+          "teal": 138,
+          "source": "examples/big_box/big_box.algo.ts:58",
+          "pc": [
+            150,
+            151,
+            152
+          ]
+        },
+        {
+          "teal": 139,
+          "source": "examples/big_box/big_box.algo.ts:58",
+          "pc": [
+            153
+          ]
+        },
+        {
+          "teal": 140,
+          "source": "examples/big_box/big_box.algo.ts:59",
+          "pc": [
+            154,
+            155
+          ]
+        },
+        {
+          "teal": 141,
+          "source": "examples/big_box/big_box.algo.ts:59",
+          "pc": [
+            156
+          ]
+        },
+        {
+          "teal": 142,
+          "source": "examples/big_box/big_box.algo.ts:59",
+          "pc": [
+            157
+          ]
+        },
+        {
+          "teal": 143,
+          "source": "examples/big_box/big_box.algo.ts:59",
+          "pc": [
+            158,
+            159
+          ]
+        },
+        {
+          "teal": 144,
+          "source": "examples/big_box/big_box.algo.ts:59",
+          "pc": [
+            160
+          ]
+        },
+        {
+          "teal": 145,
+          "source": "examples/big_box/big_box.algo.ts:59",
+          "pc": [
+            161
+          ]
+        },
+        {
+          "teal": 146,
+          "source": "examples/big_box/big_box.algo.ts:59",
+          "pc": [
+            162
+          ]
+        },
+        {
+          "teal": 147,
+          "source": "examples/big_box/big_box.algo.ts:58",
+          "pc": [
+            163
+          ]
+        },
+        {
+          "teal": 148,
+          "source": "examples/big_box/big_box.algo.ts:60",
+          "pc": [
+            164,
+            165
+          ]
+        },
+        {
+          "teal": 149,
+          "source": "examples/big_box/big_box.algo.ts:60",
+          "pc": [
+            166,
+            167
+          ]
+        },
+        {
+          "teal": 150,
+          "source": "examples/big_box/big_box.algo.ts:60",
+          "pc": [
+            168
+          ]
+        },
+        {
+          "teal": 151,
+          "source": "examples/big_box/big_box.algo.ts:60",
+          "pc": [
+            169
+          ]
+        },
+        {
+          "teal": 152,
+          "source": "examples/big_box/big_box.algo.ts:60",
+          "pc": [
+            170
+          ]
+        },
+        {
+          "teal": 153,
+          "source": "examples/big_box/big_box.algo.ts:59",
+          "pc": [
+            171
+          ]
+        },
+        {
+          "teal": 154,
+          "source": "examples/big_box/big_box.algo.ts:61",
+          "pc": [
+            172,
+            173
+          ]
+        },
+        {
+          "teal": 155,
+          "source": "examples/big_box/big_box.algo.ts:61",
+          "pc": [
+            174
+          ]
+        },
+        {
+          "teal": 156,
+          "source": "examples/big_box/big_box.algo.ts:61",
+          "pc": [
+            175
+          ]
+        },
+        {
+          "teal": 157,
+          "source": "examples/big_box/big_box.algo.ts:60",
+          "pc": [
+            176
+          ]
+        },
+        {
+          "teal": 158,
+          "source": "examples/big_box/big_box.algo.ts:57",
+          "pc": [
+            177,
+            178
+          ]
+        },
+        {
+          "teal": 163,
+          "source": "examples/big_box/big_box.algo.ts:63",
+          "pc": [
+            179,
+            180
+          ]
+        },
+        {
+          "teal": 164,
+          "source": "examples/big_box/big_box.algo.ts:63",
+          "pc": [
+            181,
+            182
+          ]
+        },
+        {
+          "teal": 165,
+          "source": "examples/big_box/big_box.algo.ts:63",
+          "pc": [
+            183,
+            184
+          ]
+        },
+        {
+          "teal": 166,
+          "source": "examples/big_box/big_box.algo.ts:63",
+          "pc": [
+            185
+          ]
+        },
+        {
+          "teal": 169,
+          "source": "examples/big_box/big_box.algo.ts:63",
+          "errorMessage": "transaction verification failed: {\"txn\":\"mbrPayment\",\"field\":\"receiver\",\"expected\":\"this.app.address\"}",
+          "pc": [
+            186
+          ]
+        },
+        {
+          "teal": 172,
+          "source": "examples/big_box/big_box.algo.ts:63",
+          "pc": [
+            187,
+            188
+          ]
+        },
+        {
+          "teal": 173,
+          "source": "examples/big_box/big_box.algo.ts:63",
+          "pc": [
+            189,
+            190
+          ]
+        },
+        {
+          "teal": 174,
+          "source": "examples/big_box/big_box.algo.ts:63",
+          "pc": [
+            191,
+            192
+          ]
+        },
+        {
+          "teal": 175,
+          "source": "examples/big_box/big_box.algo.ts:63",
+          "pc": [
+            193
+          ]
+        },
+        {
+          "teal": 178,
+          "source": "examples/big_box/big_box.algo.ts:63",
+          "errorMessage": "transaction verification failed: {\"txn\":\"mbrPayment\",\"field\":\"amount\",\"expected\":\"totalCost\"}",
+          "pc": [
+            194
+          ]
+        },
+        {
+          "teal": 179,
+          "source": "examples/big_box/big_box.algo.ts:40",
+          "pc": [
+            195
+          ]
+        },
+        {
+          "teal": 184,
+          "source": "examples/big_box/big_box.algo.ts:75",
+          "pc": [
+            196,
+            197,
+            198
+          ]
+        },
+        {
+          "teal": 185,
+          "source": "examples/big_box/big_box.algo.ts:75",
+          "pc": [
+            199,
+            200,
+            201
+          ]
+        },
+        {
+          "teal": 188,
+          "source": "examples/big_box/big_box.algo.ts:75",
+          "pc": [
+            202,
+            203,
+            204
+          ]
+        },
+        {
+          "teal": 189,
+          "source": "examples/big_box/big_box.algo.ts:75",
+          "pc": [
+            205
+          ]
+        },
+        {
+          "teal": 192,
+          "source": "examples/big_box/big_box.algo.ts:75",
+          "pc": [
+            206,
+            207,
+            208
+          ]
+        },
+        {
+          "teal": 193,
+          "source": "examples/big_box/big_box.algo.ts:75",
+          "pc": [
+            209
+          ]
+        },
+        {
+          "teal": 196,
+          "source": "examples/big_box/big_box.algo.ts:75",
+          "pc": [
+            210,
+            211,
+            212
+          ]
+        },
+        {
+          "teal": 197,
+          "source": "examples/big_box/big_box.algo.ts:75",
+          "pc": [
+            213,
+            214,
+            215
+          ]
+        },
+        {
+          "teal": 200,
+          "source": "examples/big_box/big_box.algo.ts:75",
+          "pc": [
+            216,
+            217,
+            218
+          ]
+        },
+        {
+          "teal": 201,
+          "source": "examples/big_box/big_box.algo.ts:75",
+          "pc": [
+            219
+          ]
+        },
+        {
+          "teal": 202,
+          "source": "examples/big_box/big_box.algo.ts:75",
+          "pc": [
+            220
+          ]
+        },
+        {
+          "teal": 214,
+          "source": "examples/big_box/big_box.algo.ts:75",
+          "pc": [
+            221,
+            222,
+            223
+          ]
+        },
+        {
+          "teal": 217,
+          "source": "examples/big_box/big_box.algo.ts:75",
+          "pc": [
+            224
+          ]
+        },
+        {
+          "teal": 221,
+          "source": "examples/big_box/big_box.algo.ts:76",
+          "pc": [
+            225,
+            226
+          ]
+        },
+        {
+          "teal": 222,
+          "source": "examples/big_box/big_box.algo.ts:76",
+          "pc": [
+            227,
+            228
+          ]
+        },
+        {
+          "teal": 226,
+          "source": "examples/big_box/big_box.algo.ts:76",
+          "pc": [
+            229,
+            230
+          ]
+        },
+        {
+          "teal": 227,
+          "source": "examples/big_box/big_box.algo.ts:76",
+          "pc": [
+            231,
+            232
+          ]
+        },
+        {
+          "teal": 228,
+          "source": "examples/big_box/big_box.algo.ts:76",
+          "pc": [
+            233
+          ]
+        },
+        {
+          "teal": 229,
+          "source": "examples/big_box/big_box.algo.ts:76",
+          "pc": [
+            234
+          ]
+        },
+        {
+          "teal": 230,
+          "source": "examples/big_box/big_box.algo.ts:77",
+          "pc": [
+            235
+          ]
+        },
+        {
+          "teal": 231,
+          "source": "examples/big_box/big_box.algo.ts:77",
+          "pc": [
+            236
+          ]
+        },
+        {
+          "teal": 232,
+          "source": "examples/big_box/big_box.algo.ts:77",
+          "pc": [
+            237
+          ]
+        },
+        {
+          "teal": 233,
+          "source": "examples/big_box/big_box.algo.ts:77",
+          "pc": [
+            238
+          ]
+        },
+        {
+          "teal": 237,
+          "source": "examples/big_box/big_box.algo.ts:76",
+          "pc": [
+            239,
+            240
+          ]
+        },
+        {
+          "teal": 238,
+          "source": "examples/big_box/big_box.algo.ts:76",
+          "pc": [
+            241
+          ]
+        },
+        {
+          "teal": 239,
+          "source": "examples/big_box/big_box.algo.ts:76",
+          "pc": [
+            242
+          ]
+        },
+        {
+          "teal": 240,
+          "source": "examples/big_box/big_box.algo.ts:76",
+          "pc": [
+            243
+          ]
+        },
+        {
+          "teal": 241,
+          "source": "examples/big_box/big_box.algo.ts:78",
+          "pc": [
+            244
+          ]
+        },
+        {
+          "teal": 242,
+          "source": "examples/big_box/big_box.algo.ts:78",
+          "pc": [
+            245,
+            246
+          ]
+        },
+        {
+          "teal": 243,
+          "source": "examples/big_box/big_box.algo.ts:78",
+          "pc": [
+            247
+          ]
+        },
+        {
+          "teal": 244,
+          "source": "examples/big_box/big_box.algo.ts:78",
+          "pc": [
+            248
+          ]
+        },
+        {
+          "teal": 245,
+          "source": "examples/big_box/big_box.algo.ts:78",
+          "pc": [
+            249,
+            250,
+            251
+          ]
+        },
+        {
+          "teal": 246,
+          "source": "examples/big_box/big_box.algo.ts:78",
+          "pc": [
+            252,
+            253
+          ]
+        },
+        {
+          "teal": 247,
+          "source": "examples/big_box/big_box.algo.ts:76",
+          "pc": [
+            254,
+            255
+          ]
+        },
+        {
+          "teal": 248,
+          "source": "examples/big_box/big_box.algo.ts:76",
+          "pc": [
+            256
+          ]
+        },
+        {
+          "teal": 249,
+          "source": "examples/big_box/big_box.algo.ts:76",
+          "pc": [
+            257
+          ]
+        },
+        {
+          "teal": 250,
+          "source": "examples/big_box/big_box.algo.ts:76",
+          "pc": [
+            258
+          ]
+        },
+        {
+          "teal": 251,
+          "source": "examples/big_box/big_box.algo.ts:78",
+          "pc": [
+            259
+          ]
+        },
+        {
+          "teal": 252,
+          "source": "examples/big_box/big_box.algo.ts:78",
+          "pc": [
+            260
+          ]
+        },
+        {
+          "teal": 253,
+          "source": "examples/big_box/big_box.algo.ts:78",
+          "pc": [
+            261
+          ]
+        },
+        {
+          "teal": 256,
+          "source": "examples/big_box/big_box.algo.ts:78",
+          "pc": [
+            262
+          ]
+        },
+        {
+          "teal": 261,
+          "source": "examples/big_box/big_box.algo.ts:80",
+          "pc": [
+            263,
+            264
+          ]
+        },
+        {
+          "teal": 262,
+          "source": "examples/big_box/big_box.algo.ts:80",
+          "pc": [
+            265
+          ]
+        },
+        {
+          "teal": 263,
+          "source": "examples/big_box/big_box.algo.ts:80",
+          "pc": [
+            266
+          ]
+        },
+        {
+          "teal": 264,
+          "source": "examples/big_box/big_box.algo.ts:80",
+          "pc": [
+            267,
+            268,
+            269
+          ]
+        },
+        {
+          "teal": 269,
+          "source": "examples/big_box/big_box.algo.ts:81",
+          "pc": [
+            270,
+            271
+          ]
+        },
+        {
+          "teal": 270,
+          "source": "examples/big_box/big_box.algo.ts:81",
+          "pc": [
+            272
+          ]
+        },
+        {
+          "teal": 271,
+          "source": "examples/big_box/big_box.algo.ts:81",
+          "pc": [
+            273,
+            274
+          ]
+        },
+        {
+          "teal": 272,
+          "source": "examples/big_box/big_box.algo.ts:76",
+          "pc": [
+            275,
+            276
+          ]
+        },
+        {
+          "teal": 273,
+          "source": "examples/big_box/big_box.algo.ts:76",
+          "pc": [
+            277
+          ]
+        },
+        {
+          "teal": 274,
+          "source": "examples/big_box/big_box.algo.ts:76",
+          "pc": [
+            278
+          ]
+        },
+        {
+          "teal": 275,
+          "source": "examples/big_box/big_box.algo.ts:76",
+          "pc": [
+            279
+          ]
+        },
+        {
+          "teal": 276,
+          "source": "examples/big_box/big_box.algo.ts:81",
+          "pc": [
+            280
+          ]
+        },
+        {
+          "teal": 277,
+          "source": "examples/big_box/big_box.algo.ts:81",
+          "pc": [
+            281
+          ]
+        },
+        {
+          "teal": 278,
+          "source": "examples/big_box/big_box.algo.ts:81",
+          "pc": [
+            282,
+            283,
+            284
+          ]
+        },
+        {
+          "teal": 279,
+          "source": "examples/big_box/big_box.algo.ts:76",
+          "pc": [
+            285,
+            286
+          ]
+        },
+        {
+          "teal": 280,
+          "source": "examples/big_box/big_box.algo.ts:76",
+          "pc": [
+            287,
+            288
+          ]
+        },
+        {
+          "teal": 281,
+          "source": "examples/big_box/big_box.algo.ts:76",
+          "pc": [
+            289
+          ]
+        },
+        {
+          "teal": 282,
+          "source": "examples/big_box/big_box.algo.ts:76",
+          "pc": [
+            290
+          ]
+        },
+        {
+          "teal": 283,
+          "source": "examples/big_box/big_box.algo.ts:81",
+          "pc": [
+            291
+          ]
+        },
+        {
+          "teal": 284,
+          "source": "examples/big_box/big_box.algo.ts:81",
+          "pc": [
+            292,
+            293,
+            294
+          ]
+        },
+        {
+          "teal": 287,
+          "source": "examples/big_box/big_box.algo.ts:81",
+          "pc": [
+            295,
+            296
+          ]
+        },
+        {
+          "teal": 290,
+          "source": "examples/big_box/big_box.algo.ts:81",
+          "pc": [
+            297
+          ]
+        },
+        {
+          "teal": 291,
+          "source": "examples/big_box/big_box.algo.ts:81",
+          "pc": [
+            298
+          ]
+        },
+        {
+          "teal": 296,
+          "source": "examples/big_box/big_box.algo.ts:84",
+          "pc": [
+            299,
+            300
+          ]
+        },
+        {
+          "teal": 297,
+          "source": "examples/big_box/big_box.algo.ts:84",
+          "pc": [
+            301
+          ]
+        },
+        {
+          "teal": 298,
+          "source": "examples/big_box/big_box.algo.ts:84",
+          "pc": [
+            302,
+            303
+          ]
+        },
+        {
+          "teal": 299,
+          "source": "examples/big_box/big_box.algo.ts:84",
+          "pc": [
+            304,
+            305
+          ]
+        },
+        {
+          "teal": 300,
+          "source": "examples/big_box/big_box.algo.ts:84",
+          "pc": [
+            306
+          ]
+        },
+        {
+          "teal": 301,
+          "source": "examples/big_box/big_box.algo.ts:75",
+          "pc": [
+            307
+          ]
+        },
+        {
+          "teal": 306,
+          "source": "examples/big_box/big_box.algo.ts:94",
+          "pc": [
+            308,
+            309,
+            310
+          ]
+        },
+        {
+          "teal": 307,
+          "source": "examples/big_box/big_box.algo.ts:94",
+          "pc": [
+            311
+          ]
+        },
+        {
+          "teal": 308,
+          "source": "examples/big_box/big_box.algo.ts:94",
+          "pc": [
+            312
+          ]
+        },
+        {
+          "teal": 309,
+          "source": "examples/big_box/big_box.algo.ts:94",
+          "pc": [
+            313
+          ]
+        },
+        {
+          "teal": 310,
+          "source": "examples/big_box/big_box.algo.ts:94",
+          "pc": [
+            314
+          ]
+        },
+        {
+          "teal": 313,
+          "source": "examples/big_box/big_box.algo.ts:94",
+          "errorMessage": "argument 0 (status) for setStatus must be a uint8",
+          "pc": [
+            315
+          ]
+        },
+        {
+          "teal": 314,
+          "source": "examples/big_box/big_box.algo.ts:94",
+          "pc": [
+            316
+          ]
+        },
+        {
+          "teal": 317,
+          "source": "examples/big_box/big_box.algo.ts:94",
+          "pc": [
+            317,
+            318,
+            319
+          ]
+        },
+        {
+          "teal": 318,
+          "source": "examples/big_box/big_box.algo.ts:94",
+          "pc": [
+            320,
+            321,
+            322
+          ]
+        },
+        {
+          "teal": 321,
+          "source": "examples/big_box/big_box.algo.ts:94",
+          "pc": [
+            323,
+            324,
+            325
+          ]
+        },
+        {
+          "teal": 322,
+          "source": "examples/big_box/big_box.algo.ts:94",
+          "pc": [
+            326
+          ]
+        },
+        {
+          "teal": 323,
+          "source": "examples/big_box/big_box.algo.ts:94",
+          "pc": [
+            327
+          ]
+        },
+        {
+          "teal": 333,
+          "source": "examples/big_box/big_box.algo.ts:94",
+          "pc": [
+            328,
+            329,
+            330
+          ]
+        },
+        {
+          "teal": 336,
+          "source": "examples/big_box/big_box.algo.ts:94",
+          "pc": [
+            331
+          ]
+        },
+        {
+          "teal": 340,
+          "source": "examples/big_box/big_box.algo.ts:95",
+          "pc": [
+            332,
+            333
+          ]
+        },
+        {
+          "teal": 341,
+          "source": "examples/big_box/big_box.algo.ts:95",
+          "pc": [
+            334,
+            335
+          ]
+        },
+        {
+          "teal": 342,
+          "source": "examples/big_box/big_box.algo.ts:95",
+          "pc": [
+            336
+          ]
+        },
+        {
+          "teal": 343,
+          "source": "examples/big_box/big_box.algo.ts:95",
+          "pc": [
+            337
+          ]
+        },
+        {
+          "teal": 344,
+          "source": "examples/big_box/big_box.algo.ts:95",
+          "pc": [
+            338
+          ]
+        },
+        {
+          "teal": 345,
+          "source": "examples/big_box/big_box.algo.ts:95",
+          "pc": [
+            339,
+            340
+          ]
+        },
+        {
+          "teal": 349,
+          "source": "examples/big_box/big_box.algo.ts:97",
+          "pc": [
+            341,
+            342
+          ]
+        },
+        {
+          "teal": 350,
+          "source": "examples/big_box/big_box.algo.ts:97",
+          "pc": [
+            343
+          ]
+        },
+        {
+          "teal": 351,
+          "source": "examples/big_box/big_box.algo.ts:97",
+          "pc": [
+            344
+          ]
+        },
+        {
+          "teal": 352,
+          "source": "examples/big_box/big_box.algo.ts:97",
+          "pc": [
+            345
+          ]
+        },
+        {
+          "teal": 353,
+          "source": "examples/big_box/big_box.algo.ts:97",
+          "pc": [
+            346,
+            347,
+            348
+          ]
+        },
+        {
+          "teal": 354,
+          "source": "examples/big_box/big_box.algo.ts:97",
+          "pc": [
+            349,
+            350
+          ]
+        },
+        {
+          "teal": 355,
+          "source": "examples/big_box/big_box.algo.ts:97",
+          "pc": [
+            351,
+            352
+          ]
+        },
+        {
+          "teal": 356,
+          "source": "examples/big_box/big_box.algo.ts:97",
+          "pc": [
+            353
+          ]
+        },
+        {
+          "teal": 357,
+          "source": "examples/big_box/big_box.algo.ts:97",
+          "pc": [
+            354
+          ]
+        },
+        {
+          "teal": 360,
+          "source": "examples/big_box/big_box.algo.ts:97",
+          "pc": [
+            355
+          ]
+        },
+        {
+          "teal": 361,
+          "source": "examples/big_box/big_box.algo.ts:97",
+          "pc": [
+            356,
+            357,
+            358
+          ]
+        },
+        {
+          "teal": 362,
+          "source": "examples/big_box/big_box.algo.ts:97",
+          "pc": [
+            359,
+            360
+          ]
+        },
+        {
+          "teal": 363,
+          "source": "examples/big_box/big_box.algo.ts:97",
+          "pc": [
+            361
+          ]
+        },
+        {
+          "teal": 364,
+          "source": "examples/big_box/big_box.algo.ts:97",
+          "pc": [
+            362
+          ]
+        },
+        {
+          "teal": 365,
+          "source": "examples/big_box/big_box.algo.ts:97",
+          "pc": [
+            363
+          ]
+        },
+        {
+          "teal": 368,
+          "source": "examples/big_box/big_box.algo.ts:97",
+          "pc": [
+            364
+          ]
+        },
+        {
+          "teal": 372,
+          "source": "examples/big_box/big_box.algo.ts:98",
+          "pc": [
+            365,
+            366
+          ]
+        },
+        {
+          "teal": 373,
+          "source": "examples/big_box/big_box.algo.ts:98",
+          "pc": [
+            367,
+            368
+          ]
+        },
+        {
+          "teal": 374,
+          "source": "examples/big_box/big_box.algo.ts:98",
+          "pc": [
+            369
+          ]
+        },
+        {
+          "teal": 375,
+          "source": "examples/big_box/big_box.algo.ts:98",
+          "pc": [
+            370
+          ]
+        },
+        {
+          "teal": 379,
+          "source": "examples/big_box/big_box.algo.ts:100",
+          "pc": [
+            371,
+            372
+          ]
+        },
+        {
+          "teal": 380,
+          "source": "examples/big_box/big_box.algo.ts:100",
+          "pc": [
+            373,
+            374
+          ]
+        },
+        {
+          "teal": 381,
+          "source": "examples/big_box/big_box.algo.ts:100",
+          "pc": [
+            375
+          ]
+        },
+        {
+          "teal": 382,
+          "source": "examples/big_box/big_box.algo.ts:100",
+          "pc": [
+            376,
+            377,
+            378
+          ]
+        },
+        {
+          "teal": 383,
+          "source": "examples/big_box/big_box.algo.ts:100",
+          "pc": [
+            379,
+            380
+          ]
+        },
+        {
+          "teal": 384,
+          "source": "examples/big_box/big_box.algo.ts:100",
+          "pc": [
+            381,
+            382
+          ]
+        },
+        {
+          "teal": 385,
+          "source": "examples/big_box/big_box.algo.ts:100",
+          "pc": [
+            383
+          ]
+        },
+        {
+          "teal": 386,
+          "source": "examples/big_box/big_box.algo.ts:94",
+          "pc": [
+            384
+          ]
+        },
+        {
+          "teal": 389,
+          "source": "examples/big_box/big_box.algo.ts:20",
+          "pc": [
+            385
+          ]
+        },
+        {
+          "teal": 390,
+          "source": "examples/big_box/big_box.algo.ts:20",
+          "pc": [
+            386
+          ]
+        },
+        {
+          "teal": 393,
+          "source": "examples/big_box/big_box.algo.ts:20",
+          "pc": [
+            387,
+            388,
+            389,
+            390,
+            391,
+            392
+          ]
+        },
+        {
+          "teal": 394,
+          "source": "examples/big_box/big_box.algo.ts:20",
+          "pc": [
+            393,
+            394,
+            395
+          ]
+        },
+        {
+          "teal": 395,
+          "source": "examples/big_box/big_box.algo.ts:20",
+          "pc": [
+            396,
+            397,
+            398,
+            399
+          ]
+        },
+        {
+          "teal": 398,
+          "source": "examples/big_box/big_box.algo.ts:20",
+          "errorMessage": "this contract does not implement the given ABI method for create NoOp",
+          "pc": [
+            400
+          ]
+        },
+        {
+          "teal": 401,
+          "source": "examples/big_box/big_box.algo.ts:20",
+          "pc": [
+            401,
+            402,
+            403,
+            404,
+            405,
+            406
+          ]
+        },
+        {
+          "teal": 402,
+          "source": "examples/big_box/big_box.algo.ts:20",
+          "pc": [
+            407,
+            408,
+            409,
+            410,
+            411,
+            412
+          ]
+        },
+        {
+          "teal": 403,
+          "source": "examples/big_box/big_box.algo.ts:20",
+          "pc": [
+            413,
+            414,
+            415,
+            416,
+            417,
+            418
+          ]
+        },
+        {
+          "teal": 404,
+          "source": "examples/big_box/big_box.algo.ts:20",
+          "pc": [
+            419,
+            420,
+            421
+          ]
+        },
+        {
+          "teal": 405,
+          "source": "examples/big_box/big_box.algo.ts:20",
+          "pc": [
+            422,
+            423,
+            424,
+            425,
+            426,
+            427,
+            428,
+            429
+          ]
+        },
+        {
+          "teal": 408,
+          "source": "examples/big_box/big_box.algo.ts:20",
+          "errorMessage": "this contract does not implement the given ABI method for call NoOp",
+          "pc": [
+            430
+          ]
+        }
+      ],
+      "pcOffsetMethod": "none"
+    },
+    "clear": {
+      "sourceInfo": [],
+      "pcOffsetMethod": "none"
+    }
+  },
+  "source": {
+    "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCmludGNibG9jayAxIDggMCA0MDAgMTYgMzI3NjggMgpieXRlY2Jsb2NrIDB4IDB4NjM3NTcyNzI2NTZlNzQ0OTZlNjQ2NTc4CgovLyBUaGlzIFRFQUwgd2FzIGdlbmVyYXRlZCBieSBURUFMU2NyaXB0IHYwLjEwNi4wCi8vIGh0dHBzOi8vZ2l0aHViLmNvbS9hbGdvcmFuZGZvdW5kYXRpb24vVEVBTFNjcmlwdAoKLy8gVGhpcyBjb250cmFjdCBpcyBjb21wbGlhbnQgd2l0aCBhbmQvb3IgaW1wbGVtZW50cyB0aGUgZm9sbG93aW5nIEFSQ3M6IFsgQVJDNCBdCgovLyBUaGUgZm9sbG93aW5nIHRlbiBsaW5lcyBvZiBURUFMIGhhbmRsZSBpbml0aWFsIHByb2dyYW0gZmxvdwovLyBUaGlzIHBhdHRlcm4gaXMgdXNlZCB0byBtYWtlIGl0IGVhc3kgZm9yIGFueW9uZSB0byBwYXJzZSB0aGUgc3RhcnQgb2YgdGhlIHByb2dyYW0gYW5kIGRldGVybWluZSBpZiBhIHNwZWNpZmljIGFjdGlvbiBpcyBhbGxvd2VkCi8vIEhlcmUsIGFjdGlvbiByZWZlcnMgdG8gdGhlIE9uQ29tcGxldGUgaW4gY29tYmluYXRpb24gd2l0aCB3aGV0aGVyIHRoZSBhcHAgaXMgYmVpbmcgY3JlYXRlZCBvciBjYWxsZWQKLy8gRXZlcnkgcG9zc2libGUgYWN0aW9uIGZvciB0aGlzIGNvbnRyYWN0IGlzIHJlcHJlc2VudGVkIGluIHRoZSBzd2l0Y2ggc3RhdGVtZW50Ci8vIElmIHRoZSBhY3Rpb24gaXMgbm90IGltcGxlbWVudGVkIGluIHRoZSBjb250cmFjdCwgaXRzIHJlc3BlY3RpdmUgYnJhbmNoIHdpbGwgYmUgIipOT1RfSU1QTEVNRU5URUQiIHdoaWNoIGp1c3QgY29udGFpbnMgImVyciIKdHhuIEFwcGxpY2F0aW9uSUQKIQpwdXNoaW50IDYKKgp0eG4gT25Db21wbGV0aW9uCisKc3dpdGNoICpjYWxsX05vT3AgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpjcmVhdGVfTm9PcCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQKCipOT1RfSU1QTEVNRU5URUQ6CgkvLyBUaGUgcmVxdWVzdGVkIGFjdGlvbiBpcyBub3QgaW1wbGVtZW50ZWQgaW4gdGhpcyBjb250cmFjdC4gQXJlIHlvdSB1c2luZyB0aGUgY29ycmVjdCBPbkNvbXBsZXRlPyBEaWQgeW91IHNldCB5b3VyIGFwcCBJRD8KCWVycgoKLy8gc3RhcnRVcGxvYWQoc3RyaW5nLHVpbnQ2NCx1aW50NjQscGF5KXZvaWQKKmFiaV9yb3V0ZV9zdGFydFVwbG9hZDoKCS8vIG1iclBheW1lbnQ6IHBheQoJdHhuIEdyb3VwSW5kZXgKCWludGMgMCAvLyAxCgktCglkdXAKCWd0eG5zIFR5cGVFbnVtCglpbnRjIDAgLy8gIHBheQoJPT0KCgkvLyBhcmd1bWVudCAwIChtYnJQYXltZW50KSBmb3Igc3RhcnRVcGxvYWQgbXVzdCBiZSBhIHBheSB0cmFuc2FjdGlvbgoJYXNzZXJ0CgoJLy8gZW5kQm94U2l6ZTogdWludDY0Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAzCglidG9pCgoJLy8gbnVtQm94ZXM6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgoJYnRvaQoKCS8vIGRhdGFJZGVudGlmaWVyOiBzdHJpbmcKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWV4dHJhY3QgMiAwCgoJLy8gZXhlY3V0ZSBzdGFydFVwbG9hZChzdHJpbmcsdWludDY0LHVpbnQ2NCxwYXkpdm9pZAoJY2FsbHN1YiBzdGFydFVwbG9hZAoJaW50YyAwIC8vIDEKCXJldHVybgoKLy8gc3RhcnRVcGxvYWQoZGF0YUlkZW50aWZpZXI6IHN0cmluZywgbnVtQm94ZXM6IHVpbnQ2NCwgZW5kQm94U2l6ZTogdWludDY0LCBtYnJQYXltZW50OiBQYXlUeG4pOiB2b2lkCi8vCi8vCi8vIEFsbG9jYXRlIGJveGVzIHRvIGJlZ2luIGRhdGEgdXBsb2FkIHByb2Nlc3MKLy8KLy8gQHBhcmFtIGRhdGFJZGVudGlmaWVyIFRoZSB1bmlxdWUgaWRlbnRpZmllciBmb3IgdGhlIGRhdGEKLy8gQHBhcmFtIG51bUJveGVzIFRoZSBudW1iZXIgb2YgYm94ZXMgdGhhdCB0aGUgZGF0YSB3aWxsIHRha2UgdXAKLy8gQHBhcmFtIGVuZEJveFNpemUgVGhlIHNpemUgb2YgdGhlIGxhc3QgYm94Ci8vIEBwYXJhbSBtYnJQYXltZW50IFBheW1lbnQgZnJvbSB0aGUgdXBsb2FkZXIgdG8gY292ZXIgdGhlIGJveCBNQlIKc3RhcnRVcGxvYWQ6Cglwcm90byA0IDAKCgkvLyBQdXNoIGVtcHR5IGJ5dGVzIGFmdGVyIHRoZSBmcmFtZSBwb2ludGVyIHRvIHJlc2VydmUgc3BhY2UgZm9yIGxvY2FsIHZhcmlhYmxlcwoJYnl0ZWMgMCAvLyAweAoJZHVwbiAzCgoJLy8gZXhhbXBsZXMvYmlnX2JveC9iaWdfYm94LmFsZ28udHM6NDEKCS8vIHN0YXJ0Qm94ID0gdGhpcy5jdXJyZW50SW5kZXgudmFsdWUKCWJ5dGVjIDEgLy8gICJjdXJyZW50SW5kZXgiCglhcHBfZ2xvYmFsX2dldAoJZnJhbWVfYnVyeSAwIC8vIHN0YXJ0Qm94OiB1aW50NjQKCgkvLyBleGFtcGxlcy9iaWdfYm94L2JpZ19ib3guYWxnby50czo0MgoJLy8gZW5kQm94ID0gc3RhcnRCb3ggKyBudW1Cb3hlcyAtIDEKCWZyYW1lX2RpZyAwIC8vIHN0YXJ0Qm94OiB1aW50NjQKCWZyYW1lX2RpZyAtMiAvLyBudW1Cb3hlczogdWludDY0CgkrCglpbnRjIDAgLy8gMQoJLQoJZnJhbWVfYnVyeSAxIC8vIGVuZEJveDogdWludDY0CgoJLy8gZXhhbXBsZXMvYmlnX2JveC9iaWdfYm94LmFsZ28udHM6NDQKCS8vIG1ldGFkYXRhOiBNZXRhZGF0YSA9IHsKCS8vICAgICAgIHN0YXJ0OiBzdGFydEJveCwKCS8vICAgICAgIGVuZDogZW5kQm94LAoJLy8gICAgICAgc3RhdHVzOiBJTl9QUk9HUkVTUywKCS8vICAgICAgIGVuZFNpemU6IGVuZEJveFNpemUsCgkvLyAgICAgfQoJZnJhbWVfZGlnIDAgLy8gc3RhcnRCb3g6IHVpbnQ2NAoJaXRvYgoJZnJhbWVfZGlnIDEgLy8gZW5kQm94OiB1aW50NjQKCWl0b2IKCWNvbmNhdAoJcHVzaGJ5dGVzIDB4MDAKCWNvbmNhdAoJZnJhbWVfZGlnIC0zIC8vIGVuZEJveFNpemU6IHVpbnQ2NAoJaXRvYgoJY29uY2F0CglmcmFtZV9idXJ5IDIgLy8gbWV0YWRhdGE6IE1ldGFkYXRhCgoJLy8gZXhhbXBsZXMvYmlnX2JveC9iaWdfYm94LmFsZ28udHM6NTEKCS8vIGFzc2VydCghdGhpcy5tZXRhZGF0YShkYXRhSWRlbnRpZmllcikuZXhpc3RzKQoJZnJhbWVfZGlnIC0xIC8vIGRhdGFJZGVudGlmaWVyOiBzdHJpbmcKCWJveF9sZW4KCXN3YXAKCXBvcAoJIQoJYXNzZXJ0CgoJLy8gZXhhbXBsZXMvYmlnX2JveC9iaWdfYm94LmFsZ28udHM6NTMKCS8vIHRoaXMubWV0YWRhdGEoZGF0YUlkZW50aWZpZXIpLnZhbHVlID0gbWV0YWRhdGEKCWZyYW1lX2RpZyAtMSAvLyBkYXRhSWRlbnRpZmllcjogc3RyaW5nCglmcmFtZV9kaWcgMiAvLyBtZXRhZGF0YTogTWV0YWRhdGEKCWJveF9wdXQKCgkvLyBleGFtcGxlcy9iaWdfYm94L2JpZ19ib3guYWxnby50czo1NQoJLy8gdGhpcy5jdXJyZW50SW5kZXgudmFsdWUgPSBlbmRCb3ggKyAxCglieXRlYyAxIC8vICAiY3VycmVudEluZGV4IgoJZnJhbWVfZGlnIDEgLy8gZW5kQm94OiB1aW50NjQKCWludGMgMCAvLyAxCgkrCglhcHBfZ2xvYmFsX3B1dAoKCS8vIGV4YW1wbGVzL2JpZ19ib3gvYmlnX2JveC5hbGdvLnRzOjU3CgkvLyB0b3RhbENvc3QgPQoJLy8gICAgICAgbnVtQm94ZXMgKiBDT1NUX1BFUl9CT1ggKyAvLyBjb3N0IG9mIGJveGVzCgkvLyAgICAgICAobnVtQm94ZXMgLSAxKSAqIE1BWF9CT1hfU0laRSAqIENPU1RfUEVSX0JZVEUgKyAvLyBjb3N0IG9mIGRhdGEKCS8vICAgICAgIG51bUJveGVzICogNjQgKiBDT1NUX1BFUl9CWVRFICsgLy8gY29zdCBvZiBrZXlzCgkvLyAgICAgICBlbmRCb3hTaXplICogQ09TVF9QRVJfQllURQoJZnJhbWVfZGlnIC0yIC8vIG51bUJveGVzOiB1aW50NjQKCXB1c2hpbnQgMjUwMAoJKgoJZnJhbWVfZGlnIC0yIC8vIG51bUJveGVzOiB1aW50NjQKCWludGMgMCAvLyAxCgktCglpbnRjIDUgLy8gMzI3NjgKCSoKCWludGMgMyAvLyA0MDAKCSoKCSsKCWZyYW1lX2RpZyAtMiAvLyBudW1Cb3hlczogdWludDY0CglwdXNoaW50IDY0CgkqCglpbnRjIDMgLy8gNDAwCgkqCgkrCglmcmFtZV9kaWcgLTMgLy8gZW5kQm94U2l6ZTogdWludDY0CglpbnRjIDMgLy8gNDAwCgkqCgkrCglmcmFtZV9idXJ5IDMgLy8gdG90YWxDb3N0OiB1aW50NjQKCgkvLyBleGFtcGxlcy9iaWdfYm94L2JpZ19ib3guYWxnby50czo2MwoJLy8gdmVyaWZ5UGF5VHhuKG1iclBheW1lbnQsIHsgcmVjZWl2ZXI6IHRoaXMuYXBwLmFkZHJlc3MsIGFtb3VudDogdG90YWxDb3N0IH0pCgkvLyB2ZXJpZnkgcmVjZWl2ZXIKCWZyYW1lX2RpZyAtNCAvLyBtYnJQYXltZW50OiBQYXlUeG4KCWd0eG5zIFJlY2VpdmVyCglnbG9iYWwgQ3VycmVudEFwcGxpY2F0aW9uQWRkcmVzcwoJPT0KCgkvLyB0cmFuc2FjdGlvbiB2ZXJpZmljYXRpb24gZmFpbGVkOiB7InR4biI6Im1iclBheW1lbnQiLCJmaWVsZCI6InJlY2VpdmVyIiwiZXhwZWN0ZWQiOiJ0aGlzLmFwcC5hZGRyZXNzIn0KCWFzc2VydAoKCS8vIHZlcmlmeSBhbW91bnQKCWZyYW1lX2RpZyAtNCAvLyBtYnJQYXltZW50OiBQYXlUeG4KCWd0eG5zIEFtb3VudAoJZnJhbWVfZGlnIDMgLy8gdG90YWxDb3N0OiB1aW50NjQKCT09CgoJLy8gdHJhbnNhY3Rpb24gdmVyaWZpY2F0aW9uIGZhaWxlZDogeyJ0eG4iOiJtYnJQYXltZW50IiwiZmllbGQiOiJhbW91bnQiLCJleHBlY3RlZCI6InRvdGFsQ29zdCJ9Cglhc3NlcnQKCXJldHN1YgoKLy8gdXBsb2FkKHN0cmluZyx1aW50NjQsdWludDY0LGJ5dGVbXSl2b2lkCiphYmlfcm91dGVfdXBsb2FkOgoJLy8gZGF0YTogYnl0ZVtdCgl0eG5hIEFwcGxpY2F0aW9uQXJncyA0CglleHRyYWN0IDIgMAoKCS8vIG9mZnNldDogdWludDY0Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAzCglidG9pCgoJLy8gYm94SW5kZXg6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgoJYnRvaQoKCS8vIGRhdGFJZGVudGlmaWVyOiBzdHJpbmcKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWV4dHJhY3QgMiAwCgoJLy8gZXhlY3V0ZSB1cGxvYWQoc3RyaW5nLHVpbnQ2NCx1aW50NjQsYnl0ZVtdKXZvaWQKCWNhbGxzdWIgdXBsb2FkCglpbnRjIDAgLy8gMQoJcmV0dXJuCgovLyB1cGxvYWQoZGF0YUlkZW50aWZpZXI6IHN0cmluZywgYm94SW5kZXg6IHVpbnQ2NCwgb2Zmc2V0OiB1aW50NjQsIGRhdGE6IGJ5dGVzKTogdm9pZAovLwovLwovLyBVcGxvYWQgZGF0YSB0byBhIHNwZWNpZmljIG9mZnNldCBpbiBhIGJveAovLwovLyBAcGFyYW0gZGF0YUlkZW50aWZpZXIgVGhlIHVuaXF1ZSBpZGVudGlmaWVyIGZvciB0aGUgZGF0YQovLyBAcGFyYW0gYm94SW5kZXggVGhlIGluZGV4IG9mIHRoZSBib3ggdG8gdXBsb2FkIHRoZSBnaXZlbiBjaHVuayBvZiBkYXRhIHRvCi8vIEBwYXJhbSBvZmZzZXQgVGhlIG9mZnNldCB3aXRoaW4gdGhlIGJveCB0byBzdGFydCB3cml0aW5nIHRoZSBkYXRhCi8vIEBwYXJhbSBkYXRhIFRoZSBkYXRhIHRvIHdyaXRlCnVwbG9hZDoKCXByb3RvIDQgMAoKCS8vIFB1c2ggZW1wdHkgYnl0ZXMgYWZ0ZXIgdGhlIGZyYW1lIHBvaW50ZXIgdG8gcmVzZXJ2ZSBzcGFjZSBmb3IgbG9jYWwgdmFyaWFibGVzCglieXRlYyAwIC8vIDB4CgoJLy8gZXhhbXBsZXMvYmlnX2JveC9iaWdfYm94LmFsZ28udHM6NzYKCS8vIG1ldGFkYXRhID0gdGhpcy5tZXRhZGF0YShkYXRhSWRlbnRpZmllcikudmFsdWUKCWZyYW1lX2RpZyAtMSAvLyBkYXRhSWRlbnRpZmllcjogc3RyaW5nCglmcmFtZV9idXJ5IDAgLy8gc3RvcmFnZSBrZXkvL21ldGFkYXRhCgoJLy8gZXhhbXBsZXMvYmlnX2JveC9iaWdfYm94LmFsZ28udHM6NzcKCS8vIGFzc2VydChtZXRhZGF0YS5zdGF0dXMgPT09IElOX1BST0dSRVNTKQoJZnJhbWVfZGlnIC0xIC8vIGRhdGFJZGVudGlmaWVyOiBzdHJpbmcKCWludGMgNCAvLyAgaGVhZE9mZnNldAoJaW50YyAwIC8vIDEKCWJveF9leHRyYWN0CglidG9pCglpbnRjIDIgLy8gMAoJPT0KCWFzc2VydAoKCS8vIGV4YW1wbGVzL2JpZ19ib3gvYmlnX2JveC5hbGdvLnRzOjc4CgkvLyBhc3NlcnQobWV0YWRhdGEuc3RhcnQgPD0gYm94SW5kZXggJiYgYm94SW5kZXggPD0gbWV0YWRhdGEuZW5kKQoJZnJhbWVfZGlnIC0xIC8vIGRhdGFJZGVudGlmaWVyOiBzdHJpbmcKCWludGMgMiAvLyAwCglpbnRjIDEgLy8gOAoJYm94X2V4dHJhY3QKCWJ0b2kKCWZyYW1lX2RpZyAtMiAvLyBib3hJbmRleDogdWludDY0Cgk8PQoJZHVwCglieiAqc2tpcF9hbmQwCglmcmFtZV9kaWcgLTIgLy8gYm94SW5kZXg6IHVpbnQ2NAoJZnJhbWVfZGlnIC0xIC8vIGRhdGFJZGVudGlmaWVyOiBzdHJpbmcKCWludGMgMSAvLyAgaGVhZE9mZnNldAoJaW50YyAxIC8vIDgKCWJveF9leHRyYWN0CglidG9pCgk8PQoJJiYKCipza2lwX2FuZDA6Cglhc3NlcnQKCgkvLyAqaWYwX2NvbmRpdGlvbgoJLy8gZXhhbXBsZXMvYmlnX2JveC9iaWdfYm94LmFsZ28udHM6ODAKCS8vIG9mZnNldCA9PT0gMAoJZnJhbWVfZGlnIC0zIC8vIG9mZnNldDogdWludDY0CglpbnRjIDIgLy8gMAoJPT0KCWJ6ICppZjBfZW5kCgoJLy8gKmlmMF9jb25zZXF1ZW50CgkvLyBleGFtcGxlcy9iaWdfYm94L2JpZ19ib3guYWxnby50czo4MQoJLy8gdGhpcy5kYXRhQm94ZXMoYm94SW5kZXgpLmNyZWF0ZShib3hJbmRleCA9PT0gbWV0YWRhdGEuZW5kID8gbWV0YWRhdGEuZW5kU2l6ZSA6IE1BWF9CT1hfU0laRSkKCWZyYW1lX2RpZyAtMiAvLyBib3hJbmRleDogdWludDY0CglpdG9iCglmcmFtZV9kaWcgLTIgLy8gYm94SW5kZXg6IHVpbnQ2NAoJZnJhbWVfZGlnIC0xIC8vIGRhdGFJZGVudGlmaWVyOiBzdHJpbmcKCWludGMgMSAvLyAgaGVhZE9mZnNldAoJaW50YyAxIC8vIDgKCWJveF9leHRyYWN0CglidG9pCgk9PQoJYnogKnRlcm5hcnkwX2ZhbHNlCglmcmFtZV9kaWcgLTEgLy8gZGF0YUlkZW50aWZpZXI6IHN0cmluZwoJcHVzaGludCAxNyAvLyBoZWFkT2Zmc2V0CglpbnRjIDEgLy8gOAoJYm94X2V4dHJhY3QKCWJ0b2kKCWIgKnRlcm5hcnkwX2VuZAoKKnRlcm5hcnkwX2ZhbHNlOgoJaW50YyA1IC8vIDMyNzY4CgoqdGVybmFyeTBfZW5kOgoJYm94X2NyZWF0ZQoJcG9wCgoqaWYwX2VuZDoKCS8vIGV4YW1wbGVzL2JpZ19ib3gvYmlnX2JveC5hbGdvLnRzOjg0CgkvLyB0aGlzLmRhdGFCb3hlcyhib3hJbmRleCkucmVwbGFjZShvZmZzZXQsIGRhdGEpCglmcmFtZV9kaWcgLTIgLy8gYm94SW5kZXg6IHVpbnQ2NAoJaXRvYgoJZnJhbWVfZGlnIC0zIC8vIG9mZnNldDogdWludDY0CglmcmFtZV9kaWcgLTQgLy8gZGF0YTogYnl0ZXMKCWJveF9yZXBsYWNlCglyZXRzdWIKCi8vIHNldFN0YXR1cyhzdHJpbmcsdWludDgpdm9pZAoqYWJpX3JvdXRlX3NldFN0YXR1czoKCS8vIHN0YXR1czogdWludDgKCXR4bmEgQXBwbGljYXRpb25BcmdzIDIKCWR1cAoJbGVuCglpbnRjIDAgLy8gMQoJPT0KCgkvLyBhcmd1bWVudCAwIChzdGF0dXMpIGZvciBzZXRTdGF0dXMgbXVzdCBiZSBhIHVpbnQ4Cglhc3NlcnQKCWJ0b2kKCgkvLyBkYXRhSWRlbnRpZmllcjogc3RyaW5nCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglleHRyYWN0IDIgMAoKCS8vIGV4ZWN1dGUgc2V0U3RhdHVzKHN0cmluZyx1aW50OCl2b2lkCgljYWxsc3ViIHNldFN0YXR1cwoJaW50YyAwIC8vIDEKCXJldHVybgoKLy8gc2V0U3RhdHVzKGRhdGFJZGVudGlmaWVyOiBzdHJpbmcsIHN0YXR1czogdWludDw4Pik6IHZvaWQKLy8KLy8KLy8gU2V0IHRoZSBzdGF0dXMgb2YgdGhlIGRhdGEKLy8KLy8gQHBhcmFtIGRhdGFJZGVudGlmaWVyIFRoZSB1bmlxdWUgaWRlbnRpZmllciBmb3IgdGhlIGRhdGEKLy8gQHBhcmFtIHN0YXR1cyBUaGUgbmV3IHN0YXR1cyBmb3IgdGhlIGRhdGEKc2V0U3RhdHVzOgoJcHJvdG8gMiAwCgoJLy8gUHVzaCBlbXB0eSBieXRlcyBhZnRlciB0aGUgZnJhbWUgcG9pbnRlciB0byByZXNlcnZlIHNwYWNlIGZvciBsb2NhbCB2YXJpYWJsZXMKCWJ5dGVjIDAgLy8gMHgKCgkvLyBleGFtcGxlcy9iaWdfYm94L2JpZ19ib3guYWxnby50czo5NQoJLy8gY3VycmVudFN0YXR1cyA9IHRoaXMubWV0YWRhdGEoZGF0YUlkZW50aWZpZXIpLnZhbHVlLnN0YXR1cwoJZnJhbWVfZGlnIC0xIC8vIGRhdGFJZGVudGlmaWVyOiBzdHJpbmcKCWludGMgNCAvLyAgaGVhZE9mZnNldAoJaW50YyAwIC8vIDEKCWJveF9leHRyYWN0CglidG9pCglmcmFtZV9idXJ5IDAgLy8gY3VycmVudFN0YXR1czogdWludDgKCgkvLyBleGFtcGxlcy9iaWdfYm94L2JpZ19ib3guYWxnby50czo5NwoJLy8gYXNzZXJ0KHN0YXR1cyA9PT0gUkVBRFkgfHwgc3RhdHVzID09PSBJTU1VVEFCTEUgfHwgc3RhdHVzID09PSBJTl9QUk9HUkVTUykKCWZyYW1lX2RpZyAtMiAvLyBzdGF0dXM6IHVpbnQ8OD4KCWludGMgMCAvLyAxCgk9PQoJZHVwCglibnogKnNraXBfb3IwCglmcmFtZV9kaWcgLTIgLy8gc3RhdHVzOiB1aW50PDg+CglpbnRjIDYgLy8gMgoJPT0KCXx8Cgoqc2tpcF9vcjA6CglkdXAKCWJueiAqc2tpcF9vcjEKCWZyYW1lX2RpZyAtMiAvLyBzdGF0dXM6IHVpbnQ8OD4KCWludGMgMiAvLyAwCgk9PQoJfHwKCipza2lwX29yMToKCWFzc2VydAoKCS8vIGV4YW1wbGVzL2JpZ19ib3gvYmlnX2JveC5hbGdvLnRzOjk4CgkvLyBhc3NlcnQoY3VycmVudFN0YXR1cyAhPT0gSU1NVVRBQkxFKQoJZnJhbWVfZGlnIDAgLy8gY3VycmVudFN0YXR1czogdWludDgKCWludGMgNiAvLyAyCgkhPQoJYXNzZXJ0CgoJLy8gZXhhbXBsZXMvYmlnX2JveC9iaWdfYm94LmFsZ28udHM6MTAwCgkvLyB0aGlzLm1ldGFkYXRhKGRhdGFJZGVudGlmaWVyKS52YWx1ZS5zdGF0dXMgPSBzdGF0dXMKCWludGMgNCAvLyAgaGVhZE9mZnNldAoJZnJhbWVfZGlnIC0yIC8vIHN0YXR1czogdWludDw4PgoJaXRvYgoJZXh0cmFjdCA3IDEKCWZyYW1lX2RpZyAtMSAvLyBkYXRhSWRlbnRpZmllcjogc3RyaW5nCgljb3ZlciAyCglib3hfcmVwbGFjZQoJcmV0c3ViCgoqYWJpX3JvdXRlX2NyZWF0ZUFwcGxpY2F0aW9uOgoJaW50YyAwIC8vIDEKCXJldHVybgoKKmNyZWF0ZV9Ob09wOgoJcHVzaGJ5dGVzIDB4Yjg0NDdiMzYgLy8gbWV0aG9kICJjcmVhdGVBcHBsaWNhdGlvbigpdm9pZCIKCXR4bmEgQXBwbGljYXRpb25BcmdzIDAKCW1hdGNoICphYmlfcm91dGVfY3JlYXRlQXBwbGljYXRpb24KCgkvLyB0aGlzIGNvbnRyYWN0IGRvZXMgbm90IGltcGxlbWVudCB0aGUgZ2l2ZW4gQUJJIG1ldGhvZCBmb3IgY3JlYXRlIE5vT3AKCWVycgoKKmNhbGxfTm9PcDoKCXB1c2hieXRlcyAweGEwNWI1NjY5IC8vIG1ldGhvZCAic3RhcnRVcGxvYWQoc3RyaW5nLHVpbnQ2NCx1aW50NjQscGF5KXZvaWQiCglwdXNoYnl0ZXMgMHgxYjdkZmEzNSAvLyBtZXRob2QgInVwbG9hZChzdHJpbmcsdWludDY0LHVpbnQ2NCxieXRlW10pdm9pZCIKCXB1c2hieXRlcyAweGJmMzg1NmY4IC8vIG1ldGhvZCAic2V0U3RhdHVzKHN0cmluZyx1aW50OCl2b2lkIgoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMAoJbWF0Y2ggKmFiaV9yb3V0ZV9zdGFydFVwbG9hZCAqYWJpX3JvdXRlX3VwbG9hZCAqYWJpX3JvdXRlX3NldFN0YXR1cwoKCS8vIHRoaXMgY29udHJhY3QgZG9lcyBub3QgaW1wbGVtZW50IHRoZSBnaXZlbiBBQkkgbWV0aG9kIGZvciBjYWxsIE5vT3AKCWVycg==",
+    "clear": "I3ByYWdtYSB2ZXJzaW9uIDEw"
+  },
+  "byteCode": {
+    "approval": "CiAHAQgAkAMQgIACAiYCAAxjdXJyZW50SW5kZXgxGBSBBgsxGQiNDAFRAAAAAAAAAAAAAAFDAAAAAAAAAAAAAAAxFiIJSTgQIhJENhoDFzYaAhc2GgFXAgCIAAIiQ4oEAChHAylkjACLAIv+CCIJjAGLABaLARZQgAEAUIv9FlCMAov/vUxIFESL/4sCvymLASIIZ4v+gcQTC4v+IgkhBQslCwiL/oFACyULCIv9JQsIjAOL/DgHMgoSRIv8OAiLAxJEiTYaBFcCADYaAxc2GgIXNhoBVwIAiAACIkOKBAAoi/+MAIv/IQQiuhckEkSL/yQjuheL/g5JQQAKi/6L/yMjuhcOEESL/SQSQQAdi/4Wi/6L/yMjuhcSQQAKi/+BESO6F0IAAiEFuUiL/haL/Yv8u4k2GgJJFSISRBc2GgFXAgCIAAIiQ4oCACiL/yEEIroXjACL/iISSUAABov+IQYSEUlAAAWL/iQSEUSLACEGE0QhBIv+FlcHAYv/TgK7iSJDgAS4RHs2NhoAjgH/8QCABKBbVmmABBt9+jWABL84Vvg2GgCOA/6T/xb/hgA=",
+    "clear": "Cg=="
+  },
+  "compilerInfo": {
+    "compiler": "algod",
+    "compilerVersion": {
+      "major": 3,
+      "minor": 26,
+      "patch": 0,
+      "commitHash": "0d10b244"
+    }
+  }
+}

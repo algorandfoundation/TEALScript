@@ -1,0 +1,605 @@
+{
+  "name": "G",
+  "desc": "",
+  "methods": [
+    {
+      "name": "publicMethod",
+      "args": [],
+      "returns": {
+        "type": "string"
+      },
+      "actions": {
+        "create": [],
+        "call": [
+          "NoOp"
+        ]
+      }
+    },
+    {
+      "name": "g",
+      "args": [],
+      "returns": {
+        "type": "void"
+      },
+      "actions": {
+        "create": [],
+        "call": [
+          "NoOp"
+        ]
+      }
+    },
+    {
+      "name": "createApplication",
+      "args": [],
+      "returns": {
+        "type": "void"
+      },
+      "actions": {
+        "create": [
+          "NoOp"
+        ],
+        "call": []
+      }
+    }
+  ],
+  "arcs": [
+    4,
+    56
+  ],
+  "structs": {},
+  "state": {
+    "schema": {
+      "global": {
+        "bytes": 0,
+        "ints": 0
+      },
+      "local": {
+        "bytes": 0,
+        "ints": 0
+      }
+    },
+    "keys": {
+      "global": {},
+      "local": {},
+      "box": {}
+    },
+    "maps": {
+      "global": {},
+      "local": {},
+      "box": {}
+    }
+  },
+  "bareActions": {
+    "create": [],
+    "call": []
+  },
+  "sourceInfo": {
+    "approval": {
+      "sourceInfo": [
+        {
+          "teal": 1,
+          "source": "tests/contracts/inheritance.algo.ts:79",
+          "pc": [
+            0
+          ]
+        },
+        {
+          "teal": 2,
+          "source": "tests/contracts/inheritance.algo.ts:79",
+          "pc": [
+            1,
+            2,
+            3
+          ]
+        },
+        {
+          "teal": 3,
+          "source": "tests/contracts/inheritance.algo.ts:79",
+          "pc": [
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22
+          ]
+        },
+        {
+          "teal": 15,
+          "source": "tests/contracts/inheritance.algo.ts:79",
+          "pc": [
+            23,
+            24
+          ]
+        },
+        {
+          "teal": 16,
+          "source": "tests/contracts/inheritance.algo.ts:79",
+          "pc": [
+            25
+          ]
+        },
+        {
+          "teal": 17,
+          "source": "tests/contracts/inheritance.algo.ts:79",
+          "pc": [
+            26,
+            27
+          ]
+        },
+        {
+          "teal": 18,
+          "source": "tests/contracts/inheritance.algo.ts:79",
+          "pc": [
+            28
+          ]
+        },
+        {
+          "teal": 19,
+          "source": "tests/contracts/inheritance.algo.ts:79",
+          "pc": [
+            29,
+            30
+          ]
+        },
+        {
+          "teal": 20,
+          "source": "tests/contracts/inheritance.algo.ts:79",
+          "pc": [
+            31
+          ]
+        },
+        {
+          "teal": 21,
+          "source": "tests/contracts/inheritance.algo.ts:79",
+          "pc": [
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39,
+            40,
+            41,
+            42,
+            43,
+            44,
+            45,
+            46,
+            47,
+            48,
+            49,
+            50,
+            51,
+            52,
+            53,
+            54,
+            55,
+            56,
+            57
+          ]
+        },
+        {
+          "teal": 25,
+          "source": "tests/contracts/inheritance.algo.ts:79",
+          "errorMessage": "The requested action is not implemented in this contract. Are you using the correct OnComplete? Did you set your app ID?",
+          "pc": [
+            58
+          ]
+        },
+        {
+          "teal": 30,
+          "source": "tests/contracts/inheritance.algo.ts:66",
+          "pc": [
+            59,
+            60,
+            61,
+            62,
+            63,
+            64
+          ]
+        },
+        {
+          "teal": 33,
+          "source": "tests/contracts/inheritance.algo.ts:66",
+          "pc": [
+            65,
+            66,
+            67
+          ]
+        },
+        {
+          "teal": 34,
+          "source": "tests/contracts/inheritance.algo.ts:66",
+          "pc": [
+            68
+          ]
+        },
+        {
+          "teal": 35,
+          "source": "tests/contracts/inheritance.algo.ts:66",
+          "pc": [
+            69
+          ]
+        },
+        {
+          "teal": 36,
+          "source": "tests/contracts/inheritance.algo.ts:66",
+          "pc": [
+            70
+          ]
+        },
+        {
+          "teal": 37,
+          "source": "tests/contracts/inheritance.algo.ts:66",
+          "pc": [
+            71,
+            72,
+            73
+          ]
+        },
+        {
+          "teal": 38,
+          "source": "tests/contracts/inheritance.algo.ts:66",
+          "pc": [
+            74
+          ]
+        },
+        {
+          "teal": 39,
+          "source": "tests/contracts/inheritance.algo.ts:66",
+          "pc": [
+            75
+          ]
+        },
+        {
+          "teal": 40,
+          "source": "tests/contracts/inheritance.algo.ts:66",
+          "pc": [
+            76
+          ]
+        },
+        {
+          "teal": 41,
+          "source": "tests/contracts/inheritance.algo.ts:66",
+          "pc": [
+            77
+          ]
+        },
+        {
+          "teal": 42,
+          "source": "tests/contracts/inheritance.algo.ts:66",
+          "pc": [
+            78
+          ]
+        },
+        {
+          "teal": 43,
+          "source": "tests/contracts/inheritance.algo.ts:66",
+          "pc": [
+            79
+          ]
+        },
+        {
+          "teal": 47,
+          "source": "tests/contracts/inheritance.algo.ts:66",
+          "pc": [
+            80,
+            81,
+            82
+          ]
+        },
+        {
+          "teal": 51,
+          "source": "tests/contracts/inheritance.algo.ts:67",
+          "pc": [
+            83
+          ]
+        },
+        {
+          "teal": 52,
+          "source": "tests/contracts/inheritance.algo.ts:66",
+          "pc": [
+            84
+          ]
+        },
+        {
+          "teal": 56,
+          "source": "tests/contracts/inheritance.algo.ts:70",
+          "pc": [
+            85,
+            86,
+            87
+          ]
+        },
+        {
+          "teal": 60,
+          "source": "tests/contracts/inheritance.algo.ts:71",
+          "pc": [
+            88,
+            89,
+            90,
+            91,
+            92,
+            93,
+            94,
+            95,
+            96
+          ]
+        },
+        {
+          "teal": 61,
+          "source": "tests/contracts/inheritance.algo.ts:70",
+          "pc": [
+            97
+          ]
+        },
+        {
+          "teal": 65,
+          "source": "tests/contracts/inheritance.algo.ts:74",
+          "pc": [
+            98,
+            99,
+            100
+          ]
+        },
+        {
+          "teal": 69,
+          "source": "tests/contracts/inheritance.algo.ts:75",
+          "pc": [
+            101
+          ]
+        },
+        {
+          "teal": 70,
+          "source": "tests/contracts/inheritance.algo.ts:74",
+          "pc": [
+            102
+          ]
+        },
+        {
+          "teal": 75,
+          "source": "tests/contracts/inheritance.algo.ts:80",
+          "pc": [
+            103,
+            104,
+            105
+          ]
+        },
+        {
+          "teal": 76,
+          "source": "tests/contracts/inheritance.algo.ts:80",
+          "pc": [
+            106
+          ]
+        },
+        {
+          "teal": 77,
+          "source": "tests/contracts/inheritance.algo.ts:80",
+          "pc": [
+            107
+          ]
+        },
+        {
+          "teal": 81,
+          "source": "tests/contracts/inheritance.algo.ts:80",
+          "pc": [
+            108,
+            109,
+            110
+          ]
+        },
+        {
+          "teal": 85,
+          "source": "tests/contracts/inheritance.algo.ts:81",
+          "pc": [
+            111,
+            112,
+            113
+          ]
+        },
+        {
+          "teal": 86,
+          "source": "tests/contracts/inheritance.algo.ts:81",
+          "pc": [
+            114
+          ]
+        },
+        {
+          "teal": 87,
+          "source": "tests/contracts/inheritance.algo.ts:81",
+          "pc": [
+            115
+          ]
+        },
+        {
+          "teal": 88,
+          "source": "tests/contracts/inheritance.algo.ts:81",
+          "pc": [
+            116
+          ]
+        },
+        {
+          "teal": 92,
+          "source": "tests/contracts/inheritance.algo.ts:82",
+          "pc": [
+            117,
+            118,
+            119
+          ]
+        },
+        {
+          "teal": 93,
+          "source": "tests/contracts/inheritance.algo.ts:82",
+          "pc": [
+            120
+          ]
+        },
+        {
+          "teal": 94,
+          "source": "tests/contracts/inheritance.algo.ts:82",
+          "pc": [
+            121
+          ]
+        },
+        {
+          "teal": 95,
+          "source": "tests/contracts/inheritance.algo.ts:82",
+          "pc": [
+            122
+          ]
+        },
+        {
+          "teal": 96,
+          "source": "tests/contracts/inheritance.algo.ts:80",
+          "pc": [
+            123
+          ]
+        },
+        {
+          "teal": 99,
+          "source": "tests/contracts/inheritance.algo.ts:79",
+          "pc": [
+            124
+          ]
+        },
+        {
+          "teal": 100,
+          "source": "tests/contracts/inheritance.algo.ts:79",
+          "pc": [
+            125
+          ]
+        },
+        {
+          "teal": 103,
+          "source": "tests/contracts/inheritance.algo.ts:79",
+          "pc": [
+            126,
+            127,
+            128,
+            129,
+            130,
+            131
+          ]
+        },
+        {
+          "teal": 104,
+          "source": "tests/contracts/inheritance.algo.ts:79",
+          "pc": [
+            132,
+            133,
+            134
+          ]
+        },
+        {
+          "teal": 105,
+          "source": "tests/contracts/inheritance.algo.ts:79",
+          "pc": [
+            135,
+            136,
+            137,
+            138
+          ]
+        },
+        {
+          "teal": 108,
+          "source": "tests/contracts/inheritance.algo.ts:79",
+          "errorMessage": "this contract does not implement the given ABI method for create NoOp",
+          "pc": [
+            139
+          ]
+        },
+        {
+          "teal": 111,
+          "source": "tests/contracts/inheritance.algo.ts:79",
+          "pc": [
+            140,
+            141,
+            142,
+            143,
+            144,
+            145
+          ]
+        },
+        {
+          "teal": 112,
+          "source": "tests/contracts/inheritance.algo.ts:79",
+          "pc": [
+            146,
+            147,
+            148,
+            149,
+            150,
+            151
+          ]
+        },
+        {
+          "teal": 113,
+          "source": "tests/contracts/inheritance.algo.ts:79",
+          "pc": [
+            152,
+            153,
+            154
+          ]
+        },
+        {
+          "teal": 114,
+          "source": "tests/contracts/inheritance.algo.ts:79",
+          "pc": [
+            155,
+            156,
+            157,
+            158,
+            159,
+            160
+          ]
+        },
+        {
+          "teal": 117,
+          "source": "tests/contracts/inheritance.algo.ts:79",
+          "errorMessage": "this contract does not implement the given ABI method for call NoOp",
+          "pc": [
+            161
+          ]
+        }
+      ],
+      "pcOffsetMethod": "none"
+    },
+    "clear": {
+      "sourceInfo": [],
+      "pcOffsetMethod": "none"
+    }
+  },
+  "source": {
+    "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCmludGNibG9jayAxCmJ5dGVjYmxvY2sgMHg3MDcyNmY3NDY1NjM3NDY1NjQgMHg3MDc1NjI2YzY5NjMKCi8vIFRoaXMgVEVBTCB3YXMgZ2VuZXJhdGVkIGJ5IFRFQUxTY3JpcHQgdjAuMTA2LjAKLy8gaHR0cHM6Ly9naXRodWIuY29tL2FsZ29yYW5kZm91bmRhdGlvbi9URUFMU2NyaXB0CgovLyBUaGlzIGNvbnRyYWN0IGlzIGNvbXBsaWFudCB3aXRoIGFuZC9vciBpbXBsZW1lbnRzIHRoZSBmb2xsb3dpbmcgQVJDczogWyBBUkM0IF0KCi8vIFRoZSBmb2xsb3dpbmcgdGVuIGxpbmVzIG9mIFRFQUwgaGFuZGxlIGluaXRpYWwgcHJvZ3JhbSBmbG93Ci8vIFRoaXMgcGF0dGVybiBpcyB1c2VkIHRvIG1ha2UgaXQgZWFzeSBmb3IgYW55b25lIHRvIHBhcnNlIHRoZSBzdGFydCBvZiB0aGUgcHJvZ3JhbSBhbmQgZGV0ZXJtaW5lIGlmIGEgc3BlY2lmaWMgYWN0aW9uIGlzIGFsbG93ZWQKLy8gSGVyZSwgYWN0aW9uIHJlZmVycyB0byB0aGUgT25Db21wbGV0ZSBpbiBjb21iaW5hdGlvbiB3aXRoIHdoZXRoZXIgdGhlIGFwcCBpcyBiZWluZyBjcmVhdGVkIG9yIGNhbGxlZAovLyBFdmVyeSBwb3NzaWJsZSBhY3Rpb24gZm9yIHRoaXMgY29udHJhY3QgaXMgcmVwcmVzZW50ZWQgaW4gdGhlIHN3aXRjaCBzdGF0ZW1lbnQKLy8gSWYgdGhlIGFjdGlvbiBpcyBub3QgaW1wbGVtZW50ZWQgaW4gdGhlIGNvbnRyYWN0LCBpdHMgcmVzcGVjdGl2ZSBicmFuY2ggd2lsbCBiZSAiKk5PVF9JTVBMRU1FTlRFRCIgd2hpY2gganVzdCBjb250YWlucyAiZXJyIgp0eG4gQXBwbGljYXRpb25JRAohCnB1c2hpbnQgNgoqCnR4biBPbkNvbXBsZXRpb24KKwpzd2l0Y2ggKmNhbGxfTm9PcCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKmNyZWF0ZV9Ob09wICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRAoKKk5PVF9JTVBMRU1FTlRFRDoKCS8vIFRoZSByZXF1ZXN0ZWQgYWN0aW9uIGlzIG5vdCBpbXBsZW1lbnRlZCBpbiB0aGlzIGNvbnRyYWN0LiBBcmUgeW91IHVzaW5nIHRoZSBjb3JyZWN0IE9uQ29tcGxldGU/IERpZCB5b3Ugc2V0IHlvdXIgYXBwIElEPwoJZXJyCgovLyBwdWJsaWNNZXRob2QoKXN0cmluZwoqYWJpX3JvdXRlX3B1YmxpY01ldGhvZDoKCS8vIFRoZSBBQkkgcmV0dXJuIHByZWZpeAoJcHVzaGJ5dGVzIDB4MTUxZjdjNzUKCgkvLyBleGVjdXRlIHB1YmxpY01ldGhvZCgpc3RyaW5nCgljYWxsc3ViIHB1YmxpY01ldGhvZAoJZHVwCglsZW4KCWl0b2IKCWV4dHJhY3QgNiAyCglzd2FwCgljb25jYXQKCWNvbmNhdAoJbG9nCglpbnRjIDAgLy8gMQoJcmV0dXJuCgovLyBwdWJsaWNNZXRob2QoKTogc3RyaW5nCnB1YmxpY01ldGhvZDoKCXByb3RvIDAgMQoKCS8vIHRlc3RzL2NvbnRyYWN0cy9pbmhlcml0YW5jZS5hbGdvLnRzOjY3CgkvLyByZXR1cm4gJ3B1YmxpYyc7CglieXRlYyAxIC8vICAicHVibGljIgoJcmV0c3ViCgovLyBwcml2YXRlTWV0aG9kKCk6IHN0cmluZwpwcml2YXRlTWV0aG9kOgoJcHJvdG8gMCAxCgoJLy8gdGVzdHMvY29udHJhY3RzL2luaGVyaXRhbmNlLmFsZ28udHM6NzEKCS8vIHJldHVybiAncHJpdmF0ZSc7CglwdXNoYnl0ZXMgMHg3MDcyNjk3NjYxNzQ2NSAvLyAicHJpdmF0ZSIKCXJldHN1YgoKLy8gcHJvdGVjdGVkTWV0aG9kKCk6IHN0cmluZwpwcm90ZWN0ZWRNZXRob2Q6Cglwcm90byAwIDEKCgkvLyB0ZXN0cy9jb250cmFjdHMvaW5oZXJpdGFuY2UuYWxnby50czo3NQoJLy8gcmV0dXJuICdwcm90ZWN0ZWQnOwoJYnl0ZWMgMCAvLyAgInByb3RlY3RlZCIKCXJldHN1YgoKLy8gZygpdm9pZAoqYWJpX3JvdXRlX2c6CgkvLyBleGVjdXRlIGcoKXZvaWQKCWNhbGxzdWIgZwoJaW50YyAwIC8vIDEKCXJldHVybgoKLy8gZygpOiB2b2lkCmc6Cglwcm90byAwIDAKCgkvLyB0ZXN0cy9jb250cmFjdHMvaW5oZXJpdGFuY2UuYWxnby50czo4MQoJLy8gYXNzZXJ0KHRoaXMucHJvdGVjdGVkTWV0aG9kKCkgPT09ICdwcm90ZWN0ZWQnKQoJY2FsbHN1YiBwcm90ZWN0ZWRNZXRob2QKCWJ5dGVjIDAgLy8gICJwcm90ZWN0ZWQiCgk9PQoJYXNzZXJ0CgoJLy8gdGVzdHMvY29udHJhY3RzL2luaGVyaXRhbmNlLmFsZ28udHM6ODIKCS8vIGFzc2VydCh0aGlzLnB1YmxpY01ldGhvZCgpID09PSAncHVibGljJykKCWNhbGxzdWIgcHVibGljTWV0aG9kCglieXRlYyAxIC8vICAicHVibGljIgoJPT0KCWFzc2VydAoJcmV0c3ViCgoqYWJpX3JvdXRlX2NyZWF0ZUFwcGxpY2F0aW9uOgoJaW50YyAwIC8vIDEKCXJldHVybgoKKmNyZWF0ZV9Ob09wOgoJcHVzaGJ5dGVzIDB4Yjg0NDdiMzYgLy8gbWV0aG9kICJjcmVhdGVBcHBsaWNhdGlvbigpdm9pZCIKCXR4bmEgQXBwbGljYXRpb25BcmdzIDAKCW1hdGNoICphYmlfcm91dGVfY3JlYXRlQXBwbGljYXRpb24KCgkvLyB0aGlzIGNvbnRyYWN0IGRvZXMgbm90IGltcGxlbWVudCB0aGUgZ2l2ZW4gQUJJIG1ldGhvZCBmb3IgY3JlYXRlIE5vT3AKCWVycgoKKmNhbGxfTm9PcDoKCXB1c2hieXRlcyAweGUwNDE4YzU0IC8vIG1ldGhvZCAicHVibGljTWV0aG9kKClzdHJpbmciCglwdXNoYnl0ZXMgMHhmMmI2NWYyNyAvLyBtZXRob2QgImcoKXZvaWQiCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAwCgltYXRjaCAqYWJpX3JvdXRlX3B1YmxpY01ldGhvZCAqYWJpX3JvdXRlX2cKCgkvLyB0aGlzIGNvbnRyYWN0IGRvZXMgbm90IGltcGxlbWVudCB0aGUgZ2l2ZW4gQUJJIG1ldGhvZCBmb3IgY2FsbCBOb09wCgllcnI=",
+    "clear": "I3ByYWdtYSB2ZXJzaW9uIDEw"
+  },
+  "byteCode": {
+    "approval": "CiABASYCCXByb3RlY3RlZAZwdWJsaWMxGBSBBgsxGQiNDABSAAAAAAAAAAAAAABEAAAAAAAAAAAAAACABBUffHWIAAxJFRZXBgJMUFCwIkOKAAEpiYoAAYAHcHJpdmF0ZYmKAAEoiYgAAiJDigAAiP/wKBJEiP/YKRJEiSJDgAS4RHs2NhoAjgH/8QCABOBBjFSABPK2Xyc2GgCOAv+a/8YA",
+    "clear": "Cg=="
+  },
+  "compilerInfo": {
+    "compiler": "algod",
+    "compilerVersion": {
+      "major": 3,
+      "minor": 26,
+      "patch": 0,
+      "commitHash": "0d10b244"
+    }
+  }
+}
