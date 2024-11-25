@@ -7,7 +7,7 @@
 import * as algokit from '@algorandfoundation/algokit-utils';
 import { describe, test, expect } from '@jest/globals';
 import { artifactsTest, compileAndCreate, runMethod, algodClient, kmdClient } from './common';
-import arc56 from './contracts/artifacts/Templates.arc56_draft.json';
+import arc56 from './contracts/artifacts/Templates.arc56.json';
 
 const NAME = 'Templates';
 const PATH = 'tests/contracts/general.algo.ts';
