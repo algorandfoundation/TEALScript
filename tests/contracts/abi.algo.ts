@@ -1647,3 +1647,25 @@ class ABITestNestedArrayInBox extends Contract {
     };
   }
 }
+
+type T11 = {
+  u64a: uint64;
+  u64b: uint64;
+  u64c: uint64;
+  boolValue: boolean;
+  bytes4Array: bytes<4>[];
+};
+
+class ABITestNestedArrayInBoxLast extends Contract {
+  bMap = BoxMap<bytes, T11>();
+
+  nestedArrayInBoxLast() {
+    this.bMap('bmap').value = {
+      bytes4Array: ['abcd' as bytes<4>, 'efgh' as bytes<4>],
+      u64a: 1,
+      u64b: 2,
+      u64c: 3,
+      boolValue: false,
+    };
+  }
+}

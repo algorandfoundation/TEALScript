@@ -931,6 +931,12 @@ describe('ABI', function () {
   test('nestedArrayInBox', async () => {
     const { appClient } = await compileAndCreate('nestedArrayInBox');
 
-    expect(await runMethod(appClient, 'nestedArrayInBox')).toEqual([true, 1n, 2n]);
+    expect(await runMethod(appClient, 'nestedArrayInBox')).toEqual([['abcd', 'efgh'], 1n, 2n, 3n, false]);
+  });
+
+  test('nestedArrayInBoxLast', async () => {
+    const { appClient } = await compileAndCreate('nestedArrayInBoxLast');
+
+    expect(await runMethod(appClient, 'nestedArrayInBoxLast')).toEqual([1n, 2n, 3n, false, ['abcd', 'efgh']]);
   });
 });
