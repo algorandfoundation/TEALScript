@@ -931,12 +931,35 @@ describe('ABI', function () {
   test('nestedArrayInBox', async () => {
     const { appClient } = await compileAndCreate('nestedArrayInBox');
 
-    expect(await runMethod(appClient, 'nestedArrayInBox')).toEqual([['abcd', 'efgh'], 1n, 2n, 3n, false]);
+    expect(await runMethod(appClient, 'nestedArrayInBox')).toEqual([
+      [[...Buffer.from('abcd')], [...Buffer.from('efgh')]],
+      1n,
+      2n,
+      3n,
+      false,
+    ]);
   });
 
   test('nestedArrayInBoxLast', async () => {
     const { appClient } = await compileAndCreate('nestedArrayInBoxLast');
 
-    expect(await runMethod(appClient, 'nestedArrayInBoxLast')).toEqual([1n, 2n, 3n, false, ['abcd', 'efgh']]);
+    expect(await runMethod(appClient, 'nestedArrayInBoxLast')).toEqual([
+      1n,
+      2n,
+      3n,
+      false,
+      [[...Buffer.from('abcd')], [...Buffer.from('efgh')]],
+    ]);
+  });
+
+  test('nestedArrayInBoxWithoutBool', async () => {
+    const { appClient } = await compileAndCreate('nestedArrayInBoxWithoutBool');
+
+    expect(await runMethod(appClient, 'nestedArrayInBoxWithoutBool')).toEqual([
+      [[...Buffer.from('abcd')], [...Buffer.from('efgh')]],
+      1n,
+      2n,
+      3n,
+    ]);
   });
 });
