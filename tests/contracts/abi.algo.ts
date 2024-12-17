@@ -1695,3 +1695,19 @@ class ABITestNestedArrayInBoxWithoutBool extends Contract {
     return this.bMap('bMap').value;
   }
 }
+
+class ABITestNestedArrayAlongsideBoolean extends Contract {
+  gMap = GlobalStateMap<bytes, T10>({ maxKeys: 1 });
+
+  nestedArrayAlongsideBoolean(): T10 {
+    const o: T10 = {
+      bytes4Array: ['abcd' as bytes<4>, 'efgh' as bytes<4>],
+      u64a: 1,
+      u64b: 2,
+      u64c: 3,
+      boolValue: false,
+    };
+
+    return o;
+  }
+}

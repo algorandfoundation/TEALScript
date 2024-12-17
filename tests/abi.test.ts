@@ -962,4 +962,16 @@ describe('ABI', function () {
       3n,
     ]);
   });
+
+  test('nestedArrayAlongsideBoolean', async () => {
+    const { appClient } = await compileAndCreate('nestedArrayAlongsideBoolean');
+
+    expect(await runMethod(appClient, 'nestedArrayAlongsideBoolean')).toEqual([
+      [[...Buffer.from('abcd')], [...Buffer.from('efgh')]],
+      1n,
+      2n,
+      3n,
+      false,
+    ]);
+  });
 });
