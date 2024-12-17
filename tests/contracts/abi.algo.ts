@@ -1637,14 +1637,16 @@ type T10 = {
 class ABITestNestedArrayInBox extends Contract {
   bMap = BoxMap<bytes, T10>();
 
-  nestedArrayInBox() {
-    this.bMap('bmap').value = {
+  nestedArrayInBox(): T10 {
+    this.bMap('bMap').value = {
       bytes4Array: ['abcd' as bytes<4>, 'efgh' as bytes<4>],
       u64a: 1,
       u64b: 2,
       u64c: 3,
       boolValue: false,
     };
+
+    return this.bMap('bMap').value;
   }
 }
 
@@ -1659,13 +1661,15 @@ type T11 = {
 class ABITestNestedArrayInBoxLast extends Contract {
   bMap = BoxMap<bytes, T11>();
 
-  nestedArrayInBoxLast() {
-    this.bMap('bmap').value = {
+  nestedArrayInBoxLast(): T11 {
+    this.bMap('bMap').value = {
       bytes4Array: ['abcd' as bytes<4>, 'efgh' as bytes<4>],
       u64a: 1,
       u64b: 2,
       u64c: 3,
       boolValue: false,
     };
+
+    return this.bMap('bMap').value;
   }
 }
