@@ -1625,3 +1625,25 @@ class ABITestPostBoolTupleOffset extends Contract {
     return retVal;
   }
 }
+
+type T10 = {
+  bytes4Array: bytes<4>[];
+  u64a: uint64;
+  u64b: uint64;
+  u64c: uint64;
+  boolValue: boolean;
+};
+
+class ABITestNestedArrayInBox extends Contract {
+  bMap = BoxMap<bytes, T10>();
+
+  nestedArrayInBox() {
+    this.bMap('bmap').value = {
+      bytes4Array: ['abcd' as bytes<4>, 'efgh' as bytes<4>],
+      u64a: 1,
+      u64b: 2,
+      u64c: 3,
+      boolValue: false,
+    };
+  }
+}

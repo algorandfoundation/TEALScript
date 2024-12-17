@@ -927,4 +927,10 @@ describe('ABI', function () {
 
     expect(await runMethod(appClient, 'postBoolTupleOffset')).toEqual([true, 1n, 2n]);
   });
+
+  test('nestedArrayInBox', async () => {
+    const { appClient } = await compileAndCreate('nestedArrayInBox');
+
+    expect(await runMethod(appClient, 'nestedArrayInBox')).toEqual([true, 1n, 2n]);
+  });
 });
