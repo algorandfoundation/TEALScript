@@ -67,7 +67,6 @@ nestedArrayAlongsideBoolean:
 	dup
 	setbit
 	callsub *process_static_tuple_element
-	concat
 	pop // pop head offset
 	concat // concat head and tail
 	frame_bury 0 // o: T10

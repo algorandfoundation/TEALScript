@@ -1631,7 +1631,7 @@ type T10 = {
   u64a: uint64;
   u64b: uint64;
   u64c: uint64;
-  boolValue: boolean;
+  boolValue: uint8;
 };
 
 class ABITestNestedArrayInBox extends Contract {
@@ -1643,7 +1643,7 @@ class ABITestNestedArrayInBox extends Contract {
       u64a: 1,
       u64b: 2,
       u64c: 3,
-      boolValue: false,
+      boolValue: 8,
     };
 
     return this.bMap('bMap').value;
@@ -1705,8 +1705,10 @@ class ABITestNestedArrayAlongsideBoolean extends Contract {
       u64a: 1,
       u64b: 2,
       u64c: 3,
-      boolValue: false,
+      boolValue: 8,
     };
+
+    assert(false);
 
     return o;
   }
