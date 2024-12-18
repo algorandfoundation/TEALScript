@@ -57,7 +57,7 @@ boolInNestedTuple:
 	intc 0 // 1
 	intc 1 // 0
 	setbit
-	concat // HERE
+	concat
 	frame_bury 0 // a: [[uint64, uint64, uint64], boolean, boolean]
 
 	// tests/contracts/abi.algo.ts:1444

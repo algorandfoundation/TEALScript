@@ -54,7 +54,7 @@ nestedArrayInBoxLast:
 	pop
 	bytec 1 //  initial head
 	bytec 1 //  initial tail
-	pushbytes 0x001a // initial head offset
+	pushbytes 0x001b // initial head offset
 	pushbytes 0x0000000000000001
 	callsub *process_static_tuple_element
 	pushbytes 0x0000000000000002

@@ -49,7 +49,7 @@ booleanLastInObj:
 	intc 0 // 0
 	dup
 	setbit
-	concat // HERE
+	concat
 	retsub
 
 *abi_route_createApplication:
