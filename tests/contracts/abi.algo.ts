@@ -1625,3 +1625,89 @@ class ABITestPostBoolTupleOffset extends Contract {
     return retVal;
   }
 }
+
+type T10 = {
+  bytes4Array: bytes<4>[];
+  u64a: uint64;
+  u64b: uint64;
+  u64c: uint64;
+  boolValue: boolean;
+};
+
+class ABITestNestedArrayInBox extends Contract {
+  bMap = BoxMap<bytes, T10>();
+
+  nestedArrayInBox(): T10 {
+    this.bMap('bMap').value = {
+      bytes4Array: ['abcd' as bytes<4>, 'efgh' as bytes<4>],
+      u64a: 1,
+      u64b: 2,
+      u64c: 3,
+      boolValue: false,
+    };
+
+    return this.bMap('bMap').value;
+  }
+}
+
+type T11 = {
+  u64a: uint64;
+  u64b: uint64;
+  u64c: uint64;
+  boolValue: boolean;
+  bytes4Array: bytes<4>[];
+};
+
+class ABITestNestedArrayInBoxLast extends Contract {
+  bMap = BoxMap<bytes, T11>();
+
+  nestedArrayInBoxLast(): T11 {
+    this.bMap('bMap').value = {
+      bytes4Array: ['abcd' as bytes<4>, 'efgh' as bytes<4>],
+      u64a: 1,
+      u64b: 2,
+      u64c: 3,
+      boolValue: false,
+    };
+
+    return this.bMap('bMap').value;
+  }
+}
+
+type T12 = {
+  bytes4Array: bytes<4>[];
+  u64a: uint64;
+  u64b: uint64;
+  u64c: uint64;
+};
+
+class ABITestNestedArrayInBoxWithoutBool extends Contract {
+  bMap = BoxMap<bytes, T12>();
+
+  nestedArrayInBoxWithoutBool(): T12 {
+    this.bMap('bMap').value = {
+      bytes4Array: ['abcd' as bytes<4>, 'efgh' as bytes<4>],
+      u64a: 1,
+      u64b: 2,
+      u64c: 3,
+    };
+
+    return this.bMap('bMap').value;
+  }
+}
+
+class ABITestNestedArrayAlongsideBoolean extends Contract {
+  gMap = GlobalStateMap<bytes, T10>({ maxKeys: 1 });
+
+  nestedArrayAlongsideBoolean(): T10 {
+    const o: T10 = {
+      bytes4Array: ['abcd' as bytes<4>, 'efgh' as bytes<4>],
+      u64a: 1,
+      u64b: 2,
+      u64c: 3,
+      boolValue: false,
+    };
+
+    return o;
+  }
+}

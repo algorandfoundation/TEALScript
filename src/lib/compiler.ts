@@ -2397,6 +2397,11 @@ export default class Compiler {
         }
       });
 
+      // If the last element is a bool, make sure to add the length
+      if (consecutiveBools > 0) {
+        totalLength += Math.ceil(consecutiveBools / 8);
+      }
+
       return totalLength;
     }
 
@@ -3515,7 +3520,7 @@ export default class Compiler {
     if (consecutiveBools.length > 0) {
       this.processBools(consecutiveBools);
       if (!isStatic) this.pushVoid(parentNode, 'callsub *process_static_tuple_element');
-      if (consecutiveBools.length !== elements.length) this.pushVoid(parentNode, 'concat');
+      if (isStatic && consecutiveBools.length !== elements.length) this.pushVoid(parentNode, 'concat');
     }
 
     if (!isStatic) this.pushLines(parentNode, 'pop // pop head offset', 'concat // concat head and tail');
@@ -7488,6 +7493,7 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
 
             if (this.isDynamicType(tVar.type) || isNumeric(tVar.type)) {
               if (program === 'lsig' || (program === 'approval' && !dynamicTemplateWarning)) {
+                // eslint-disable-next-line no-console
                 console.warn(
                   `WARNING: Due to dynamic template variable type for ${tVar.name} (${typeInfoToABIString(
                     tVar.type

@@ -1,0 +1,20 @@
+{
+  "name": "ABITestNestedArrayInBoxWithoutBool",
+  "desc": "",
+  "methods": [
+    {
+      "name": "nestedArrayInBoxWithoutBool",
+      "args": [],
+      "returns": {
+        "type": "(byte[4][],uint64,uint64,uint64)"
+      }
+    },
+    {
+      "name": "createApplication",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    }
+  ]
+}

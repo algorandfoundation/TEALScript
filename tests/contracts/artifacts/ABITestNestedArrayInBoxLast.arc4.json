@@ -1,0 +1,20 @@
+{
+  "name": "ABITestNestedArrayInBoxLast",
+  "desc": "",
+  "methods": [
+    {
+      "name": "nestedArrayInBoxLast",
+      "args": [],
+      "returns": {
+        "type": "(uint64,uint64,uint64,bool,byte[4][])"
+      }
+    },
+    {
+      "name": "createApplication",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    }
+  ]
+}
