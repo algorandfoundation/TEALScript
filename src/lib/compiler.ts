@@ -7493,6 +7493,7 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
 
             if (this.isDynamicType(tVar.type) || isNumeric(tVar.type)) {
               if (program === 'lsig' || (program === 'approval' && !dynamicTemplateWarning)) {
+                // eslint-disable-next-line no-console
                 console.warn(
                   `WARNING: Due to dynamic template variable type for ${tVar.name} (${typeInfoToABIString(
                     tVar.type

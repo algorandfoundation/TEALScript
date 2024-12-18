@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable func-names */
 
 import fs from 'fs';
@@ -213,6 +214,7 @@ export async function runMethod({
     const trace = resp.simulateResponse.txnGroups[0].txnResults[0].execTrace!.approvalProgramTrace!;
     // eslint-disable-next-line no-use-before-define
     const fullTrace = await getFullTrace(trace, approvalProgramTeal, algodClient);
+    // eslint-disable-next-line no-use-before-define
     printFullTrace(fullTrace);
     console.warn(e);
     throw e;
@@ -231,6 +233,7 @@ type FullTrace = {
   stack: (string | number)[];
 }[];
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function getFullTrace(simTrace: any[], teal: string, algod: algosdk.Algodv2): Promise<FullTrace> {
   const result = await algod.compile(teal).sourcemap(true).do();
 
@@ -247,6 +250,7 @@ async function getFullTrace(simTrace: any[], teal: string, algod: algosdk.Algodv
       newStack = newStack.slice(0, -t.stackPopCount);
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     t.stackAdditions?.forEach((s: any) => {
       if (s.bytes) {
         newStack.push(`0x${Buffer.from(s.bytes, 'base64').toString('hex')}`);
