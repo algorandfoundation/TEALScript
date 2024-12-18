@@ -1,0 +1,20 @@
+{
+  "name": "ABITestNestedArrayAlongsideBoolean",
+  "desc": "",
+  "methods": [
+    {
+      "name": "nestedArrayAlongsideBoolean",
+      "args": [],
+      "returns": {
+        "type": "(byte[4][],uint64,uint64,uint64,bool)"
+      }
+    },
+    {
+      "name": "createApplication",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    }
+  ]
+}

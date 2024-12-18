@@ -927,4 +927,51 @@ describe('ABI', function () {
 
     expect(await runMethod(appClient, 'postBoolTupleOffset')).toEqual([true, 1n, 2n]);
   });
+
+  test('nestedArrayInBox', async () => {
+    const { appClient } = await compileAndCreate('nestedArrayInBox');
+
+    expect(await runMethod(appClient, 'nestedArrayInBox')).toEqual([
+      [[...Buffer.from('abcd')], [...Buffer.from('efgh')]],
+      1n,
+      2n,
+      3n,
+      false,
+    ]);
+  });
+
+  test('nestedArrayInBoxLast', async () => {
+    const { appClient } = await compileAndCreate('nestedArrayInBoxLast');
+
+    expect(await runMethod(appClient, 'nestedArrayInBoxLast')).toEqual([
+      1n,
+      2n,
+      3n,
+      false,
+      [[...Buffer.from('abcd')], [...Buffer.from('efgh')]],
+    ]);
+  });
+
+  test('nestedArrayInBoxWithoutBool', async () => {
+    const { appClient } = await compileAndCreate('nestedArrayInBoxWithoutBool');
+
+    expect(await runMethod(appClient, 'nestedArrayInBoxWithoutBool')).toEqual([
+      [[...Buffer.from('abcd')], [...Buffer.from('efgh')]],
+      1n,
+      2n,
+      3n,
+    ]);
+  });
+
+  test('nestedArrayAlongsideBoolean', async () => {
+    const { appClient } = await compileAndCreate('nestedArrayAlongsideBoolean');
+
+    expect(await runMethod(appClient, 'nestedArrayAlongsideBoolean')).toEqual([
+      [[...Buffer.from('abcd')], [...Buffer.from('efgh')]],
+      1n,
+      2n,
+      3n,
+      false,
+    ]);
+  });
 });
