@@ -73,7 +73,7 @@ describe('Template Variables', function () {
       });
       let pc = 0;
       try {
-        await runMethod({ appClient, method: 'throwError' });
+        await runMethod({ appClient, method: 'throwError', skipEvalTrace: true });
       } catch (error) {
         pc = Number(String(error).match(/pc=(\d+)/)?.[1]);
       }
@@ -86,6 +86,7 @@ describe('Template Variables', function () {
       const offsetPc = pc - cblocksOffset;
 
       const sourceInfo = arc56.sourceInfo.approval.sourceInfo.find((s) => s.pc?.includes(offsetPc));
+      console.debug(arc56.sourceInfo.approval.sourceInfo, offsetPc, pc);
       expect(sourceInfo?.errorMessage).toBe('this is an error');
     });
   });

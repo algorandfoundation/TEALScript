@@ -99,7 +99,7 @@ describe('General', function () {
       const { appClient, compiler } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
       let msg = 'No error';
       try {
-        await runMethod({ appClient, method: 'assertComment' });
+        await runMethod({ appClient, method: 'assertComment', skipEvalTrace: true });
       } catch (e) {
         msg = getErrorMessage(e.message, compiler.sourceInfo);
       }
@@ -111,7 +111,7 @@ describe('General', function () {
       const { appClient, compiler } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
       let msg = 'No error';
       try {
-        await runMethod({ appClient, method: 'throwErrorMessage' });
+        await runMethod({ appClient, method: 'throwErrorMessage', skipEvalTrace: true });
       } catch (e) {
         msg = getErrorMessage(e.message, compiler.sourceInfo);
       }

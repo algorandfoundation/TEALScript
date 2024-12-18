@@ -85,7 +85,7 @@ describe('Math', function () {
 
       let msg: string;
       try {
-        await runMethod({ appClient, method: 'uint8plus', methodArgs: [2 ** 8 - 1, 1] });
+        await runMethod({ appClient, method: 'uint8plus', methodArgs: [2 ** 8 - 1, 1], skipEvalTrace: true });
         msg = 'No error';
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (e: any) {

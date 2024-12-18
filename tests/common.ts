@@ -156,6 +156,7 @@ export async function runMethod({
   callType = 'call',
   fundAmount = 0,
   fee = 1000,
+  skipEvalTrace = false,
 }: {
   appClient: ApplicationClient;
   method: string;
@@ -163,6 +164,7 @@ export async function runMethod({
   callType?: 'call' | 'optIn';
   fundAmount?: number;
   fee?: number;
+  skipEvalTrace?: boolean;
 }) {
   const params = {
     method,
@@ -179,6 +181,10 @@ export async function runMethod({
     }
     return (await appClient[callType](params)).return?.returnValue;
   } catch (e) {
+    if (skipEvalTrace) {
+      console.warn(e);
+      throw e;
+    }
     // eslint-disable-next-line no-console
     const abiMethod = appClient.getABIMethod(params.method)!;
     const { appId } = await appClient.getAppReference();
