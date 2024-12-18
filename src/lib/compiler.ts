@@ -2397,6 +2397,11 @@ export default class Compiler {
         }
       });
 
+      // If the last element is a bool, make sure to add the length
+      if (consecutiveBools > 0) {
+        totalLength += Math.ceil(consecutiveBools / 8);
+      }
+
       return totalLength;
     }
 
