@@ -1711,3 +1711,19 @@ class ABITestNestedArrayAlongsideBoolean extends Contract {
     return o;
   }
 }
+
+export type T13 = {
+  value: uint64;
+  bool: boolean;
+};
+
+class ABITestBoolUpdateInObjectInBox extends Contract {
+  boxes = BoxMap<bytes, T13>();
+
+  boolUpdateInObjectInBox(): boolean {
+    this.boxes('bRef').value = { value: 0, bool: false };
+    this.boxes('bRef').value.bool = true;
+
+    return this.boxes('bRef').value.bool;
+  }
+}

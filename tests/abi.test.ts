@@ -974,4 +974,10 @@ describe('ABI', function () {
       false,
     ]);
   });
+
+  test('boolUpdateInObjectInBox', async () => {
+    const { appClient } = await compileAndCreate('boolUpdateInObjectInBox');
+
+    expect(await runMethod(appClient, 'boolUpdateInObjectInBox')).toEqual(true);
+  });
 });
