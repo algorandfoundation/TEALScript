@@ -3909,8 +3909,9 @@ export default class Compiler {
       const storageProp = this.storageProps[storageName!];
 
       const { type, valueType } = storageProp;
-      let action: 'set' | 'replace' = type === 'box' && !this.isDynamicType(valueType) ? 'replace' : 'set';
-
+      let action: 'set' | 'replace' = type === 'box' && !this.isDynamicType(valueType) && !typeInfoToABIString(valueType).includes('bool')
+          ? 'replace'
+          : 'set';
       if (valueType.kind === 'base') action = 'set';
       // Honestly not sure why I needed to add this after b89ddc6c24d6102f9e890a0e76222de7e0ca79b5 (0.67.2)
       // But it works...
