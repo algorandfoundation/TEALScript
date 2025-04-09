@@ -25,9 +25,9 @@ function compilerErrorTest(contractName: string, errorMsg: string) {
 }
 
 describe('Reference Compile Errors', () => {
-  compilerErrorTest('MutableRefInObjLiteral', 'Cannot have multiple multiple references to the same object');
-  compilerErrorTest('MutableRefInObjAssignment', 'Cannot have multiple multiple references to the same object');
-  compilerErrorTest('MutableRefInArrayLiteral', 'Cannot have multiple multiple references to the same object');
-  compilerErrorTest('MutableRefInArrayAssignment', 'Cannot have multiple multiple references to the same object');
-  compilerErrorTest('MutableRefInPush', 'Cannot push to dynamic array of dynamic types');
+  compilerErrorTest('MutableRefInObjLiteral', 'Cannot access or create a reference to an mutable type');
+  compilerErrorTest('MutableRefInObjAssignment', 'Cannot access or create a reference to an mutable type');
+  compilerErrorTest('MutableRefInArrayLiteral', 'Cannot access or create a reference to an mutable type');
+  compilerErrorTest('MutableRefInArrayAssignment', 'Cannot access or create a reference to an mutable type');
+  compilerErrorTest('MutableRefInPush', 'Cannot access or create a reference to an mutable type');
 });
