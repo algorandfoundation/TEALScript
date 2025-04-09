@@ -1088,6 +1088,23 @@ export default class Compiler {
    */
   private topLevelNode!: ts.Node;
 
+  private mutableRefCheck(e: ts.Node) {
+    const typeInfo = this.getTypeInfo(e.getType());
+    if (typeInfo.kind !== 'base') {
+      if (
+        !(
+          e.isKind(ts.SyntaxKind.CallExpression) ||
+          e.isKind(ts.SyntaxKind.ArrayLiteralExpression) ||
+          e.isKind(ts.SyntaxKind.ObjectLiteralExpression)
+        )
+      ) {
+        throw Error(
+          `Cannot have multiple multiple references to the same object. Use clone to create a deep copy: clone(${e.getText()})`
+        );
+      }
+    }
+  }
+
   private getTypeInfo(type: ts.Type<ts.ts.Type>): TypeInfo {
     if (type.getText() === 'SplitUint128') return { kind: 'base', type: 'split uint128' };
     if (type.getText() === 'DivmodwOutput') return { kind: 'base', type: 'divmodw output' };
@@ -2038,6 +2055,9 @@ export default class Compiler {
         if (this.lastType.kind !== 'dynamicArray') throw new Error('Can only push to dynamic array');
         if (!this.isDynamicArrayOfStaticType(this.lastType))
           throw new Error('Cannot push to dynamic array of dynamic types');
+
+        this.mutableRefCheck(node.getArguments()[0]);
+
         this.processNode(node.getArguments()[0]);
         this.checkEncoding(node.getArguments()[0], this.lastType);
         this.pushVoid(node, 'concat');
@@ -3635,6 +3655,10 @@ export default class Compiler {
     const { typeHint } = this;
     if (typeHint === undefined) throw Error('Type hint must be provided to process object or array');
 
+    elements.forEach((e) => {
+      this.mutableRefCheck(e);
+    });
+
     if (
       typeHint.kind === 'tuple' ||
       typeHint.kind === 'object' ||
@@ -4226,6 +4250,8 @@ export default class Compiler {
       !this.isDynamicType(this.storageProps[getStorageName(storageExpression)!].valueType);
 
     if (newValue) {
+      this.mutableRefCheck(newValue);
+
       if (newValue.getType().isNumberLiteral()) {
         this.processNewValue(newValue, elem.type);
       } else {
@@ -4336,6 +4362,8 @@ export default class Compiler {
     }
 
     if (newValue) {
+      this.mutableRefCheck(newValue);
+
       if (this.isDynamicType(element.type)) {
         if (element.parent?.arrayType !== 'tuple') {
           throw new Error(
