@@ -530,7 +530,7 @@ getPools:
 
 *if0_end:
 	// examples/reti/validatorRegistry.algo.ts:325
-	// retData.push(poolSet[i])
+	// retData.push(clone(poolSet[i]))
 	frame_dig 0 // retData: PoolInfo[]
 	frame_dig 1 // poolSet: (uint64,uint16,uint64)[24]
 	frame_dig 2 // i: uint64
@@ -933,7 +933,7 @@ getStakedPoolsForAccount:
 
 	// *if4_consequent
 	// examples/reti/validatorRegistry.algo.ts:390
-	// retData.push(poolSet[i])
+	// retData.push(clone(poolSet[i]))
 	frame_dig 0 // retData: ValidatorPoolKey[]
 	frame_dig 1 // poolSet: (uint64,uint64,uint64)[6]
 	frame_dig 2 // i: uint64

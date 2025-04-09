@@ -14,6 +14,7 @@ import langspec from '../static/langspec.json';
 import { VERSION } from '../version';
 import { optimizeTeal } from './optimize';
 import { type ARC56Contract, type StructField } from '../types/arc56.d';
+import { checkRefs } from './ref_checker';
 
 const MULTI_OUTPUT_TYPES = ['split uint128', 'divmodw output', 'vrf return values', 'ecdsa pubkey'];
 
@@ -115,6 +116,42 @@ type Event = {
   desc: string;
   argTupleType: TypeInfo;
 };
+
+/**
+ *
+ * @param node The top level node to process
+ * @param chain The existing expression chain to add to
+ * @returns The base expression and reversed expression chain `this.txn.sender` ->
+ * `{ chain: [this.txn, this.txn.sender], base: [this] }`
+ */
+export function getExpressionChain(
+  node: ExpressionChainNode,
+  chain: ExpressionChainNode[] = []
+): { chain: ExpressionChainNode[]; base: ts.Node } {
+  chain.push(node);
+
+  /**
+   * The expression on the given node
+   * `this.txn.sender` -> `this.txn`
+   */
+  let expr: ts.Expression = node.getExpression();
+
+  /* this.txn.applicationArgs! -> this.txn.applicationArgs */
+  if (expr.isKind(ts.SyntaxKind.NonNullExpression)) {
+    expr = expr.getExpression();
+  }
+
+  if (
+    expr.isKind(ts.SyntaxKind.ElementAccessExpression) ||
+    expr.isKind(ts.SyntaxKind.PropertyAccessExpression) ||
+    expr.isKind(ts.SyntaxKind.CallExpression)
+  ) {
+    return getExpressionChain(expr, chain);
+  }
+
+  chain.reverse();
+  return { base: expr, chain };
+}
 
 async function getSourceMap(vlqMappings: string) {
   const pcList = vlqMappings.split(';').map((m: string) => {
@@ -1088,23 +1125,6 @@ export default class Compiler {
    */
   private topLevelNode!: ts.Node;
 
-  private mutableRefCheck(e: ts.Node) {
-    const typeInfo = this.getTypeInfo(e.getType());
-    if (typeInfo.kind !== 'base') {
-      if (
-        !(
-          e.isKind(ts.SyntaxKind.CallExpression) ||
-          e.isKind(ts.SyntaxKind.ArrayLiteralExpression) ||
-          e.isKind(ts.SyntaxKind.ObjectLiteralExpression)
-        )
-      ) {
-        throw Error(
-          `Cannot have multiple multiple references to the same object. Use clone to create a deep copy: clone(${e.getText()})`
-        );
-      }
-    }
-  }
-
   private getTypeInfo(type: ts.Type<ts.ts.Type>): TypeInfo {
     if (type.getText() === 'SplitUint128') return { kind: 'base', type: 'split uint128' };
     if (type.getText() === 'DivmodwOutput') return { kind: 'base', type: 'divmodw output' };
@@ -2056,8 +2076,6 @@ export default class Compiler {
         if (!this.isDynamicArrayOfStaticType(this.lastType))
           throw new Error('Cannot push to dynamic array of dynamic types');
 
-        this.mutableRefCheck(node.getArguments()[0]);
-
         this.processNode(node.getArguments()[0]);
         this.checkEncoding(node.getArguments()[0], this.lastType);
         this.pushVoid(node, 'concat');
@@ -2857,6 +2875,10 @@ export default class Compiler {
 
     // Go over all the files we are importing and check for number keywords
     [sourceFile, ...importedFiles].forEach((f) => {
+      if (f === undefined) return;
+
+      checkRefs(f, path.relative(this.cwd, f.getFilePath()));
+
       f?.getStatements().forEach((s) => {
         const numberKeywords = s.getDescendantsOfKind(ts.SyntaxKind.NumberKeyword);
 
@@ -3655,10 +3677,6 @@ export default class Compiler {
     const { typeHint } = this;
     if (typeHint === undefined) throw Error('Type hint must be provided to process object or array');
 
-    elements.forEach((e) => {
-      this.mutableRefCheck(e);
-    });
-
     if (
       typeHint.kind === 'tuple' ||
       typeHint.kind === 'object' ||
@@ -3718,42 +3736,6 @@ export default class Compiler {
     }
 
     this.processArrayElements(node.getElements(), node);
-  }
-
-  /**
-   *
-   * @param node The top level node to process
-   * @param chain The existing expression chain to add to
-   * @returns The base expression and reversed expression chain `this.txn.sender` ->
-   * `{ chain: [this.txn, this.txn.sender], base: [this] }`
-   */
-  private getExpressionChain(
-    node: ExpressionChainNode,
-    chain: ExpressionChainNode[] = []
-  ): { chain: ExpressionChainNode[]; base: ts.Node } {
-    chain.push(node);
-
-    /**
-     * The expression on the given node
-     * `this.txn.sender` -> `this.txn`
-     */
-    let expr: ts.Expression = node.getExpression();
-
-    /* this.txn.applicationArgs! -> this.txn.applicationArgs */
-    if (expr.isKind(ts.SyntaxKind.NonNullExpression)) {
-      expr = expr.getExpression();
-    }
-
-    if (
-      expr.isKind(ts.SyntaxKind.ElementAccessExpression) ||
-      expr.isKind(ts.SyntaxKind.PropertyAccessExpression) ||
-      expr.isKind(ts.SyntaxKind.CallExpression)
-    ) {
-      return this.getExpressionChain(expr, chain);
-    }
-
-    chain.reverse();
-    return { base: expr, chain };
   }
 
   private getAccessChain(node: ts.ElementAccessExpression, chain: ts.ElementAccessExpression[] = []) {
@@ -4250,8 +4232,6 @@ export default class Compiler {
       !this.isDynamicType(this.storageProps[getStorageName(storageExpression)!].valueType);
 
     if (newValue) {
-      this.mutableRefCheck(newValue);
-
       if (newValue.getType().isNumberLiteral()) {
         this.processNewValue(newValue, elem.type);
       } else {
@@ -4362,8 +4342,6 @@ export default class Compiler {
     }
 
     if (newValue) {
-      this.mutableRefCheck(newValue);
-
       if (this.isDynamicType(element.type)) {
         if (element.parent?.arrayType !== 'tuple') {
           throw new Error(
@@ -6344,7 +6322,7 @@ export default class Compiler {
       }
     }
 
-    const { base, chain } = this.getExpressionChain(node);
+    const { base, chain } = getExpressionChain(node);
 
     if (base.isKind(ts.SyntaxKind.ParenthesizedExpression)) {
       if (!base.getExpression().isKind(ts.SyntaxKind.BinaryExpression))

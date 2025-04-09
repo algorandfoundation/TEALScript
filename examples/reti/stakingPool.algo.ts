@@ -434,7 +434,7 @@ export class StakingPool extends Contract {
           applicationID: AppID.fromUint64(this.creatingValidatorContractAppId.value),
           methodArgs: [
             { id: this.validatorId.value, poolId: this.poolId.value, poolAppId: this.app.id },
-            staker,
+            clone(staker),
             0, // no algo removed
             amountRewardTokenRemoved,
             false, // staker isn't being removed.
