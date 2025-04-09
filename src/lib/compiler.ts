@@ -15,10 +15,9 @@ import { VERSION } from '../version';
 import { optimizeTeal } from './optimize';
 import { type ARC56Contract, type StructField } from '../types/arc56.d';
 import { checkRefs } from './ref_checker';
+import { getExpressionChain, ExpressionChainNode } from './utils';
 
 const MULTI_OUTPUT_TYPES = ['split uint128', 'divmodw output', 'vrf return values', 'ecdsa pubkey'];
-
-type ExpressionChainNode = ts.ElementAccessExpression | ts.PropertyAccessExpression | ts.CallExpression;
 
 type OnComplete = 'NoOp' | 'OptIn' | 'CloseOut' | 'ClearState' | 'UpdateApplication' | 'DeleteApplication';
 const ON_COMPLETES: ['NoOp', 'OptIn', 'CloseOut', 'ClearState', 'UpdateApplication', 'DeleteApplication'] = [
@@ -116,42 +115,6 @@ type Event = {
   desc: string;
   argTupleType: TypeInfo;
 };
-
-/**
- *
- * @param node The top level node to process
- * @param chain The existing expression chain to add to
- * @returns The base expression and reversed expression chain `this.txn.sender` ->
- * `{ chain: [this.txn, this.txn.sender], base: [this] }`
- */
-export function getExpressionChain(
-  node: ExpressionChainNode,
-  chain: ExpressionChainNode[] = []
-): { chain: ExpressionChainNode[]; base: ts.Node } {
-  chain.push(node);
-
-  /**
-   * The expression on the given node
-   * `this.txn.sender` -> `this.txn`
-   */
-  let expr: ts.Expression = node.getExpression();
-
-  /* this.txn.applicationArgs! -> this.txn.applicationArgs */
-  if (expr.isKind(ts.SyntaxKind.NonNullExpression)) {
-    expr = expr.getExpression();
-  }
-
-  if (
-    expr.isKind(ts.SyntaxKind.ElementAccessExpression) ||
-    expr.isKind(ts.SyntaxKind.PropertyAccessExpression) ||
-    expr.isKind(ts.SyntaxKind.CallExpression)
-  ) {
-    return getExpressionChain(expr, chain);
-  }
-
-  chain.reverse();
-  return { base: expr, chain };
-}
 
 async function getSourceMap(vlqMappings: string) {
   const pcList = vlqMappings.split(';').map((m: string) => {

@@ -1,11 +1,6 @@
-import { describe, test, expect, beforeAll } from '@jest/globals';
-import * as algokit from '@algorandfoundation/algokit-utils';
-import path from 'path';
-// eslint-disable-next-line import/no-unresolved
-import { ApplicationClient } from '@algorandfoundation/algokit-utils/types/app-client';
+import { describe, test, expect } from '@jest/globals';
 import algosdk from 'algosdk';
-import { getMethodTeal, artifactsTest, algodClient, kmdClient, compileAndCreate, TESTS_PROJECT } from './common';
-import Compiler from '../src/lib/compiler';
+import { compileAndCreate } from './common';
 
 const ARTIFACTS_DIR = 'tests/contracts/artifacts/';
 

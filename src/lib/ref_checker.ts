@@ -1,6 +1,5 @@
 import * as ts from 'ts-morph';
-import path from 'path';
-import { getExpressionChain } from './compiler';
+import { getExpressionChain } from './utils';
 
 /** Expressions that access (read or write) the array */
 function arrayOrObjAccess(node: ts.Node, methodBody: ts.Node) {
