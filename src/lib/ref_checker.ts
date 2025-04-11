@@ -82,12 +82,20 @@ function referencesInAssignment(node: ts.Node, methodBody: ts.Node) {
   methodBody.getDescendantsOfKind(ts.SyntaxKind.BinaryExpression).forEach((n) => {
     if (n.getOperatorToken().getText() !== '=') return;
 
-    if (n.getRight().getText() === node.getText()) {
-      nodes.push(n.getRight());
-      return nodes;
-    }
+    [n.getRight(), n.getLeft()].forEach((s) => {
+      if (s.getText() === node.getText()) {
+        nodes.push(s);
+      }
+    });
   });
 
+  methodBody.getDescendantsOfKind(ts.SyntaxKind.VariableDeclaration).forEach((n) => {
+    const val = n.getInitializer();
+
+    if (val?.getText() === node.getText()) {
+      nodes.push(val);
+    }
+  });
   return nodes;
 }
 
