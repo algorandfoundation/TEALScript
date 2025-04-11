@@ -75,16 +75,50 @@ function referencesInVariableDeclaration(node: ts.Node, methodBody: ts.Node) {
   return nodes;
 }
 
+/** References to the node in value assignment */
+function referencesInAssignment(node: ts.Node, methodBody: ts.Node) {
+  const nodes: ts.Node[] = [];
+
+  methodBody.getDescendantsOfKind(ts.SyntaxKind.BinaryExpression).forEach((n) => {
+    if (n.getOperatorToken().getText() !== '=') return;
+
+    if (n.getRight().getText() === node.getText()) {
+      nodes.push(n.getRight());
+      return nodes;
+    }
+  });
+
+  return nodes;
+}
+
 function getNodeLines(node: ts.Node, pathStr: string) {
   const refFullLine = node.getSourceFile().getFullText().split('\n')[node.getStartLineNumber() - 1].trim();
 
   return `${pathStr}:${node.getStartLineNumber()}:\n  ${refFullLine}`;
 }
 
-function isCloned(node: ts.Node) {
-  const callParent = node.getParentIfKind(ts.SyntaxKind.CallExpression);
-  const expr = callParent?.getExpressionIfKind(ts.SyntaxKind.Identifier);
-  return callParent && expr?.getText() === 'clone';
+function checkFunctionArgs(node: ts.Node, methodBody: ts.Node, pathStr: string) {
+  const calls = methodBody.getDescendantsOfKind(ts.SyntaxKind.CallExpression);
+
+  calls.forEach((c) => {
+    c.getArguments().forEach((a) => {
+      if (a.getText() === node.getText()) {
+        const callParent = a.getParentIfKind(ts.SyntaxKind.CallExpression);
+        const expr = callParent?.getExpressionIfKind(ts.SyntaxKind.Identifier);
+
+        if (callParent && expr?.getText() === 'clone') {
+          return;
+        }
+
+        throw Error(
+          `Cannot pass reference to a function. Use clone to create a deep copy: clone(${node.getText()})\n${getNodeLines(
+            a,
+            pathStr
+          )}`
+        );
+      }
+    });
+  });
 }
 
 export function checkRefs(file: ts.SourceFile, pathStr: string) {
@@ -125,27 +159,14 @@ export function checkRefs(file: ts.SourceFile, pathStr: string) {
       });
 
     mutableValues.forEach((n) => {
+      checkFunctionArgs(n, body, pathStr);
       const accessNodes = arrayOrObjAccess(n, body);
-
-      accessNodes.forEach((a) => {
-        if (
-          a.getParentIfKind(ts.SyntaxKind.CallExpression) &&
-          !isCloned(a) &&
-          !AVM_OBJECT_TYPES.includes(a.getType().getText())
-        ) {
-          throw Error(
-            `Cannot pass reference to a function. Use clone to create a deep copy: clone(${n.getText()})\n${getNodeLines(
-              a,
-              pathStr
-            )}`
-          );
-        }
-      });
 
       const referenceNodes = [
         ...referencesInArrayLiteral(n, body),
         ...referencesInObjectLiteral(n, body),
         ...referencesInVariableDeclaration(n, body),
+        ...referencesInAssignment(n, body),
       ].filter((r) => !AVM_OBJECT_TYPES.includes(r.getType().getText()));
 
       referenceNodes.forEach((ref) => {
