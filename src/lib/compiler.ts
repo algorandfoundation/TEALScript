@@ -7729,7 +7729,7 @@ declare type AssetFreezeTxn = Required<AssetFreezeParams>;
         state.maps[sp.type][sp.name] = {
           keyType,
           valueType,
-          prefix: sp.prefix,
+          prefix: sp.prefix ? Buffer.from(sp.prefix).toString('base64') : undefined,
         };
       }
 
