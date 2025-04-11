@@ -194,21 +194,21 @@
         "globalMap": {
           "keyType": "string",
           "valueType": "{ foo: uint16; bar: uint16 }",
-          "prefix": "p"
+          "prefix": "cA=="
         }
       },
       "local": {
         "localMap": {
           "keyType": "AVMBytes",
           "valueType": "string",
-          "prefix": "p"
+          "prefix": "cA=="
         }
       },
       "box": {
         "boxMap": {
           "keyType": "Inputs",
           "valueType": "Outputs",
-          "prefix": "p"
+          "prefix": "cA=="
         }
       }
     }

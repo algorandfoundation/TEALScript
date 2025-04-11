@@ -1182,12 +1182,12 @@
         "validatorList": {
           "keyType": "uint64",
           "valueType": "ValidatorInfo",
-          "prefix": "v"
+          "prefix": "dg=="
         },
         "stakerPoolSet": {
           "keyType": "address",
           "valueType": "(uint64,uint64,uint64)[6]",
-          "prefix": "sps"
+          "prefix": "c3Bz"
         }
       }
     }
