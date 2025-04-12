@@ -56,7 +56,7 @@ function arrayOrObjAccess(node: ts.Node, methodBody: ts.Node) {
   return nodes;
 }
 
-const AVM_OBJECT_TYPES = ['Address', 'AppID', 'AssetID'];
+const AVM_OBJECT_TYPES = ['Address', 'AppID', 'AssetID', 'ECDSAPubKey', 'Txn[]'];
 
 function isArrayOrObject(node: ts.Node) {
   const type = node.getType();
@@ -145,36 +145,26 @@ function referencesInAssignment(node: ts.Node, methodBody: ts.Node) {
   return nodes;
 }
 
+function referencesInFunctionCalls(node: ts.Node, methodBody: ts.Node): ts.Node[] {
+  const nodes: ts.Node[] = [];
+  methodBody.getDescendantsOfKind(ts.SyntaxKind.CallExpression).forEach((n) => {
+    n.getArguments().forEach((a) => {
+      if (!isArrayOrObject(a)) return;
+      if (nodesAccessSameData(a, node)) {
+        nodes.push(a);
+      }
+    });
+  });
+
+  return nodes;
+}
+
 function getNodeLines(node: ts.Node, pathStr: string) {
   const refFullLine = node.getSourceFile().getFullText().split('\n')[node.getStartLineNumber() - 1].trim();
 
   return `${pathStr}:${node.getStartLineNumber()}:${
     ts.ts.getLineAndCharacterOfPosition(node.getSourceFile().compilerNode, node.getPos()).character
   }\n  ${refFullLine}`;
-}
-
-function checkFunctionArgs(node: ts.Node, methodBody: ts.Node, pathStr: string) {
-  const calls = methodBody.getDescendantsOfKind(ts.SyntaxKind.CallExpression);
-
-  calls.forEach((c) => {
-    c.getArguments().forEach((a) => {
-      if (nodesAccessSameData(a, node)) {
-        const callParent = a.getParentIfKind(ts.SyntaxKind.CallExpression);
-        const expr = callParent?.getExpressionIfKind(ts.SyntaxKind.Identifier);
-
-        if (callParent && expr?.getText() === 'clone') {
-          return;
-        }
-
-        throw Error(
-          `Cannot pass reference to a function. Use clone to create a deep copy: clone(${node.getText()})\n${getNodeLines(
-            a,
-            pathStr
-          )}`
-        );
-      }
-    });
-  });
 }
 
 /** Given a node, return the non-dynamic chain. For example, `arr[0][i]` returns `arr[0]`.
@@ -253,7 +243,6 @@ export function checkRefs(file: ts.SourceFile, pathStr: string) {
       });
 
     mutableValues.forEach((n) => {
-      checkFunctionArgs(n, body, pathStr);
       const accessNodes = arrayOrObjAccess(n, body).map(getNonDynamicNode);
 
       const referenceNodes = [
@@ -261,6 +250,7 @@ export function checkRefs(file: ts.SourceFile, pathStr: string) {
         ...referencesInObjectLiteral(n, body),
         ...referencesInVariableDeclaration(n, body),
         ...referencesInAssignment(n, body),
+        ...referencesInFunctionCalls(n, body),
       ]
         .filter((r) => !AVM_OBJECT_TYPES.includes(r.getType().getText()))
         .map(getNonDynamicNode);
