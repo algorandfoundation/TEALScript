@@ -1727,3 +1727,18 @@ class ABITestBoolUpdateInObjectInBox extends Contract {
     return this.boxes('bRef').value.bool;
   }
 }
+
+export class ABITestMutableRefInVariableDeclaration extends Contract {
+  mutableRefInVariableDeclaration(): [uint64, uint64] {
+    const arrArr: uint64[][] = [[1, 2, 3]];
+
+    const x = arrArr[0];
+
+    arrArr[0][0] = 7;
+
+    const y = arrArr[0];
+    y[1] = 8;
+
+    return [x[0], arrArr[0][1]];
+  }
+}

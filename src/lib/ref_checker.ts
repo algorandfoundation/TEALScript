@@ -96,26 +96,6 @@ function referencesInObjectLiteral(node: ts.Node, methodBody: ts.Node) {
   return nodes;
 }
 
-/** References to the node created by a variable declaration */
-function referencesInVariableDeclaration(node: ts.Node, methodBody: ts.Node) {
-  const nodes: ts.Node[] = [];
-
-  methodBody.getDescendantsOfKind(ts.SyntaxKind.VariableDeclaration).forEach((n) => {
-    const val = n.getInitializer();
-    const valType = val?.getType();
-
-    if (!valType?.isArray() && !valType?.isObject()) {
-      return;
-    }
-
-    if (val && nodesAccessSameData(val, node)) {
-      nodes.push(val);
-    }
-  });
-
-  return nodes;
-}
-
 /** References to the node in value assignment */
 function referencesInAssignment(node: ts.Node, methodBody: ts.Node) {
   const nodes: ts.Node[] = [];
@@ -125,14 +105,6 @@ function referencesInAssignment(node: ts.Node, methodBody: ts.Node) {
 
     if (isArrayOrObject(n.getRight()) && nodesAccessSameData(n.getRight(), node)) {
       nodes.push(n.getRight());
-    }
-  });
-
-  methodBody.getDescendantsOfKind(ts.SyntaxKind.VariableDeclaration).forEach((n) => {
-    const val = n.getInitializer();
-
-    if (val && isArrayOrObject(val) && nodesAccessSameData(val, node)) {
-      nodes.push(val);
     }
   });
 
@@ -241,7 +213,6 @@ export function checkRefs(file: ts.SourceFile, pathStr: string) {
       const referenceNodes = [
         ...referencesInArrayLiteral(n, body),
         ...referencesInObjectLiteral(n, body),
-        ...referencesInVariableDeclaration(n, body),
         ...referencesInAssignment(n, body),
         ...referencesInFunctionCalls(n, body),
       ]

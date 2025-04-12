@@ -11,7 +11,7 @@ class ContactsApp extends Contract {
   setMyContact(name: string, company: string): void {
     const contact: Contact = { name: name, company: company };
 
-    this.myContact.value = contact;
+    this.myContact.value = clone(contact);
     this.contacts(this.txn.sender).value = contact;
   }
 
