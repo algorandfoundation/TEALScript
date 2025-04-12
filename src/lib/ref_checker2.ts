@@ -159,10 +159,29 @@ function isAlias(a: ts.Node, b: ts.Node, methodBody: ts.Node) {
   return getAliases(a, methodBody).includes(b) || getAliases(b, methodBody).includes(a);
 }
 
+function checkArrayFunctions(methodBody: ts.Node, pathStr: string) {
+  methodBody.getDescendantsOfKind(ts.SyntaxKind.CallExpression).forEach((c) => {
+    const expr = c.getExpression();
+    if (expr.isKind(ts.SyntaxKind.PropertyAccessExpression)) {
+      const propExpr = expr.getExpression();
+      if (propExpr.getType().isArray() && expr.getName() === 'push') {
+        const arg = c.getArguments()[0];
+        if (isArrayOrObject(arg)) {
+          const msg = `Mutable objects must be cloned via "clone" before being pushed into an array: clone(${arg.getText()})`;
+          throw Error(`${msg}\n${getNodeLines(arg, pathStr)}`);
+        }
+        console.debug(propExpr.getText(), propExpr.getType().isArray(), expr.getName());
+      }
+    }
+  });
+}
+
 export function checkRefs(file: ts.SourceFile, pathStr: string) {
   file.getDescendantsOfKind(ts.SyntaxKind.MethodDeclaration).forEach((method) => {
     const methodBody = method.getBody();
     if (!methodBody) return;
+
+    checkArrayFunctions(methodBody, pathStr);
     const variables = methodBody.getDescendantsOfKind(ts.SyntaxKind.VariableDeclaration);
     variables.forEach((variable) => {
       if (!isArrayOrObject(variable)) return;
