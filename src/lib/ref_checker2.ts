@@ -58,11 +58,20 @@ function includesNode(haystack: ts.Node, needle: ts.Node): boolean {
 }
 
 function getNodeLines(node: ts.Node, pathStr: string) {
-  const refFullLine = node.getSourceFile().getFullText().split('\n')[node.getStartLineNumber() - 1].trim();
+  console.debug(node.getText());
+  const nonTrimmedLine = node.getSourceFile().getFullText().split('\n')[node.getStartLineNumber() - 1];
+  const refFullLine = nonTrimmedLine.trim();
+  const char = ts.ts.getLineAndCharacterOfPosition(
+    node.getSourceFile().compilerNode,
+    node.getNonWhitespaceStart()
+  ).character;
+  const nodeOffset = char - (nonTrimmedLine.length - refFullLine.length);
 
-  return `${pathStr}:${node.getStartLineNumber()}:${
-    ts.ts.getLineAndCharacterOfPosition(node.getSourceFile().compilerNode, node.getPos()).character
-  }\n  ${refFullLine}`;
+  console.debug(node.getPos(), node.getStartLinePos(false));
+
+  return `${pathStr}:${node.getStartLineNumber()}:${char}\n  ${refFullLine}\n  ${' '.repeat(nodeOffset)}${'^'.repeat(
+    node.getText().length
+  )}`;
 }
 
 function getAliases(node: ts.Node, methodBody: ts.Node) {
