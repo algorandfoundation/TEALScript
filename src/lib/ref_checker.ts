@@ -56,12 +56,24 @@ function arrayOrObjAccess(node: ts.Node, methodBody: ts.Node) {
   return nodes;
 }
 
+const AVM_OBJECT_TYPES = ['Address', 'AppID', 'AssetID'];
+
+function isArrayOrObject(node: ts.Node) {
+  const type = node.getType();
+  const typeText = type.getText();
+
+  if (AVM_OBJECT_TYPES.includes(typeText)) return false;
+
+  return type.isArray() || type.isObject();
+}
+
 /** References to the node created in an array literal expression */
 function referencesInArrayLiteral(node: ts.Node, methodBody: ts.Node) {
   const nodes: ts.Node[] = [];
 
   methodBody.getDescendantsOfKind(ts.SyntaxKind.ArrayLiteralExpression).forEach((n) => {
     n.getElements().forEach((e) => {
+      if (!isArrayOrObject(e)) return;
       if (nodesAccessSameData(e, node)) {
         nodes.push(e);
       }
@@ -80,6 +92,7 @@ function referencesInObjectLiteral(node: ts.Node, methodBody: ts.Node) {
       // TODO: Support short-hand
       if (!e.isKind(ts.SyntaxKind.PropertyAssignment)) throw new Error();
       const value = e.getInitializer();
+      if (value && !isArrayOrObject(value)) return;
       if (value && nodesAccessSameData(node, value)) {
         nodes.push(value);
       }
@@ -88,8 +101,6 @@ function referencesInObjectLiteral(node: ts.Node, methodBody: ts.Node) {
 
   return nodes;
 }
-
-const AVM_OBJECT_TYPES = ['Address', 'AppID', 'AssetID'];
 
 /** References to the node created by a variable declaration */
 function referencesInVariableDeclaration(node: ts.Node, methodBody: ts.Node) {
@@ -118,11 +129,9 @@ function referencesInAssignment(node: ts.Node, methodBody: ts.Node) {
   methodBody.getDescendantsOfKind(ts.SyntaxKind.BinaryExpression).forEach((n) => {
     if (n.getOperatorToken().getText() !== '=') return;
 
-    [n.getRight(), n.getLeft()].forEach((s) => {
-      if (nodesAccessSameData(s, node)) {
-        nodes.push(s);
-      }
-    });
+    if (nodesAccessSameData(n.getRight(), node)) {
+      nodes.push(n.getRight());
+    }
   });
 
   methodBody.getDescendantsOfKind(ts.SyntaxKind.VariableDeclaration).forEach((n) => {
@@ -139,7 +148,9 @@ function referencesInAssignment(node: ts.Node, methodBody: ts.Node) {
 function getNodeLines(node: ts.Node, pathStr: string) {
   const refFullLine = node.getSourceFile().getFullText().split('\n')[node.getStartLineNumber() - 1].trim();
 
-  return `${pathStr}:${node.getStartLineNumber()}:\n  ${refFullLine}`;
+  return `${pathStr}:${node.getStartLineNumber()}:${
+    ts.ts.getLineAndCharacterOfPosition(node.getSourceFile().compilerNode, node.getPos()).character
+  }\n  ${refFullLine}`;
 }
 
 function checkFunctionArgs(node: ts.Node, methodBody: ts.Node, pathStr: string) {
@@ -195,6 +206,7 @@ function getNonDynamicNode(node: ts.Node): ts.Node {
   return currentNode;
 }
 
+const TEALSCRIPT_STATE_TYPES = ['GlobalStateValue', 'BoxValue'];
 export function checkRefs(file: ts.SourceFile, pathStr: string) {
   file.getDescendantsOfKind(ts.SyntaxKind.MethodDeclaration).forEach((m) => {
     const body = m.getBody()!;
@@ -207,6 +219,13 @@ export function checkRefs(file: ts.SourceFile, pathStr: string) {
       .filter((n) => n.getType().isArray() || n.getType().isObject())
       .map(getNonDynamicNode)
       .filter((n) => {
+        if (AVM_OBJECT_TYPES.includes(n.getType().getText())) return false;
+
+        // eslint-disable-next-line
+        for (const t of TEALSCRIPT_STATE_TYPES) {
+          if (n.getType().getText().startsWith(`${t}<`)) return false;
+        }
+
         if (n.isKind(ts.SyntaxKind.Identifier)) {
           const callParent = n.getFirstAncestorByKind(ts.SyntaxKind.CallExpression);
           const expr = callParent?.getExpression();
