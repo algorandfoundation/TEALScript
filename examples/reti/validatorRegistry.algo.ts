@@ -693,12 +693,12 @@ export class ValidatorRegistry extends Contract {
     }
 
     // Update StakerPoolList for this found pool (new or existing)
-    this.updateStakerPoolSet(staker, poolKey);
+    this.updateStakerPoolSet(staker, clone(poolKey));
     // Send the callers algo amount (- mbrAmtLeftBehind) to the specified staking pool, and it then updates
     // the staker data.
     this.callPoolAddStake(
       stakedAmountPayment,
-      poolKey,
+      clone(poolKey),
       mbrAmtLeftBehind,
       isNewStakerToValidator,
       isNewStakerToProtocol

@@ -38,21 +38,15 @@ function nodesAccessSameData(aNode: ts.Node, bNode: ts.Node): boolean {
 }
 
 /** Expressions that access (read or write) the array */
-function arrayOrObjAccess(node: ts.Node, methodBody: ts.Node) {
-  const elementExpr = methodBody.getDescendantsOfKind(ts.SyntaxKind.ElementAccessExpression);
-  const propExpr = methodBody.getDescendantsOfKind(ts.SyntaxKind.PropertyAccessExpression);
-
+function arrayOrObjAccess(node: ts.Node, methodBody: ts.Node, references: ts.Node[]) {
   const nodes: ts.Node[] = [];
-  [...elementExpr, ...propExpr].forEach((n) => {
-    const chain = getExpressionChain(n);
 
-    [chain.base, ...chain.chain].forEach((e) => {
-      if (nodesAccessSameData(e, node)) {
-        nodes.push(e);
-      }
-    });
+  methodBody.getDescendantsOfKind(node.getKind()).forEach((n) => {
+    if (!isArrayOrObject(n)) return;
+    if (nodesAccessSameData(n, node) && !references.includes(n)) {
+      nodes.push(n);
+    }
   });
-
   return nodes;
 }
 
@@ -129,7 +123,7 @@ function referencesInAssignment(node: ts.Node, methodBody: ts.Node) {
   methodBody.getDescendantsOfKind(ts.SyntaxKind.BinaryExpression).forEach((n) => {
     if (n.getOperatorToken().getText() !== '=') return;
 
-    if (nodesAccessSameData(n.getRight(), node)) {
+    if (isArrayOrObject(n.getRight()) && nodesAccessSameData(n.getRight(), node)) {
       nodes.push(n.getRight());
     }
   });
@@ -137,7 +131,7 @@ function referencesInAssignment(node: ts.Node, methodBody: ts.Node) {
   methodBody.getDescendantsOfKind(ts.SyntaxKind.VariableDeclaration).forEach((n) => {
     const val = n.getInitializer();
 
-    if (val && nodesAccessSameData(val, node)) {
+    if (val && isArrayOrObject(val) && nodesAccessSameData(val, node)) {
       nodes.push(val);
     }
   });
@@ -150,6 +144,7 @@ function referencesInFunctionCalls(node: ts.Node, methodBody: ts.Node): ts.Node[
   methodBody.getDescendantsOfKind(ts.SyntaxKind.CallExpression).forEach((n) => {
     n.getArguments().forEach((a) => {
       if (!isArrayOrObject(a)) return;
+      if (n.getExpression().getText() === 'clone') return;
       if (nodesAccessSameData(a, node)) {
         nodes.push(a);
       }
@@ -243,8 +238,6 @@ export function checkRefs(file: ts.SourceFile, pathStr: string) {
       });
 
     mutableValues.forEach((n) => {
-      const accessNodes = arrayOrObjAccess(n, body).map(getNonDynamicNode);
-
       const referenceNodes = [
         ...referencesInArrayLiteral(n, body),
         ...referencesInObjectLiteral(n, body),
@@ -255,6 +248,7 @@ export function checkRefs(file: ts.SourceFile, pathStr: string) {
         .filter((r) => !AVM_OBJECT_TYPES.includes(r.getType().getText()))
         .map(getNonDynamicNode);
 
+      const accessNodes = arrayOrObjAccess(n, body, referenceNodes).map(getNonDynamicNode);
       referenceNodes.forEach((ref) => {
         const violator = [...referenceNodes, ...accessNodes].find((v) => v.getPos() > ref.getPos());
 

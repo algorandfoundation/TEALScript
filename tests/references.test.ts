@@ -49,11 +49,7 @@ describe('Reference Compile Errors', () => {
     'arrArr[0] = arr'
   );
 
-  compilerErrorTest(
-    'MutableRefInPush',
-    'Cannot pass reference to a function. Use clone to create a deep copy',
-    'arrArr.push(arr)'
-  );
+  compilerErrorTest('MutableRefInPush', 'Cannot access or create a reference to an mutable type', 'arr[0] = 4');
 
   compilerErrorTest(
     'MutableRefInVariableDeclaration',
