@@ -1,7 +1,31 @@
 /* eslint-disable no-console */
 
 import * as ts from 'ts-morph';
+import path from 'path';
 import { getExpressionChain } from './utils';
+
+const LIB_DIR = path.normalize(__dirname);
+const TYPES_DIR = path.normalize(path.join(__dirname, '..', '..', 'types'));
+
+const AVM_OBJECT_TYPES = ['Address', 'AppID', 'AssetID', 'ECDSAPubKey', 'Txn[]'];
+
+function isArrayOrObject(node: ts.Node) {
+  const type = node.getType();
+  const typeText = type.getText();
+
+  if (AVM_OBJECT_TYPES.includes(typeText)) return false;
+
+  return type.isArray() || type.isObject();
+}
+
+function throwError(mutation: ts.Node, access: ts.Node, strPath: string) {
+  const mutationLine = getNodeLines(mutation, strPath);
+  const accessLine = getNodeLines(access, strPath);
+
+  throw Error(
+    `Attempted to access "${access.getText()}" which is or contains an object that was mutated.\nMutation: ${mutationLine}\nAccessed: ${accessLine}`
+  );
+}
 
 function includesNode(haystack: ts.Node, needle: ts.Node): boolean {
   if (haystack.getText() === needle.getText()) return true;
@@ -88,6 +112,36 @@ function referencesInArrayLiterals(node: ts.Node, methodBody: ts.Node) {
   return nodes;
 }
 
+function isFromCompiler(node: ts.Node): boolean {
+  return (
+    node
+      .getType()
+      .getSymbol()
+      ?.getDeclarations()
+      .some((m) => {
+        const declPath = path.normalize(m.getSourceFile().getFilePath());
+        return declPath.includes(LIB_DIR) || declPath.includes(TYPES_DIR);
+      }) || false
+  );
+}
+
+function mutationByFunction(node: ts.Node, methodBody: ts.Node) {
+  const args: ts.Node[] = [];
+
+  methodBody.getDescendantsOfKind(ts.SyntaxKind.CallExpression).forEach((call) => {
+    if (call.getExpression().getText() === 'clone') return;
+    if (isFromCompiler(call.getExpression())) return;
+    call.getArguments().forEach((arg) => {
+      if (!isArrayOrObject(arg)) return;
+      if (includesNode(arg, node)) {
+        args.push(arg);
+      }
+    });
+  });
+
+  return args;
+}
+
 function mutationByAssignment(node: ts.Node, methodBody: ts.Node) {
   const mutations: ts.Node[] = [];
 
@@ -111,6 +165,7 @@ export function checkRefs(file: ts.SourceFile, pathStr: string) {
     if (!methodBody) return;
     const variables = methodBody.getDescendantsOfKind(ts.SyntaxKind.VariableDeclaration);
     variables.forEach((variable) => {
+      if (!isArrayOrObject(variable)) return;
       const aliases = getAliases(variable.getNameNode(), methodBody);
       const refs: ts.Node[] = [];
 
@@ -133,7 +188,19 @@ export function checkRefs(file: ts.SourceFile, pathStr: string) {
 
           staleRefs.forEach((r) => {
             methodBody.getDescendantsOfKind(r.getKind()).forEach((d) => {
-              if (d.getPos() >= m.getPos() && d.getText() === r.getText()) throw Error(getNodeLines(d, pathStr));
+              if (d.getPos() >= m.getPos() && d.getText() === r.getText()) throwError(m, d, pathStr);
+            });
+          });
+        });
+
+        const functionMutations = mutationByFunction(ref, methodBody);
+        functionMutations.forEach((m) => {
+          // All non-alias references that came before the mutation are now stale
+          const staleRefs = [...aliases, ...refs].filter((r) => r.getPos() < m.getPos());
+
+          staleRefs.forEach((r) => {
+            methodBody.getDescendantsOfKind(r.getKind()).forEach((d) => {
+              if (d.getPos() > m.getPos() && d.getText() === r.getText()) throwError(m, d, pathStr);
             });
           });
         });

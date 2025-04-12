@@ -2376,7 +2376,7 @@ addStake:
 
 *if10_end:
 	// examples/reti/validatorRegistry.algo.ts:696
-	// this.updateStakerPoolSet(staker, poolKey)
+	// this.updateStakerPoolSet(staker, clone(poolKey))
 	frame_dig 3 // findRet: ((uint64,uint64,uint64),bool,bool)
 	store 255 // full array
 	load 255 // full array
@@ -2387,7 +2387,7 @@ addStake:
 	// examples/reti/validatorRegistry.algo.ts:699
 	// this.callPoolAddStake(
 	//       stakedAmountPayment,
-	//       poolKey,
+	//       clone(poolKey),
 	//       mbrAmtLeftBehind,
 	//       isNewStakerToValidator,
 	//       isNewStakerToProtocol
