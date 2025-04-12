@@ -11,6 +11,15 @@ function includesNode(haystack: ts.Node, needle: ts.Node): boolean {
     });
   }
 
+  if (haystack.isKind(ts.SyntaxKind.ObjectLiteralExpression)) {
+    return haystack.getProperties().some((p) => {
+      // TODO:(puya) Support short-hand
+      if (!p.isKind(ts.SyntaxKind.PropertyAssignment)) throw new Error();
+      const val = p.getInitializer();
+      return val && includesNode(val, needle);
+    });
+  }
+
   if (
     !haystack.isKind(ts.SyntaxKind.PropertyAccessExpression) &&
     !haystack.isKind(ts.SyntaxKind.ElementAccessExpression)
@@ -50,7 +59,7 @@ function referencesInObjectLiterals(node: ts.Node, methodBody: ts.Node) {
     if (variable.getInitializer()?.isKind(ts.SyntaxKind.ObjectLiteralExpression)) {
       const obj = variable.getInitializer() as ts.ObjectLiteralExpression;
       obj.getProperties().forEach((p) => {
-        // TODO: Support short-hand
+        // TODO:(puya) Support short-hand
         if (!p.isKind(ts.SyntaxKind.PropertyAssignment)) throw new Error();
         const val = p.getInitializer();
         if (val && includesNode(val, node)) {
