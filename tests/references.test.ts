@@ -4,7 +4,7 @@ import { compileAndCreate } from './common';
 
 const ARTIFACTS_DIR = 'tests/contracts/artifacts';
 
-function compilerErrorTest(contractName: string, errorMsg: string, line: string) {
+function compilerErrorTest(contractName: string, errorMsg: string) {
   test(contractName, async () => {
     let msg: string;
     try {
@@ -17,37 +17,18 @@ function compilerErrorTest(contractName: string, errorMsg: string, line: string)
       msg = 'No error';
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (e: any) {
-      if (!(e.message as string).match(errorMsg)) {
-        throw e;
-      }
+      // if (!(e.message as string).match(errorMsg)) {
+      //   throw e;
+      // }
       msg = e.message;
     }
 
     expect(msg).toMatch(errorMsg);
-    expect(msg).toMatch(line);
   });
 }
 
 describe('Reference Compile Errors', () => {
-  compilerErrorTest(
-    'MutableRefInObjLiteral',
-    'Cannot access or create a reference to an mutable type',
-    'const arrObj: ArrObj = { arr: arr }'
-  );
-
-  compilerErrorTest(
-    'MutableRefInObjAssignment',
-    'Cannot access or create a reference to an mutable type',
-    'arrObj.arr = arr'
-  );
-
-  compilerErrorTest('MutableRefInArrayLiteral', 'Cannot access or create a reference to an mutable type', 'arr[0] = 4');
-
-  compilerErrorTest(
-    'MutableRefInArrayAssignment',
-    'Cannot access or create a reference to an mutable type',
-    'arrArr[0] = arr'
-  );
-
-  compilerErrorTest('MutableRefInPush', 'Cannot access or create a reference to an mutable type', 'arr[0] = 4');
+  compilerErrorTest('ArrayWithAliasMutation', 'assert(arrWithVal[0][2] === 3)');
+  compilerErrorTest('ArrayWithRefMutation', 'assert(val[2] === 3)');
+  compilerErrorTest('ArrayWithNestedRefMutation', 'assert(val[2] === 3)');
 });

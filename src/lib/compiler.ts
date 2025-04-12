@@ -14,7 +14,7 @@ import langspec from '../static/langspec.json';
 import { VERSION } from '../version';
 import { optimizeTeal } from './optimize';
 import { type ARC56Contract, type StructField } from '../types/arc56.d';
-import { checkRefs } from './ref_checker';
+import { checkRefs } from './ref_checker2';
 import { getExpressionChain, ExpressionChainNode } from './utils';
 
 const MULTI_OUTPUT_TYPES = ['split uint128', 'divmodw output', 'vrf return values', 'ecdsa pubkey'];
