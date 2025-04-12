@@ -31,4 +31,7 @@ describe('Reference Compile Errors', () => {
   compilerErrorTest('ArrayWithAliasMutation', 'assert(arrWithVal[0][2] === 3)');
   compilerErrorTest('ArrayWithRefMutation', 'assert(val[2] === 3)');
   compilerErrorTest('ArrayWithNestedRefMutation', 'assert(val[2] === 3)');
+  compilerErrorTest('ArrayInObjWithAliasMutation', 'assert(objWithVal.arr[2] === 3)');
+  compilerErrorTest('ArrayInObjWithRefMutation', 'assert(val[2] === 3)');
+  compilerErrorTest('ArrayInObjWithNestedRefMutation', 'assert(val[2] === 3)');
 });

@@ -43,6 +43,26 @@ function getAliases(node: ts.Node, methodBody: ts.Node) {
   return aliases;
 }
 
+function referencesInObjectLiterals(node: ts.Node, methodBody: ts.Node) {
+  const nodes: ts.Node[] = [];
+
+  methodBody.getDescendantsOfKind(ts.SyntaxKind.VariableDeclaration).forEach((variable) => {
+    if (variable.getInitializer()?.isKind(ts.SyntaxKind.ObjectLiteralExpression)) {
+      const obj = variable.getInitializer() as ts.ObjectLiteralExpression;
+      obj.getProperties().forEach((p) => {
+        // TODO: Support short-hand
+        if (!p.isKind(ts.SyntaxKind.PropertyAssignment)) throw new Error();
+        const val = p.getInitializer();
+        if (val && includesNode(val, node)) {
+          nodes.push(variable.getNameNode());
+        }
+      });
+    }
+  });
+
+  return nodes;
+}
+
 function referencesInArrayLiterals(node: ts.Node, methodBody: ts.Node) {
   const nodes: ts.Node[] = [];
 
@@ -86,7 +106,9 @@ export function checkRefs(file: ts.SourceFile, pathStr: string) {
       const refs: ts.Node[] = [];
 
       aliases.forEach((alias) => {
-        refs.push(...referencesInArrayLiterals(alias, methodBody));
+        refs.push(
+          ...[...referencesInArrayLiterals(alias, methodBody), ...referencesInObjectLiterals(alias, methodBody)]
+        );
       });
 
       const mutations: ts.Node[] = [];
