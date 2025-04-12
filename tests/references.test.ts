@@ -57,7 +57,13 @@ describe('Reference Compile Errors', () => {
 
   compilerErrorTest(
     'MutableRefInVariableDeclaration',
-    'Cannot access or create a reference to an mutable type ',
-    'arrArr[0][0] = 7;'
+    'Cannot access or create a reference to an mutable type',
+    'arrArr[0][0] = 7'
+  );
+
+  compilerErrorTest(
+    'MutableRefInVariableDeclarationWithDynamicIndex',
+    'Cannot access or create a reference to an mutable type',
+    'arrArr[0][0] = 7'
   );
 });

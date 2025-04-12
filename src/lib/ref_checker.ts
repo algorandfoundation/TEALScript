@@ -1,6 +1,42 @@
 import * as ts from 'ts-morph';
 import { getExpressionChain } from './utils';
 
+/** Compare two nodes to see if they both access the same data */
+function nodesAccessSameData(aNode: ts.Node, bNode: ts.Node): boolean {
+  if (aNode === bNode) return false;
+  if (aNode.getText() === bNode.getText()) return true;
+
+  let aChain: ts.Node[];
+  let bChain: ts.Node[];
+
+  if (aNode.isKind(ts.SyntaxKind.ElementAccessExpression) || aNode.isKind(ts.SyntaxKind.PropertyAccessExpression)) {
+    const chain = getExpressionChain(aNode);
+    aChain = [chain.base, ...chain.chain];
+  } else {
+    aChain = [aNode];
+  }
+
+  if (bNode.isKind(ts.SyntaxKind.ElementAccessExpression) || bNode.isKind(ts.SyntaxKind.ElementAccessExpression)) {
+    const chain = getExpressionChain(bNode);
+    bChain = [chain.base, ...chain.chain];
+  } else {
+    bChain = [bNode];
+  }
+
+  const aTextChain = aChain.map((a) => a.getText());
+  const bTextChain = bChain.map((b) => b.getText());
+
+  const hasMatch =
+    aTextChain.some((a) => {
+      return bTextChain.includes(a);
+    }) ||
+    bTextChain.some((b) => {
+      return aTextChain.includes(b);
+    });
+
+  return hasMatch;
+}
+
 /** Expressions that access (read or write) the array */
 function arrayOrObjAccess(node: ts.Node, methodBody: ts.Node) {
   const elementExpr = methodBody.getDescendantsOfKind(ts.SyntaxKind.ElementAccessExpression);
@@ -11,7 +47,7 @@ function arrayOrObjAccess(node: ts.Node, methodBody: ts.Node) {
     const chain = getExpressionChain(n);
 
     [chain.base, ...chain.chain].forEach((e) => {
-      if (e.getText() === node.getText() && e.getPos() !== node.getPos()) {
+      if (nodesAccessSameData(e, node)) {
         nodes.push(e);
       }
     });
@@ -26,7 +62,7 @@ function referencesInArrayLiteral(node: ts.Node, methodBody: ts.Node) {
 
   methodBody.getDescendantsOfKind(ts.SyntaxKind.ArrayLiteralExpression).forEach((n) => {
     n.getElements().forEach((e) => {
-      if (e.getText() === node.getText() && e !== node) {
+      if (nodesAccessSameData(e, node)) {
         nodes.push(e);
       }
     });
@@ -44,7 +80,7 @@ function referencesInObjectLiteral(node: ts.Node, methodBody: ts.Node) {
       // TODO: Support short-hand
       if (!e.isKind(ts.SyntaxKind.PropertyAssignment)) throw new Error();
       const value = e.getInitializer();
-      if (value?.getText() === node.getText() && value !== node) {
+      if (value && nodesAccessSameData(node, value)) {
         nodes.push(value);
       }
     });
@@ -67,7 +103,7 @@ function referencesInVariableDeclaration(node: ts.Node, methodBody: ts.Node) {
       return;
     }
 
-    if (val?.getText() === node.getText() && val !== node) {
+    if (val && nodesAccessSameData(val, node)) {
       nodes.push(val);
     }
   });
@@ -83,7 +119,7 @@ function referencesInAssignment(node: ts.Node, methodBody: ts.Node) {
     if (n.getOperatorToken().getText() !== '=') return;
 
     [n.getRight(), n.getLeft()].forEach((s) => {
-      if (s.getText() === node.getText()) {
+      if (nodesAccessSameData(s, node)) {
         nodes.push(s);
       }
     });
@@ -92,10 +128,11 @@ function referencesInAssignment(node: ts.Node, methodBody: ts.Node) {
   methodBody.getDescendantsOfKind(ts.SyntaxKind.VariableDeclaration).forEach((n) => {
     const val = n.getInitializer();
 
-    if (val?.getText() === node.getText()) {
+    if (val && nodesAccessSameData(val, node)) {
       nodes.push(val);
     }
   });
+
   return nodes;
 }
 
@@ -110,7 +147,7 @@ function checkFunctionArgs(node: ts.Node, methodBody: ts.Node, pathStr: string) 
 
   calls.forEach((c) => {
     c.getArguments().forEach((a) => {
-      if (a.getText() === node.getText()) {
+      if (nodesAccessSameData(a, node)) {
         const callParent = a.getParentIfKind(ts.SyntaxKind.CallExpression);
         const expr = callParent?.getExpressionIfKind(ts.SyntaxKind.Identifier);
 
@@ -129,6 +166,35 @@ function checkFunctionArgs(node: ts.Node, methodBody: ts.Node, pathStr: string) 
   });
 }
 
+/** Given a node, return the non-dynamic chain. For example, `arr[0][i]` returns `arr[0]`.
+ * This is required because we want to be pessimistic about dynamic array access
+ * */
+function getNonDynamicNode(node: ts.Node): ts.Node {
+  if (!node.isKind(ts.SyntaxKind.ElementAccessExpression) && !node.isKind(ts.SyntaxKind.CallExpression)) {
+    return node;
+  }
+
+  const chain = getExpressionChain(node);
+  let currentNode = chain.base;
+  let foundDynamic = false;
+
+  chain.chain.forEach((e) => {
+    if (foundDynamic) return;
+    if (!e.isKind(ts.SyntaxKind.ElementAccessExpression)) {
+      currentNode = e;
+      return;
+    }
+
+    const arg = e.getArgumentExpression()?.getText() ?? Number.NaN;
+
+    if (Number.isNaN(Number(arg))) {
+      foundDynamic = true;
+    }
+  });
+
+  return currentNode;
+}
+
 export function checkRefs(file: ts.SourceFile, pathStr: string) {
   file.getDescendantsOfKind(ts.SyntaxKind.MethodDeclaration).forEach((m) => {
     const body = m.getBody()!;
@@ -139,6 +205,7 @@ export function checkRefs(file: ts.SourceFile, pathStr: string) {
       ...body.getDescendantsOfKind(ts.SyntaxKind.ElementAccessExpression),
     ]
       .filter((n) => n.getType().isArray() || n.getType().isObject())
+      .map(getNonDynamicNode)
       .filter((n) => {
         if (n.isKind(ts.SyntaxKind.Identifier)) {
           const callParent = n.getFirstAncestorByKind(ts.SyntaxKind.CallExpression);
@@ -168,14 +235,16 @@ export function checkRefs(file: ts.SourceFile, pathStr: string) {
 
     mutableValues.forEach((n) => {
       checkFunctionArgs(n, body, pathStr);
-      const accessNodes = arrayOrObjAccess(n, body);
+      const accessNodes = arrayOrObjAccess(n, body).map(getNonDynamicNode);
 
       const referenceNodes = [
         ...referencesInArrayLiteral(n, body),
         ...referencesInObjectLiteral(n, body),
         ...referencesInVariableDeclaration(n, body),
         ...referencesInAssignment(n, body),
-      ].filter((r) => !AVM_OBJECT_TYPES.includes(r.getType().getText()));
+      ]
+        .filter((r) => !AVM_OBJECT_TYPES.includes(r.getType().getText()))
+        .map(getNonDynamicNode);
 
       referenceNodes.forEach((ref) => {
         const violator = [...referenceNodes, ...accessNodes].find((v) => v.getPos() > ref.getPos());
