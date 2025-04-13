@@ -194,7 +194,7 @@ function checkArrayFunctions(methodBody: ts.Node, pathStr: string) {
       const propExpr = expr.getExpression();
       if (propExpr.getType().isArray() && expr.getName() === 'push') {
         const arg = c.getArguments()[0];
-        if (isArrayOrObject(arg)) {
+        if (isArrayOrObject(arg) && !arg.getText().startsWith('clone(')) {
           const msg = `Mutable objects must be cloned via "clone" before being pushed into an array: clone(${arg.getText()})`;
           throw Error(`${msg}\n${getNodeLines(arg, pathStr)}`);
         }
