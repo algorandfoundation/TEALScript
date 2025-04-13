@@ -21,6 +21,7 @@ function isArrayOrObject(node: ts.Node) {
 
 function throwError(
   ref: ts.Node,
+  staleRef: ts.Node,
   aliases: ts.Node[],
   mutation: ts.Node,
   access: ts.Node,
@@ -31,7 +32,9 @@ function throwError(
   const accessLine = getNodeLines(access, strPath);
 
   if (mutationType === 'assignment') {
-    const refRhs = ref.getParentIfKind(ts.SyntaxKind.VariableDeclaration)!.getInitializer()!;
+    const refRhs =
+      staleRef.getFirstAncestorByKind(ts.SyntaxKind.BinaryExpression)?.getRight() ??
+      ref.getParentIfKind(ts.SyntaxKind.VariableDeclaration)?.getInitializer()!;
 
     const aliasInRef = refRhs.isKind(ts.SyntaxKind.Identifier)
       ? refRhs
@@ -140,6 +143,29 @@ function referencesInArrayLiterals(node: ts.Node, methodBody: ts.Node) {
   return nodes;
 }
 
+function referencesInAssignment(node: ts.Node, methodBody: ts.Node) {
+  const nodes: ts.Node[] = [];
+  methodBody.getDescendantsOfKind(ts.SyntaxKind.BinaryExpression).forEach((assignment) => {
+    if (assignment.getOperatorToken().getText() !== '=') return;
+
+    const rhs = assignment.getRight();
+    const lhs = assignment.getLeft();
+
+    let lhsBase: ts.Node = lhs;
+
+    if (lhs.isKind(ts.SyntaxKind.PropertyAccessExpression) || lhs.isKind(ts.SyntaxKind.ElementAccessExpression)) {
+      lhsBase = getExpressionChain(lhs).base;
+    }
+
+    if (!isArrayOrObject(rhs)) return;
+    if (includesNode(rhs, node)) {
+      nodes.push(lhsBase);
+    }
+  });
+
+  return nodes;
+}
+
 function isFromCompiler(node: ts.Node): boolean {
   return (
     node
@@ -217,7 +243,11 @@ export function checkRefs(file: ts.SourceFile, pathStr: string) {
 
       aliases.forEach((alias) => {
         refs.push(
-          ...[...referencesInArrayLiterals(alias, methodBody), ...referencesInObjectLiterals(alias, methodBody)]
+          ...[
+            ...referencesInArrayLiterals(alias, methodBody),
+            ...referencesInObjectLiterals(alias, methodBody),
+            ...referencesInAssignment(alias, methodBody),
+          ]
         );
       });
 
@@ -234,8 +264,9 @@ export function checkRefs(file: ts.SourceFile, pathStr: string) {
 
           staleRefs.forEach((staleRef) => {
             methodBody.getDescendantsOfKind(staleRef.getKind()).forEach((access) => {
-              if (access.getPos() >= mutation.getPos() && access.getText() === staleRef.getText())
-                throwError(originalRef, [...aliases, ...refs], mutation, access, pathStr, 'assignment');
+              if (access.getPos() >= mutation.getPos() && access.getText() === staleRef.getText()) {
+                throwError(originalRef, staleRef, [...aliases, ...refs], mutation, access, pathStr, 'assignment');
+              }
             });
           });
         });
@@ -248,7 +279,7 @@ export function checkRefs(file: ts.SourceFile, pathStr: string) {
           staleRefs.forEach((staleRef) => {
             methodBody.getDescendantsOfKind(staleRef.getKind()).forEach((access) => {
               if (access.getPos() > mutation.getPos() && access.getText() === staleRef.getText())
-                throwError(originalRef, [...aliases, ...refs], mutation, access, pathStr, 'function');
+                throwError(originalRef, staleRef, [...aliases, ...refs], mutation, access, pathStr, 'function');
             });
           });
         });

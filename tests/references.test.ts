@@ -38,4 +38,5 @@ describe('Reference Compile Errors', () => {
   compilerErrorTest('ObjWithRefMutation', 'assert(val.foo === 7331)');
   compilerErrorTest('ObjWithNestedRefMutation', 'assert(val.foo === 7331)');
   compilerErrorTest('ArrayWithFnMutation', 'assert(arrWithVal[0][2] === 3)');
+  compilerErrorTest('ArrayAssignmentWithAliasMutation', 'assert(arrWithVal[0][2] === 3)');
 });
