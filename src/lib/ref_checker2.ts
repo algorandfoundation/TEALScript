@@ -207,7 +207,6 @@ function mutationByFunction(node: ts.Node, methodBody: ts.Node) {
   return args;
 }
 
-// BUG: `this` is getting passed here as node
 function mutationByAssignment(node: ts.Node, methodBody: ts.Node) {
   const mutations: ts.Node[] = [];
 
