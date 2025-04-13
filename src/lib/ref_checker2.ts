@@ -34,7 +34,14 @@ function throwError(
   if (mutationType === 'assignment') {
     const refRhs =
       staleRef.getFirstAncestorByKind(ts.SyntaxKind.BinaryExpression)?.getRight() ??
-      ref.getParentIfKind(ts.SyntaxKind.VariableDeclaration)?.getInitializer()!;
+      ref.getFirstAncestorByKind(ts.SyntaxKind.BinaryExpression)?.getRight() ??
+      ref.getParentIfKind(ts.SyntaxKind.VariableDeclaration)?.getInitializer();
+
+    if (refRhs === undefined) {
+      throw Error(
+        `Attempted to access "${access.getText()}" which may have been mutated.\nMutation: ${mutationLine}\nAccessed: ${accessLine}`
+      );
+    }
 
     const aliasInRef = refRhs.isKind(ts.SyntaxKind.Identifier)
       ? refRhs
@@ -154,7 +161,11 @@ function referencesInAssignment(node: ts.Node, methodBody: ts.Node) {
     let lhsBase: ts.Node = lhs;
 
     if (lhs.isKind(ts.SyntaxKind.PropertyAccessExpression) || lhs.isKind(ts.SyntaxKind.ElementAccessExpression)) {
-      lhsBase = getExpressionChain(lhs).base;
+      const chain = getExpressionChain(lhs);
+      lhsBase = chain.base;
+      if (lhsBase.getText() === 'this') {
+        [lhsBase] = chain.chain;
+      }
     }
 
     if (!isArrayOrObject(rhs)) return;
@@ -196,6 +207,7 @@ function mutationByFunction(node: ts.Node, methodBody: ts.Node) {
   return args;
 }
 
+// BUG: `this` is getting passed here as node
 function mutationByAssignment(node: ts.Node, methodBody: ts.Node) {
   const mutations: ts.Node[] = [];
 
@@ -258,13 +270,18 @@ export function checkRefs(file: ts.SourceFile, pathStr: string) {
 
         refMutations.forEach((mutation) => {
           // All non-alias references that came before the mutation are now stale
-          const staleRefs = [...aliases, ...refs].filter(
-            (r) => r !== originalRef && r.getPos() < mutation.getPos() && !isAlias(r, originalRef, methodBody)
-          );
+          const staleRefs = [...aliases, ...refs].filter((r) => {
+            return (
+              r !== originalRef &&
+              r.getPos() < mutation.getPos() &&
+              originalRef.getPos() < mutation.getPos() &&
+              !isAlias(r, originalRef, methodBody)
+            );
+          });
 
           staleRefs.forEach((staleRef) => {
             methodBody.getDescendantsOfKind(staleRef.getKind()).forEach((access) => {
-              if (access.getPos() >= mutation.getPos() && access.getText() === staleRef.getText()) {
+              if (access.getPos() > mutation.getEnd() && access.getText() === staleRef.getText()) {
                 throwError(originalRef, staleRef, [...aliases, ...refs], mutation, access, pathStr, 'assignment');
               }
             });
