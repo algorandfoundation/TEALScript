@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+/* eslint-disable no-use-before-define */
 
 import * as ts from 'ts-morph';
 import path from 'path';
@@ -18,13 +19,34 @@ function isArrayOrObject(node: ts.Node) {
   return type.isArray() || type.isObject();
 }
 
-function throwError(mutation: ts.Node, access: ts.Node, strPath: string) {
+function throwError(
+  ref: ts.Node,
+  aliases: ts.Node[],
+  mutation: ts.Node,
+  access: ts.Node,
+  strPath: string,
+  mutationType: 'function' | 'assignment'
+) {
   const mutationLine = getNodeLines(mutation, strPath);
   const accessLine = getNodeLines(access, strPath);
 
-  throw Error(
-    `Attempted to access "${access.getText()}" which is or contains an object that was mutated.\nMutation: ${mutationLine}\nAccessed: ${accessLine}`
-  );
+  if (mutationType === 'assignment') {
+    const refRhs = ref.getParentIfKind(ts.SyntaxKind.VariableDeclaration)!.getInitializer()!;
+
+    const aliasInRef = refRhs.isKind(ts.SyntaxKind.Identifier)
+      ? refRhs
+      : refRhs.getDescendants().find((d) => aliases.map((a) => a.getText()).includes(d.getText()))!;
+    const staleRefLine = getNodeLines(aliasInRef!, strPath);
+    throw Error(
+      `Attempted to access "${access.getText()}" which may have been mutated. You might want to use clone in the initial assignment\nAssignment: ${staleRefLine} Suggestion: clone(${aliasInRef.getText()})\nMutation: ${mutationLine}\nAccessed: ${accessLine}`
+    );
+  }
+
+  if (mutationType === 'function') {
+    throw Error(
+      `Attempted to access "${access.getText()}" after it was passed to a function. You probably want to use clone in the function call\nFunction Call: ${mutationLine} Suggestion: clone(${access.getText()})\nAccessed: ${accessLine}`
+    );
+  }
 }
 
 function includesNode(haystack: ts.Node, needle: ts.Node): boolean {
@@ -58,7 +80,6 @@ function includesNode(haystack: ts.Node, needle: ts.Node): boolean {
 }
 
 function getNodeLines(node: ts.Node, pathStr: string) {
-  console.debug(node.getText());
   const nonTrimmedLine = node.getSourceFile().getFullText().split('\n')[node.getStartLineNumber() - 1];
   const refFullLine = nonTrimmedLine.trim();
   const char = ts.ts.getLineAndCharacterOfPosition(
@@ -66,8 +87,6 @@ function getNodeLines(node: ts.Node, pathStr: string) {
     node.getNonWhitespaceStart()
   ).character;
   const nodeOffset = char - (nonTrimmedLine.length - refFullLine.length);
-
-  console.debug(node.getPos(), node.getStartLinePos(false));
 
   return `${pathStr}:${node.getStartLineNumber()}:${char}\n  ${refFullLine}\n  ${' '.repeat(nodeOffset)}${'^'.repeat(
     node.getText().length
@@ -179,7 +198,6 @@ function checkArrayFunctions(methodBody: ts.Node, pathStr: string) {
           const msg = `Mutable objects must be cloned via "clone" before being pushed into an array: clone(${arg.getText()})`;
           throw Error(`${msg}\n${getNodeLines(arg, pathStr)}`);
         }
-        console.debug(propExpr.getText(), propExpr.getType().isArray(), expr.getName());
       }
     }
   });
@@ -205,30 +223,32 @@ export function checkRefs(file: ts.SourceFile, pathStr: string) {
 
       const mutations: ts.Node[] = [];
 
-      [...aliases, ...refs].forEach((ref) => {
-        const refMutations = mutationByAssignment(ref, methodBody);
+      [...aliases, ...refs].forEach((originalRef) => {
+        const refMutations = mutationByAssignment(originalRef, methodBody);
 
-        refMutations.forEach((m) => {
+        refMutations.forEach((mutation) => {
           // All non-alias references that came before the mutation are now stale
           const staleRefs = [...aliases, ...refs].filter(
-            (r) => r !== ref && r.getPos() < m.getPos() && !isAlias(r, ref, methodBody)
+            (r) => r !== originalRef && r.getPos() < mutation.getPos() && !isAlias(r, originalRef, methodBody)
           );
 
-          staleRefs.forEach((r) => {
-            methodBody.getDescendantsOfKind(r.getKind()).forEach((d) => {
-              if (d.getPos() >= m.getPos() && d.getText() === r.getText()) throwError(m, d, pathStr);
+          staleRefs.forEach((staleRef) => {
+            methodBody.getDescendantsOfKind(staleRef.getKind()).forEach((access) => {
+              if (access.getPos() >= mutation.getPos() && access.getText() === staleRef.getText())
+                throwError(originalRef, [...aliases, ...refs], mutation, access, pathStr, 'assignment');
             });
           });
         });
 
-        const functionMutations = mutationByFunction(ref, methodBody);
-        functionMutations.forEach((m) => {
+        const functionMutations = mutationByFunction(originalRef, methodBody);
+        functionMutations.forEach((mutation) => {
           // All non-alias references that came before the mutation are now stale
-          const staleRefs = [...aliases, ...refs].filter((r) => r.getPos() < m.getPos());
+          const staleRefs = [...aliases, ...refs].filter((r) => r.getPos() < mutation.getPos());
 
-          staleRefs.forEach((r) => {
-            methodBody.getDescendantsOfKind(r.getKind()).forEach((d) => {
-              if (d.getPos() > m.getPos() && d.getText() === r.getText()) throwError(m, d, pathStr);
+          staleRefs.forEach((staleRef) => {
+            methodBody.getDescendantsOfKind(staleRef.getKind()).forEach((access) => {
+              if (access.getPos() > mutation.getPos() && access.getText() === staleRef.getText())
+                throwError(originalRef, [...aliases, ...refs], mutation, access, pathStr, 'function');
             });
           });
         });
