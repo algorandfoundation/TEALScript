@@ -6,10 +6,13 @@ export class ArrayInObjWithAliasMutation extends Contract {
     const alias = val;
     const objWithVal: { arr: uint64[] } = { arr: val };
 
-    assert(objWithVal.arr[1] === 2); // Works because nothing has been made stale yet (no mutations)
+    // Works because nothing has been made stale yet (no mutations)
+    assert(objWithVal.arr[1] === 2);
 
-    alias[0] = 5; // Invalidate other references
+    // Invalidate other references
+    alias[0] = 5;
 
-    assert(objWithVal.arr[2] === 3); // Error because now objWithVal is stale
+    // Error because now objWithVal is stale
+    assert(objWithVal.arr[2] === 3);
   }
 }

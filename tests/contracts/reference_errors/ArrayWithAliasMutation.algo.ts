@@ -5,10 +5,14 @@ export class ArrayWithAliasMutation extends Contract {
     const val: uint64[] = [1, 2, 3];
     const alias = val;
     const arrWithVal: uint64[][] = [val];
-    assert(arrWithVal[0][1] === 2); // Works because nothing has been made stale yet (no mutations)
 
-    alias[0] = 5; // Invalidate other references
+    // Works because nothing has been made stale yet (no mutations)
+    assert(arrWithVal[0][1] === 2);
 
-    assert(arrWithVal[0][2] === 3); // Error because now arrWithVal is stale
+    // Invalidate other references
+    alias[0] = 5;
+
+    // Error because now arrWithVal is stale
+    assert(arrWithVal[0][2] === 3);
   }
 }

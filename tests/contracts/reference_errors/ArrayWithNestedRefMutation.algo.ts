@@ -5,10 +5,13 @@ export class ArrayWithNestedRefMutation extends Contract {
     const val: uint64[] = [1, 2, 3];
     const arrWithVal: uint64[][][] = [[val]];
 
-    assert(val[1] === 2); // Works because nothing has been made stale yet (no mutations)
+    // Works because nothing has been made stale yet (no mutations)
+    assert(val[1] === 2);
 
-    arrWithVal[0][0][0] = 4; // Invalidate other references
+    // Invalidate other references
+    arrWithVal[0][0][0] = 4;
 
-    assert(val[2] === 3); // Error because now arrWithVal is stale
+    // Error because now arrWithVal is stale
+    assert(val[2] === 3);
   }
 }

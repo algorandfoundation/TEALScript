@@ -7,10 +7,13 @@ export class ObjAssignmentWithAliasMutation extends Contract {
     const objWithVal: { bar: { foo: uint64 } } = { bar: { foo: 123 } };
     objWithVal.bar = val;
 
-    assert(objWithVal.bar.foo === 1337); // Works because nothing has been made stale yet (no mutations)
+    // Works because nothing has been made stale yet (no mutations)
+    assert(objWithVal.bar.foo === 1337);
 
-    alias.foo = 7331; // Invalidate other references
+    // Invalidate other references
+    alias.foo = 7331;
 
-    assert(objWithVal.bar.foo === 7331); // Error because now objWithVal is stale
+    // Error because now objWithVal is stale
+    assert(objWithVal.bar.foo === 7331);
   }
 }

@@ -5,10 +5,13 @@ export class ArrayInObjWithRefMutation extends Contract {
     const val: uint64[] = [1, 2, 3];
     const objWithVal: { arr: uint64[] } = { arr: val };
 
-    assert(val[1] === 2); // Works because nothing has been made stale yet (no mutations)
+    // Works because nothing has been made stale yet (no mutations)
+    assert(val[1] === 2);
 
-    objWithVal.arr[0] = 5; // Invalidate other references
+    // Invalidate other references
+    objWithVal.arr[0] = 5;
 
-    assert(val[2] === 3); // Error because now val is stale
+    // Error because now val is stale
+    assert(val[2] === 3);
   }
 }

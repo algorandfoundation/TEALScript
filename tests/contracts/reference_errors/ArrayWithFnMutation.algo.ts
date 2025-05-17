@@ -8,10 +8,13 @@ export class ArrayWithFnMutation extends Contract {
     const alias = val;
     const arrWithVal: uint64[][] = [val];
 
-    assert(arrWithVal[0][1] === 2); // Works because nothing has been made stale yet (no mutations)
+    // Works because nothing has been made stale yet (no mutations)
+    assert(arrWithVal[0][1] === 2);
 
-    this.someFun(alias); // Invalidate all references
+    // Invalidate all references
+    this.someFun(alias);
 
-    assert(arrWithVal[0][2] === 3); // Error because now all references are stale
+    // Error because now all references are stale
+    assert(arrWithVal[0][2] === 3);
   }
 }
