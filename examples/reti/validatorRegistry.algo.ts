@@ -322,7 +322,7 @@ export class ValidatorRegistry extends Contract {
         // reached end of list...  we don't replace values here because pools can't be removed
         break;
       }
-      retData.push(poolSet[i]);
+      retData.push(clone(poolSet[i]));
     }
     return retData;
   }
@@ -387,7 +387,7 @@ export class ValidatorRegistry extends Contract {
     const poolSet = clone(this.stakerPoolSet(staker).value);
     for (let i = 0; i < poolSet.length; i += 1) {
       if (poolSet[i].id !== 0) {
-        retData.push(poolSet[i]);
+        retData.push(clone(poolSet[i]));
       }
     }
     return retData;
@@ -693,12 +693,12 @@ export class ValidatorRegistry extends Contract {
     }
 
     // Update StakerPoolList for this found pool (new or existing)
-    this.updateStakerPoolSet(staker, poolKey);
+    this.updateStakerPoolSet(staker, clone(poolKey));
     // Send the callers algo amount (- mbrAmtLeftBehind) to the specified staking pool, and it then updates
     // the staker data.
     this.callPoolAddStake(
       stakedAmountPayment,
-      poolKey,
+      clone(poolKey),
       mbrAmtLeftBehind,
       isNewStakerToValidator,
       isNewStakerToProtocol

@@ -980,4 +980,9 @@ describe('ABI', function () {
 
     expect(await runMethod(appClient, 'boolUpdateInObjectInBox')).toEqual(true);
   });
+  test('mutableRefInVariableDeclaration', async () => {
+    const { appClient } = await compileAndCreate('mutableRefInVariableDeclaration');
+
+    expect(await runMethod(appClient, 'mutableRefInVariableDeclaration')).toEqual([7n, 8n]);
+  });
 });

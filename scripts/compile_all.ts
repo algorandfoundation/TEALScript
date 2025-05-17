@@ -22,6 +22,7 @@ const examplesArtifacts = {
 async function main() {
   const files = globSync(path.join(__dirname, '../**/*.algo.ts'));
   files.forEach((file) => {
+    if (file.includes('reference_errors')) return;
     if (file.includes('compile_errors')) return;
     const isExample = file.includes('examples/');
     const project = isExample ? EXAMPLES_PROJECT : TESTS_PROJECT;
