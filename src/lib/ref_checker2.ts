@@ -3,6 +3,7 @@
 
 import * as ts from 'ts-morph';
 import path from 'path';
+import chalk from 'chalk';
 import { getExpressionChain } from './utils';
 
 const LIB_DIR = path.normalize(__dirname);
@@ -28,8 +29,8 @@ function throwError(
   strPath: string,
   mutationType: 'function' | 'assignment'
 ) {
-  const mutationLine = getNodeLines(mutation, strPath);
-  const accessLine = getNodeLines(access, strPath);
+  const mutationLine = getNodeLines(mutation, strPath, 'yellow');
+  const accessLine = getNodeLines(access, strPath, 'red');
 
   if (mutationType === 'assignment') {
     const refRhs =
@@ -39,18 +40,22 @@ function throwError(
 
     if (refRhs === undefined) {
       throw Error(
-        `Attempted to access "${access.getText()}" which may have been mutated.\nMutation: ${mutationLine}\nAccessed: ${accessLine}`
+        `Attempted to access "${access.getText()}" which may have been mutated.
+
+${mutationLine} Value mutated here.
+
+${accessLine} Attempted access of the value ocurred here`
       );
     }
 
     const aliasInRef = refRhs.isKind(ts.SyntaxKind.Identifier)
       ? refRhs
       : refRhs.getDescendants().find((d) => aliases.map((a) => a.getText()).includes(d.getText()))!;
-    const staleRefLine = getNodeLines(aliasInRef!, strPath);
+    const staleRefLine = getNodeLines(aliasInRef!, strPath, 'yellow');
     throw Error(
       `Attempted to access "${access.getText()}" which may have been mutated. You might want to use clone in the initial assignment
 
-${staleRefLine} Initial assignment here. Suggestion: clone(${aliasInRef.getText()})
+${staleRefLine} Initial assignment here. ${chalk.bold.underline.yellow('Suggestion')}: clone(${aliasInRef.getText()})
 
 ${mutationLine} Mutation of the value ocurred here.
 
@@ -63,7 +68,9 @@ ${accessLine} Attempted access of the value occured here.
     throw Error(
       `Attempted to access "${access.getText()}" after it was passed to a function. You probably want to use clone in the function call
 
-Function Call: ${mutationLine} Value passed to function here. Suggestion: clone(${access.getText()})
+Function Call: ${mutationLine} Value passed to function here. ${chalk.bold.underline.yellow(
+        'Suggestion'
+      )}: clone(${access.getText()})
 
 ${accessLine} Attempted access to value after passed to function here
 `
@@ -101,7 +108,33 @@ function includesNode(haystack: ts.Node, needle: ts.Node): boolean {
   });
 }
 
-function getNodeLines(node: ts.Node, pathStr: string) {
+/**
+ * Colors a specific range of characters in a string using chalk
+ * @param text The input string to color
+ * @param startIndex The starting index of the range to color (inclusive)
+ * @param endIndex The ending index of the range to color (exclusive)
+ * @param color The chalk color to apply (e.g., 'red', 'blue', 'green')
+ * @returns The string with the specified range colored
+ */
+function colorRange(text: string, startIndex: number, endIndex: number, color: 'yellow' | 'red'): string {
+  // Validate indices
+  if (startIndex < 0 || endIndex > text.length || startIndex >= endIndex) {
+    throw new Error('Invalid range indices');
+  }
+
+  // Get the parts of the string
+  const beforeRange = text.substring(0, startIndex);
+  const coloredPart = text.substring(startIndex, endIndex);
+  const afterRange = text.substring(endIndex);
+
+  // Apply color using chalk's dynamic method access
+  const coloredText = chalk[color](coloredPart);
+
+  // Combine all parts
+  return beforeRange + coloredText + afterRange;
+}
+
+function getNodeLines(node: ts.Node, pathStr: string, nodeColor: 'yellow' | 'red') {
   const nonTrimmedLine = node.getSourceFile().getFullText().split('\n')[node.getStartLineNumber() - 1];
   const refFullLine = nonTrimmedLine.trim();
   const char = ts.ts.getLineAndCharacterOfPosition(
@@ -110,9 +143,12 @@ function getNodeLines(node: ts.Node, pathStr: string) {
   ).character;
   const nodeOffset = char - (nonTrimmedLine.length - refFullLine.length);
 
-  return `${pathStr}:${node.getStartLineNumber()}:${char}\n  ${refFullLine}\n  ${' '.repeat(nodeOffset)}${'^'.repeat(
-    node.getText().length
-  )}`;
+  return `${pathStr}:${node.getStartLineNumber()}:${char}\n  ${colorRange(
+    refFullLine,
+    nodeOffset,
+    nodeOffset + node.getText().length,
+    nodeColor
+  )}\n  ${' '.repeat(nodeOffset)}${chalk[nodeColor]('^').repeat(node.getText().length)}`;
 }
 
 function getAliases(node: ts.Node, methodBody: ts.Node) {
@@ -245,7 +281,11 @@ function checkArrayFunctions(methodBody: ts.Node, pathStr: string) {
         const arg = c.getArguments()[0];
         if (isArrayOrObject(arg) && !arg.getText().startsWith('clone(')) {
           const msg = `Mutable objects must be cloned via "clone" before being pushed into an array`;
-          throw Error(`${msg}\n${getNodeLines(arg, pathStr)} Suggestion: clone(${arg.getText()})`);
+          throw Error(
+            `${msg}\n${getNodeLines(arg, pathStr, 'yellow')} ${chalk.bold.underline.yellow(
+              'Suggestion'
+            )}: clone(${arg.getText()})`
+          );
         }
       }
     }
