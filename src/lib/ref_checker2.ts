@@ -48,13 +48,25 @@ function throwError(
       : refRhs.getDescendants().find((d) => aliases.map((a) => a.getText()).includes(d.getText()))!;
     const staleRefLine = getNodeLines(aliasInRef!, strPath);
     throw Error(
-      `Attempted to access "${access.getText()}" which may have been mutated. You might want to use clone in the initial assignment\nAccessed: ${accessLine}\nMutation: ${mutationLine}\nAssignment: ${staleRefLine} Suggestion: clone(${aliasInRef.getText()})`
+      `Attempted to access "${access.getText()}" which may have been mutated. You might want to use clone in the initial assignment
+
+${staleRefLine} Initial assignment here. Suggestion: clone(${aliasInRef.getText()})
+
+${mutationLine} Mutation of the value ocurred here.
+
+${accessLine} Attempted access of the value occured here.
+`
     );
   }
 
   if (mutationType === 'function') {
     throw Error(
-      `Attempted to access "${access.getText()}" after it was passed to a function. You probably want to use clone in the function call\nAccessed: ${accessLine}\nFunction Call: ${mutationLine} Suggestion: clone(${access.getText()})`
+      `Attempted to access "${access.getText()}" after it was passed to a function. You probably want to use clone in the function call
+
+Function Call: ${mutationLine} Value passed to function here. Suggestion: clone(${access.getText()})
+
+${accessLine} Attempted access to value after passed to function here
+`
     );
   }
 }
