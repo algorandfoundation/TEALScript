@@ -6941,6 +6941,10 @@ export default class Compiler {
     ecdsaPkDecompress: 'ecdsa_pk_decompress',
     ecdsaPkRecover: 'ecdsa_pk_recover',
     onlineStake: 'online_stake',
+    bitwiseXor: 'b^',
+    bitwiseAnd: 'b&',
+    bitwiseOr: 'b|',
+    bitwiseNot: 'b~',
   };
 
   private processOpcode(node: ts.CallExpression) {

@@ -183,6 +183,90 @@
       }
     },
     {
+      "name": "bitwiseXorOp",
+      "args": [
+        {
+          "name": "a",
+          "type": "byte[]"
+        },
+        {
+          "name": "b",
+          "type": "byte[]"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      },
+      "actions": {
+        "create": [],
+        "call": [
+          "NoOp"
+        ]
+      }
+    },
+    {
+      "name": "bitwiseAndOp",
+      "args": [
+        {
+          "name": "a",
+          "type": "byte[]"
+        },
+        {
+          "name": "b",
+          "type": "byte[]"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      },
+      "actions": {
+        "create": [],
+        "call": [
+          "NoOp"
+        ]
+      }
+    },
+    {
+      "name": "bitwiseOrOp",
+      "args": [
+        {
+          "name": "a",
+          "type": "byte[]"
+        },
+        {
+          "name": "b",
+          "type": "byte[]"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      },
+      "actions": {
+        "create": [],
+        "call": [
+          "NoOp"
+        ]
+      }
+    },
+    {
+      "name": "bitwiseNotOp",
+      "args": [
+        {
+          "name": "a",
+          "type": "byte[]"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      },
+      "actions": {
+        "create": [],
+        "call": [
+          "NoOp"
+        ]
+      }
+    },
+    {
       "name": "createApplication",
       "args": [],
       "returns": {
@@ -1235,157 +1319,240 @@
           ]
         },
         {
-          "teal": 265,
-          "source": "tests/contracts/binary.algo.ts:4",
+          "teal": 267,
+          "source": "tests/contracts/binary.algo.ts:37",
           "pc": [
-            247
+            247,
+            248,
+            249
           ]
         },
         {
-          "teal": 266,
-          "source": "tests/contracts/binary.algo.ts:4",
+          "teal": 268,
+          "source": "tests/contracts/binary.algo.ts:37",
           "pc": [
-            248
-          ]
-        },
-        {
-          "teal": 269,
-          "source": "tests/contracts/binary.algo.ts:4",
-          "pc": [
-            249,
             250,
             251,
-            252,
-            253,
-            254
-          ]
-        },
-        {
-          "teal": 270,
-          "source": "tests/contracts/binary.algo.ts:4",
-          "pc": [
-            255,
-            256,
-            257
+            252
           ]
         },
         {
           "teal": 271,
-          "source": "tests/contracts/binary.algo.ts:4",
+          "source": "tests/contracts/binary.algo.ts:37",
           "pc": [
-            258,
+            253,
+            254,
+            255
+          ]
+        },
+        {
+          "teal": 272,
+          "source": "tests/contracts/binary.algo.ts:37",
+          "pc": [
+            256,
+            257,
+            258
+          ]
+        },
+        {
+          "teal": 275,
+          "source": "tests/contracts/binary.algo.ts:37",
+          "pc": [
             259,
             260,
             261
           ]
         },
         {
-          "teal": 274,
-          "source": "tests/contracts/binary.algo.ts:4",
-          "errorMessage": "this contract does not implement the given ABI method for create NoOp",
+          "teal": 276,
+          "source": "tests/contracts/binary.algo.ts:37",
           "pc": [
             262
           ]
         },
         {
           "teal": 277,
-          "source": "tests/contracts/binary.algo.ts:4",
+          "source": "tests/contracts/binary.algo.ts:37",
           "pc": [
-            263,
+            263
+          ]
+        },
+        {
+          "teal": 281,
+          "source": "tests/contracts/binary.algo.ts:37",
+          "pc": [
             264,
             265,
-            266,
+            266
+          ]
+        },
+        {
+          "teal": 285,
+          "source": "tests/contracts/binary.algo.ts:38",
+          "pc": [
             267,
             268
           ]
         },
         {
-          "teal": 278,
-          "source": "tests/contracts/binary.algo.ts:4",
+          "teal": 286,
+          "source": "tests/contracts/binary.algo.ts:38",
           "pc": [
             269,
-            270,
-            271,
-            272,
-            273,
-            274
+            270
           ]
         },
         {
-          "teal": 279,
-          "source": "tests/contracts/binary.algo.ts:4",
+          "teal": 287,
+          "source": "tests/contracts/binary.algo.ts:38",
           "pc": [
-            275,
+            271
+          ]
+        },
+        {
+          "teal": 288,
+          "source": "tests/contracts/binary.algo.ts:37",
+          "pc": [
+            272
+          ]
+        },
+        {
+          "teal": 293,
+          "source": "tests/contracts/binary.algo.ts:41",
+          "pc": [
+            273,
+            274,
+            275
+          ]
+        },
+        {
+          "teal": 294,
+          "source": "tests/contracts/binary.algo.ts:41",
+          "pc": [
             276,
             277,
-            278,
-            279,
-            280
+            278
           ]
         },
         {
-          "teal": 280,
-          "source": "tests/contracts/binary.algo.ts:4",
+          "teal": 297,
+          "source": "tests/contracts/binary.algo.ts:41",
           "pc": [
-            281,
+            279,
+            280,
+            281
+          ]
+        },
+        {
+          "teal": 298,
+          "source": "tests/contracts/binary.algo.ts:41",
+          "pc": [
             282,
             283,
-            284,
-            285,
-            286
+            284
           ]
         },
         {
-          "teal": 281,
-          "source": "tests/contracts/binary.algo.ts:4",
+          "teal": 301,
+          "source": "tests/contracts/binary.algo.ts:41",
           "pc": [
-            287,
-            288,
-            289,
+            285,
+            286,
+            287
+          ]
+        },
+        {
+          "teal": 302,
+          "source": "tests/contracts/binary.algo.ts:41",
+          "pc": [
+            288
+          ]
+        },
+        {
+          "teal": 303,
+          "source": "tests/contracts/binary.algo.ts:41",
+          "pc": [
+            289
+          ]
+        },
+        {
+          "teal": 307,
+          "source": "tests/contracts/binary.algo.ts:41",
+          "pc": [
             290,
             291,
             292
           ]
         },
         {
-          "teal": 282,
-          "source": "tests/contracts/binary.algo.ts:4",
+          "teal": 311,
+          "source": "tests/contracts/binary.algo.ts:42",
           "pc": [
             293,
-            294,
+            294
+          ]
+        },
+        {
+          "teal": 312,
+          "source": "tests/contracts/binary.algo.ts:42",
+          "pc": [
             295,
-            296,
-            297,
+            296
+          ]
+        },
+        {
+          "teal": 313,
+          "source": "tests/contracts/binary.algo.ts:42",
+          "pc": [
+            297
+          ]
+        },
+        {
+          "teal": 314,
+          "source": "tests/contracts/binary.algo.ts:41",
+          "pc": [
             298
           ]
         },
         {
-          "teal": 283,
-          "source": "tests/contracts/binary.algo.ts:4",
+          "teal": 319,
+          "source": "tests/contracts/binary.algo.ts:45",
           "pc": [
             299,
             300,
-            301,
+            301
+          ]
+        },
+        {
+          "teal": 320,
+          "source": "tests/contracts/binary.algo.ts:45",
+          "pc": [
             302,
             303,
             304
           ]
         },
         {
-          "teal": 284,
-          "source": "tests/contracts/binary.algo.ts:4",
+          "teal": 323,
+          "source": "tests/contracts/binary.algo.ts:45",
           "pc": [
             305,
             306,
-            307,
+            307
+          ]
+        },
+        {
+          "teal": 324,
+          "source": "tests/contracts/binary.algo.ts:45",
+          "pc": [
             308,
             309,
             310
           ]
         },
         {
-          "teal": 285,
-          "source": "tests/contracts/binary.algo.ts:4",
+          "teal": 327,
+          "source": "tests/contracts/binary.algo.ts:45",
           "pc": [
             311,
             312,
@@ -1393,35 +1560,374 @@
           ]
         },
         {
-          "teal": 286,
-          "source": "tests/contracts/binary.algo.ts:4",
+          "teal": 328,
+          "source": "tests/contracts/binary.algo.ts:45",
           "pc": [
-            314,
-            315,
-            316,
-            317,
-            318,
-            319,
-            320,
-            321,
-            322,
-            323,
-            324,
-            325,
-            326,
-            327,
-            328,
-            329,
-            330,
-            331
+            314
           ]
         },
         {
-          "teal": 289,
+          "teal": 329,
+          "source": "tests/contracts/binary.algo.ts:45",
+          "pc": [
+            315
+          ]
+        },
+        {
+          "teal": 333,
+          "source": "tests/contracts/binary.algo.ts:45",
+          "pc": [
+            316,
+            317,
+            318
+          ]
+        },
+        {
+          "teal": 337,
+          "source": "tests/contracts/binary.algo.ts:46",
+          "pc": [
+            319,
+            320
+          ]
+        },
+        {
+          "teal": 338,
+          "source": "tests/contracts/binary.algo.ts:46",
+          "pc": [
+            321,
+            322
+          ]
+        },
+        {
+          "teal": 339,
+          "source": "tests/contracts/binary.algo.ts:46",
+          "pc": [
+            323
+          ]
+        },
+        {
+          "teal": 340,
+          "source": "tests/contracts/binary.algo.ts:45",
+          "pc": [
+            324
+          ]
+        },
+        {
+          "teal": 345,
+          "source": "tests/contracts/binary.algo.ts:49",
+          "pc": [
+            325,
+            326,
+            327
+          ]
+        },
+        {
+          "teal": 346,
+          "source": "tests/contracts/binary.algo.ts:49",
+          "pc": [
+            328,
+            329,
+            330
+          ]
+        },
+        {
+          "teal": 349,
+          "source": "tests/contracts/binary.algo.ts:49",
+          "pc": [
+            331,
+            332,
+            333
+          ]
+        },
+        {
+          "teal": 350,
+          "source": "tests/contracts/binary.algo.ts:49",
+          "pc": [
+            334
+          ]
+        },
+        {
+          "teal": 351,
+          "source": "tests/contracts/binary.algo.ts:49",
+          "pc": [
+            335
+          ]
+        },
+        {
+          "teal": 355,
+          "source": "tests/contracts/binary.algo.ts:49",
+          "pc": [
+            336,
+            337,
+            338
+          ]
+        },
+        {
+          "teal": 359,
+          "source": "tests/contracts/binary.algo.ts:50",
+          "pc": [
+            339,
+            340
+          ]
+        },
+        {
+          "teal": 360,
+          "source": "tests/contracts/binary.algo.ts:50",
+          "pc": [
+            341
+          ]
+        },
+        {
+          "teal": 361,
+          "source": "tests/contracts/binary.algo.ts:49",
+          "pc": [
+            342
+          ]
+        },
+        {
+          "teal": 364,
+          "source": "tests/contracts/binary.algo.ts:4",
+          "pc": [
+            343
+          ]
+        },
+        {
+          "teal": 365,
+          "source": "tests/contracts/binary.algo.ts:4",
+          "pc": [
+            344
+          ]
+        },
+        {
+          "teal": 368,
+          "source": "tests/contracts/binary.algo.ts:4",
+          "pc": [
+            345,
+            346,
+            347,
+            348,
+            349,
+            350
+          ]
+        },
+        {
+          "teal": 369,
+          "source": "tests/contracts/binary.algo.ts:4",
+          "pc": [
+            351,
+            352,
+            353
+          ]
+        },
+        {
+          "teal": 370,
+          "source": "tests/contracts/binary.algo.ts:4",
+          "pc": [
+            354,
+            355,
+            356,
+            357
+          ]
+        },
+        {
+          "teal": 373,
+          "source": "tests/contracts/binary.algo.ts:4",
+          "errorMessage": "this contract does not implement the given ABI method for create NoOp",
+          "pc": [
+            358
+          ]
+        },
+        {
+          "teal": 376,
+          "source": "tests/contracts/binary.algo.ts:4",
+          "pc": [
+            359,
+            360,
+            361,
+            362,
+            363,
+            364
+          ]
+        },
+        {
+          "teal": 377,
+          "source": "tests/contracts/binary.algo.ts:4",
+          "pc": [
+            365,
+            366,
+            367,
+            368,
+            369,
+            370
+          ]
+        },
+        {
+          "teal": 378,
+          "source": "tests/contracts/binary.algo.ts:4",
+          "pc": [
+            371,
+            372,
+            373,
+            374,
+            375,
+            376
+          ]
+        },
+        {
+          "teal": 379,
+          "source": "tests/contracts/binary.algo.ts:4",
+          "pc": [
+            377,
+            378,
+            379,
+            380,
+            381,
+            382
+          ]
+        },
+        {
+          "teal": 380,
+          "source": "tests/contracts/binary.algo.ts:4",
+          "pc": [
+            383,
+            384,
+            385,
+            386,
+            387,
+            388
+          ]
+        },
+        {
+          "teal": 381,
+          "source": "tests/contracts/binary.algo.ts:4",
+          "pc": [
+            389,
+            390,
+            391,
+            392,
+            393,
+            394
+          ]
+        },
+        {
+          "teal": 382,
+          "source": "tests/contracts/binary.algo.ts:4",
+          "pc": [
+            395,
+            396,
+            397,
+            398,
+            399,
+            400
+          ]
+        },
+        {
+          "teal": 383,
+          "source": "tests/contracts/binary.algo.ts:4",
+          "pc": [
+            401,
+            402,
+            403,
+            404,
+            405,
+            406
+          ]
+        },
+        {
+          "teal": 384,
+          "source": "tests/contracts/binary.algo.ts:4",
+          "pc": [
+            407,
+            408,
+            409,
+            410,
+            411,
+            412
+          ]
+        },
+        {
+          "teal": 385,
+          "source": "tests/contracts/binary.algo.ts:4",
+          "pc": [
+            413,
+            414,
+            415,
+            416,
+            417,
+            418
+          ]
+        },
+        {
+          "teal": 386,
+          "source": "tests/contracts/binary.algo.ts:4",
+          "pc": [
+            419,
+            420,
+            421,
+            422,
+            423,
+            424
+          ]
+        },
+        {
+          "teal": 387,
+          "source": "tests/contracts/binary.algo.ts:4",
+          "pc": [
+            425,
+            426,
+            427,
+            428,
+            429,
+            430
+          ]
+        },
+        {
+          "teal": 388,
+          "source": "tests/contracts/binary.algo.ts:4",
+          "pc": [
+            431,
+            432,
+            433
+          ]
+        },
+        {
+          "teal": 389,
+          "source": "tests/contracts/binary.algo.ts:4",
+          "pc": [
+            434,
+            435,
+            436,
+            437,
+            438,
+            439,
+            440,
+            441,
+            442,
+            443,
+            444,
+            445,
+            446,
+            447,
+            448,
+            449,
+            450,
+            451,
+            452,
+            453,
+            454,
+            455,
+            456,
+            457,
+            458,
+            459
+          ]
+        },
+        {
+          "teal": 392,
           "source": "tests/contracts/binary.algo.ts:4",
           "errorMessage": "this contract does not implement the given ABI method for call NoOp",
           "pc": [
-            332
+            460
           ]
         }
       ],
@@ -1433,20 +1939,20 @@
     }
   },
   "source": {
-    "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCmludGNibG9jayAxCgovLyBUaGlzIFRFQUwgd2FzIGdlbmVyYXRlZCBieSBURUFMU2NyaXB0IHYwLjEwNi4zCi8vIGh0dHBzOi8vZ2l0aHViLmNvbS9hbGdvcmFuZGZvdW5kYXRpb24vVEVBTFNjcmlwdAoKLy8gVGhpcyBjb250cmFjdCBpcyBjb21wbGlhbnQgd2l0aCBhbmQvb3IgaW1wbGVtZW50cyB0aGUgZm9sbG93aW5nIEFSQ3M6IFsgQVJDNCBdCgovLyBUaGUgZm9sbG93aW5nIHRlbiBsaW5lcyBvZiBURUFMIGhhbmRsZSBpbml0aWFsIHByb2dyYW0gZmxvdwovLyBUaGlzIHBhdHRlcm4gaXMgdXNlZCB0byBtYWtlIGl0IGVhc3kgZm9yIGFueW9uZSB0byBwYXJzZSB0aGUgc3RhcnQgb2YgdGhlIHByb2dyYW0gYW5kIGRldGVybWluZSBpZiBhIHNwZWNpZmljIGFjdGlvbiBpcyBhbGxvd2VkCi8vIEhlcmUsIGFjdGlvbiByZWZlcnMgdG8gdGhlIE9uQ29tcGxldGUgaW4gY29tYmluYXRpb24gd2l0aCB3aGV0aGVyIHRoZSBhcHAgaXMgYmVpbmcgY3JlYXRlZCBvciBjYWxsZWQKLy8gRXZlcnkgcG9zc2libGUgYWN0aW9uIGZvciB0aGlzIGNvbnRyYWN0IGlzIHJlcHJlc2VudGVkIGluIHRoZSBzd2l0Y2ggc3RhdGVtZW50Ci8vIElmIHRoZSBhY3Rpb24gaXMgbm90IGltcGxlbWVudGVkIGluIHRoZSBjb250cmFjdCwgaXRzIHJlc3BlY3RpdmUgYnJhbmNoIHdpbGwgYmUgIipOT1RfSU1QTEVNRU5URUQiIHdoaWNoIGp1c3QgY29udGFpbnMgImVyciIKdHhuIEFwcGxpY2F0aW9uSUQKIQpwdXNoaW50IDYKKgp0eG4gT25Db21wbGV0aW9uCisKc3dpdGNoICpjYWxsX05vT3AgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpjcmVhdGVfTm9PcCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQKCipOT1RfSU1QTEVNRU5URUQ6CgkvLyBUaGUgcmVxdWVzdGVkIGFjdGlvbiBpcyBub3QgaW1wbGVtZW50ZWQgaW4gdGhpcyBjb250cmFjdC4gQXJlIHlvdSB1c2luZyB0aGUgY29ycmVjdCBPbkNvbXBsZXRlPyBEaWQgeW91IHNldCB5b3VyIGFwcCBJRD8KCWVycgoKLy8gYW5kKHVpbnQ2NCx1aW50NjQpdm9pZAoqYWJpX3JvdXRlX2FuZDoKCS8vIGI6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgoJYnRvaQoKCS8vIGE6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJYnRvaQoKCS8vIGV4ZWN1dGUgYW5kKHVpbnQ2NCx1aW50NjQpdm9pZAoJY2FsbHN1YiBhbmQKCWludGMgMCAvLyAxCglyZXR1cm4KCi8vIGFuZChhOiB1aW50NjQsIGI6IHVpbnQ2NCk6IHZvaWQKYW5kOgoJcHJvdG8gMiAwCgoJLy8gdGVzdHMvY29udHJhY3RzL2JpbmFyeS5hbGdvLnRzOjYKCS8vIGFzc2VydChhICYmIGIpCglmcmFtZV9kaWcgLTEgLy8gYTogdWludDY0CglkdXAKCWJ6ICpza2lwX2FuZDAKCWZyYW1lX2RpZyAtMiAvLyBiOiB1aW50NjQKCSYmCgoqc2tpcF9hbmQwOgoJYXNzZXJ0CglyZXRzdWIKCi8vIG9yKHVpbnQ2NCx1aW50NjQpdm9pZAoqYWJpX3JvdXRlX29yOgoJLy8gYjogdWludDY0Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAyCglidG9pCgoJLy8gYTogdWludDY0Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglidG9pCgoJLy8gZXhlY3V0ZSBvcih1aW50NjQsdWludDY0KXZvaWQKCWNhbGxzdWIgb3IKCWludGMgMCAvLyAxCglyZXR1cm4KCi8vIG9yKGE6IHVpbnQ2NCwgYjogdWludDY0KTogdm9pZApvcjoKCXByb3RvIDIgMAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9iaW5hcnkuYWxnby50czoxMAoJLy8gYXNzZXJ0KGEgfHwgYikKCWZyYW1lX2RpZyAtMSAvLyBhOiB1aW50NjQKCWR1cAoJYm56ICpza2lwX29yMAoJZnJhbWVfZGlnIC0yIC8vIGI6IHVpbnQ2NAoJfHwKCipza2lwX29yMDoKCWFzc2VydAoJcmV0c3ViCgovLyBlcXVhbCh1aW50NjQsdWludDY0KXZvaWQKKmFiaV9yb3V0ZV9lcXVhbDoKCS8vIGI6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgoJYnRvaQoKCS8vIGE6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJYnRvaQoKCS8vIGV4ZWN1dGUgZXF1YWwodWludDY0LHVpbnQ2NCl2b2lkCgljYWxsc3ViIGVxdWFsCglpbnRjIDAgLy8gMQoJcmV0dXJuCgovLyBlcXVhbChhOiB1aW50NjQsIGI6IHVpbnQ2NCk6IHZvaWQKZXF1YWw6Cglwcm90byAyIDAKCgkvLyB0ZXN0cy9jb250cmFjdHMvYmluYXJ5LmFsZ28udHM6MTQKCS8vIGFzc2VydChhID09PSBiKQoJZnJhbWVfZGlnIC0xIC8vIGE6IHVpbnQ2NAoJZnJhbWVfZGlnIC0yIC8vIGI6IHVpbnQ2NAoJPT0KCWFzc2VydAoJcmV0c3ViCgovLyBub3RFcXVhbCh1aW50NjQsdWludDY0KXZvaWQKKmFiaV9yb3V0ZV9ub3RFcXVhbDoKCS8vIGI6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgoJYnRvaQoKCS8vIGE6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJYnRvaQoKCS8vIGV4ZWN1dGUgbm90RXF1YWwodWludDY0LHVpbnQ2NCl2b2lkCgljYWxsc3ViIG5vdEVxdWFsCglpbnRjIDAgLy8gMQoJcmV0dXJuCgovLyBub3RFcXVhbChhOiB1aW50NjQsIGI6IHVpbnQ2NCk6IHZvaWQKbm90RXF1YWw6Cglwcm90byAyIDAKCgkvLyB0ZXN0cy9jb250cmFjdHMvYmluYXJ5LmFsZ28udHM6MTgKCS8vIGFzc2VydChhICE9PSBiKQoJZnJhbWVfZGlnIC0xIC8vIGE6IHVpbnQ2NAoJZnJhbWVfZGlnIC0yIC8vIGI6IHVpbnQ2NAoJIT0KCWFzc2VydAoJcmV0c3ViCgovLyBiaXRBbmQodWludDY0LHVpbnQ2NCl2b2lkCiphYmlfcm91dGVfYml0QW5kOgoJLy8gYjogdWludDY0Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAyCglidG9pCgoJLy8gYTogdWludDY0Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglidG9pCgoJLy8gZXhlY3V0ZSBiaXRBbmQodWludDY0LHVpbnQ2NCl2b2lkCgljYWxsc3ViIGJpdEFuZAoJaW50YyAwIC8vIDEKCXJldHVybgoKLy8gYml0QW5kKGE6IHVpbnQ2NCwgYjogdWludDY0KTogdm9pZApiaXRBbmQ6Cglwcm90byAyIDAKCgkvLyB0ZXN0cy9jb250cmFjdHMvYmluYXJ5LmFsZ28udHM6MjIKCS8vIGFzc2VydChhICYgYikKCWZyYW1lX2RpZyAtMSAvLyBhOiB1aW50NjQKCWZyYW1lX2RpZyAtMiAvLyBiOiB1aW50NjQKCSYKCWFzc2VydAoJcmV0c3ViCgovLyBiaXRPcih1aW50NjQsdWludDY0KXZvaWQKKmFiaV9yb3V0ZV9iaXRPcjoKCS8vIGI6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgoJYnRvaQoKCS8vIGE6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJYnRvaQoKCS8vIGV4ZWN1dGUgYml0T3IodWludDY0LHVpbnQ2NCl2b2lkCgljYWxsc3ViIGJpdE9yCglpbnRjIDAgLy8gMQoJcmV0dXJuCgovLyBiaXRPcihhOiB1aW50NjQsIGI6IHVpbnQ2NCk6IHZvaWQKYml0T3I6Cglwcm90byAyIDAKCgkvLyB0ZXN0cy9jb250cmFjdHMvYmluYXJ5LmFsZ28udHM6MjYKCS8vIGFzc2VydChhIHwgYikKCWZyYW1lX2RpZyAtMSAvLyBhOiB1aW50NjQKCWZyYW1lX2RpZyAtMiAvLyBiOiB1aW50NjQKCXwKCWFzc2VydAoJcmV0c3ViCgovLyBiaXRYb3IodWludDY0LHVpbnQ2NCl2b2lkCiphYmlfcm91dGVfYml0WG9yOgoJLy8gYjogdWludDY0Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAyCglidG9pCgoJLy8gYTogdWludDY0Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglidG9pCgoJLy8gZXhlY3V0ZSBiaXRYb3IodWludDY0LHVpbnQ2NCl2b2lkCgljYWxsc3ViIGJpdFhvcgoJaW50YyAwIC8vIDEKCXJldHVybgoKLy8gYml0WG9yKGE6IHVpbnQ2NCwgYjogdWludDY0KTogdm9pZApiaXRYb3I6Cglwcm90byAyIDAKCgkvLyB0ZXN0cy9jb250cmFjdHMvYmluYXJ5LmFsZ28udHM6MzAKCS8vIGFzc2VydChhIF4gYikKCWZyYW1lX2RpZyAtMSAvLyBhOiB1aW50NjQKCWZyYW1lX2RpZyAtMiAvLyBiOiB1aW50NjQKCV4KCWFzc2VydAoJcmV0c3ViCgovLyBjb21ibyh1aW50NjQsdWludDY0LHVpbnQ2NCl2b2lkCiphYmlfcm91dGVfY29tYm86CgkvLyBjOiB1aW50NjQKCXR4bmEgQXBwbGljYXRpb25BcmdzIDMKCWJ0b2kKCgkvLyBiOiB1aW50NjQKCXR4bmEgQXBwbGljYXRpb25BcmdzIDIKCWJ0b2kKCgkvLyBhOiB1aW50NjQKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWJ0b2kKCgkvLyBleGVjdXRlIGNvbWJvKHVpbnQ2NCx1aW50NjQsdWludDY0KXZvaWQKCWNhbGxzdWIgY29tYm8KCWludGMgMCAvLyAxCglyZXR1cm4KCi8vIGNvbWJvKGE6IHVpbnQ2NCwgYjogdWludDY0LCBjOiB1aW50NjQpOiB2b2lkCmNvbWJvOgoJcHJvdG8gMyAwCgoJLy8gdGVzdHMvY29udHJhY3RzL2JpbmFyeS5hbGdvLnRzOjM0CgkvLyBhc3NlcnQoYSB8fCAoYiAmJiBjKSkKCWZyYW1lX2RpZyAtMSAvLyBhOiB1aW50NjQKCWR1cAoJYm56ICpza2lwX29yMQoJZnJhbWVfZGlnIC0yIC8vIGI6IHVpbnQ2NAoJZHVwCglieiAqc2tpcF9hbmQxCglmcmFtZV9kaWcgLTMgLy8gYzogdWludDY0CgkmJgoKKnNraXBfYW5kMToKCXx8Cgoqc2tpcF9vcjE6Cglhc3NlcnQKCXJldHN1YgoKKmFiaV9yb3V0ZV9jcmVhdGVBcHBsaWNhdGlvbjoKCWludGMgMCAvLyAxCglyZXR1cm4KCipjcmVhdGVfTm9PcDoKCXB1c2hieXRlcyAweGI4NDQ3YjM2IC8vIG1ldGhvZCAiY3JlYXRlQXBwbGljYXRpb24oKXZvaWQiCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAwCgltYXRjaCAqYWJpX3JvdXRlX2NyZWF0ZUFwcGxpY2F0aW9uCgoJLy8gdGhpcyBjb250cmFjdCBkb2VzIG5vdCBpbXBsZW1lbnQgdGhlIGdpdmVuIEFCSSBtZXRob2QgZm9yIGNyZWF0ZSBOb09wCgllcnIKCipjYWxsX05vT3A6CglwdXNoYnl0ZXMgMHg2ZmQxM2ExMyAvLyBtZXRob2QgImFuZCh1aW50NjQsdWludDY0KXZvaWQiCglwdXNoYnl0ZXMgMHg3MDBhYTg4NyAvLyBtZXRob2QgIm9yKHVpbnQ2NCx1aW50NjQpdm9pZCIKCXB1c2hieXRlcyAweDcyM2M4N2VmIC8vIG1ldGhvZCAiZXF1YWwodWludDY0LHVpbnQ2NCl2b2lkIgoJcHVzaGJ5dGVzIDB4ZTdmZmI5ZDMgLy8gbWV0aG9kICJub3RFcXVhbCh1aW50NjQsdWludDY0KXZvaWQiCglwdXNoYnl0ZXMgMHg5Mjg1MTg4ZSAvLyBtZXRob2QgImJpdEFuZCh1aW50NjQsdWludDY0KXZvaWQiCglwdXNoYnl0ZXMgMHg1OTJkYzczZiAvLyBtZXRob2QgImJpdE9yKHVpbnQ2NCx1aW50NjQpdm9pZCIKCXB1c2hieXRlcyAweDZkNDY1MDRhIC8vIG1ldGhvZCAiYml0WG9yKHVpbnQ2NCx1aW50NjQpdm9pZCIKCXB1c2hieXRlcyAweDc0ZGM1MTUwIC8vIG1ldGhvZCAiY29tYm8odWludDY0LHVpbnQ2NCx1aW50NjQpdm9pZCIKCXR4bmEgQXBwbGljYXRpb25BcmdzIDAKCW1hdGNoICphYmlfcm91dGVfYW5kICphYmlfcm91dGVfb3IgKmFiaV9yb3V0ZV9lcXVhbCAqYWJpX3JvdXRlX25vdEVxdWFsICphYmlfcm91dGVfYml0QW5kICphYmlfcm91dGVfYml0T3IgKmFiaV9yb3V0ZV9iaXRYb3IgKmFiaV9yb3V0ZV9jb21ibwoKCS8vIHRoaXMgY29udHJhY3QgZG9lcyBub3QgaW1wbGVtZW50IHRoZSBnaXZlbiBBQkkgbWV0aG9kIGZvciBjYWxsIE5vT3AKCWVycg==",
+    "approval": "I3ByYWdtYSB2ZXJzaW9uIDEwCmludGNibG9jayAxCgovLyBUaGlzIFRFQUwgd2FzIGdlbmVyYXRlZCBieSBURUFMU2NyaXB0IHYwLjEwNi4zCi8vIGh0dHBzOi8vZ2l0aHViLmNvbS9hbGdvcmFuZGZvdW5kYXRpb24vVEVBTFNjcmlwdAoKLy8gVGhpcyBjb250cmFjdCBpcyBjb21wbGlhbnQgd2l0aCBhbmQvb3IgaW1wbGVtZW50cyB0aGUgZm9sbG93aW5nIEFSQ3M6IFsgQVJDNCBdCgovLyBUaGUgZm9sbG93aW5nIHRlbiBsaW5lcyBvZiBURUFMIGhhbmRsZSBpbml0aWFsIHByb2dyYW0gZmxvdwovLyBUaGlzIHBhdHRlcm4gaXMgdXNlZCB0byBtYWtlIGl0IGVhc3kgZm9yIGFueW9uZSB0byBwYXJzZSB0aGUgc3RhcnQgb2YgdGhlIHByb2dyYW0gYW5kIGRldGVybWluZSBpZiBhIHNwZWNpZmljIGFjdGlvbiBpcyBhbGxvd2VkCi8vIEhlcmUsIGFjdGlvbiByZWZlcnMgdG8gdGhlIE9uQ29tcGxldGUgaW4gY29tYmluYXRpb24gd2l0aCB3aGV0aGVyIHRoZSBhcHAgaXMgYmVpbmcgY3JlYXRlZCBvciBjYWxsZWQKLy8gRXZlcnkgcG9zc2libGUgYWN0aW9uIGZvciB0aGlzIGNvbnRyYWN0IGlzIHJlcHJlc2VudGVkIGluIHRoZSBzd2l0Y2ggc3RhdGVtZW50Ci8vIElmIHRoZSBhY3Rpb24gaXMgbm90IGltcGxlbWVudGVkIGluIHRoZSBjb250cmFjdCwgaXRzIHJlc3BlY3RpdmUgYnJhbmNoIHdpbGwgYmUgIipOT1RfSU1QTEVNRU5URUQiIHdoaWNoIGp1c3QgY29udGFpbnMgImVyciIKdHhuIEFwcGxpY2F0aW9uSUQKIQpwdXNoaW50IDYKKgp0eG4gT25Db21wbGV0aW9uCisKc3dpdGNoICpjYWxsX05vT3AgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpjcmVhdGVfTm9PcCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQgKk5PVF9JTVBMRU1FTlRFRCAqTk9UX0lNUExFTUVOVEVEICpOT1RfSU1QTEVNRU5URUQKCipOT1RfSU1QTEVNRU5URUQ6CgkvLyBUaGUgcmVxdWVzdGVkIGFjdGlvbiBpcyBub3QgaW1wbGVtZW50ZWQgaW4gdGhpcyBjb250cmFjdC4gQXJlIHlvdSB1c2luZyB0aGUgY29ycmVjdCBPbkNvbXBsZXRlPyBEaWQgeW91IHNldCB5b3VyIGFwcCBJRD8KCWVycgoKLy8gYW5kKHVpbnQ2NCx1aW50NjQpdm9pZAoqYWJpX3JvdXRlX2FuZDoKCS8vIGI6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgoJYnRvaQoKCS8vIGE6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJYnRvaQoKCS8vIGV4ZWN1dGUgYW5kKHVpbnQ2NCx1aW50NjQpdm9pZAoJY2FsbHN1YiBhbmQKCWludGMgMCAvLyAxCglyZXR1cm4KCi8vIGFuZChhOiB1aW50NjQsIGI6IHVpbnQ2NCk6IHZvaWQKYW5kOgoJcHJvdG8gMiAwCgoJLy8gdGVzdHMvY29udHJhY3RzL2JpbmFyeS5hbGdvLnRzOjYKCS8vIGFzc2VydChhICYmIGIpCglmcmFtZV9kaWcgLTEgLy8gYTogdWludDY0CglkdXAKCWJ6ICpza2lwX2FuZDAKCWZyYW1lX2RpZyAtMiAvLyBiOiB1aW50NjQKCSYmCgoqc2tpcF9hbmQwOgoJYXNzZXJ0CglyZXRzdWIKCi8vIG9yKHVpbnQ2NCx1aW50NjQpdm9pZAoqYWJpX3JvdXRlX29yOgoJLy8gYjogdWludDY0Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAyCglidG9pCgoJLy8gYTogdWludDY0Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglidG9pCgoJLy8gZXhlY3V0ZSBvcih1aW50NjQsdWludDY0KXZvaWQKCWNhbGxzdWIgb3IKCWludGMgMCAvLyAxCglyZXR1cm4KCi8vIG9yKGE6IHVpbnQ2NCwgYjogdWludDY0KTogdm9pZApvcjoKCXByb3RvIDIgMAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9iaW5hcnkuYWxnby50czoxMAoJLy8gYXNzZXJ0KGEgfHwgYikKCWZyYW1lX2RpZyAtMSAvLyBhOiB1aW50NjQKCWR1cAoJYm56ICpza2lwX29yMAoJZnJhbWVfZGlnIC0yIC8vIGI6IHVpbnQ2NAoJfHwKCipza2lwX29yMDoKCWFzc2VydAoJcmV0c3ViCgovLyBlcXVhbCh1aW50NjQsdWludDY0KXZvaWQKKmFiaV9yb3V0ZV9lcXVhbDoKCS8vIGI6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgoJYnRvaQoKCS8vIGE6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJYnRvaQoKCS8vIGV4ZWN1dGUgZXF1YWwodWludDY0LHVpbnQ2NCl2b2lkCgljYWxsc3ViIGVxdWFsCglpbnRjIDAgLy8gMQoJcmV0dXJuCgovLyBlcXVhbChhOiB1aW50NjQsIGI6IHVpbnQ2NCk6IHZvaWQKZXF1YWw6Cglwcm90byAyIDAKCgkvLyB0ZXN0cy9jb250cmFjdHMvYmluYXJ5LmFsZ28udHM6MTQKCS8vIGFzc2VydChhID09PSBiKQoJZnJhbWVfZGlnIC0xIC8vIGE6IHVpbnQ2NAoJZnJhbWVfZGlnIC0yIC8vIGI6IHVpbnQ2NAoJPT0KCWFzc2VydAoJcmV0c3ViCgovLyBub3RFcXVhbCh1aW50NjQsdWludDY0KXZvaWQKKmFiaV9yb3V0ZV9ub3RFcXVhbDoKCS8vIGI6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgoJYnRvaQoKCS8vIGE6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJYnRvaQoKCS8vIGV4ZWN1dGUgbm90RXF1YWwodWludDY0LHVpbnQ2NCl2b2lkCgljYWxsc3ViIG5vdEVxdWFsCglpbnRjIDAgLy8gMQoJcmV0dXJuCgovLyBub3RFcXVhbChhOiB1aW50NjQsIGI6IHVpbnQ2NCk6IHZvaWQKbm90RXF1YWw6Cglwcm90byAyIDAKCgkvLyB0ZXN0cy9jb250cmFjdHMvYmluYXJ5LmFsZ28udHM6MTgKCS8vIGFzc2VydChhICE9PSBiKQoJZnJhbWVfZGlnIC0xIC8vIGE6IHVpbnQ2NAoJZnJhbWVfZGlnIC0yIC8vIGI6IHVpbnQ2NAoJIT0KCWFzc2VydAoJcmV0c3ViCgovLyBiaXRBbmQodWludDY0LHVpbnQ2NCl2b2lkCiphYmlfcm91dGVfYml0QW5kOgoJLy8gYjogdWludDY0Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAyCglidG9pCgoJLy8gYTogdWludDY0Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglidG9pCgoJLy8gZXhlY3V0ZSBiaXRBbmQodWludDY0LHVpbnQ2NCl2b2lkCgljYWxsc3ViIGJpdEFuZAoJaW50YyAwIC8vIDEKCXJldHVybgoKLy8gYml0QW5kKGE6IHVpbnQ2NCwgYjogdWludDY0KTogdm9pZApiaXRBbmQ6Cglwcm90byAyIDAKCgkvLyB0ZXN0cy9jb250cmFjdHMvYmluYXJ5LmFsZ28udHM6MjIKCS8vIGFzc2VydChhICYgYikKCWZyYW1lX2RpZyAtMSAvLyBhOiB1aW50NjQKCWZyYW1lX2RpZyAtMiAvLyBiOiB1aW50NjQKCSYKCWFzc2VydAoJcmV0c3ViCgovLyBiaXRPcih1aW50NjQsdWludDY0KXZvaWQKKmFiaV9yb3V0ZV9iaXRPcjoKCS8vIGI6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgoJYnRvaQoKCS8vIGE6IHVpbnQ2NAoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMQoJYnRvaQoKCS8vIGV4ZWN1dGUgYml0T3IodWludDY0LHVpbnQ2NCl2b2lkCgljYWxsc3ViIGJpdE9yCglpbnRjIDAgLy8gMQoJcmV0dXJuCgovLyBiaXRPcihhOiB1aW50NjQsIGI6IHVpbnQ2NCk6IHZvaWQKYml0T3I6Cglwcm90byAyIDAKCgkvLyB0ZXN0cy9jb250cmFjdHMvYmluYXJ5LmFsZ28udHM6MjYKCS8vIGFzc2VydChhIHwgYikKCWZyYW1lX2RpZyAtMSAvLyBhOiB1aW50NjQKCWZyYW1lX2RpZyAtMiAvLyBiOiB1aW50NjQKCXwKCWFzc2VydAoJcmV0c3ViCgovLyBiaXRYb3IodWludDY0LHVpbnQ2NCl2b2lkCiphYmlfcm91dGVfYml0WG9yOgoJLy8gYjogdWludDY0Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAyCglidG9pCgoJLy8gYTogdWludDY0Cgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglidG9pCgoJLy8gZXhlY3V0ZSBiaXRYb3IodWludDY0LHVpbnQ2NCl2b2lkCgljYWxsc3ViIGJpdFhvcgoJaW50YyAwIC8vIDEKCXJldHVybgoKLy8gYml0WG9yKGE6IHVpbnQ2NCwgYjogdWludDY0KTogdm9pZApiaXRYb3I6Cglwcm90byAyIDAKCgkvLyB0ZXN0cy9jb250cmFjdHMvYmluYXJ5LmFsZ28udHM6MzAKCS8vIGFzc2VydChhIF4gYikKCWZyYW1lX2RpZyAtMSAvLyBhOiB1aW50NjQKCWZyYW1lX2RpZyAtMiAvLyBiOiB1aW50NjQKCV4KCWFzc2VydAoJcmV0c3ViCgovLyBjb21ibyh1aW50NjQsdWludDY0LHVpbnQ2NCl2b2lkCiphYmlfcm91dGVfY29tYm86CgkvLyBjOiB1aW50NjQKCXR4bmEgQXBwbGljYXRpb25BcmdzIDMKCWJ0b2kKCgkvLyBiOiB1aW50NjQKCXR4bmEgQXBwbGljYXRpb25BcmdzIDIKCWJ0b2kKCgkvLyBhOiB1aW50NjQKCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWJ0b2kKCgkvLyBleGVjdXRlIGNvbWJvKHVpbnQ2NCx1aW50NjQsdWludDY0KXZvaWQKCWNhbGxzdWIgY29tYm8KCWludGMgMCAvLyAxCglyZXR1cm4KCi8vIGNvbWJvKGE6IHVpbnQ2NCwgYjogdWludDY0LCBjOiB1aW50NjQpOiB2b2lkCmNvbWJvOgoJcHJvdG8gMyAwCgoJLy8gdGVzdHMvY29udHJhY3RzL2JpbmFyeS5hbGdvLnRzOjM0CgkvLyBhc3NlcnQoYSB8fCAoYiAmJiBjKSkKCWZyYW1lX2RpZyAtMSAvLyBhOiB1aW50NjQKCWR1cAoJYm56ICpza2lwX29yMQoJZnJhbWVfZGlnIC0yIC8vIGI6IHVpbnQ2NAoJZHVwCglieiAqc2tpcF9hbmQxCglmcmFtZV9kaWcgLTMgLy8gYzogdWludDY0CgkmJgoKKnNraXBfYW5kMToKCXx8Cgoqc2tpcF9vcjE6Cglhc3NlcnQKCXJldHN1YgoKLy8gYml0d2lzZVhvck9wKGJ5dGVbXSxieXRlW10pdm9pZAoqYWJpX3JvdXRlX2JpdHdpc2VYb3JPcDoKCS8vIGI6IGJ5dGVbXQoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgoJZXh0cmFjdCAyIDAKCgkvLyBhOiBieXRlW10KCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWV4dHJhY3QgMiAwCgoJLy8gZXhlY3V0ZSBiaXR3aXNlWG9yT3AoYnl0ZVtdLGJ5dGVbXSl2b2lkCgljYWxsc3ViIGJpdHdpc2VYb3JPcAoJaW50YyAwIC8vIDEKCXJldHVybgoKLy8gYml0d2lzZVhvck9wKGE6IGJ5dGVzLCBiOiBieXRlcyk6IHZvaWQKYml0d2lzZVhvck9wOgoJcHJvdG8gMiAwCgoJLy8gdGVzdHMvY29udHJhY3RzL2JpbmFyeS5hbGdvLnRzOjM4CgkvLyBiaXR3aXNlWG9yKGEsIGIpCglmcmFtZV9kaWcgLTEgLy8gYTogYnl0ZXMKCWZyYW1lX2RpZyAtMiAvLyBiOiBieXRlcwoJYl4KCXJldHN1YgoKLy8gYml0d2lzZUFuZE9wKGJ5dGVbXSxieXRlW10pdm9pZAoqYWJpX3JvdXRlX2JpdHdpc2VBbmRPcDoKCS8vIGI6IGJ5dGVbXQoJdHhuYSBBcHBsaWNhdGlvbkFyZ3MgMgoJZXh0cmFjdCAyIDAKCgkvLyBhOiBieXRlW10KCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWV4dHJhY3QgMiAwCgoJLy8gZXhlY3V0ZSBiaXR3aXNlQW5kT3AoYnl0ZVtdLGJ5dGVbXSl2b2lkCgljYWxsc3ViIGJpdHdpc2VBbmRPcAoJaW50YyAwIC8vIDEKCXJldHVybgoKLy8gYml0d2lzZUFuZE9wKGE6IGJ5dGVzLCBiOiBieXRlcyk6IHZvaWQKYml0d2lzZUFuZE9wOgoJcHJvdG8gMiAwCgoJLy8gdGVzdHMvY29udHJhY3RzL2JpbmFyeS5hbGdvLnRzOjQyCgkvLyBiaXR3aXNlQW5kKGEsIGIpCglmcmFtZV9kaWcgLTEgLy8gYTogYnl0ZXMKCWZyYW1lX2RpZyAtMiAvLyBiOiBieXRlcwoJYiYKCXJldHN1YgoKLy8gYml0d2lzZU9yT3AoYnl0ZVtdLGJ5dGVbXSl2b2lkCiphYmlfcm91dGVfYml0d2lzZU9yT3A6CgkvLyBiOiBieXRlW10KCXR4bmEgQXBwbGljYXRpb25BcmdzIDIKCWV4dHJhY3QgMiAwCgoJLy8gYTogYnl0ZVtdCgl0eG5hIEFwcGxpY2F0aW9uQXJncyAxCglleHRyYWN0IDIgMAoKCS8vIGV4ZWN1dGUgYml0d2lzZU9yT3AoYnl0ZVtdLGJ5dGVbXSl2b2lkCgljYWxsc3ViIGJpdHdpc2VPck9wCglpbnRjIDAgLy8gMQoJcmV0dXJuCgovLyBiaXR3aXNlT3JPcChhOiBieXRlcywgYjogYnl0ZXMpOiB2b2lkCmJpdHdpc2VPck9wOgoJcHJvdG8gMiAwCgoJLy8gdGVzdHMvY29udHJhY3RzL2JpbmFyeS5hbGdvLnRzOjQ2CgkvLyBiaXR3aXNlT3IoYSwgYikKCWZyYW1lX2RpZyAtMSAvLyBhOiBieXRlcwoJZnJhbWVfZGlnIC0yIC8vIGI6IGJ5dGVzCglifAoJcmV0c3ViCgovLyBiaXR3aXNlTm90T3AoYnl0ZVtdKXZvaWQKKmFiaV9yb3V0ZV9iaXR3aXNlTm90T3A6CgkvLyBhOiBieXRlW10KCXR4bmEgQXBwbGljYXRpb25BcmdzIDEKCWV4dHJhY3QgMiAwCgoJLy8gZXhlY3V0ZSBiaXR3aXNlTm90T3AoYnl0ZVtdKXZvaWQKCWNhbGxzdWIgYml0d2lzZU5vdE9wCglpbnRjIDAgLy8gMQoJcmV0dXJuCgovLyBiaXR3aXNlTm90T3AoYTogYnl0ZXMpOiB2b2lkCmJpdHdpc2VOb3RPcDoKCXByb3RvIDEgMAoKCS8vIHRlc3RzL2NvbnRyYWN0cy9iaW5hcnkuYWxnby50czo1MAoJLy8gYml0d2lzZU5vdChhKQoJZnJhbWVfZGlnIC0xIC8vIGE6IGJ5dGVzCglifgoJcmV0c3ViCgoqYWJpX3JvdXRlX2NyZWF0ZUFwcGxpY2F0aW9uOgoJaW50YyAwIC8vIDEKCXJldHVybgoKKmNyZWF0ZV9Ob09wOgoJcHVzaGJ5dGVzIDB4Yjg0NDdiMzYgLy8gbWV0aG9kICJjcmVhdGVBcHBsaWNhdGlvbigpdm9pZCIKCXR4bmEgQXBwbGljYXRpb25BcmdzIDAKCW1hdGNoICphYmlfcm91dGVfY3JlYXRlQXBwbGljYXRpb24KCgkvLyB0aGlzIGNvbnRyYWN0IGRvZXMgbm90IGltcGxlbWVudCB0aGUgZ2l2ZW4gQUJJIG1ldGhvZCBmb3IgY3JlYXRlIE5vT3AKCWVycgoKKmNhbGxfTm9PcDoKCXB1c2hieXRlcyAweDZmZDEzYTEzIC8vIG1ldGhvZCAiYW5kKHVpbnQ2NCx1aW50NjQpdm9pZCIKCXB1c2hieXRlcyAweDcwMGFhODg3IC8vIG1ldGhvZCAib3IodWludDY0LHVpbnQ2NCl2b2lkIgoJcHVzaGJ5dGVzIDB4NzIzYzg3ZWYgLy8gbWV0aG9kICJlcXVhbCh1aW50NjQsdWludDY0KXZvaWQiCglwdXNoYnl0ZXMgMHhlN2ZmYjlkMyAvLyBtZXRob2QgIm5vdEVxdWFsKHVpbnQ2NCx1aW50NjQpdm9pZCIKCXB1c2hieXRlcyAweDkyODUxODhlIC8vIG1ldGhvZCAiYml0QW5kKHVpbnQ2NCx1aW50NjQpdm9pZCIKCXB1c2hieXRlcyAweDU5MmRjNzNmIC8vIG1ldGhvZCAiYml0T3IodWludDY0LHVpbnQ2NCl2b2lkIgoJcHVzaGJ5dGVzIDB4NmQ0NjUwNGEgLy8gbWV0aG9kICJiaXRYb3IodWludDY0LHVpbnQ2NCl2b2lkIgoJcHVzaGJ5dGVzIDB4NzRkYzUxNTAgLy8gbWV0aG9kICJjb21ibyh1aW50NjQsdWludDY0LHVpbnQ2NCl2b2lkIgoJcHVzaGJ5dGVzIDB4NDNjMmE1NmYgLy8gbWV0aG9kICJiaXR3aXNlWG9yT3AoYnl0ZVtdLGJ5dGVbXSl2b2lkIgoJcHVzaGJ5dGVzIDB4Yzk3MjNlNWUgLy8gbWV0aG9kICJiaXR3aXNlQW5kT3AoYnl0ZVtdLGJ5dGVbXSl2b2lkIgoJcHVzaGJ5dGVzIDB4ZmZjODM1ODUgLy8gbWV0aG9kICJiaXR3aXNlT3JPcChieXRlW10sYnl0ZVtdKXZvaWQiCglwdXNoYnl0ZXMgMHhiZDZiY2VhNyAvLyBtZXRob2QgImJpdHdpc2VOb3RPcChieXRlW10pdm9pZCIKCXR4bmEgQXBwbGljYXRpb25BcmdzIDAKCW1hdGNoICphYmlfcm91dGVfYW5kICphYmlfcm91dGVfb3IgKmFiaV9yb3V0ZV9lcXVhbCAqYWJpX3JvdXRlX25vdEVxdWFsICphYmlfcm91dGVfYml0QW5kICphYmlfcm91dGVfYml0T3IgKmFiaV9yb3V0ZV9iaXRYb3IgKmFiaV9yb3V0ZV9jb21ibyAqYWJpX3JvdXRlX2JpdHdpc2VYb3JPcCAqYWJpX3JvdXRlX2JpdHdpc2VBbmRPcCAqYWJpX3JvdXRlX2JpdHdpc2VPck9wICphYmlfcm91dGVfYml0d2lzZU5vdE9wCgoJLy8gdGhpcyBjb250cmFjdCBkb2VzIG5vdCBpbXBsZW1lbnQgdGhlIGdpdmVuIEFCSSBtZXRob2QgZm9yIGNhbGwgTm9PcAoJZXJy",
     "clear": "I3ByYWdtYSB2ZXJzaW9uIDEw"
   },
   "byteCode": {
-    "approval": "CiABATEYFIEGCzEZCI0MAOAAAAAAAAAAAAAAANIAAAAAAAAAAAAAADYaAhc2GgEXiAACIkOKAgCL/0lBAAOL/hBEiTYaAhc2GgEXiAACIkOKAgCL/0lAAAOL/hFEiTYaAhc2GgEXiAACIkOKAgCL/4v+EkSJNhoCFzYaAReIAAIiQ4oCAIv/i/4TRIk2GgIXNhoBF4gAAiJDigIAi/+L/hpEiTYaAhc2GgEXiAACIkOKAgCL/4v+GUSJNhoCFzYaAReIAAIiQ4oCAIv/i/4bRIk2GgMXNhoCFzYaAReIAAIiQ4oDAIv/SUAACov+SUEAA4v9EBFEiSJDgAS4RHs2NhoAjgH/8QCABG/ROhOABHAKqIeABHI8h++ABOf/udOABJKFGI6ABFktxz+ABG1GUEqABHTcUVA2GgCOCP7c/vf/Ev8p/0D/V/9u/4UA",
+    "approval": "CiABATEYFIEGCzEZCI0MAUAAAAAAAAAAAAAAATIAAAAAAAAAAAAAADYaAhc2GgEXiAACIkOKAgCL/0lBAAOL/hBEiTYaAhc2GgEXiAACIkOKAgCL/0lAAAOL/hFEiTYaAhc2GgEXiAACIkOKAgCL/4v+EkSJNhoCFzYaAReIAAIiQ4oCAIv/i/4TRIk2GgIXNhoBF4gAAiJDigIAi/+L/hpEiTYaAhc2GgEXiAACIkOKAgCL/4v+GUSJNhoCFzYaAReIAAIiQ4oCAIv/i/4bRIk2GgMXNhoCFzYaAReIAAIiQ4oDAIv/SUAACov+SUEAA4v9EBFEiTYaAlcCADYaAVcCAIgAAiJDigIAi/+L/q2JNhoCVwIANhoBVwIAiAACIkOKAgCL/4v+rIk2GgJXAgA2GgFXAgCIAAIiQ4oCAIv/i/6riTYaAVcCAIgAAiJDigEAi/+uiSJDgAS4RHs2NhoAjgH/8QCABG/ROhOABHAKqIeABHI8h++ABOf/udOABJKFGI6ABFktxz+ABG1GUEqABHTcUVCABEPCpW+ABMlyPl6ABP/INYWABL1rzqc2GgCODP5c/nf+kv6p/sD+1/7u/wX/K/9F/1//eQA=",
     "clear": "Cg=="
   },
   "compilerInfo": {
     "compiler": "algod",
     "compilerVersion": {
       "major": 4,
-      "minor": 0,
+      "minor": 1,
       "patch": 2,
-      "commitHash": "6b940281"
+      "commitHash": "088f89dd"
     }
   }
 }
