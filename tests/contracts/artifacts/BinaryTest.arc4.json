@@ -135,6 +135,66 @@
       }
     },
     {
+      "name": "bitwiseXorOp",
+      "args": [
+        {
+          "name": "a",
+          "type": "byte[]"
+        },
+        {
+          "name": "b",
+          "type": "byte[]"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "bitwiseAndOp",
+      "args": [
+        {
+          "name": "a",
+          "type": "byte[]"
+        },
+        {
+          "name": "b",
+          "type": "byte[]"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "bitwiseOrOp",
+      "args": [
+        {
+          "name": "a",
+          "type": "byte[]"
+        },
+        {
+          "name": "b",
+          "type": "byte[]"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "bitwiseNotOp",
+      "args": [
+        {
+          "name": "a",
+          "type": "byte[]"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
       "name": "createApplication",
       "args": [],
       "returns": {

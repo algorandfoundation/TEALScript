@@ -33,4 +33,20 @@ class BinaryTest extends Contract {
   combo(a: uint64, b: uint64, c: uint64): void {
     assert(a || (b && c));
   }
+
+  bitwiseXorOp(a: bytes, b: bytes): void {
+    bitwiseXor(a, b);
+  }
+
+  bitwiseAndOp(a: bytes, b: bytes): void {
+    bitwiseAnd(a, b);
+  }
+
+  bitwiseOrOp(a: bytes, b: bytes): void {
+    bitwiseOr(a, b);
+  }
+
+  bitwiseNotOp(a: bytes): void {
+    bitwiseNot(a);
+  }
 }

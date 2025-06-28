@@ -1536,6 +1536,11 @@ declare function divmodw(a: uint64, b: uint64, c: uint64, d: uint64): DivmodwOut
 /** The total online stake in the agreement round [AVM 11] */
 declare function onlineStake(): uint64;
 
+declare function bitwiseXor(a: BytesLike, b: BytesLike): bytes;
+declare function bitwiseAnd(a: BytesLike, b: BytesLike): bytes;
+declare function bitwiseOr(a: BytesLike, b: BytesLike): bytes;
+declare function bitwiseNot(data: BytesLike): bytes;
+
 /**
  * @deprecated Use `Address` instead. May require client-side changes. See [this PR](https://github.com/algorandfoundation/TEALScript/pull/296) for more details. Use `AccountReference` if you need to explicitly use the reference type.
  */
