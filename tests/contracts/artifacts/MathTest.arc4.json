@@ -601,6 +601,26 @@
       }
     },
     {
+      "name": "u128InTuple",
+      "args": [
+        {
+          "name": "userData",
+          "type": "(uint64,uint64,uint128)"
+        },
+        {
+          "name": "accRps",
+          "type": "uint128"
+        },
+        {
+          "name": "scale",
+          "type": "uint64"
+        }
+      ],
+      "returns": {
+        "type": "uint128"
+      }
+    },
+    {
       "name": "createApplication",
       "args": [],
       "returns": {

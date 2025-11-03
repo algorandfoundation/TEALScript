@@ -4232,7 +4232,7 @@ export default class Compiler {
         this.processNewValue(newValue);
       }
 
-      this.checkEncoding(node, elem.type);
+      this.checkEncoding(node, this.lastType);
 
       if (!isBox) {
         this.pushVoid(node, 'replace3');
