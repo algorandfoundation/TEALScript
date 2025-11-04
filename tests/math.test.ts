@@ -80,6 +80,33 @@ describe('Math', function () {
       expect(await runMethod({ appClient, method: 'uintFromHex' })).toBe(BigInt('0xFF'));
     });
 
+    test('u128InTuple', async function () {
+      // export type UserData = {
+      //   stake: uint64;
+      //   pendingRewards: uint64;
+      //   rewardDebt: uint128;
+      // };
+
+      // repro(userData: UserData, accRps: uint128, scale: uint64): uint128 {
+
+      const { appClient } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
+      const stake = 2_000;
+      const accRPS = 500;
+      const scale = 1;
+      const pendingRewards = 3;
+      const rewardDebt = 0;
+
+      const userData = [stake, pendingRewards, rewardDebt];
+
+      expect(
+        await runMethod({
+          appClient,
+          method: 'u128InTuple',
+          methodArgs: [userData, accRPS, scale],
+        })
+      ).toBe(BigInt((stake * accRPS) / scale));
+    });
+
     test('overflow', async function () {
       const { appClient, compiler } = await compileAndCreate(await sender, PATH, ARTIFACTS_DIR, NAME);
 

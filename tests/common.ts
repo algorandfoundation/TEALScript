@@ -157,6 +157,7 @@ export async function runMethod({
   fundAmount = 0,
   fee = 1000,
   skipEvalTrace = false,
+  forceEvalTrace = false,
 }: {
   appClient: ApplicationClient;
   method: string;
@@ -165,12 +166,16 @@ export async function runMethod({
   fundAmount?: number;
   fee?: number;
   skipEvalTrace?: boolean;
+  forceEvalTrace?: boolean;
 }) {
   const params = {
     method,
     methodArgs,
     sendParams: { suppressLog: true, fee: algokit.microAlgos(fee), populateAppCallResources: true },
   };
+
+  let returnValue;
+  let thrownError;
 
   try {
     if (fundAmount > 0) {
@@ -179,12 +184,17 @@ export async function runMethod({
         sendParams: { suppressLog: true },
       });
     }
-    return (await appClient[callType](params)).return?.returnValue;
+    returnValue = (await appClient[callType](params)).return?.returnValue;
   } catch (e) {
     if (skipEvalTrace) {
       console.warn(e);
       throw e;
     }
+
+    thrownError = e;
+  }
+
+  if (thrownError || forceEvalTrace) {
     // eslint-disable-next-line no-console
     const abiMethod = appClient.getABIMethod(params.method)!;
     const { appId } = await appClient.getAppReference();
@@ -222,9 +232,13 @@ export async function runMethod({
     const fullTrace = await getFullTrace(trace, approvalProgramTeal, algodClient);
     // eslint-disable-next-line no-use-before-define
     printFullTrace(fullTrace);
-    console.warn(e);
-    throw e;
   }
+
+  if (thrownError) {
+    throw thrownError;
+  }
+
+  return returnValue;
 }
 
 export function getErrorMessage(algodError: string, sourceInfo: { pc?: number[]; errorMessage?: string }[]) {
