@@ -1,5 +1,11 @@
 import { Contract } from '../../src/lib/index';
 
+export type UserData = {
+  stake: uint64;
+  pendingRewards: uint64;
+  rewardDebt: uint128;
+};
+
 // eslint-disable-next-line no-unused-vars
 class MathTest extends Contract {
   gKey = GlobalStateKey<uint64>();
@@ -228,5 +234,16 @@ class MathTest extends Contract {
 
   wideRatioTest(): uint64 {
     return wideRatio([Uint<64>('18446744073709551615'), 2, 3, 4, 5], [2, 3, 4, 5]);
+  }
+
+  accRPS = GlobalStateKey<uint128>({ key: 'rewardPerShare' });
+
+  u128InTuple(userData: UserData, accRps: uint128, scale: uint64): uint128 {
+    this.accRPS.value = accRps;
+    const retVal = clone(userData);
+
+    retVal.rewardDebt = ((userData.stake as uint128) * (this.accRPS.value as uint128)) / (scale as uint128);
+
+    return retVal.rewardDebt;
   }
 }
