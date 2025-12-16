@@ -250,6 +250,21 @@ export function optimizeOpcodes(inputTeal: TEALInfo[]): TEALInfo[] {
         pushTeal(`int ${length}`, node);
         pushTeal('box_extract', node);
         optimized = true;
+      } else if (start > 255 || length > 255) {
+        // The extract opcode uses 0 to indicate that the length is the rest of the bytes
+        // So when the length is 0 we need to calculate the bytes length and use substring3 instead
+        if (length === 0) {
+          pushTeal('dup', node);
+          pushTeal('len', node);
+          pushTeal(`int ${start}`, node);
+          pushTeal('swap', node);
+          pushTeal('substring3', node);
+        } else {
+          pushTeal(`int ${start}`, node);
+          pushTeal(`int ${length}`, node);
+          pushTeal('extract3', node);
+        }
+        optimized = true;
       }
     } else if (teal.startsWith('substring ') && outputTeal.at(-1)?.teal.startsWith('byte 0x')) {
       const bytes = outputTeal.at(-1)!.teal.split(' ')[1].slice(2);
