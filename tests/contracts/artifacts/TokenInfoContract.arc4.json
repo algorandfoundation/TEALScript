@@ -1,0 +1,61 @@
+{
+  "name": "TokenInfoContract",
+  "desc": "",
+  "methods": [
+    {
+      "name": "doMath",
+      "args": [
+        {
+          "name": "k",
+          "type": "uint64"
+        },
+        {
+          "name": "symbol",
+          "type": "string"
+        },
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "assetUrl",
+          "type": "string"
+        },
+        {
+          "name": "description",
+          "type": "string"
+        },
+        {
+          "name": "socialWebsite",
+          "type": "string"
+        },
+        {
+          "name": "socialTelegram",
+          "type": "string"
+        },
+        {
+          "name": "socialDiscord",
+          "type": "string"
+        },
+        {
+          "name": "socialX",
+          "type": "string"
+        },
+        {
+          "name": "mintedAsset",
+          "type": "uint64"
+        }
+      ],
+      "returns": {
+        "type": "void"
+      }
+    },
+    {
+      "name": "createApplication",
+      "args": [],
+      "returns": {
+        "type": "void"
+      }
+    }
+  ]
+}
